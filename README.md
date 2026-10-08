@@ -174,3 +174,18 @@ convocatoria vigente.
 - bloque "¿Qué necesitas?" con Ayudas / Trámites / Premium / Gestoría
 - se reduce ruido comercial arriba para priorizar orientación
 - responsive para móvil
+
+## V16 — home limpia
+- se elimina el bloque grande de dos tarjetas de la V15
+- se mantiene "¿Qué necesitas?" como navegación principal
+- buscador de ayudas por comunidad en formato compacto
+- accesos rápidos a ayudas destacadas
+- menos altura y menos sensación de bloques duplicados
+
+## V17 — mensaje claro
+- se elimina "checklist" de la primera impresión
+- CTA principal: "Ver mis ayudas y trámites"
+- explicación inmediata: 6 preguntas → ayudas, trámites y orden
+- "¿Qué necesitas?" subido justo después del hero
+- lenguaje centrado en beneficio, no en funcionalidad
+- "checklist" queda para el resultado interno, no para captar al usuario
