@@ -868,3 +868,18 @@ footer{margin-top:64px;padding:42px 20px;background:rgba(255,255,255,.9);border-
   }
 
 }
+
+
+/* V12 · STRIPE TEST */
+.stripe-test-notice {
+  max-width: 620px;
+  margin: 16px auto 18px;
+  padding: 11px 14px;
+  border: 1px solid #f0dca8;
+  background: #fff9e8;
+  color: #7b6424;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 750;
+  text-align: center;
+}

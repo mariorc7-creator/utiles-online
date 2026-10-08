@@ -135,3 +135,11 @@ convocatoria vigente.
 - envío preparado mediante Resend
 - privacidad ampliada para explicar este tratamiento
 - archivo `LEADS-GESTORIAS.md` con pasos de activación
+
+## V12 — Stripe test conectado
+- Payment Link de prueba conectado:
+  `https://buy.stripe.com/test_eVq28saFT1sMatzd0T5os00`
+- botón Premium ya abre Stripe Checkout
+- modo de prueba visible en la landing Premium
+- `premiumTestMode: true`
+- antes de lanzar producción, sustituir por un Payment Link LIVE y poner `premiumTestMode: false`
