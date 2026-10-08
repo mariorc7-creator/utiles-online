@@ -245,3 +245,12 @@ convocatoria vigente.
 - el logo es un SVG propio, limpio y coherente con la paleta de la marca
 - no cambia la estructura funcional de la web
 - mejora reconocimiento de marca y aspecto profesional
+
+## V24 — branding, favicon y mobile header
+- favicon SVG añadido para navegador
+- manifest básico añadido
+- theme-color configurado
+- cabecera móvil refinada
+- en móvil se priorizan logo + Premium; Gestoría desaparece en pantallas muy pequeñas
+- navegación superior menos saturada en tablets/móvil
+- se mantiene el logo visual de V23

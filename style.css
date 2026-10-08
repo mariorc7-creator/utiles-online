@@ -1739,3 +1739,92 @@ header .header-contenido {
     border-radius: 9px;
   }
 }
+
+
+/* =========================================
+   V24 · BRANDING + FAVICON + MOBILE HEADER
+========================================= */
+
+.logo-enlace {
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .header-contenido {
+    gap: 12px;
+  }
+
+  .nav-principal {
+    gap: 4px;
+  }
+
+  .nav-principal a {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 760px) {
+  header {
+    position: sticky;
+    top: 0;
+  }
+
+  .header-contenido {
+    min-height: 62px;
+    padding: 0 14px;
+  }
+
+  .logo {
+    font-size: 17px;
+  }
+
+  .logo-enlace::before {
+    width: 29px;
+    height: 29px;
+    flex-basis: 29px;
+    border-radius: 9px;
+  }
+
+  .header-acciones {
+    gap: 6px;
+  }
+
+  .nav-principal {
+    gap: 3px;
+  }
+
+  .nav-principal a {
+    display: none;
+  }
+
+  .nav-principal .nav-premium,
+  .nav-principal .nav-gestoria {
+    display: inline-flex;
+    padding: 7px 9px;
+    font-size: 11px;
+  }
+
+  .header-confianza {
+    display: none !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .nav-principal .nav-gestoria {
+    display: none;
+  }
+
+  .nav-principal .nav-premium {
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .logo-enlace {
+    gap: 7px;
+  }
+}
