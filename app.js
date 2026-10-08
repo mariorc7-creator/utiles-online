@@ -638,6 +638,34 @@ function mostrarResultadoProvisional() {
       ${tramites.map(crearTarjetaTramite).join("")}
     </div>
 
+    <section class="upsell-gestoria">
+
+      <div class="upsell-premium-badge">
+        🤝 AYUDA PROFESIONAL
+      </div>
+
+      <h3>
+        ¿Prefieres que una gestoría te ayude?
+      </h3>
+
+      <p>
+        Puedes solicitar contacto profesional para revisar
+        o gestionar tus trámites.
+      </p>
+
+      <a
+        class="cta-gestoria"
+        href="/gestoria/?origen=checklist"
+      >
+        Quiero ayuda profesional →
+      </a>
+
+      <small>
+        Opcional. Tu checklist gratuita seguirá disponible.
+      </small>
+
+    </section>
+
     <section class="upsell-premium">
       <div class="upsell-premium-badge">✨ OPCIONAL</div>
       <h3>¿Quieres tenerlo todo resumido en un único plan?</h3>

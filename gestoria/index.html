@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ayuda profesional con los trámites del bebé | Papeles del Bebé</title>
+
+  <meta
+    name="description"
+    content="Si prefieres ayuda profesional con tus trámites después del nacimiento, solicita contacto con una gestoría colaboradora."
+  >
+
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://papelesdelbebe.es/gestoria/">
+
+  <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+
+<header>
+  <div class="header-contenido">
+
+    <a href="/" class="logo logo-enlace">
+      Papeles del <span>Bebé</span>
+    </a>
+
+    <div class="header-acciones">
+
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <a href="/checklist/">Checklist</a>
+        <a href="/ayudas-nacimiento/">Ayudas</a>
+        <a href="/tramites-bebe/">Trámites</a>
+        <a href="/premium/" class="nav-premium">✨ Premium</a>
+        <a href="/gestoria/" class="nav-gestoria">🤝 Gestoría</a>
+      </nav>
+
+      <a href="/" class="boton-inicio enlace-inicio">
+        ← Inicio
+      </a>
+
+      <div class="header-confianza">
+        Guía independiente · España
+      </div>
+
+    </div>
+  </div>
+</header>
+
+
+<main>
+
+  <section class="hero seo-page">
+
+    <div class="badge">
+      🤝 Ayuda profesional
+    </div>
+
+    <h1>
+      ¿Prefieres que una gestoría te ayude?
+    </h1>
+
+    <p class="subtitle">
+      Cuéntanos qué necesitas y podremos compartir tu solicitud
+      con una gestoría colaboradora que pueda ayudarte con tu caso.
+    </p>
+
+
+    <section class="contenido-informativo formulario-lead-wrap">
+
+      <div class="contenido-etiqueta">
+        SOLICITAR CONTACTO
+      </div>
+
+      <h2>
+        Déjanos tus datos
+      </h2>
+
+      <p>
+        No enviamos documentación oficial ni credenciales.
+        Solo necesitamos tus datos de contacto y una breve descripción.
+      </p>
+
+
+      <form id="formLeadGestoria" class="formulario-lead">
+
+        <!-- Honeypot antispam -->
+        <div class="campo-honeypot" aria-hidden="true">
+          <label>
+            Empresa
+            <input
+              type="text"
+              name="empresa"
+              id="empresa"
+              tabindex="-1"
+              autocomplete="off"
+            >
+          </label>
+        </div>
+
+
+        <label class="campo-evaluador">
+          <strong>Nombre</strong>
+
+          <input
+            type="text"
+            id="leadNombre"
+            name="nombre"
+            maxlength="80"
+            placeholder="Tu nombre"
+            required
+          >
+        </label>
+
+
+        <label class="campo-evaluador">
+          <strong>Email</strong>
+
+          <input
+            type="email"
+            id="leadEmail"
+            name="email"
+            maxlength="120"
+            placeholder="tu@email.com"
+            required
+          >
+        </label>
+
+
+        <label class="campo-evaluador">
+          <strong>Teléfono</strong>
+
+          <input
+            type="tel"
+            id="leadTelefono"
+            name="telefono"
+            maxlength="30"
+            placeholder="Ej. 600 000 000"
+          >
+        </label>
+
+
+        <label class="campo-evaluador">
+          <strong>Comunidad autónoma</strong>
+
+          <select id="leadComunidad" name="comunidad" required>
+
+            <option value="">
+              Selecciona
+            </option>
+
+            <option>Andalucía</option>
+            <option>Aragón</option>
+            <option>Asturias</option>
+            <option>Islas Baleares</option>
+            <option>Canarias</option>
+            <option>Cantabria</option>
+            <option>Castilla-La Mancha</option>
+            <option>Castilla y León</option>
+            <option>Cataluña</option>
+            <option>Comunidad Valenciana</option>
+            <option>Extremadura</option>
+            <option>Galicia</option>
+            <option>Comunidad de Madrid</option>
+            <option>Región de Murcia</option>
+            <option>Navarra</option>
+            <option>País Vasco</option>
+            <option>La Rioja</option>
+            <option>Ceuta</option>
+            <option>Melilla</option>
+
+          </select>
+        </label>
+
+
+        <label class="campo-evaluador">
+          <strong>¿Con qué necesitas ayuda?</strong>
+
+          <select id="leadNecesidad" name="necesidad" required>
+
+            <option value="">
+              Selecciona
+            </option>
+
+            <option value="todos">
+              Quiero ayuda con todos los trámites
+            </option>
+
+            <option value="prestacion">
+              Prestación por nacimiento
+            </option>
+
+            <option value="ayudas">
+              Ayudas y deducciones
+            </option>
+
+            <option value="seguridad-social">
+              Seguridad Social y asistencia sanitaria
+            </option>
+
+            <option value="otro">
+              Otro
+            </option>
+
+          </select>
+        </label>
+
+
+        <label class="campo-evaluador">
+          <strong>Cuéntanos brevemente tu caso</strong>
+
+          <textarea
+            id="leadMensaje"
+            name="mensaje"
+            maxlength="1000"
+            rows="5"
+            placeholder="Ej. El bebé nació hace una semana y quiero asegurarme de no dejarme ninguna ayuda..."
+          ></textarea>
+        </label>
+
+
+        <label class="lead-consentimiento">
+
+          <input
+            type="checkbox"
+            id="leadConsentimiento"
+            required
+          >
+
+          <span>
+            Acepto que Papeles del Bebé trate estos datos
+            para gestionar mi solicitud y pueda compartirlos
+            con una gestoría colaboradora con el fin de que me contacte.
+            He leído la
+            <a href="/privacidad/" target="_blank">Política de privacidad</a>.
+          </span>
+
+        </label>
+
+
+        <input
+          type="hidden"
+          id="leadOrigen"
+          name="origen"
+          value="gestoria-page"
+        >
+
+
+        <button
+          type="submit"
+          id="botonEnviarLead"
+        >
+          Solicitar contacto profesional →
+        </button>
+
+
+        <div
+          id="resultadoLead"
+          class="resultado-lead"
+          aria-live="polite"
+        ></div>
+
+      </form>
+
+    </section>
+
+
+    <section class="bloque-confianza">
+
+      <div class="confianza-icono">
+        🛡️
+      </div>
+
+      <div>
+
+        <h2>
+          Tú decides si quieres que te contacten
+        </h2>
+
+        <p>
+          La checklist de Papeles del Bebé sigue funcionando gratis.
+          Solicitar ayuda profesional es totalmente opcional.
+        </p>
+
+        <p>
+          No envíes DNI, certificados digitales, contraseñas,
+          Cl@ve ni documentación sensible en este formulario.
+        </p>
+
+      </div>
+
+    </section>
+
+  </section>
+
+</main>
+
+
+<footer>
+
+  <div class="footer-contenido">
+
+    <div class="logo">
+      Papeles del <span>Bebé</span>
+    </div>
+
+    <p>
+      Menos papeleo. Más tiempo para tu bebé.
+    </p>
+
+    <p class="metodologia-footer">
+      <a href="/metodologia/">Metodología</a>
+      ·
+      <a href="/privacidad/">Privacidad</a>
+    </p>
+
+    <p class="footer-copy">
+      © 2026 Papeles del Bebé
+    </p>
+
+  </div>
+
+</footer>
+
+
+<script src="../config.js"></script>
+
+<script>
+
+const formulario =
+  document.getElementById("formLeadGestoria");
+
+const parametros =
+  new URLSearchParams(window.location.search);
+
+const origenQuery =
+  parametros.get("origen");
+
+if (origenQuery) {
+  document.getElementById("leadOrigen").value =
+    origenQuery;
+}
+
+formulario.addEventListener(
+  "submit",
+  async function(event) {
+
+    event.preventDefault();
+
+
+    const boton =
+      document.getElementById("botonEnviarLead");
+
+    const resultado =
+      document.getElementById("resultadoLead");
+
+
+    const datos = {
+
+      nombre:
+        document.getElementById("leadNombre").value.trim(),
+
+      email:
+        document.getElementById("leadEmail").value.trim(),
+
+      telefono:
+        document.getElementById("leadTelefono").value.trim(),
+
+      comunidad:
+        document.getElementById("leadComunidad").value,
+
+      necesidad:
+        document.getElementById("leadNecesidad").value,
+
+      mensaje:
+        document.getElementById("leadMensaje").value.trim(),
+
+      origen:
+        document.getElementById("leadOrigen").value,
+
+      consentimiento:
+        document.getElementById("leadConsentimiento").checked,
+
+      empresa:
+        document.getElementById("empresa").value
+
+    };
+
+
+    const endpoint =
+      window.PAPELES_BEBE_CONFIG?.leadEndpoint
+      || "/api/lead";
+
+
+    boton.disabled = true;
+    boton.textContent = "Enviando...";
+
+
+    try {
+
+      const respuesta = await fetch(
+        endpoint,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(datos)
+        }
+      );
+
+
+      const body =
+        await respuesta.json().catch(() => ({}));
+
+
+      if (!respuesta.ok) {
+
+        throw new Error(
+          body.error || "No hemos podido enviar la solicitud."
+        );
+
+      }
+
+
+      resultado.innerHTML = `
+        <div class="resultado-si">
+
+          <strong>
+            ✓ Solicitud recibida
+          </strong>
+
+          <p>
+            Hemos recibido tus datos correctamente.
+            Si encontramos una gestoría colaboradora adecuada,
+            podrá ponerse en contacto contigo.
+          </p>
+
+        </div>
+      `;
+
+
+      formulario.reset();
+
+
+    } catch (error) {
+
+      resultado.innerHTML = `
+        <div class="resultado-no">
+
+          <strong>
+            No hemos podido enviar la solicitud
+          </strong>
+
+          <p>
+            ${error.message}
+          </p>
+
+        </div>
+      `;
+
+    } finally {
+
+      boton.disabled = false;
+
+      boton.textContent =
+        "Solicitar contacto profesional →";
+
+    }
+
+  }
+);
+
+</script>
+
+</body>
+</html>

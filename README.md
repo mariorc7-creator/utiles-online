@@ -122,3 +122,16 @@ convocatoria vigente.
 - comparación Gratis vs Premium
 - señales de confianza en la landing Premium
 - responsive para móvil sin saturar la cabecera
+
+## V11 — leads para gestorías
+- landing `/gestoria/`
+- formulario para pedir contacto profesional
+- consentimiento explícito para compartir el lead con una gestoría colaboradora
+- CTA de gestoría en home y después de la checklist
+- navegación Gestoría
+- captura de comunidad, necesidad y origen del lead
+- honeypot antispam
+- función serverless `/api/lead.js`
+- envío preparado mediante Resend
+- privacidad ampliada para explicar este tratamiento
+- archivo `LEADS-GESTORIAS.md` con pasos de activación
