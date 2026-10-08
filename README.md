@@ -261,3 +261,12 @@ convocatoria vigente.
 - iconos de beneficios reducidos
 - tarjetas de beneficios más compactas
 - hero menos cargada visualmente
+
+## V26 — premium minimal
+- cabecera más sobria
+- hero más corto y profesional
+- beneficios más discretos
+- menos sombras y menos aspecto de "landing comercial"
+- tarjetas de navegación más compactas
+- selector regional más limpio
+- cierre de confianza más ligero
