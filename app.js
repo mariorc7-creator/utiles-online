@@ -1227,55 +1227,39 @@ function crearContenidoGuia(tramite) {
 
     case "prestacion-nacimiento":
 
-      return `
-        <h4>💰 Aquí puede haber dinero pendiente</h4>
+  return `
+    <h4>👶 Prestación por nacimiento y cuidado del menor</h4>
 
+    <p>
+      Si trabajas por cuenta ajena o como autónomo,
+      podrías tener derecho al permiso y a una prestación
+      económica de la Seguridad Social.
+    </p>
+
+    <div class="caja-dinero">
+      <div class="caja-dinero-icono">💰</div>
+      <div>
+        <strong>Prestación del 100 % de la base reguladora</strong>
         <p>
-          Esta prestación sustituye los ingresos durante
-          determinados periodos de descanso por nacimiento
-          y cuidado del menor cuando se cumplen los requisitos.
+          Para nacimientos actuales, el permiso general es
+          de 19 semanas por progenitor.
         </p>
+      </div>
+    </div>
 
-        <h4>Qué tienes que hacer</h4>
+    <button
+      type="button"
+      class="boton-guia"
+      onclick="abrirEvaluadorNacimiento()"
+    >
+      👶 Comprobar mi prestación
+    </button>
 
-        <ol>
-          <li>
-            Comprueba que cumples los requisitos de afiliación,
-            alta y cotización que correspondan.
-          </li>
-
-          <li>
-            Revisa el periodo de descanso que te corresponde.
-          </li>
-
-          <li>
-            Presenta la solicitud ante la Seguridad Social.
-          </li>
-        </ol>
-
-        ${
-          respuestas.monoparental
-            ? `
-              <div class="aviso-importante">
-                👤 Has indicado que sois una familia monoparental.
-                Revisa las reglas específicas de duración aplicables
-                a tu situación.
-              </div>
-            `
-            : ""
-        }
-
-        ${
-          respuestas.nacimientoMultiple
-            ? `
-              <div class="aviso-importante">
-                👶👶 Has indicado nacimiento múltiple.
-                Comprueba las ampliaciones que puedan corresponderte.
-              </div>
-            `
-            : ""
-        }
-      `;
+    <div
+      id="evaluadorNacimiento"
+      style="display:none; margin-top:20px;"
+    ></div>
+  `;
 
 
     case "situacion-desempleo":
@@ -1450,6 +1434,376 @@ function crearAvisoDineroCataluna() {
       </div>
 
     </div>
+  `;
+}
+// ==========================================
+// EVALUADOR PRESTACIÓN NACIMIENTO
+// ==========================================
+
+function abrirEvaluadorNacimiento() {
+
+  const contenedor =
+    document.getElementById("evaluadorNacimiento");
+
+  if (!contenedor) return;
+
+  contenedor.style.display = "block";
+
+  contenedor.innerHTML = `
+    <div class="evaluador">
+
+      <h4>Comprobemos tu situación</h4>
+
+      <p>
+        No necesitamos nóminas ni datos personales.
+        Solo algunos datos para orientarte.
+      </p>
+
+      <label class="campo-evaluador">
+
+        <strong>¿Qué edad tienes?</strong>
+
+        <input
+          type="number"
+          id="edadNacimiento"
+          min="16"
+          max="70"
+          placeholder="Ej. 34"
+        >
+
+      </label>
+
+      <label class="campo-evaluador">
+
+        <strong>
+          ¿Estás actualmente de alta en la Seguridad Social
+          o en una situación asimilada al alta?
+        </strong>
+
+        <select id="altaNacimiento">
+          <option value="">Selecciona</option>
+          <option value="si">Sí</option>
+          <option value="no">No</option>
+          <option value="duda">No estoy seguro/a</option>
+        </select>
+
+      </label>
+
+      <div id="bloqueCotizacionNacimiento">
+
+        <label class="campo-evaluador">
+
+          <strong>
+            ¿Cuánto tiempo has cotizado?
+          </strong>
+
+          <span>
+            No necesitamos el número exacto de días.
+          </span>
+
+          <select id="cotizacionNacimiento">
+
+            <option value="">Selecciona</option>
+
+            <option value="menos90">
+              Menos de 90 días
+            </option>
+
+            <option value="90_179">
+              Entre 90 y 179 días
+            </option>
+
+            <option value="180_359">
+              Entre 180 y 359 días
+            </option>
+
+            <option value="360omas">
+              360 días o más
+            </option>
+
+            <option value="duda">
+              No lo sé
+            </option>
+
+          </select>
+
+        </label>
+
+      </div>
+
+      <button
+        type="button"
+        onclick="evaluarPrestacionNacimiento()"
+      >
+        Ver resultado →
+      </button>
+
+      <div
+        id="resultadoNacimiento"
+        style="margin-top:20px;"
+      ></div>
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// EVALUAR PRESTACIÓN
+// ==========================================
+
+function evaluarPrestacionNacimiento() {
+
+  const edad =
+    Number(document.getElementById("edadNacimiento").value);
+
+  const alta =
+    document.getElementById("altaNacimiento").value;
+
+  const cotizacion =
+    document.getElementById("cotizacionNacimiento").value;
+
+  const resultado =
+    document.getElementById("resultadoNacimiento");
+
+
+  if (!edad || !alta || !cotizacion) {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+        ⚠️ Completa todos los campos para hacer
+        la comprobación.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // NO ESTÁ EN ALTA
+  // ------------------------------------------
+
+  if (alta === "no") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Necesitamos revisar tu situación
+        </strong>
+
+        <p>
+          La prestación contributiva exige estar
+          en alta o en una situación asimilada al alta.
+        </p>
+
+        <p>
+          Que hayas respondido "no" no significa
+          automáticamente que no tengas ningún derecho.
+          Algunas situaciones se consideran asimiladas al alta.
+        </p>
+
+        ${enlaceSeguridadSocialNacimiento()}
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  if (alta === "duda") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Primero debemos confirmar tu situación de alta
+        </strong>
+
+        <p>
+          Para determinar correctamente la prestación,
+          comprueba tu situación actual en la Seguridad Social.
+        </p>
+
+        ${enlaceSeguridadSocialNacimiento()}
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // MENOR DE 21
+  // ------------------------------------------
+
+  if (edad < 21) {
+
+    mostrarNacimientoPositivo(resultado);
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // ENTRE 21 Y 25
+  // ------------------------------------------
+
+  if (edad >= 21 && edad < 26) {
+
+    if (
+      cotizacion === "90_179" ||
+      cotizacion === "180_359" ||
+      cotizacion === "360omas"
+    ) {
+
+      mostrarNacimientoPositivo(resultado);
+
+    } else {
+
+      mostrarNacimientoCotizacionDudosa(
+        resultado,
+        "Para tu edad se exigen 90 días cotizados en los últimos 7 años o, alternativamente, 180 días a lo largo de la vida laboral."
+      );
+
+    }
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // 26 AÑOS O MÁS
+  // ------------------------------------------
+
+  if (edad >= 26) {
+
+    if (
+      cotizacion === "180_359" ||
+      cotizacion === "360omas"
+    ) {
+
+      mostrarNacimientoPositivo(resultado);
+
+    } else {
+
+      mostrarNacimientoCotizacionDudosa(
+        resultado,
+        "Para tu edad se exigen 180 días cotizados en los últimos 7 años o, alternativamente, 360 días a lo largo de la vida laboral."
+      );
+
+    }
+
+  }
+}
+
+
+// ==========================================
+// RESULTADO POSITIVO
+// ==========================================
+
+function mostrarNacimientoPositivo(resultado) {
+
+  const semanas =
+    respuestas.monoparental
+      ? 32
+      : 19;
+
+  resultado.innerHTML = `
+    <div class="resultado-si">
+
+      <div class="resultado-icono">
+        👶
+      </div>
+
+      <strong>
+        Por tus respuestas, parece que cumples
+        los requisitos básicos
+      </strong>
+
+      <p>
+        Para un nacimiento actual, el permiso es de
+        <strong>${semanas} semanas</strong>
+        ${respuestas.monoparental
+          ? "en situación de monoparentalidad."
+          : "por progenitor."}
+      </p>
+
+      <p>
+        💰 La prestación económica equivale al
+        <strong>100 % de la base reguladora</strong>.
+      </p>
+
+      <div class="consejo">
+        💡 La Seguridad Social dispone de un simulador
+        oficial con el que puedes calcular tu prestación.
+      </div>
+
+      ${enlaceSeguridadSocialNacimiento()}
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// COTIZACIÓN INSUFICIENTE / DUDOSA
+// ==========================================
+
+function mostrarNacimientoCotizacionDudosa(
+  resultado,
+  requisito
+) {
+
+  resultado.innerHTML = `
+    <div class="resultado-duda">
+
+      <strong>
+        ⚠️ Tenemos que comprobar tu cotización
+      </strong>
+
+      <p>
+        ${requisito}
+      </p>
+
+      <p>
+        Con la información introducida no podemos
+        confirmar la prestación contributiva.
+      </p>
+
+      <p>
+        <strong>Importante:</strong>
+        si no alcanzas la cotización mínima,
+        podría existir el subsidio especial
+        no contributivo por nacimiento y cuidado
+        del menor.
+      </p>
+
+      ${enlaceSeguridadSocialNacimiento()}
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// ENLACE OFICIAL
+// ==========================================
+
+function enlaceSeguridadSocialNacimiento() {
+
+  return `
+    <a
+      href="${enlacesOficiales.prestacionNacimiento}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="enlace-oficial"
+    >
+      Comprobar y solicitar en la Seguridad Social →
+    </a>
   `;
 }
 // ==========================================
