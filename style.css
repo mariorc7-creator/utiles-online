@@ -1528,3 +1528,47 @@ header .header-contenido {
     padding-top: 34px;
   }
 }
+
+
+/* =========================================
+   V19 · CORRECCIÓN REAL DE JERARQUÍA
+========================================= */
+
+.header-confianza-suave {
+  opacity: .68;
+  font-size: 11px;
+  padding: 7px 10px;
+}
+
+.hero {
+  padding-top: 34px !important;
+  padding-bottom: 18px !important;
+}
+
+.hero .subtitle {
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-explicacion {
+  max-width: 600px;
+  margin: 10px auto 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.home-necesidades {
+  margin-top: 12px !important;
+}
+
+.home-ayudas-compactas {
+  margin-top: 14px !important;
+}
+
+.funnel-explica {
+  margin-top: 14px !important;
+  padding: 10px 12px !important;
+  opacity: .92;
+}

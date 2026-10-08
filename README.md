@@ -199,3 +199,12 @@ convocatoria vigente.
 - reduce altura/ruido del hero
 - mantiene "¿Qué necesitas?" como navegación principal
 - mantiene el buscador regional muy visible
+
+## V19 — corrección real
+- arregla los cambios que no se aplicaron en V18
+- elimina de verdad el botón Inicio
+- cambia de verdad el CTA a "Ver mis ayudas y trámites"
+- cambia el subtítulo del hero
+- cambia el copy de los 3 pasos
+- mueve de verdad el bloque 1-2-3 debajo del buscador regional
+- compacta el hero
