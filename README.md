@@ -164,3 +164,13 @@ convocatoria vigente.
 - breadcrumbs visibles en páginas SEO prioritarias
 - navegación rápida dentro de páginas regionales
 - mejora de enlazado interno sin añadir contenido SEO nuevo
+
+## V15 — home intuitiva
+- dos caminos principales visibles nada más entrar:
+  - Crear mi checklist personalizada
+  - Ver ayudas por comunidad
+- selector de comunidad situado inmediatamente bajo el hero
+- accesos rápidos a ayudas destacadas
+- bloque "¿Qué necesitas?" con Ayudas / Trámites / Premium / Gestoría
+- se reduce ruido comercial arriba para priorizar orientación
+- responsive para móvil
