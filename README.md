@@ -143,3 +143,14 @@ convocatoria vigente.
 - modo de prueba visible en la landing Premium
 - `premiumTestMode: true`
 - antes de lanzar producción, sustituir por un Payment Link LIVE y poner `premiumTestMode: false`
+
+## V13 — ataque SEO inicial
+- Asturias reforzada
+- nueva landing València 400 €
+- nueva landing Tarxeta Benvida 2026
+- País Vasco reforzada
+- badge de verificación y fecha de revisión
+- enlaces oficiales visibles
+- enlazado interno desde home y hub de ayudas
+- sitemap ampliado
+- SEO-ROADMAP-V13.md
