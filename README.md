@@ -32,3 +32,13 @@ Vercel desplegará desde main.
 Cuando no hay una ayuda concreta verificada y codificada, la web no promete importe
 ni elegibilidad: dirige al portal oficial de la comunidad para comprobar la
 convocatoria vigente.
+
+## V2 — ayudas autonómicas verificadas añadidas
+- Asturias 2026: 1.200 / 1.700 / 2.200 € según supuesto, renta familiar <= 45.000 €
+- Comunidad de Madrid: 500 €/mes durante 24 meses, sujeto a edad/renta/residencia
+- País Vasco: 200 €/mes de 0 a 4 años, con modalidades adicionales
+- Aragón 2026: ayuda para parto/adopción múltiple, convocatoria 1–30 octubre
+- Murcia 2026: hasta 2.500 € en supuestos específicos, convocatoria 1–15 octubre
+- Cataluña: conserva evaluador específico 650/750 €
+- Galicia: conserva Tarxeta Benvida
+- Andalucía: conserva ayuda por parto múltiple
