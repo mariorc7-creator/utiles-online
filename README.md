@@ -154,3 +154,13 @@ convocatoria vigente.
 - enlazado interno desde home y hub de ayudas
 - sitemap ampliado
 - SEO-ROADMAP-V13.md
+
+## V14 — descubrimiento y navegación
+- selector grande "Busca las ayudas de tu comunidad" en la home
+- accesos rápidos a Asturias, Madrid, Galicia, País Vasco y València
+- hub `/ayudas-nacimiento/` reconstruido como directorio visual
+- listado de las 19 regiones
+- ayudas destacadas visibles con importe/resumen
+- breadcrumbs visibles en páginas SEO prioritarias
+- navegación rápida dentro de páginas regionales
+- mejora de enlazado interno sin añadir contenido SEO nuevo
