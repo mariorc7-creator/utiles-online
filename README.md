@@ -208,3 +208,40 @@ convocatoria vigente.
 - cambia el copy de los 3 pasos
 - mueve de verdad el bloque 1-2-3 debajo del buscador regional
 - compacta el hero
+
+## V20 — microajustes
+- header: "Checklist" pasa a "Mis ayudas y trámites"
+- microcopy bajo CTA simplificado
+- hero un poco más compacto
+- se mantiene la estructura visual aprobada
+
+## V21 — beneficios visuales
+- sustituye la línea plana "Gratis / Sin registro / Fuentes oficiales"
+- añade tres tarjetas compactas con iconos:
+  - 🎁 Gratis
+  - ⚡ Sin registro
+  - 🏛️ Fuentes oficiales
+- aprovecha mejor el espacio del hero
+- responsive para móvil
+
+## V22 — home minimalista
+- elimina el bloque 1-2-3 de la portada
+- elimina de la home el contenido largo que venía después:
+  - texto SEO general
+  - cómo funciona
+  - guías útiles
+  - ayudas destacadas
+  - metodología / cómo trabajamos
+  - FAQs y CTA largos
+- la portada queda enfocada en tres cosas:
+  - entender qué ofrece Papeles del Bebé
+  - elegir qué necesita el usuario
+  - localizar ayudas por comunidad
+- el contenido SEO sigue disponible en las páginas internas
+
+
+## V23 — logo en cabecera
+- se añade un logo visual junto a “Papeles del Bebé” en la esquina superior izquierda
+- el logo es un SVG propio, limpio y coherente con la paleta de la marca
+- no cambia la estructura funcional de la web
+- mejora reconocimiento de marca y aspecto profesional

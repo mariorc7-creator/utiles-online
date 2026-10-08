@@ -1572,3 +1572,170 @@ header .header-contenido {
   padding: 10px 12px !important;
   opacity: .92;
 }
+
+
+/* =========================================
+   V20 · MICROAJUSTES
+========================================= */
+
+.hero {
+  padding-top: 26px !important;
+  padding-bottom: 12px !important;
+}
+
+.hero h1 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.hero .subtitle {
+  margin-top: 0;
+  margin-bottom: 14px;
+}
+
+.cta-explicacion {
+  margin-top: 8px;
+  margin-bottom: 0;
+  max-width: 560px;
+}
+
+.home-necesidades {
+  margin-top: 10px !important;
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 24px !important;
+  }
+}
+
+
+/* =========================================
+   V21 · BENEFICIOS VISUALES
+========================================= */
+
+.hero-beneficios {
+  max-width: 760px;
+  margin: 18px auto 4px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+}
+
+.hero-beneficio {
+  min-height: 72px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(218,216,225,.9);
+  border-radius: 15px;
+  box-shadow: 0 8px 22px rgba(73,65,110,.05);
+  backdrop-filter: blur(6px);
+}
+
+.hero-beneficio-icono {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #f5f2ff;
+  font-size: 18px;
+}
+
+.hero-beneficio strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.hero-beneficio small {
+  display: block;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+@media (max-width: 700px) {
+  .hero-beneficios {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+  }
+
+  .hero-beneficio {
+    min-height: auto;
+  }
+}
+
+
+/* =========================================
+   V22 · HOME MINIMALISTA
+========================================= */
+
+.home-cierre-compacto {
+  max-width: 900px;
+  margin: 20px auto 30px;
+  padding: 12px 18px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.home-cierre-compacto span {
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid var(--line);
+}
+
+@media (max-width:700px) {
+  .home-cierre-compacto {
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+}
+
+
+/* =========================================
+   V23 · LOGO EN CABECERA
+========================================= */
+.logo-enlace {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-enlace::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  border-radius: 10px;
+  background-image: url('/logo-papeles-bebe.svg');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 18px rgba(109, 115, 246, 0.18);
+}
+
+@media (max-width: 700px) {
+  .logo-enlace {
+    gap: 8px;
+  }
+
+  .logo-enlace::before {
+    width: 30px;
+    height: 30px;
+    flex-basis: 30px;
+    border-radius: 9px;
+  }
+}
