@@ -5,6 +5,7 @@
 
 const respuestas = {
   comunidad: "",
+  fechaNacimiento: "",
   situacionLaboral: "",
   monoparental: null,
   nacimientoMultiple: null,
@@ -14,12 +15,13 @@ const respuestas = {
 let pasoActual = 1;
 
 
-// ------------------------------------------
-// EMPEZAR CUESTIONARIO
-// ------------------------------------------
+// ==========================================
+// INICIO
+// ==========================================
 
 function empezar() {
   document.getElementById("portada").style.display = "none";
+  document.getElementById("resultado").style.display = "none";
   document.getElementById("cuestionario").style.display = "block";
 
   mostrarPaso1();
@@ -31,9 +33,9 @@ function empezar() {
 }
 
 
-// ------------------------------------------
+// ==========================================
 // PASO 1 - COMUNIDAD AUTÓNOMA
-// ------------------------------------------
+// ==========================================
 
 function mostrarPaso1() {
 
@@ -43,7 +45,7 @@ function mostrarPaso1() {
 
   cuestionario.innerHTML = `
     <div class="progreso">
-      PASO 1 DE 5
+      PASO 1 DE 6
     </div>
 
     <div class="pregunta">
@@ -118,14 +120,13 @@ function guardarComunidad() {
   respuestas.comunidad = comunidad;
 
   guardarProgreso();
-
   mostrarPaso2();
 }
 
 
-// ------------------------------------------
-// PASO 2 - SITUACIÓN LABORAL
-// ------------------------------------------
+// ==========================================
+// PASO 2 - FECHA DE NACIMIENTO
+// ==========================================
 
 function mostrarPaso2() {
 
@@ -133,9 +134,89 @@ function mostrarPaso2() {
 
   const cuestionario = document.getElementById("cuestionario");
 
+  const hoy = new Date().toISOString().split("T")[0];
+
   cuestionario.innerHTML = `
     <div class="progreso">
-      PASO 2 DE 5
+      PASO 2 DE 6
+    </div>
+
+    <div class="pregunta">
+
+      <h2>¿Cuándo nació tu bebé?</h2>
+
+      <p>
+        Utilizaremos la fecha para avisarte de posibles
+        plazos y trámites pendientes.
+      </p>
+
+      <input
+        type="date"
+        id="fechaNacimiento"
+        max="${hoy}"
+        value="${respuestas.fechaNacimiento || ""}"
+        style="
+          width:100%;
+          padding:16px;
+          font-size:17px;
+          border:1px solid #ccd3df;
+          border-radius:10px;
+          margin-bottom:22px;
+          color:#172033;
+          background:white;
+        "
+      >
+
+      <div class="error" id="error">
+        Introduce la fecha de nacimiento.
+      </div>
+
+      <div class="botones">
+
+        <button class="volver" onclick="mostrarPaso1()">
+          ← Volver
+        </button>
+
+        <button onclick="guardarFechaNacimiento()">
+          Continuar →
+        </button>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+function guardarFechaNacimiento() {
+
+  const fecha = document.getElementById("fechaNacimiento").value;
+
+  if (!fecha) {
+    document.getElementById("error").style.display = "block";
+    return;
+  }
+
+  respuestas.fechaNacimiento = fecha;
+
+  guardarProgreso();
+  mostrarPaso3();
+}
+
+
+// ==========================================
+// PASO 3 - SITUACIÓN LABORAL
+// ==========================================
+
+function mostrarPaso3() {
+
+  pasoActual = 3;
+
+  const cuestionario = document.getElementById("cuestionario");
+
+  cuestionario.innerHTML = `
+    <div class="progreso">
+      PASO 3 DE 6
     </div>
 
     <div class="pregunta">
@@ -181,7 +262,7 @@ function mostrarPaso2() {
 
       <div class="botones">
 
-        <button class="volver" onclick="mostrarPaso1()">
+        <button class="volver" onclick="mostrarPaso2()">
           ← Volver
         </button>
 
@@ -259,37 +340,13 @@ function guardarSituacionLaboral() {
   respuestas.situacionLaboral = seleccion.value;
 
   guardarProgreso();
-
-  mostrarPaso3();
+  mostrarPaso4();
 }
 
 
-// ------------------------------------------
-// PASO 3 - FAMILIA MONOPARENTAL
-// ------------------------------------------
-
-function mostrarPaso3() {
-
-  pasoActual = 3;
-
-  mostrarPreguntaSiNo(
-    3,
-    "¿Es una familia monoparental?",
-    "Esta situación puede afectar a determinadas ayudas y prestaciones.",
-    respuestas.monoparental,
-    function(valor) {
-      respuestas.monoparental = valor;
-      guardarProgreso();
-      mostrarPaso4();
-    },
-    mostrarPaso2
-  );
-}
-
-
-// ------------------------------------------
-// PASO 4 - NACIMIENTO MÚLTIPLE
-// ------------------------------------------
+// ==========================================
+// PASO 4 - FAMILIA MONOPARENTAL
+// ==========================================
 
 function mostrarPaso4() {
 
@@ -297,22 +354,24 @@ function mostrarPaso4() {
 
   mostrarPreguntaSiNo(
     4,
-    "¿Ha sido un nacimiento múltiple?",
-    "Por ejemplo, gemelos, mellizos o un parto de más bebés.",
-    respuestas.nacimientoMultiple,
+    "¿Es una familia monoparental?",
+    "Esta situación puede afectar a determinadas ayudas y prestaciones.",
+    respuestas.monoparental,
+
     function(valor) {
-      respuestas.nacimientoMultiple = valor;
+      respuestas.monoparental = valor;
       guardarProgreso();
       mostrarPaso5();
     },
+
     mostrarPaso3
   );
 }
 
 
-// ------------------------------------------
-// PASO 5 - DISCAPACIDAD
-// ------------------------------------------
+// ==========================================
+// PASO 5 - NACIMIENTO MÚLTIPLE
+// ==========================================
 
 function mostrarPaso5() {
 
@@ -320,22 +379,49 @@ function mostrarPaso5() {
 
   mostrarPreguntaSiNo(
     5,
-    "¿Alguno de los progenitores tiene una discapacidad reconocida?",
-    "Esta circunstancia puede afectar a determinadas prestaciones.",
-    respuestas.discapacidadProgenitor,
+    "¿Ha sido un nacimiento múltiple?",
+    "Por ejemplo, gemelos, mellizos o un parto de más bebés.",
+    respuestas.nacimientoMultiple,
+
     function(valor) {
-      respuestas.discapacidadProgenitor = valor;
+      respuestas.nacimientoMultiple = valor;
       guardarProgreso();
-      mostrarResultadoProvisional();
+      mostrarPaso6();
     },
+
     mostrarPaso4
   );
 }
 
 
-// ------------------------------------------
+// ==========================================
+// PASO 6 - DISCAPACIDAD
+// ==========================================
+
+function mostrarPaso6() {
+
+  pasoActual = 6;
+
+  mostrarPreguntaSiNo(
+    6,
+    "¿Alguno de los progenitores tiene una discapacidad reconocida?",
+    "Esta circunstancia puede afectar a determinadas prestaciones.",
+    respuestas.discapacidadProgenitor,
+
+    function(valor) {
+      respuestas.discapacidadProgenitor = valor;
+      guardarProgreso();
+      mostrarResultadoProvisional();
+    },
+
+    mostrarPaso5
+  );
+}
+
+
+// ==========================================
 // PREGUNTAS SÍ / NO
-// ------------------------------------------
+// ==========================================
 
 function mostrarPreguntaSiNo(
   paso,
@@ -350,7 +436,7 @@ function mostrarPreguntaSiNo(
 
   cuestionario.innerHTML = `
     <div class="progreso">
-      PASO ${paso} DE 5
+      PASO ${paso} DE 6
     </div>
 
     <div class="pregunta">
@@ -361,15 +447,26 @@ function mostrarPreguntaSiNo(
 
       <div class="opciones">
 
-        <label class="opcion" id="opcion-si">
-          <input type="radio" name="respuestaSiNo" value="si">
+        <label class="opcion">
+          <input
+            type="radio"
+            name="respuestaSiNo"
+            value="si"
+          >
+
           <div class="opcion-texto">
             <strong>Sí</strong>
           </div>
         </label>
 
-        <label class="opcion" id="opcion-no">
-          <input type="radio" name="respuestaSiNo" value="no">
+
+        <label class="opcion">
+          <input
+            type="radio"
+            name="respuestaSiNo"
+            value="no"
+          >
+
           <div class="opcion-texto">
             <strong>No</strong>
           </div>
@@ -410,7 +507,6 @@ function mostrarPreguntaSiNo(
       });
 
       this.closest(".opcion").classList.add("seleccionada");
-
     });
 
   });
@@ -450,14 +546,13 @@ function mostrarPreguntaSiNo(
       }
 
       siguiente(seleccion.value === "si");
-
     });
 }
 
 
-// ------------------------------------------
+// ==========================================
 // RESULTADO PROVISIONAL
-// ------------------------------------------
+// ==========================================
 
 function mostrarResultadoProvisional() {
 
@@ -477,12 +572,12 @@ function mostrarResultadoProvisional() {
       <h2>Tu checklist está lista</h2>
 
       <p>
-        Hemos guardado tus respuestas.
-        El siguiente paso será mostrar aquí únicamente
-        los trámites y ayudas que correspondan a tu situación.
+        Hemos analizado tus respuestas para preparar
+        los trámites relacionados con el nacimiento de tu bebé.
       </p>
 
     </div>
+
 
     <div class="tramite">
 
@@ -493,15 +588,22 @@ function mostrarResultadoProvisional() {
       <h3>Checklist personalizada</h3>
 
       <p>
-        Comunidad: <strong>${respuestas.comunidad}</strong>
+        Comunidad:
+        <strong>${respuestas.comunidad}</strong>
       </p>
 
       <p>
-        Estamos preparando la lógica de trámites basada
-        en fuentes oficiales.
+        Fecha de nacimiento:
+        <strong>${formatearFecha(respuestas.fechaNacimiento)}</strong>
+      </p>
+
+      <p>
+        El siguiente paso será mostrar aquí tus trámites,
+        ayudas y posibles plazos.
       </p>
 
     </div>
+
 
     <button onclick="reiniciarCuestionario()">
       Modificar mis respuestas
@@ -515,9 +617,23 @@ function mostrarResultadoProvisional() {
 }
 
 
-// ------------------------------------------
+// ==========================================
+// FECHAS
+// ==========================================
+
+function formatearFecha(fecha) {
+
+  if (!fecha) return "";
+
+  const partes = fecha.split("-");
+
+  return `${partes[2]}/${partes[1]}/${partes[0]}`;
+}
+
+
+// ==========================================
 // NAVEGACIÓN
-// ------------------------------------------
+// ==========================================
 
 function volverPortada() {
 
@@ -541,9 +657,9 @@ function reiniciarCuestionario() {
 }
 
 
-// ------------------------------------------
-// GUARDAR PROGRESO EN EL NAVEGADOR
-// ------------------------------------------
+// ==========================================
+// GUARDAR PROGRESO
+// ==========================================
 
 function guardarProgreso() {
 
