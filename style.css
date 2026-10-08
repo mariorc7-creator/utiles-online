@@ -1448,3 +1448,83 @@ footer{margin-top:64px;padding:42px 20px;background:rgba(255,255,255,.9);border-
 .home-necesidades-grid a {
   min-height: 132px;
 }
+
+
+/* =========================================
+   V18 · JERARQUÍA LIMPIA
+========================================= */
+
+header .header-contenido {
+  min-height: 66px;
+}
+
+.header-confianza-suave {
+  opacity: .72;
+  font-size: 12px;
+  padding: 7px 10px;
+}
+
+.hero {
+  padding-top: 46px;
+  padding-bottom: 24px;
+}
+
+.hero h1 {
+  margin-bottom: 12px;
+}
+
+.hero .subtitle {
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-explicacion {
+  max-width: 610px;
+  margin: 10px auto 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.home-necesidades {
+  margin-top: 14px;
+}
+
+.home-necesidades .contenido-etiqueta {
+  margin-bottom: 8px;
+}
+
+.home-necesidades-grid {
+  gap: 10px;
+}
+
+.home-necesidades-grid a {
+  min-height: 118px;
+}
+
+.home-ayudas-compactas {
+  margin-top: 16px;
+}
+
+.funnel-explica {
+  margin-top: 16px;
+  padding: 12px 14px;
+  opacity: .94;
+}
+
+.funnel-explica div {
+  font-size: 12px;
+}
+
+@media (max-width: 900px) {
+  .header-confianza-suave {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero {
+    padding-top: 34px;
+  }
+}

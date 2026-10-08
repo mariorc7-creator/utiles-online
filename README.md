@@ -189,3 +189,13 @@ convocatoria vigente.
 - "¿Qué necesitas?" subido justo después del hero
 - lenguaje centrado en beneficio, no en funcionalidad
 - "checklist" queda para el resultado interno, no para captar al usuario
+
+## V18 — jerarquía limpia
+- elimina el botón "Inicio" del header; el logo ya vuelve a home
+- hace más discreto "Guía independiente · España"
+- CTA principal definitivo: "Ver mis ayudas y trámites"
+- subtítulo del hero más directo
+- mueve el bloque 1-2-3 por debajo de "¿Qué necesitas?" y del selector regional
+- reduce altura/ruido del hero
+- mantiene "¿Qué necesitas?" como navegación principal
+- mantiene el buscador regional muy visible
