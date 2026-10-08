@@ -1,5 +1,5 @@
 // ==========================================
-// TRÁMITES FÁCILES
+// PAPELES DEL BEBÉ
 // Cuestionario para nuevos padres
 // ==========================================
 
@@ -2965,3 +2965,297 @@ function enlaceMaternidadAEAT() {
   `;
 }
 
+// ============================================================================
+// PAPELES DEL BEBÉ — CAPA ESPAÑA (08/10/2026)
+// ============================================================================
+
+const datosComunidadesPapelesBebe = {
+  "Andalucía": {
+    "slug": "andalucia",
+    "salud": "https://www.juntadeandalucia.es/temas/salud/servicios/tarjeta.html",
+    "salud_nombre": "Servicio Andaluz de Salud",
+    "familias": "https://www.juntadeandalucia.es/organismos/serviciossocialesfamiliaseigualdad/areas/familias.html",
+    "familias_nombre": "Junta de Andalucía"
+  },
+  "Aragón": {
+    "slug": "aragon",
+    "salud": "https://www.saludinforma.es/",
+    "salud_nombre": "Salud Informa Aragón",
+    "familias": "https://www.aragon.es/temas/familias",
+    "familias_nombre": "Gobierno de Aragón"
+  },
+  "Asturias": {
+    "slug": "asturias",
+    "salud": "https://www.astursalud.es/",
+    "salud_nombre": "AsturSalud",
+    "familias": "https://socialasturias.asturias.es/",
+    "familias_nombre": "Principado de Asturias"
+  },
+  "Islas Baleares": {
+    "slug": "islas-baleares",
+    "salud": "https://www.ibsalut.es/",
+    "salud_nombre": "IB-SALUT",
+    "familias": "https://www.caib.es/",
+    "familias_nombre": "Govern de les Illes Balears"
+  },
+  "Canarias": {
+    "slug": "canarias",
+    "salud": "https://www3.gobiernodecanarias.org/sanidad/scs/",
+    "salud_nombre": "Servicio Canario de la Salud",
+    "familias": "https://www.gobiernodecanarias.org/derechossociales/",
+    "familias_nombre": "Gobierno de Canarias"
+  },
+  "Cantabria": {
+    "slug": "cantabria",
+    "salud": "https://saludcantabria.es/",
+    "salud_nombre": "Servicio Cántabro de Salud",
+    "familias": "https://www.serviciossocialescantabria.org/",
+    "familias_nombre": "Gobierno de Cantabria"
+  },
+  "Castilla-La Mancha": {
+    "slug": "castilla-la-mancha",
+    "salud": "https://sanidad.castillalamancha.es/",
+    "salud_nombre": "SESCAM",
+    "familias": "https://www.castillalamancha.es/gobierno/bienestarsocial",
+    "familias_nombre": "Junta de Comunidades de Castilla-La Mancha"
+  },
+  "Castilla y León": {
+    "slug": "castilla-y-leon",
+    "salud": "https://www.saludcastillayleon.es/",
+    "salud_nombre": "Sacyl",
+    "familias": "https://familia.jcyl.es/",
+    "familias_nombre": "Junta de Castilla y León"
+  },
+  "Cataluña": {
+    "slug": "cataluna",
+    "salud": "https://canalsalut.gencat.cat/",
+    "salud_nombre": "CatSalut",
+    "familias": "https://web.gencat.cat/es/ciutadania/societat-ciutadania-families/tenir-una-criatura",
+    "familias_nombre": "Generalitat de Catalunya"
+  },
+  "Comunidad Valenciana": {
+    "slug": "comunidad-valenciana",
+    "salud": "https://www.san.gva.es/es/web/tarjeta-sanitaria/tarjeta-sanitaria-individual",
+    "salud_nombre": "Conselleria de Sanidad",
+    "familias": "https://serviciossociales.gva.es/",
+    "familias_nombre": "Generalitat Valenciana"
+  },
+  "Extremadura": {
+    "slug": "extremadura",
+    "salud": "https://saludextremadura.ses.es/",
+    "salud_nombre": "Servicio Extremeño de Salud",
+    "familias": "https://www.juntaex.es/",
+    "familias_nombre": "Junta de Extremadura"
+  },
+  "Galicia": {
+    "slug": "galicia",
+    "salud": "https://www.sergas.es/",
+    "salud_nombre": "SERGAS",
+    "familias": "https://sede.xunta.gal/detalle-procedemento?ano=2026&codtram=BS403B&lang=es&numpub=1",
+    "familias_nombre": "Xunta de Galicia"
+  },
+  "Comunidad de Madrid": {
+    "slug": "comunidad-de-madrid",
+    "salud": "https://www.comunidad.madrid/salud/tarjeta-sanitaria",
+    "salud_nombre": "Servicio Madrileño de Salud",
+    "familias": "https://www.comunidad.madrid/servicios/servicios-sociales/familias",
+    "familias_nombre": "Comunidad de Madrid"
+  },
+  "Región de Murcia": {
+    "slug": "region-de-murcia",
+    "salud": "https://www.murciasalud.es/",
+    "salud_nombre": "MurciaSalud",
+    "familias": "https://www.carm.es/",
+    "familias_nombre": "Región de Murcia"
+  },
+  "Navarra": {
+    "slug": "navarra",
+    "salud": "https://www.navarra.es/es/salud",
+    "salud_nombre": "Gobierno de Navarra - Salud",
+    "familias": "https://www.navarra.es/es/derechos-sociales/familia",
+    "familias_nombre": "Gobierno de Navarra"
+  },
+  "País Vasco": {
+    "slug": "pais-vasco",
+    "salud": "https://www.osakidetza.euskadi.eus/",
+    "salud_nombre": "Osakidetza",
+    "familias": "https://www.euskadi.eus/familia/",
+    "familias_nombre": "Gobierno Vasco"
+  },
+  "La Rioja": {
+    "slug": "la-rioja",
+    "salud": "https://www.riojasalud.es/",
+    "salud_nombre": "Rioja Salud",
+    "familias": "https://www.larioja.org/servicios-sociales/es",
+    "familias_nombre": "Gobierno de La Rioja"
+  },
+  "Ceuta": {
+    "slug": "ceuta",
+    "salud": "https://ingesa.sanidad.gob.es/",
+    "salud_nombre": "INGESA",
+    "familias": "https://www.ceuta.es/",
+    "familias_nombre": "Ciudad Autónoma de Ceuta"
+  },
+  "Melilla": {
+    "slug": "melilla",
+    "salud": "https://ingesa.sanidad.gob.es/",
+    "salud_nombre": "INGESA",
+    "familias": "https://www.melilla.es/",
+    "familias_nombre": "Ciudad Autónoma de Melilla"
+  }
+};
+
+function obtenerDatosComunidadPapelesBebe() {
+  return datosComunidadesPapelesBebe[respuestas.comunidad] || null;
+}
+
+const generarTramitesBasePapelesBebe = generarTramites;
+const crearContenidoGuiaBasePapelesBebe = crearContenidoGuia;
+
+generarTramites = function() {
+  const tramites = generarTramitesBasePapelesBebe();
+  const datos = obtenerDatosComunidadPapelesBebe();
+  if (!datos) return tramites;
+
+  if (respuestas.comunidad !== "Cataluña") {
+    tramites.push({
+      id: "tarjeta-sanitaria-autonomica",
+      prioridad: "IMPORTANTE",
+      titulo: `Solicitar o comprobar la tarjeta sanitaria en ${respuestas.comunidad}`,
+      descripcion: `Revisa el alta sanitaria del bebé y la tarjeta individual en el servicio de salud de ${respuestas.comunidad}.`,
+      detalle: `El procedimiento concreto cambia según la comunidad. Te llevamos al portal oficial de ${datos.salud_nombre}.`,
+      enlace: datos.salud,
+      textoEnlace: `Ir a ${datos.salud_nombre} →`
+    });
+  }
+
+  if (respuestas.comunidad !== "Cataluña") {
+    let titulo = `Revisar ayudas y programas para familias en ${respuestas.comunidad}`;
+    let descripcion = "Además de las prestaciones estatales, tu comunidad puede tener ayudas, deducciones, títulos o programas propios para familias.";
+
+    if (respuestas.comunidad === "Galicia") {
+      titulo = "Comprobar la Tarxeta Benvida de Galicia";
+      descripcion = "Galicia mantiene en 2026 el programa Tarxeta Benvida para apoyo a la natalidad. Comprueba requisitos, importes y plazo en la sede oficial.";
+    }
+
+    if (respuestas.comunidad === "Andalucía" && respuestas.nacimientoMultiple) {
+      titulo = "Comprobar las ayudas andaluzas por parto múltiple";
+      descripcion = "Andalucía contempla ayudas específicas para partos múltiples sujetas a requisitos e ingresos. Revisa tu caso en la fuente oficial.";
+    }
+
+    tramites.push({
+      id: "ayudas-autonomicas",
+      prioridad: "💰 REVISAR",
+      titulo,
+      descripcion,
+      detalle: "Las convocatorias y requisitos autonómicos pueden cambiar. Por eso no damos por hecho que tengas derecho: compruébalo en el portal oficial enlazado.",
+      enlace: datos.familias,
+      textoEnlace: `Ver ayudas en ${datos.familias_nombre} →`
+    });
+  }
+
+  return tramites;
+};
+
+crearContenidoGuia = function(tramite) {
+  if (tramite.id === "tarjeta-sanitaria-autonomica") {
+    const datos = obtenerDatosComunidadPapelesBebe();
+    return `
+      <h4>🏥 Tarjeta sanitaria del bebé</h4>
+      <p>
+        Una vez reconocido el derecho a la asistencia sanitaria, revisa
+        cómo completar el alta del bebé en el servicio sanitario de
+        <strong>${respuestas.comunidad}</strong>.
+      </p>
+      <ol>
+        <li>Comprueba primero el alta del bebé en la Seguridad Social.</li>
+        <li>Entra en el portal sanitario oficial de tu comunidad.</li>
+        <li>Revisa si la tarjeta se genera automáticamente o debes solicitarla.</li>
+        <li>Comprueba también la asignación de pediatra y centro de salud.</li>
+      </ol>
+      <div class="consejo">
+        💡 Los documentos y el procedimiento no son idénticos en toda España.
+        Utiliza siempre la información del servicio de salud autonómico.
+      </div>
+      <a href="${datos.salud}" target="_blank" rel="noopener noreferrer" class="enlace-oficial">
+        Ir a ${datos.salud_nombre} →
+      </a>
+    `;
+  }
+
+  if (tramite.id === "ayudas-autonomicas") {
+    const datos = obtenerDatosComunidadPapelesBebe();
+    let extra = "";
+
+    if (respuestas.comunidad === "Galicia") {
+      extra = `
+        <div class="caja-dinero">
+          <div class="caja-dinero-icono">💳</div>
+          <div>
+            <strong>Tarxeta Benvida 2026</strong>
+            <p>
+              La convocatoria 2026 incluye nacimientos de 2026 y mantiene
+              abierta la solicitud hasta el 31 de marzo de 2027.
+              Comprueba en la Xunta el importe que corresponde a tu caso.
+            </p>
+          </div>
+        </div>`;
+    }
+
+    if (respuestas.comunidad === "Andalucía" && respuestas.nacimientoMultiple) {
+      extra = `
+        <div class="caja-dinero">
+          <div class="caja-dinero-icono">💰</div>
+          <div>
+            <strong>Ayuda andaluza por parto múltiple</strong>
+            <p>
+              La Junta publica ayudas específicas por parto múltiple,
+              condicionadas por renta y otros requisitos. El plazo general
+              publicado es de un año desde el nacimiento.
+            </p>
+          </div>
+        </div>`;
+    }
+
+    return `
+      <h4>💰 Ayudas de ${respuestas.comunidad}</h4>
+      <p>
+        Esta revisión es adicional a las prestaciones estatales que ya
+        aparecen en tu checklist.
+      </p>
+      ${extra}
+      <ol>
+        <li>Abre el portal oficial de familias de tu comunidad.</li>
+        <li>Busca ayudas por nacimiento, conciliación, familia numerosa o monoparental.</li>
+        <li>Comprueba convocatoria, renta, residencia y plazo.</li>
+        <li>Solicita únicamente desde la sede electrónica oficial.</li>
+      </ol>
+      <div class="aviso-importante">
+        ⚠️ Las ayudas autonómicas cambian con más frecuencia que los trámites
+        estatales. Papeles del Bebé te orienta, pero la resolución oficial
+        depende de la administración competente.
+      </div>
+      <a href="${datos.familias}" target="_blank" rel="noopener noreferrer" class="enlace-oficial">
+        Ver portal oficial de ${respuestas.comunidad} →
+      </a>
+    `;
+  }
+
+  return crearContenidoGuiaBasePapelesBebe(tramite);
+};
+
+document.addEventListener("DOMContentLoaded", function() {
+  const params = new URLSearchParams(window.location.search);
+  const comunidad = params.get("comunidad");
+
+  if (comunidad && datosComunidadesPapelesBebe[comunidad]) {
+    respuestas.comunidad = comunidad;
+    guardarProgreso();
+  }
+
+  if (params.get("empezar") === "1") {
+    setTimeout(function() {
+      empezar();
+    }, 0);
+  }
+});

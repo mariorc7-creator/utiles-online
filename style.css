@@ -1070,3 +1070,27 @@ footer {
   }
 
 }
+
+/* =========================================
+   PÁGINAS REGIONALES / SEO ESPAÑA
+========================================= */
+.cta-enlace {
+  display:inline-block;
+  background:#356ae6;
+  color:white;
+  font-size:18px;
+  font-weight:700;
+  padding:17px 30px;
+  border-radius:12px;
+  text-decoration:none;
+  box-shadow:0 8px 25px rgba(53,106,230,.22);
+}
+.cta-enlace:hover { background:#2859cb; }
+.lista-seo-regional {
+  padding-left:22px;
+  color:#596274;
+  font-size:16px;
+  line-height:1.7;
+}
+.lista-seo-regional li { margin-bottom:10px; }
+.logo a span { color:#356ae6; }
