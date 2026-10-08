@@ -45,6 +45,7 @@
     }
 
     .hero {
+      width: 100%;
       max-width: 850px;
       text-align: center;
     }
@@ -129,6 +130,80 @@
       line-height: 1.4;
     }
 
+    /* CUESTIONARIO */
+
+    #cuestionario {
+      display: none;
+      width: 100%;
+      max-width: 650px;
+      margin: auto;
+      text-align: left;
+    }
+
+    .progreso {
+      color: #356ae6;
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 14px;
+    }
+
+    .pregunta {
+      background: white;
+      border: 1px solid #e5e9f0;
+      border-radius: 20px;
+      padding: 38px;
+      box-shadow: 0 15px 45px rgba(23, 32, 51, 0.08);
+    }
+
+    .pregunta h2 {
+      font-size: 30px;
+      margin: 0 0 10px;
+    }
+
+    .pregunta p {
+      color: #667085;
+      margin: 0 0 25px;
+      line-height: 1.5;
+    }
+
+    select {
+      width: 100%;
+      padding: 16px;
+      font-size: 17px;
+      border: 1px solid #ccd3df;
+      border-radius: 10px;
+      background: white;
+      margin-bottom: 22px;
+      color: #172033;
+    }
+
+    .botones {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .volver {
+      background: transparent;
+      color: #667085;
+      box-shadow: none;
+      padding-left: 0;
+    }
+
+    .volver:hover {
+      background: transparent;
+      color: #172033;
+    }
+
+    .error {
+      display: none;
+      color: #c62828;
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 18px;
+    }
+
     @media (max-width: 650px) {
       h1 {
         letter-spacing: -1px;
@@ -141,6 +216,14 @@
       .features {
         grid-template-columns: 1fr;
         margin-top: 45px;
+      }
+
+      .pregunta {
+        padding: 25px;
+      }
+
+      .pregunta h2 {
+        font-size: 25px;
       }
     }
   </style>
@@ -156,7 +239,9 @@
 
 <main>
 
-  <section class="hero">
+  <!-- PORTADA -->
+
+  <section class="hero" id="portada">
 
     <div class="badge">
       👶 Guía para nuevos padres
@@ -203,12 +288,125 @@
 
   </section>
 
+
+  <!-- CUESTIONARIO -->
+
+  <section id="cuestionario">
+
+    <div class="progreso">
+      PASO 1 · Tu situación
+    </div>
+
+    <div class="pregunta">
+
+      <h2>¿En qué comunidad autónoma resides?</h2>
+
+      <p>
+        Esto nos permitirá mostrarte trámites y ayudas que
+        dependan de tu comunidad autónoma.
+      </p>
+
+      <select id="comunidad">
+
+        <option value="">Selecciona tu comunidad autónoma</option>
+
+        <option>Andalucía</option>
+        <option>Aragón</option>
+        <option>Asturias</option>
+        <option>Islas Baleares</option>
+        <option>Canarias</option>
+        <option>Cantabria</option>
+        <option>Castilla-La Mancha</option>
+        <option>Castilla y León</option>
+        <option>Cataluña</option>
+        <option>Comunidad Valenciana</option>
+        <option>Extremadura</option>
+        <option>Galicia</option>
+        <option>Comunidad de Madrid</option>
+        <option>Región de Murcia</option>
+        <option>Navarra</option>
+        <option>País Vasco</option>
+        <option>La Rioja</option>
+        <option>Ceuta</option>
+        <option>Melilla</option>
+
+      </select>
+
+      <div class="error" id="errorComunidad">
+        Selecciona una comunidad autónoma para continuar.
+      </div>
+
+      <div class="botones">
+
+        <button class="volver" onclick="volver()">
+          ← Volver
+        </button>
+
+        <button onclick="continuar()">
+          Continuar →
+        </button>
+
+      </div>
+
+    </div>
+
+  </section>
+
 </main>
 
+
 <script>
+
   function empezar() {
-    alert("¡Perfecto! El siguiente paso será crear tu checklist personalizada.");
+
+    document.getElementById("portada").style.display = "none";
+    document.getElementById("cuestionario").style.display = "block";
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
+
+
+  function volver() {
+
+    document.getElementById("cuestionario").style.display = "none";
+    document.getElementById("portada").style.display = "block";
+
+  }
+
+
+  function continuar() {
+
+    const comunidad = document.getElementById("comunidad").value;
+    const error = document.getElementById("errorComunidad");
+
+    if (!comunidad) {
+
+      error.style.display = "block";
+      return;
+
+    }
+
+    error.style.display = "none";
+
+    /*
+      Guardamos la respuesta.
+      Después la utilizaremos para crear
+      la checklist personalizada.
+    */
+
+    localStorage.setItem("comunidad", comunidad);
+
+    alert(
+      "Perfecto. Has seleccionado " +
+      comunidad +
+      ". En el siguiente paso seguiremos personalizando tus trámites."
+    );
+
+  }
+
 </script>
 
 </body>
