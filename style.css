@@ -499,3 +499,85 @@ select:focus {
   border-radius: 20px;
   transition: width 0.3s ease;
 }
+/* =========================
+   EVALUADOR DE AYUDAS
+========================= */
+
+.evaluador {
+  padding: 22px;
+  background: white;
+  border: 1px solid #dce3ec;
+  border-radius: 14px;
+}
+
+.campo-evaluador {
+  display: block;
+  margin: 22px 0;
+}
+
+.campo-evaluador strong {
+  display: block;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.campo-evaluador span {
+  display: block;
+  margin-bottom: 10px;
+  color: #70798a;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.campo-evaluador select,
+.campo-evaluador input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccd3df;
+  border-radius: 9px;
+  background: white;
+  font-size: 15px;
+}
+
+.resultado-si,
+.resultado-no,
+.resultado-duda {
+  padding: 20px;
+  border-radius: 12px;
+  line-height: 1.5;
+}
+
+.resultado-si {
+  background: #effaf3;
+  border: 1px solid #bfe4cc;
+  color: #245b38;
+}
+
+.resultado-no {
+  background: #fff1f1;
+  border: 1px solid #f1caca;
+  color: #7b2929;
+}
+
+.resultado-duda {
+  background: #fff8e8;
+  border: 1px solid #f2ddb1;
+  color: #73521b;
+}
+
+.resultado-si strong,
+.resultado-no strong,
+.resultado-duda strong {
+  font-size: 17px;
+}
+
+.numero-grande {
+  margin: 12px 0;
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.resultado-icono {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
