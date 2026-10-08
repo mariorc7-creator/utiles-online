@@ -53,3 +53,22 @@ convocatoria vigente.
 - resultados y ayudas más legibles
 - responsive móvil rehecho
 - lógica funcional intacta
+
+
+## V4 — navegación y persistencia
+- botón visible "Inicio" en la cabecera
+- logo clicable hacia la portada
+- recuperación real de respuestas desde localStorage
+- tarjeta "Continuar mi checklist" al volver otro día
+- reanuda automáticamente desde el primer paso pendiente
+- si el cuestionario estaba completo, recupera directamente el resultado
+- botón "Empezar de nuevo" que limpia respuestas y checks
+- los datos siguen guardándose solo en el navegador del usuario
+
+## V5 — SEO + validación de fecha
+- bloque de enlazado interno SEO en portada
+- nuevas landings: trámites bebé, ayudas nacimiento, alta Seguridad Social,
+  deducción maternidad, tarjeta sanitaria, Registro Civil y empadronamiento
+- hub de comunidades autónomas
+- sitemap ampliado
+- validación: no se aceptan fechas de nacimiento futuras

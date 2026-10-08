@@ -3244,7 +3244,167 @@ crearContenidoGuia = function(tramite) {
   return crearContenidoGuiaBasePapelesBebe(tramite);
 };
 
+
+// ============================================================================
+// PERSISTENCIA Y REANUDACIÓN — V4
+// ============================================================================
+
+function cargarProgresoGuardado() {
+  try {
+    const guardado = JSON.parse(
+      localStorage.getItem("tramitesFacilesRespuestas")
+    );
+
+    if (!guardado || typeof guardado !== "object") return;
+
+    Object.keys(respuestas).forEach(clave => {
+      if (Object.prototype.hasOwnProperty.call(guardado, clave)) {
+        respuestas[clave] = guardado[clave];
+      }
+    });
+  } catch (error) {
+    // Si el navegador tiene datos corruptos, simplemente no los usamos.
+  }
+}
+
+function hayProgresoGuardado() {
+  return Boolean(
+    respuestas.comunidad ||
+    respuestas.fechaNacimiento ||
+    respuestas.situacionLaboral ||
+    respuestas.monoparental !== null ||
+    respuestas.nacimientoMultiple !== null ||
+    respuestas.discapacidadProgenitor !== null
+  );
+}
+
+function cuestionarioCompleto() {
+  return Boolean(
+    respuestas.comunidad &&
+    respuestas.fechaNacimiento &&
+    respuestas.situacionLaboral &&
+    respuestas.monoparental !== null &&
+    respuestas.nacimientoMultiple !== null &&
+    respuestas.discapacidadProgenitor !== null
+  );
+}
+
+function obtenerPasoPendiente() {
+  if (!respuestas.comunidad) return 1;
+  if (!respuestas.fechaNacimiento) return 2;
+  if (!respuestas.situacionLaboral) return 3;
+  if (respuestas.monoparental === null) return 4;
+  if (respuestas.nacimientoMultiple === null) return 5;
+  if (respuestas.discapacidadProgenitor === null) return 6;
+  return 7;
+}
+
+function continuarProgreso() {
+  document.getElementById("portada").style.display = "none";
+  document.getElementById("resultado").style.display = "none";
+  document.getElementById("cuestionario").style.display = "block";
+
+  const paso = obtenerPasoPendiente();
+
+  if (paso === 1) mostrarPaso1();
+  if (paso === 2) mostrarPaso2();
+  if (paso === 3) mostrarPaso3();
+  if (paso === 4) mostrarPaso4();
+  if (paso === 5) mostrarPaso5();
+  if (paso === 6) mostrarPaso6();
+
+  if (paso === 7) {
+    document.getElementById("cuestionario").style.display = "none";
+    mostrarResultadoProvisional();
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function empezarDeNuevo() {
+  localStorage.removeItem("tramitesFacilesRespuestas");
+  localStorage.removeItem("tramitesFacilesCompletados");
+
+  respuestas.comunidad = "";
+  respuestas.fechaNacimiento = "";
+  respuestas.situacionLaboral = "";
+  respuestas.monoparental = null;
+  respuestas.nacimientoMultiple = null;
+  respuestas.discapacidadProgenitor = null;
+
+  const reanudar = document.getElementById("reanudarProgreso");
+  if (reanudar) reanudar.innerHTML = "";
+
+  empezar();
+}
+
+function mostrarTarjetaReanudacion() {
+  const contenedor = document.getElementById("reanudarProgreso");
+
+  if (!contenedor || !hayProgresoGuardado()) return;
+
+  let texto = "Tienes una checklist empezada en este navegador.";
+
+  if (cuestionarioCompleto()) {
+    texto = "Tu checklist anterior sigue guardada en este navegador.";
+  } else {
+    const paso = obtenerPasoPendiente();
+    texto = `Dejaste la checklist a medias. Puedes continuar desde el paso ${paso} de 6.`;
+  }
+
+  contenedor.innerHTML = `
+    <div class="reanudar-card">
+      <div class="reanudar-icono">👋</div>
+
+      <div class="reanudar-contenido">
+        <strong>¿Continuamos donde lo dejaste?</strong>
+        <p>${texto}</p>
+
+        <div class="reanudar-botones">
+          <button type="button" onclick="continuarProgreso()">
+            Continuar mi checklist →
+          </button>
+
+          <button
+            type="button"
+            class="boton-secundario"
+            onclick="empezarDeNuevo()"
+          >
+            Empezar de nuevo
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function volverInicio() {
+  document.getElementById("cuestionario").style.display = "none";
+  document.getElementById("resultado").style.display = "none";
+  document.getElementById("portada").style.display = "block";
+
+  mostrarTarjetaReanudacion();
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// Desde V4, si ya hay progreso y el usuario pulsa el CTA principal,
+// continuamos automáticamente en lugar de mandarle otra vez al paso 1.
+const empezarOriginalPapelesBebe = empezar;
+
+empezar = function() {
+  if (hayProgresoGuardado()) {
+    continuarProgreso();
+    return;
+  }
+
+  empezarOriginalPapelesBebe();
+};
+
+
 document.addEventListener("DOMContentLoaded", function() {
+  cargarProgresoGuardado();
+
   const params = new URLSearchParams(window.location.search);
   const comunidad = params.get("comunidad");
 
@@ -3252,6 +3412,8 @@ document.addEventListener("DOMContentLoaded", function() {
     respuestas.comunidad = comunidad;
     guardarProgreso();
   }
+
+  mostrarTarjetaReanudacion();
 
   if (params.get("empezar") === "1") {
     setTimeout(function() {

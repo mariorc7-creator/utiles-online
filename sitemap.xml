@@ -3,121 +3,113 @@
   <url>
     <loc>https://papelesdelbebe.es/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/</loc>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/andalucia/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/aragon/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/asturias/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/islas-baleares/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/canarias/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/cantabria/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/castilla-la-mancha/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/castilla-y-leon/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/cataluna/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/comunidad-valenciana/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/extremadura/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/galicia/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/comunidad-de-madrid/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/region-de-murcia/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/navarra/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/pais-vasco/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://papelesdelbebe.es/comunidades/la-rioja/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/ceuta/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/comunidad-de-madrid/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/comunidad-valenciana/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/extremadura/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/galicia/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/islas-baleares/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/la-rioja/</loc>
+    <lastmod>2026-10-08</lastmod>
   </url>
   <url>
     <loc>https://papelesdelbebe.es/comunidades/melilla/</loc>
     <lastmod>2026-10-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/navarra/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/pais-vasco/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/comunidades/region-de-murcia/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/tramites-bebe/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/ayudas-nacimiento/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/alta-bebe-seguridad-social/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/deduccion-maternidad/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/tarjeta-sanitaria-bebe/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/registro-civil-bebe/</loc>
+    <lastmod>2026-10-08</lastmod>
+  </url>
+  <url>
+    <loc>https://papelesdelbebe.es/empadronar-bebe/</loc>
+    <lastmod>2026-10-08</lastmod>
   </url>
 </urlset>
