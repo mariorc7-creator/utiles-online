@@ -548,10 +548,33 @@ function mostrarPreguntaSiNo(
       siguiente(seleccion.value === "si");
     });
 }
+// ==========================================
+// CHECKLIST PERSONALIZADA
+// ==========================================
+
+const enlacesOficiales = {
+  nacimiento:
+    "https://sede.mjusticia.gob.es/es/tramites/inscripcion-nacimiento",
+
+  seguridadSocial:
+    "https://prestaciones.seg-social.es/",
+
+  prestacionNacimiento:
+    "https://prestaciones.seg-social.es/servicio/prestacion-nacimiento-adopcion-cuidado-menor",
+
+  maternidad:
+    "https://sede.agenciatributaria.gob.es/Sede/procedimientos/GZ25.shtml",
+
+  ayudaCataluna:
+    "https://tramits.gencat.cat/es/tramits/tramits-temes/Prestacio-per-a-families-amb-infants?moda=1",
+
+  catsalut:
+    "https://canalsalut.gencat.cat/"
+};
 
 
 // ==========================================
-// RESULTADO PROVISIONAL
+// GENERAR RESULTADO
 // ==========================================
 
 function mostrarResultadoProvisional() {
@@ -562,53 +585,71 @@ function mostrarResultadoProvisional() {
 
   resultado.style.display = "block";
 
+  const tramites = generarTramites();
+
   resultado.innerHTML = `
     <div class="resultado-cabecera">
 
       <div class="badge">
-        ✓ Cuestionario completado
+        ✓ Checklist personalizada
       </div>
 
-      <h2>Tu checklist está lista</h2>
+      <h2>Tu plan después del nacimiento</h2>
 
       <p>
-        Hemos analizado tus respuestas para preparar
-        los trámites relacionados con el nacimiento de tu bebé.
+        Hemos preparado estos pasos según las respuestas
+        que nos has dado.
       </p>
 
-    </div>
-
-
-    <div class="tramite">
-
-      <span class="prioridad">
-        PRÓXIMAMENTE
-      </span>
-
-      <h3>Checklist personalizada</h3>
-
       <p>
-        Comunidad:
         <strong>${respuestas.comunidad}</strong>
-      </p>
-
-      <p>
-        Fecha de nacimiento:
+        · Bebé nacido el
         <strong>${formatearFecha(respuestas.fechaNacimiento)}</strong>
       </p>
 
-      <p>
-        El siguiente paso será mostrar aquí tus trámites,
-        ayudas y posibles plazos.
-      </p>
+      <div
+        id="contadorProgreso"
+        style="
+          margin-top:20px;
+          padding:16px 18px;
+          background:#eef3ff;
+          border-radius:12px;
+          font-weight:700;
+          color:#2856b6;
+        "
+      >
+      </div>
 
     </div>
 
+    <div id="listaTramites">
+      ${tramites.map(crearTarjetaTramite).join("")}
+    </div>
 
-    <button onclick="reiniciarCuestionario()">
-      Modificar mis respuestas
-    </button>
+    <div style="margin-top:30px;">
+
+      <button onclick="reiniciarCuestionario()">
+        Modificar mis respuestas
+      </button>
+
+    </div>
+
+    <p
+      style="
+        margin-top:30px;
+        color:#778092;
+        font-size:13px;
+        line-height:1.5;
+      "
+    >
+      Esta web es una guía independiente y no pertenece
+      a ninguna Administración Pública. Comprueba siempre
+      la información definitiva en el organismo oficial enlazado.
+    </p>
   `;
+
+  restaurarTramitesCompletados();
+  actualizarContador();
 
   window.scrollTo({
     top: 0,
@@ -618,8 +659,572 @@ function mostrarResultadoProvisional() {
 
 
 // ==========================================
+// DECIDIR QUÉ TRÁMITES MOSTRAR
+// ==========================================
+
+function generarTramites() {
+
+  const tramites = [];
+
+
+  // ------------------------------------------
+  // REGISTRO CIVIL
+  // ------------------------------------------
+
+  tramites.push({
+    id: "registro-civil",
+    prioridad: "PRIMERO",
+    titulo: "Comprobar la inscripción del nacimiento",
+    descripcion:
+      "Comprueba que el nacimiento de tu bebé ha quedado inscrito correctamente en el Registro Civil.",
+    detalle:
+      "En muchos casos el hospital comunica directamente el nacimiento al Registro Civil. Si ya se gestionó desde el hospital, puedes marcar este paso como completado.",
+    enlace: enlacesOficiales.nacimiento,
+    textoEnlace: "Información oficial →"
+  });
+
+
+  // ------------------------------------------
+  // SEGURIDAD SOCIAL
+  // ------------------------------------------
+
+  tramites.push({
+    id: "seguridad-social-bebe",
+    prioridad: "IMPORTANTE",
+    titulo: "Comprobar el alta del bebé para asistencia sanitaria",
+    descripcion:
+      "Comprueba que tu bebé consta correctamente para poder acceder a la asistencia sanitaria pública.",
+    detalle:
+      respuestas.comunidad === "Cataluña"
+        ? "En Cataluña, determinados trámites pueden iniciarse desde el hospital. Comprueba si ya se gestionó antes de volver a solicitarlo."
+        : "Comprueba la situación del bebé y realiza el alta correspondiente si todavía no se ha gestionado.",
+    enlace: enlacesOficiales.seguridadSocial,
+    textoEnlace: "Seguridad Social →"
+  });
+
+
+  // ------------------------------------------
+  // TARJETA SANITARIA CATALUÑA
+  // ------------------------------------------
+
+  if (respuestas.comunidad === "Cataluña") {
+
+    tramites.push({
+      id: "tsi-cataluna",
+      prioridad: "IMPORTANTE",
+      titulo: "Solicitar la tarjeta sanitaria individual (TSI)",
+      descripcion:
+        "Cuando corresponda, solicita la tarjeta sanitaria de tu bebé para acceder normalmente al sistema sanitario catalán.",
+      detalle:
+        "Comprueba previamente que los datos necesarios del bebé estén correctamente registrados.",
+      enlace: enlacesOficiales.catsalut,
+      textoEnlace: "Ir a CatSalut →"
+    });
+
+  }
+
+
+  // ------------------------------------------
+  // EMPADRONAMIENTO
+  // ------------------------------------------
+
+  tramites.push({
+    id: "empadronamiento",
+    prioridad: "REVISAR",
+    titulo: "Comprobar el empadronamiento del bebé",
+    descripcion:
+      "Comprueba que tu bebé consta correctamente empadronado en vuestro domicilio.",
+    detalle:
+      "La forma concreta de realizar o comprobar este trámite depende de tu ayuntamiento.",
+    enlace: "",
+    textoEnlace: ""
+  });
+
+
+  // ------------------------------------------
+  // PRESTACIÓN NACIMIENTO Y CUIDADO
+  // ------------------------------------------
+
+  if (
+    respuestas.situacionLaboral === "asalariado" ||
+    respuestas.situacionLaboral === "autonomo"
+  ) {
+
+    let detallePrestacion =
+      "La Seguridad Social exige determinados requisitos de alta y cotización. Comprueba tu situación y solicita la prestación si cumples los requisitos.";
+
+    if (respuestas.monoparental) {
+
+      detallePrestacion +=
+        " Has indicado que sois una familia monoparental, circunstancia que puede modificar la duración del descanso.";
+
+    }
+
+    if (respuestas.nacimientoMultiple) {
+
+      detallePrestacion +=
+        " También has indicado un nacimiento múltiple, que puede dar derecho a ampliaciones adicionales.";
+
+    }
+
+    tramites.push({
+      id: "prestacion-nacimiento",
+      prioridad: "💰 PRESTACIÓN",
+      titulo: "Prestación por nacimiento y cuidado del menor",
+      descripcion:
+        respuestas.monoparental
+          ? "Comprueba tu derecho a la prestación y al periodo de descanso correspondiente para familias monoparentales."
+          : "Comprueba tu derecho a la prestación económica y al periodo de descanso por nacimiento.",
+      detalle: detallePrestacion,
+      enlace: enlacesOficiales.prestacionNacimiento,
+      textoEnlace: "Comprobar y solicitar →"
+    });
+
+  }
+
+
+  // ------------------------------------------
+  // SI ESTÁ DESEMPLEADO
+  // ------------------------------------------
+
+  if (respuestas.situacionLaboral === "desempleado") {
+
+    tramites.push({
+      id: "situacion-desempleo",
+      prioridad: "REVISAR",
+      titulo: "Revisar tu situación con la Seguridad Social",
+      descripcion:
+        "Al estar desempleado/a, el derecho y la forma de gestionar las prestaciones pueden depender de tu situación concreta.",
+      detalle:
+        "No damos por hecho que tengas o no derecho. Comprueba tu situación de alta, cotización y prestación por desempleo con la Seguridad Social.",
+      enlace: enlacesOficiales.prestacionNacimiento,
+      textoEnlace: "Comprobar mi situación →"
+    });
+
+  }
+
+
+  // ------------------------------------------
+  // NACIMIENTO MÚLTIPLE
+  // ------------------------------------------
+
+  if (respuestas.nacimientoMultiple) {
+
+    tramites.push({
+      id: "ayuda-nacimiento-multiple",
+      prioridad: "💰 POSIBLE AYUDA",
+      titulo: "Prestación por nacimiento múltiple",
+      descripcion:
+        "Has indicado que ha sido un nacimiento múltiple. Puede existir una prestación económica específica.",
+      detalle:
+        "Comprueba los requisitos y el importe que correspondería en tu caso.",
+      enlace: enlacesOficiales.seguridadSocial,
+      textoEnlace: "Comprobar prestación →"
+    });
+
+  }
+
+
+  // ------------------------------------------
+  // MONOPARENTAL / DISCAPACIDAD
+  // ------------------------------------------
+
+  if (
+    respuestas.monoparental ||
+    respuestas.discapacidadProgenitor
+  ) {
+
+    tramites.push({
+      id: "pago-unico-especial",
+      prioridad: "💰 POSIBLE AYUDA",
+      titulo: "Comprobar prestación de pago único",
+      descripcion:
+        "Tu situación puede encajar en una prestación económica de pago único de la Seguridad Social.",
+      detalle:
+        respuestas.discapacidadProgenitor
+          ? "Has indicado discapacidad reconocida de un progenitor. La prestación tiene requisitos específicos, incluido el grado de discapacidad en determinados supuestos."
+          : "Has indicado que sois una familia monoparental. Comprueba los requisitos económicos y familiares de esta prestación.",
+      enlace: enlacesOficiales.seguridadSocial,
+      textoEnlace: "Comprobar requisitos →"
+    });
+
+  }
+
+
+  // ------------------------------------------
+  // DEDUCCIÓN MATERNIDAD
+  // ------------------------------------------
+
+  tramites.push({
+    id: "deduccion-maternidad",
+    prioridad: "💰 REVISAR",
+    titulo: "Comprobar la deducción por maternidad",
+    descripcion:
+      "Comprueba si existe derecho a la deducción por maternidad y si te interesa solicitar su abono anticipado.",
+    detalle:
+      "Cuando existe derecho al abono anticipado, la Agencia Tributaria permite solicitarlo mediante el modelo 140.",
+    enlace: enlacesOficiales.maternidad,
+    textoEnlace: "Comprobar Modelo 140 →"
+  });
+
+
+  // ------------------------------------------
+  // AYUDA CATALUÑA
+  // ------------------------------------------
+
+  if (respuestas.comunidad === "Cataluña") {
+
+    const infoAyuda = calcularAyudaCataluna();
+
+    tramites.push({
+      id: "ayuda-cataluna",
+      prioridad: infoAyuda.expirada
+        ? "PLAZO A REVISAR"
+        : "💰 AYUDA",
+      titulo: "Prestación para familias con hijos de Cataluña",
+      descripcion:
+        respuestas.monoparental
+          ? "Podrías optar a una prestación de 750 € si tienes reconocido el título de familia monoparental y cumples el límite de ingresos."
+          : "Podrías optar a una prestación de 650 € si cumples el límite de ingresos. Determinadas familias numerosas o monoparentales pueden recibir 750 €.",
+      detalle: infoAyuda.mensaje,
+      enlace: enlacesOficiales.ayudaCataluna,
+      textoEnlace: "Comprobar requisitos y solicitar →"
+    });
+
+  }
+
+
+  return tramites;
+}
+
+
+// ==========================================
+// AYUDA CATALUÑA - PLAZO
+// ==========================================
+
+function calcularAyudaCataluna() {
+
+  const fechaNacimiento = crearFechaLocal(
+    respuestas.fechaNacimiento
+  );
+
+  if (!fechaNacimiento) {
+    return {
+      expirada: false,
+      mensaje:
+        "Comprueba los requisitos económicos y el plazo oficial."
+    };
+  }
+
+  const cambioNormativa = new Date(2026, 6, 14);
+
+  const mesesPlazo =
+    fechaNacimiento >= cambioNormativa ? 3 : 1;
+
+  const fechaLimite = sumarMesesConReglaFinMes(
+    fechaNacimiento,
+    mesesPlazo
+  );
+
+  const hoy = new Date();
+
+  hoy.setHours(0, 0, 0, 0);
+
+  const diferencia =
+    fechaLimite.getTime() - hoy.getTime();
+
+  const diasRestantes =
+    Math.ceil(diferencia / (1000 * 60 * 60 * 24));
+
+
+  if (diasRestantes < 0) {
+
+    return {
+      expirada: true,
+      mensaje:
+        `Según la fecha indicada, el plazo ordinario calculado habría finalizado el ${formatearFechaObjeto(fechaLimite)}. Comprueba tu caso en la Generalitat.`
+    };
+
+  }
+
+
+  if (diasRestantes === 0) {
+
+    return {
+      expirada: false,
+      mensaje:
+        `⚠️ Según la fecha indicada, el plazo ordinario termina hoy (${formatearFechaObjeto(fechaLimite)}). Revisa inmediatamente los requisitos oficiales.`
+    };
+
+  }
+
+
+  return {
+    expirada: false,
+    mensaje:
+      `⚠️ Según la fecha indicada, el plazo ordinario termina el ${formatearFechaObjeto(fechaLimite)}. Quedan aproximadamente ${diasRestantes} días. Comprueba también el límite de ingresos antes de solicitarla.`
+  };
+}
+
+
+// ==========================================
+// TARJETAS
+// ==========================================
+
+function crearTarjetaTramite(tramite) {
+
+  const enlaceHTML = tramite.enlace
+    ? `
+      <a
+        href="${tramite.enlace}"
+        target="_blank"
+        rel="noopener noreferrer"
+        style="
+          display:inline-block;
+          margin-top:8px;
+          color:#356ae6;
+          font-weight:700;
+          text-decoration:none;
+        "
+      >
+        ${tramite.textoEnlace}
+      </a>
+    `
+    : "";
+
+
+  return `
+    <div class="tramite" id="tramite-${tramite.id}">
+
+      <span class="prioridad">
+        ${tramite.prioridad}
+      </span>
+
+      <h3>${tramite.titulo}</h3>
+
+      <p>${tramite.descripcion}</p>
+
+      <p style="font-size:14px;">
+        ${tramite.detalle}
+      </p>
+
+      ${enlaceHTML}
+
+      <div
+        style="
+          margin-top:20px;
+          padding-top:18px;
+          border-top:1px solid #edf0f4;
+        "
+      >
+
+        <label
+          style="
+            display:flex;
+            align-items:center;
+            gap:10px;
+            cursor:pointer;
+            font-weight:700;
+          "
+        >
+
+          <input
+            type="checkbox"
+            class="checkTramite"
+            data-id="${tramite.id}"
+            onchange="cambiarEstadoTramite(this)"
+            style="
+              width:20px;
+              height:20px;
+              accent-color:#356ae6;
+            "
+          >
+
+          <span>
+            Ya lo he hecho
+          </span>
+
+        </label>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// GUARDAR TRÁMITES COMPLETADOS
+// ==========================================
+
+function cambiarEstadoTramite(checkbox) {
+
+  const completados = obtenerTramitesCompletados();
+
+  const id = checkbox.dataset.id;
+
+  if (checkbox.checked) {
+
+    if (!completados.includes(id)) {
+      completados.push(id);
+    }
+
+  } else {
+
+    const posicion = completados.indexOf(id);
+
+    if (posicion !== -1) {
+      completados.splice(posicion, 1);
+    }
+
+  }
+
+  localStorage.setItem(
+    "tramitesFacilesCompletados",
+    JSON.stringify(completados)
+  );
+
+  actualizarAspectoTramite(checkbox);
+  actualizarContador();
+}
+
+
+function obtenerTramitesCompletados() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem("tramitesFacilesCompletados")
+    ) || [];
+
+  } catch {
+
+    return [];
+
+  }
+}
+
+
+function restaurarTramitesCompletados() {
+
+  const completados = obtenerTramitesCompletados();
+
+  document.querySelectorAll(".checkTramite").forEach(
+    checkbox => {
+
+      if (completados.includes(checkbox.dataset.id)) {
+        checkbox.checked = true;
+      }
+
+      actualizarAspectoTramite(checkbox);
+    }
+  );
+}
+
+
+// ==========================================
+// ASPECTO COMPLETADO
+// ==========================================
+
+function actualizarAspectoTramite(checkbox) {
+
+  const tarjeta = checkbox.closest(".tramite");
+
+  if (!tarjeta) return;
+
+
+  if (checkbox.checked) {
+
+    tarjeta.style.opacity = "0.65";
+    tarjeta.style.background = "#f8fafc";
+
+  } else {
+
+    tarjeta.style.opacity = "1";
+    tarjeta.style.background = "white";
+
+  }
+}
+
+
+// ==========================================
+// CONTADOR DE PROGRESO
+// ==========================================
+
+function actualizarContador() {
+
+  const checks = document.querySelectorAll(".checkTramite");
+
+  const completados = document.querySelectorAll(
+    ".checkTramite:checked"
+  );
+
+  const contador = document.getElementById(
+    "contadorProgreso"
+  );
+
+  if (!contador) return;
+
+  contador.textContent =
+    `${completados.length} de ${checks.length} trámites completados`;
+
+  if (
+    checks.length > 0 &&
+    completados.length === checks.length
+  ) {
+
+    contador.textContent =
+      `🎉 ¡Checklist completada! ${checks.length} de ${checks.length}`;
+
+  }
+}
+
+
+// ==========================================
 // FECHAS
 // ==========================================
+
+function crearFechaLocal(fecha) {
+
+  if (!fecha) return null;
+
+  const partes = fecha.split("-");
+
+  if (partes.length !== 3) return null;
+
+  return new Date(
+    Number(partes[0]),
+    Number(partes[1]) - 1,
+    Number(partes[2])
+  );
+}
+
+
+function sumarMesesConReglaFinMes(fecha, meses) {
+
+  const diaOriginal = fecha.getDate();
+
+  const resultado = new Date(
+    fecha.getFullYear(),
+    fecha.getMonth() + meses,
+    1
+  );
+
+  const ultimoDiaMesDestino = new Date(
+    resultado.getFullYear(),
+    resultado.getMonth() + 1,
+    0
+  ).getDate();
+
+  resultado.setDate(
+    Math.min(diaOriginal, ultimoDiaMesDestino)
+  );
+
+  resultado.setHours(23, 59, 59, 999);
+
+  return resultado;
+}
+
 
 function formatearFecha(fecha) {
 
@@ -631,22 +1236,43 @@ function formatearFecha(fecha) {
 }
 
 
+function formatearFechaObjeto(fecha) {
+
+  return fecha.toLocaleDateString(
+    "es-ES",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }
+  );
+}
+
+
 // ==========================================
 // NAVEGACIÓN
 // ==========================================
 
 function volverPortada() {
 
-  document.getElementById("cuestionario").style.display = "none";
-  document.getElementById("resultado").style.display = "none";
-  document.getElementById("portada").style.display = "block";
+  document.getElementById("cuestionario").style.display =
+    "none";
+
+  document.getElementById("resultado").style.display =
+    "none";
+
+  document.getElementById("portada").style.display =
+    "block";
 }
 
 
 function reiniciarCuestionario() {
 
-  document.getElementById("resultado").style.display = "none";
-  document.getElementById("cuestionario").style.display = "block";
+  document.getElementById("resultado").style.display =
+    "none";
+
+  document.getElementById("cuestionario").style.display =
+    "block";
 
   mostrarPaso1();
 
@@ -658,7 +1284,7 @@ function reiniciarCuestionario() {
 
 
 // ==========================================
-// GUARDAR PROGRESO
+// GUARDAR RESPUESTAS
 // ==========================================
 
 function guardarProgreso() {
@@ -668,3 +1294,4 @@ function guardarProgreso() {
     JSON.stringify(respuestas)
   );
 }
+
