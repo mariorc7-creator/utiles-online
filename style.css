@@ -943,3 +943,130 @@ footer {
   }
 
 }
+/* =========================================
+   AJUSTE PORTADA COMPACTA
+========================================= */
+
+.hero {
+  max-width: 900px;
+  padding-top: 60px;
+}
+
+.hero h1 {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: clamp(42px, 5vw, 62px);
+  overflow-wrap: break-word;
+}
+
+.features {
+  margin-top: 45px;
+}
+
+
+/* BLOQUE SEO MÁS COMPACTO */
+
+.contenido-informativo {
+  margin-top: 70px;
+  padding: 40px;
+}
+
+.contenido-informativo h2 {
+  font-size: 30px;
+}
+
+
+/* QUITAMOS EL BLOQUE "CÓMO FUNCIONA" */
+
+.como-funciona {
+  display: none;
+}
+
+
+/* CONFIANZA MUCHO MÁS DISCRETA */
+
+.bloque-confianza {
+  margin-top: 60px;
+  padding: 25px 30px;
+}
+
+.bloque-confianza h2 {
+  font-size: 22px;
+}
+
+.confianza-icono {
+  font-size: 27px;
+}
+
+
+/* FAQ MÁS CERCA */
+
+.faq {
+  margin-top: 70px;
+}
+
+
+/* EL CTA FINAL SOBRA */
+
+.cta-final {
+  display: none;
+}
+
+
+/* MENOS AIRE AL FINAL */
+
+footer {
+  margin-top: 70px;
+}
+
+
+/* =========================================
+   TABLET / PANTALLAS ESTRECHAS
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .hero h1 {
+    max-width: 760px;
+    font-size: 52px;
+  }
+
+}
+
+
+/* =========================================
+   MÓVIL
+========================================= */
+
+@media (max-width: 650px) {
+
+  .hero {
+    padding-top: 40px;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    font-size: 39px;
+    line-height: 1.08;
+  }
+
+  .contenido-informativo {
+    margin-top: 55px;
+    padding: 25px 20px;
+  }
+
+  .bloque-confianza {
+    margin-top: 50px;
+    padding: 22px 20px;
+  }
+
+  .faq {
+    margin-top: 55px;
+  }
+
+  footer {
+    margin-top: 50px;
+  }
+
+}
