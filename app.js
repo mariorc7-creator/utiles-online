@@ -411,7 +411,13 @@ function mostrarPaso6() {
     function(valor) {
       respuestas.discapacidadProgenitor = valor;
       guardarProgreso();
-      mostrarResultadoProvisional();
+
+      // V8: ruta separada para poder medir finalizaciones como pageviews.
+      if (window.location.pathname.startsWith("/checklist")) {
+        window.location.href = "/checklist/completada/";
+      } else {
+        mostrarResultadoProvisional();
+      }
     },
 
     mostrarPaso5
@@ -3421,3 +3427,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 0);
   }
 });
+
+
+// ============================================================================
+// V8 · FUNNEL MEDIBLE
+// /checklist/              = inicio de checklist
+// /checklist/completada/   = cuestionario completado
+// ============================================================================
+
+function irChecklist() {
+  window.location.href = "/checklist/";
+}
+
+function irInicio() {
+  window.location.href = "/";
+}

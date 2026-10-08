@@ -93,3 +93,14 @@ convocatoria vigente.
 - bloque de ayudas destacadas en portada
 - más enlazado interno desde páginas generales
 - sitemap ampliado
+
+## V8 — conversión y analítica
+- ruta `/checklist/` para medir inicios de checklist
+- ruta `/checklist/completada/` para medir cuestionarios completados
+- ambas rutas son `noindex` para evitar ruido SEO
+- todos los CTA principales conducen a `/checklist/`
+- las landings regionales pueden preseleccionar la comunidad
+- microcopy de conversión: 1 minuto, sin cuenta, progreso guardado
+- explicación visual del proceso en 3 pasos
+- archivo `ANALYTICA.md` con el plan de medición
+- preparada para Vercel Web Analytics sin hardcodear rutas internas de Analytics

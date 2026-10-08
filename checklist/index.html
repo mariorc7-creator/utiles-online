@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crear mi checklist | Papeles del Bebé</title>
+  <meta name="description" content="Crea tu checklist personalizada de trámites y ayudas después de tener un bebé.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://papelesdelbebe.es/checklist/">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="header-contenido">
+    <a href="/" class="logo logo-enlace">Papeles del <span>Bebé</span></a>
+    <div class="header-acciones">
+      <a href="/" class="boton-inicio enlace-inicio">← Inicio</a>
+      <div class="header-confianza">Guía independiente · España</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="portada" style="display:none;">
+    <div id="reanudarProgreso"></div>
+  </section>
+
+  <section id="cuestionario"></section>
+  <section id="resultado"></section>
+</main>
+
+<footer>
+  <div class="footer-contenido">
+    <div class="logo">Papeles del <span>Bebé</span></div>
+    <p>Menos papeleo. Más tiempo para tu bebé.</p>
+    <p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p>
+    <p class="footer-copy">© 2026 Papeles del Bebé</p>
+  </div>
+</footer>
+
+<script src="../app.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  setTimeout(function () {
+    if (typeof cargarProgresoGuardado === "function") cargarProgresoGuardado();
+    const params = new URLSearchParams(window.location.search);
+    const comunidad = params.get("comunidad");
+    if (comunidad && typeof datosComunidadesPapelesBebe !== "undefined" && datosComunidadesPapelesBebe[comunidad]) {
+      respuestas.comunidad = comunidad;
+      guardarProgreso();
+    }
+    if (typeof continuarProgreso === "function" && typeof hayProgresoGuardado === "function" && hayProgresoGuardado()) {
+      continuarProgreso();
+    } else if (typeof empezarOriginalPapelesBebe === "function") {
+      empezarOriginalPapelesBebe();
+    } else if (typeof empezar === "function") {
+      empezar();
+    }
+  }, 0);
+});
+</script>
+</body>
+</html>

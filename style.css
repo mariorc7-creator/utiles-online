@@ -290,3 +290,65 @@ footer{margin-top:64px;padding:42px 20px;background:rgba(255,255,255,.9);border-
 @media (max-width:700px) {
   .datos-seo-grid { grid-template-columns:1fr; }
 }
+
+
+/* =========================================
+   V8 · CONVERSIÓN
+========================================= */
+
+.microprueba {
+  margin: 18px auto 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.microprueba span {
+  padding: 7px 10px;
+  background: rgba(255,255,255,.78);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.funnel-explica {
+  max-width: 840px;
+  margin: 28px auto 0;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 10px;
+  background: rgba(255,255,255,.6);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.funnel-explica div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.funnel-explica strong {
+  width: 29px;
+  height: 29px;
+  flex: 0 0 29px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+}
+
+@media (max-width:700px) {
+  .funnel-explica {
+    grid-template-columns: 1fr;
+  }
+}
