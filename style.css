@@ -352,3 +352,114 @@ footer{margin-top:64px;padding:42px 20px;background:rgba(255,255,255,.9);border-
     grid-template-columns: 1fr;
   }
 }
+
+
+/* =========================================
+   V9 · MONETIZACIÓN
+========================================= */
+
+.precio-premium {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin: 8px 0 24px;
+}
+
+.precio-premium-cifra {
+  font-size: 42px;
+  font-weight: 900;
+  letter-spacing: -1.5px;
+}
+
+.precio-premium-texto {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.checkout-pendiente {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.premium-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.premium-grid > div {
+  padding: 18px;
+  background: #fffdfa;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+}
+
+.premium-grid strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.premium-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.upsell-premium {
+  margin-top: 28px;
+  padding: 26px;
+  background: linear-gradient(135deg, #f6f1ff, #fff6f2);
+  border: 1px solid #e3dbfb;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.upsell-premium-badge {
+  display: inline-block;
+  margin-bottom: 9px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  background: white;
+  color: #6a5ed4;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.upsell-premium h3 {
+  margin: 0 0 9px;
+  font-size: 23px;
+}
+
+.upsell-premium p {
+  max-width: 560px;
+  margin: 0 auto 15px;
+  color: var(--muted);
+}
+
+.upsell-premium-precio {
+  margin-bottom: 17px;
+}
+
+.upsell-premium-precio strong {
+  font-size: 29px;
+}
+
+.upsell-premium-precio span {
+  margin-left: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.upsell-premium small {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+@media (max-width:700px) {
+  .premium-grid { grid-template-columns: 1fr; }
+}

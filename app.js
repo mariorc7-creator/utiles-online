@@ -638,6 +638,23 @@ function mostrarResultadoProvisional() {
       ${tramites.map(crearTarjetaTramite).join("")}
     </div>
 
+    <section class="upsell-premium">
+      <div class="upsell-premium-badge">✨ OPCIONAL</div>
+      <h3>¿Quieres tenerlo todo resumido en un único plan?</h3>
+      <p>
+        Estamos preparando un Plan Premium personalizado con tus fechas,
+        documentos, ayudas y próximos pasos.
+      </p>
+      <div class="upsell-premium-precio">
+        <strong>9,90 €</strong>
+        <span>pago único</span>
+      </div>
+      <a class="cta-enlace" href="/premium/">
+        Ver qué incluye →
+      </a>
+      <small>Tu checklist gratuita seguirá disponible.</small>
+    </section>
+
     <div style="margin-top:30px;">
 
       <button onclick="reiniciarCuestionario()">

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Premium de trámites del bebé | Papeles del Bebé</title>
+  <meta name="description" content="Convierte tu checklist en un plan personalizado con fechas, documentos y ayudas a revisar. Pago único.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://papelesdelbebe.es/premium/">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<header>
+  <div class="header-contenido">
+    <a href="/" class="logo logo-enlace">Papeles del <span>Bebé</span></a>
+    <div class="header-acciones">
+      <a href="/" class="boton-inicio enlace-inicio">← Inicio</a>
+      <div class="header-confianza">Guía independiente · España</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero seo-page">
+    <div class="badge">✨ Plan Premium</div>
+    <h1>Tu plan completo, ordenado y listo para seguir</h1>
+    <p class="subtitle">
+      Un resumen personalizado con tus trámites, ayudas, fechas límite y documentos
+      que conviene preparar.
+    </p>
+
+    <div class="precio-premium">
+      <span class="precio-premium-cifra">9,90 €</span>
+      <span class="precio-premium-texto">pago único</span>
+    </div>
+
+    <button id="botonComprarPremium" type="button" onclick="comprarPremium()">
+      Comprar Plan Premium →
+    </button>
+
+    <p id="mensajeCheckout" class="checkout-pendiente">
+      El pago se activará cuando conectemos el dominio y el checkout.
+    </p>
+
+    <section class="contenido-informativo">
+      <div class="contenido-etiqueta">QUÉ INCLUYE</div>
+
+      <div class="premium-grid">
+        <div><strong>📅 Fechas y plazos</strong><p>Qué revisar primero y qué no conviene dejar pasar.</p></div>
+        <div><strong>📄 Documentos</strong><p>Checklist práctica de documentación que suele hacer falta.</p></div>
+        <div><strong>💰 Ayudas</strong><p>Resumen de las prestaciones y ayudas que merece la pena comprobar.</p></div>
+        <div><strong>🧭 Plan ordenado</strong><p>Un único documento para no saltar entre veinte webs.</p></div>
+        <div><strong>🏛️ Fuentes oficiales</strong><p>Enlaces directos a los organismos correspondientes.</p></div>
+        <div><strong>🖨️ Guardable</strong><p>Pensado para consultar, imprimir o guardar durante las primeras semanas.</p></div>
+      </div>
+    </section>
+
+    <section class="bloque-confianza">
+      <div class="confianza-icono">🔐</div>
+      <div>
+        <h2>La checklist gratis seguirá siendo gratis</h2>
+        <p>
+          El Premium no bloquea los trámites básicos. Es para quien quiere tener
+          toda la información personalizada, ordenada y resumida en un solo plan.
+        </p>
+      </div>
+    </section>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-contenido">
+    <div class="logo">Papeles del <span>Bebé</span></div>
+    <p>Menos papeleo. Más tiempo para tu bebé.</p>
+    <p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p>
+    <p class="footer-copy">© 2026 Papeles del Bebé</p>
+  </div>
+</footer>
+
+<script src="../config.js"></script>
+<script>
+function comprarPremium() {
+  const cfg = window.PAPELES_BEBE_CONFIG || {};
+  const url = cfg.premiumCheckoutUrl || "";
+  const mensaje = document.getElementById("mensajeCheckout");
+
+  if (!url) {
+    mensaje.textContent = "Pago todavía no activado. Estamos preparando el checkout seguro.";
+    mensaje.style.display = "block";
+    return;
+  }
+
+  window.location.href = url;
+}
+</script>
+</body>
+</html>

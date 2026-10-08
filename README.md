@@ -104,3 +104,12 @@ convocatoria vigente.
 - explicación visual del proceso en 3 pasos
 - archivo `ANALYTICA.md` con el plan de medición
 - preparada para Vercel Web Analytics sin hardcodear rutas internas de Analytics
+
+## V9 — monetización preparada
+- producto Premium definido en 9,90 € pago único
+- landing `/premium/`
+- upsell al terminar la checklist
+- `config.js` para pegar la URL de Stripe Checkout/Payment Link
+- páginas `/premium/gracias/` y `/premium/cancelado/`
+- checkout NO activado todavía: falta crear el enlace de pago real
+- checklist básica continúa siendo gratuita
