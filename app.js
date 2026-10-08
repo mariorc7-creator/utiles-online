@@ -2638,6 +2638,35 @@ function abrirEvaluadorMaternidad() {
         </select>
 
       </label>
+      <label class="campo-evaluador">
+
+  <strong>
+    ¿Alguno de los progenitores cobra por este bebé
+    el complemento de ayuda para la infancia del
+    Ingreso Mínimo Vital?
+  </strong>
+
+  <select id="complementoInfancia">
+
+    <option value="">
+      Selecciona
+    </option>
+
+    <option value="no">
+      No
+    </option>
+
+    <option value="si">
+      Sí
+    </option>
+
+    <option value="duda">
+      No estoy seguro/a
+    </option>
+
+  </select>
+
+</label>
 
 
       <button
@@ -2661,7 +2690,6 @@ function abrirEvaluadorMaternidad() {
 // ==========================================
 // EVALUAR DEDUCCIÓN
 // ==========================================
-
 function evaluarDeduccionMaternidad() {
 
   const persona =
@@ -2670,15 +2698,22 @@ function evaluarDeduccionMaternidad() {
   const situacion =
     document.getElementById("situacionMaternidad").value;
 
+  const complementoInfancia =
+    document.getElementById("complementoInfancia").value;
+
   const resultado =
     document.getElementById("resultadoMaternidad");
 
 
-  if (!persona || !situacion) {
+  // ==========================================
+  // COMPROBAR QUE TODO ESTÁ CONTESTADO
+  // ==========================================
+
+  if (!persona || !situacion || !complementoInfancia) {
 
     resultado.innerHTML = `
       <div class="resultado-duda">
-        ⚠️ Completa las dos preguntas.
+        ⚠️ Completa todas las preguntas.
       </div>
     `;
 
@@ -2686,9 +2721,68 @@ function evaluarDeduccionMaternidad() {
   }
 
 
-  // ------------------------------------------
-  // OTRO PROGENITOR
-  // ------------------------------------------
+  // ==========================================
+  // COMPLEMENTO DE AYUDA PARA LA INFANCIA
+  // ==========================================
+
+  if (complementoInfancia === "si") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Hay que revisar este caso
+        </strong>
+
+        <p>
+          El complemento de ayuda para la infancia
+          del Ingreso Mínimo Vital puede afectar
+          al derecho a la deducción por maternidad
+          durante los mismos meses.
+        </p>
+
+        <p>
+          Existen excepciones, por lo que no vamos
+          a decirte automáticamente que no tienes derecho.
+        </p>
+
+        ${enlaceMaternidadAEAT()}
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  if (complementoInfancia === "duda") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Necesitamos comprobar un dato
+        </strong>
+
+        <p>
+          Confirma si alguno de los progenitores
+          está cobrando por este menor el complemento
+          de ayuda para la infancia del
+          Ingreso Mínimo Vital.
+        </p>
+
+        ${enlaceMaternidadAEAT()}
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ==========================================
+  // OTRO PROGENITOR O TUTOR
+  // ==========================================
 
   if (persona === "otro") {
 
@@ -2720,9 +2814,9 @@ function evaluarDeduccionMaternidad() {
   }
 
 
-  // ------------------------------------------
-  // ALTA
-  // ------------------------------------------
+  // ==========================================
+  // ALTA EN SEGURIDAD SOCIAL
+  // ==========================================
 
   if (situacion === "alta") {
 
@@ -2732,9 +2826,9 @@ function evaluarDeduccionMaternidad() {
   }
 
 
-  // ------------------------------------------
-  // DESEMPLEO
-  // ------------------------------------------
+  // ==========================================
+  // PRESTACIÓN POR DESEMPLEO
+  // ==========================================
 
   if (situacion === "desempleo") {
 
@@ -2744,9 +2838,9 @@ function evaluarDeduccionMaternidad() {
   }
 
 
-  // ------------------------------------------
-  // NO CUMPLÍA AL NACIMIENTO
-  // ------------------------------------------
+  // ==========================================
+  // NO CUMPLÍA REQUISITOS AL NACIMIENTO
+  // ==========================================
 
   if (situacion === "ninguna") {
 
@@ -2780,30 +2874,34 @@ function evaluarDeduccionMaternidad() {
   }
 
 
-  // ------------------------------------------
-  // DUDA
-  // ------------------------------------------
+  // ==========================================
+  // NO SABE SU SITUACIÓN
+  // ==========================================
 
-  resultado.innerHTML = `
-    <div class="resultado-duda">
+  if (situacion === "duda") {
 
-      <strong>
-        ⚠️ Necesitamos confirmar tu situación
-      </strong>
+    resultado.innerHTML = `
+      <div class="resultado-duda">
 
-      <p>
-        Consulta si en el momento del nacimiento estabas
-        de alta en Seguridad Social o mutualidad,
-        o percibiendo una prestación contributiva
-        o asistencial por desempleo.
-      </p>
+        <strong>
+          ⚠️ Necesitamos confirmar tu situación
+        </strong>
 
-      ${enlaceMaternidadAEAT()}
+        <p>
+          Consulta si en el momento del nacimiento estabas
+          de alta en Seguridad Social o mutualidad,
+          o percibiendo una prestación contributiva
+          o asistencial por desempleo.
+        </p>
 
-    </div>
-  `;
+        ${enlaceMaternidadAEAT()}
+
+      </div>
+    `;
+
+    return;
+  }
 }
-
 
 // ==========================================
 // RESULTADO POSITIVO
