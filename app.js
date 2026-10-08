@@ -1473,7 +1473,7 @@ function abrirEvaluadorCataluna() {
       </h4>
 
       <p>
-        Solo necesitamos cuatro datos más.
+        Solo necesitamos algunos datos más.
         No se envían a ningún servidor.
       </p>
 
