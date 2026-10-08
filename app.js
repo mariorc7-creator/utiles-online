@@ -1333,40 +1333,44 @@ function crearContenidoGuia(tramite) {
         </div>
       `;
 
+case "deduccion-maternidad":
 
-    case "deduccion-maternidad":
+  return `
+    <h4>💶 Deducción por maternidad</h4>
 
-      return `
-        <h4>💰 Puede suponer hasta 100 € al mes anticipados</h4>
+    <p>
+      Si cumples los requisitos de la Agencia Tributaria,
+      podrías tener derecho a la deducción por maternidad.
+    </p>
+
+    <div class="caja-dinero">
+      <div class="caja-dinero-icono">💶</div>
+
+      <div>
+        <strong>Hasta 1.200 € al año por hijo</strong>
 
         <p>
-          Cuando existe derecho a la deducción por maternidad,
-          se puede solicitar su abono anticipado mediante
-          el modelo 140.
+          Puede cobrarse mediante la declaración de la renta
+          o solicitarse anticipadamente cuando corresponda.
         </p>
+      </div>
+    </div>
 
-        <h4>Qué hacer</h4>
+    <button
+      type="button"
+      class="boton-guia"
+      onclick="abrirEvaluadorMaternidad()"
+    >
+      💶 Comprobar si puedo tener derecho
+    </button>
 
-        <ol>
-          <li>
-            Comprueba primero si cumples los requisitos.
-          </li>
+    <div
+      id="evaluadorMaternidad"
+      style="display:none; margin-top:20px;"
+    ></div>
+  `;
 
-          <li>
-            Decide si quieres aplicarla posteriormente en IRPF
-            o solicitar el abono anticipado.
-          </li>
-
-          <li>
-            Para el abono anticipado, utiliza el modelo 140.
-          </li>
-        </ol>
-
-        <div class="consejo">
-          💡 Si ya percibías el abono anticipado por este mismo hijo,
-          la AEAT indica que no debes presentar otra solicitud.
-        </div>
-      `;
+      
 case "ayuda-cataluna":
 
   return `
@@ -2551,5 +2555,315 @@ function guardarProgreso() {
     "tramitesFacilesRespuestas",
     JSON.stringify(respuestas)
   );
+}
+// ==========================================
+// EVALUADOR DEDUCCIÓN POR MATERNIDAD
+// ==========================================
+
+function abrirEvaluadorMaternidad() {
+
+  const contenedor =
+    document.getElementById("evaluadorMaternidad");
+
+  if (!contenedor) return;
+
+  contenedor.style.display = "block";
+
+  contenedor.innerHTML = `
+    <div class="evaluador">
+
+      <h4>Comprobemos esta deducción</h4>
+
+      <p>
+        Solo necesitamos saber qué situación existía
+        cuando nació el bebé.
+      </p>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          ¿Quién está comprobando la deducción?
+        </strong>
+
+        <select id="personaMaternidad">
+
+          <option value="">
+            Selecciona
+          </option>
+
+          <option value="madre">
+            Madre
+          </option>
+
+          <option value="otro">
+            Otro progenitor o tutor
+          </option>
+
+        </select>
+
+      </label>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          En el momento del nacimiento,
+          ¿cuál era tu situación?
+        </strong>
+
+        <select id="situacionMaternidad">
+
+          <option value="">
+            Selecciona
+          </option>
+
+          <option value="alta">
+            De alta en Seguridad Social o mutualidad
+          </option>
+
+          <option value="desempleo">
+            Cobrando prestación contributiva o
+            asistencial por desempleo
+          </option>
+
+          <option value="ninguna">
+            Ninguna de las anteriores
+          </option>
+
+          <option value="duda">
+            No estoy seguro/a
+          </option>
+
+        </select>
+
+      </label>
+
+
+      <button
+        type="button"
+        onclick="evaluarDeduccionMaternidad()"
+      >
+        Ver resultado →
+      </button>
+
+
+      <div
+        id="resultadoMaternidad"
+        style="margin-top:20px;"
+      ></div>
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// EVALUAR DEDUCCIÓN
+// ==========================================
+
+function evaluarDeduccionMaternidad() {
+
+  const persona =
+    document.getElementById("personaMaternidad").value;
+
+  const situacion =
+    document.getElementById("situacionMaternidad").value;
+
+  const resultado =
+    document.getElementById("resultadoMaternidad");
+
+
+  if (!persona || !situacion) {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+        ⚠️ Completa las dos preguntas.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // OTRO PROGENITOR
+  // ------------------------------------------
+
+  if (persona === "otro") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Hay que revisar quién tiene derecho
+        </strong>
+
+        <p>
+          Esta deducción corresponde con carácter general
+          a la madre que cumple los requisitos.
+        </p>
+
+        <p>
+          Existen determinados casos en los que puede
+          aplicarla otro progenitor o tutor, por ejemplo
+          algunas situaciones de adopción, fallecimiento
+          o guarda y custodia exclusiva.
+        </p>
+
+        ${enlaceMaternidadAEAT()}
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // ALTA
+  // ------------------------------------------
+
+  if (situacion === "alta") {
+
+    mostrarMaternidadPositiva(resultado);
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // DESEMPLEO
+  // ------------------------------------------
+
+  if (situacion === "desempleo") {
+
+    mostrarMaternidadPositiva(resultado);
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // NO CUMPLÍA AL NACIMIENTO
+  // ------------------------------------------
+
+  if (situacion === "ninguna") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Todavía podrías generar el derecho
+        </strong>
+
+        <p>
+          Aunque no cumplieras esos requisitos
+          en el momento del nacimiento,
+          puedes generar posteriormente el derecho
+          si te das de alta en la Seguridad Social
+          o mutualidad y alcanzas el período mínimo
+          de cotización exigido.
+        </p>
+
+        <p>
+          Actualmente ese período mínimo es de
+          <strong>30 días cotizados</strong>.
+        </p>
+
+        ${enlaceMaternidadAEAT()}
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // DUDA
+  // ------------------------------------------
+
+  resultado.innerHTML = `
+    <div class="resultado-duda">
+
+      <strong>
+        ⚠️ Necesitamos confirmar tu situación
+      </strong>
+
+      <p>
+        Consulta si en el momento del nacimiento estabas
+        de alta en Seguridad Social o mutualidad,
+        o percibiendo una prestación contributiva
+        o asistencial por desempleo.
+      </p>
+
+      ${enlaceMaternidadAEAT()}
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// RESULTADO POSITIVO
+// ==========================================
+
+function mostrarMaternidadPositiva(resultado) {
+
+  resultado.innerHTML = `
+    <div class="resultado-si">
+
+      <div class="resultado-icono">
+        💶
+      </div>
+
+      <strong>
+        Por tus respuestas, parece que podrías
+        tener derecho a la deducción
+      </strong>
+
+      <div class="numero-grande">
+        Hasta 1.200 € al año
+      </div>
+
+      <p>
+        La deducción puede alcanzar
+        <strong>100 € por cada mes</strong>
+        en que se cumplan los requisitos,
+        hasta que el menor alcance la edad establecida.
+      </p>
+
+      <div class="consejo">
+
+        💡 Puedes aplicarla en la declaración de IRPF
+        o solicitar el abono anticipado mediante
+        el <strong>modelo 140</strong> cuando corresponda.
+
+      </div>
+
+      ${enlaceMaternidadAEAT()}
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// ENLACE AEAT
+// ==========================================
+
+function enlaceMaternidadAEAT() {
+
+  return `
+    <a
+      href="${enlacesOficiales.maternidad}"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="enlace-oficial"
+    >
+      Comprobar en la Agencia Tributaria →
+    </a>
+  `;
 }
 
