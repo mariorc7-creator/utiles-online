@@ -979,15 +979,9 @@ function crearTarjetaTramite(tramite) {
         href="${tramite.enlace}"
         target="_blank"
         rel="noopener noreferrer"
-        style="
-          display:inline-block;
-          margin-top:8px;
-          color:#356ae6;
-          font-weight:700;
-          text-decoration:none;
-        "
+        class="enlace-oficial"
       >
-        ${tramite.textoEnlace}
+        Ir al trámite oficial →
       </a>
     `
     : "";
@@ -1004,45 +998,44 @@ function crearTarjetaTramite(tramite) {
 
       <p>${tramite.descripcion}</p>
 
-      <p style="font-size:14px;">
-        ${tramite.detalle}
-      </p>
+      ${
+        tramite.id === "ayuda-cataluna"
+          ? crearAvisoDineroCataluna()
+          : ""
+      }
 
-      ${enlaceHTML}
+      <button
+        type="button"
+        class="boton-guia"
+        onclick="alternarGuia('${tramite.id}', this)"
+      >
+        Guíame paso a paso ↓
+      </button>
 
       <div
-        style="
-          margin-top:20px;
-          padding-top:18px;
-          border-top:1px solid #edf0f4;
-        "
+        class="guia-tramite"
+        id="guia-${tramite.id}"
+        style="display:none;"
       >
 
-        <label
-          style="
-            display:flex;
-            align-items:center;
-            gap:10px;
-            cursor:pointer;
-            font-weight:700;
-          "
-        >
+        ${crearContenidoGuia(tramite)}
+
+        ${enlaceHTML}
+
+      </div>
+
+      <div class="tramite-check">
+
+        <label>
 
           <input
             type="checkbox"
             class="checkTramite"
             data-id="${tramite.id}"
             onchange="cambiarEstadoTramite(this)"
-            style="
-              width:20px;
-              height:20px;
-              accent-color:#356ae6;
-            "
           >
 
-          <span>
-            Ya lo he hecho
-          </span>
+          <span>Ya lo he hecho</span>
 
         </label>
 
@@ -1051,7 +1044,376 @@ function crearTarjetaTramite(tramite) {
     </div>
   `;
 }
+function alternarGuia(id, boton) {
 
+  const guia = document.getElementById(`guia-${id}`);
+
+  if (!guia) return;
+
+  const abierta = guia.style.display === "block";
+
+  guia.style.display = abierta ? "none" : "block";
+
+  boton.textContent = abierta
+    ? "Guíame paso a paso ↓"
+    : "Cerrar guía ↑";
+}
+
+
+function crearContenidoGuia(tramite) {
+
+  switch (tramite.id) {
+
+    case "registro-civil":
+
+      return `
+        <h4>¿Qué tienes que hacer?</h4>
+
+        <ol>
+          <li>
+            Comprueba si el hospital comunicó el nacimiento
+            al Registro Civil.
+          </li>
+
+          <li>
+            Si ya fue comunicado correctamente, no vuelvas
+            a realizar el mismo trámite.
+          </li>
+
+          <li>
+            Si no se gestionó desde el hospital, consulta
+            cómo realizar la inscripción correspondiente.
+          </li>
+        </ol>
+
+        <div class="consejo">
+          💡 <strong>Consejo:</strong>
+          pregunta primero al hospital o comprueba la documentación
+          que os entregaron al alta.
+        </div>
+      `;
+
+
+    case "seguridad-social-bebe":
+
+      return `
+        <h4>Objetivo</h4>
+
+        <p>
+          Comprobar que el bebé está correctamente reconocido
+          para recibir asistencia sanitaria pública.
+        </p>
+
+        <h4>Qué haría ahora</h4>
+
+        <ol>
+          <li>
+            Comprueba si el hospital inició ya la gestión.
+          </li>
+
+          <li>
+            Si ya está realizada, marca este paso como hecho.
+          </li>
+
+          <li>
+            Si no consta, accede a la Seguridad Social
+            para comprobar cómo tramitarlo.
+          </li>
+        </ol>
+      `;
+
+
+    case "tsi-cataluna":
+
+      return `
+        <h4>¿Para qué sirve?</h4>
+
+        <p>
+          La TSI identifica al bebé para acceder a los
+          servicios del sistema sanitario público catalán.
+        </p>
+
+        <h4>Antes de solicitarla</h4>
+
+        <ul>
+          <li>
+            Comprueba que los datos administrativos del bebé
+            estén correctamente registrados.
+          </li>
+
+          <li>
+            Comprueba el empadronamiento cuando sea necesario.
+          </li>
+        </ul>
+
+        <div class="consejo">
+          💡 Si tienes dudas, tu CAP puede indicarte si el bebé
+          ya consta correctamente en el sistema.
+        </div>
+      `;
+
+
+    case "empadronamiento":
+
+      return `
+        <h4>Qué tienes que comprobar</h4>
+
+        <p>
+          Verifica que el bebé figure empadronado en vuestro
+          domicilio.
+        </p>
+
+        <h4>¿Dónde se hace?</h4>
+
+        <p>
+          Este trámite depende del ayuntamiento del municipio
+          donde residís.
+        </p>
+
+        <div class="consejo">
+          💡 Más adelante haremos que la web detecte el municipio
+          y te lleve directamente al trámite correspondiente.
+        </div>
+      `;
+
+
+    case "prestacion-nacimiento":
+
+      return `
+        <h4>💰 Aquí puede haber dinero pendiente</h4>
+
+        <p>
+          Esta prestación sustituye los ingresos durante
+          determinados periodos de descanso por nacimiento
+          y cuidado del menor cuando se cumplen los requisitos.
+        </p>
+
+        <h4>Qué tienes que hacer</h4>
+
+        <ol>
+          <li>
+            Comprueba que cumples los requisitos de afiliación,
+            alta y cotización que correspondan.
+          </li>
+
+          <li>
+            Revisa el periodo de descanso que te corresponde.
+          </li>
+
+          <li>
+            Presenta la solicitud ante la Seguridad Social.
+          </li>
+        </ol>
+
+        ${
+          respuestas.monoparental
+            ? `
+              <div class="aviso-importante">
+                👤 Has indicado que sois una familia monoparental.
+                Revisa las reglas específicas de duración aplicables
+                a tu situación.
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          respuestas.nacimientoMultiple
+            ? `
+              <div class="aviso-importante">
+                👶👶 Has indicado nacimiento múltiple.
+                Comprueba las ampliaciones que puedan corresponderte.
+              </div>
+            `
+            : ""
+        }
+      `;
+
+
+    case "situacion-desempleo":
+
+      return `
+        <h4>No queremos darte una respuesta incorrecta</h4>
+
+        <p>
+          Estar desempleado no determina por sí solo si existe
+          o no derecho a una prestación relacionada con el nacimiento.
+        </p>
+
+        <p>
+          Hay que comprobar tu situación concreta respecto a
+          prestaciones por desempleo, alta y cotizaciones.
+        </p>
+
+        <div class="consejo">
+          💡 Por eso te enviamos directamente a la fuente oficial
+          en lugar de decirte automáticamente que tienes o no derecho.
+        </div>
+      `;
+
+
+    case "ayuda-nacimiento-multiple":
+
+      return `
+        <h4>💰 Posible prestación adicional</h4>
+
+        <p>
+          La Seguridad Social contempla una prestación económica
+          específica en determinados supuestos de nacimiento múltiple.
+        </p>
+
+        <h4>Qué hacer</h4>
+
+        <ol>
+          <li>
+            Comprueba los requisitos oficiales.
+          </li>
+
+          <li>
+            Revisa la cuantía que corresponde al número de bebés.
+          </li>
+
+          <li>
+            Solicítala si cumples las condiciones.
+          </li>
+        </ol>
+      `;
+
+
+    case "pago-unico-especial":
+
+      return `
+        <h4>💰 Comprueba esta prestación</h4>
+
+        <p>
+          La Seguridad Social contempla prestaciones de pago único
+          para determinados supuestos familiares.
+        </p>
+
+        <p>
+          Tu respuesta indica que merece la pena comprobar
+          si encajas en alguno de ellos.
+        </p>
+
+        <div class="aviso-importante">
+          ⚠️ No significa automáticamente que tengas derecho:
+          existen requisitos familiares, económicos y/o de discapacidad.
+        </div>
+      `;
+
+
+    case "deduccion-maternidad":
+
+      return `
+        <h4>💰 Puede suponer hasta 100 € al mes anticipados</h4>
+
+        <p>
+          Cuando existe derecho a la deducción por maternidad,
+          se puede solicitar su abono anticipado mediante
+          el modelo 140.
+        </p>
+
+        <h4>Qué hacer</h4>
+
+        <ol>
+          <li>
+            Comprueba primero si cumples los requisitos.
+          </li>
+
+          <li>
+            Decide si quieres aplicarla posteriormente en IRPF
+            o solicitar el abono anticipado.
+          </li>
+
+          <li>
+            Para el abono anticipado, utiliza el modelo 140.
+          </li>
+        </ol>
+
+        <div class="consejo">
+          💡 Si ya percibías el abono anticipado por este mismo hijo,
+          la AEAT indica que no debes presentar otra solicitud.
+        </div>
+      `;
+
+
+    case "ayuda-cataluna":
+
+      return `
+        <h4>💰 Prestación de la Generalitat</h4>
+
+        <p>
+          La ayuda es de <strong>650 € por bebé</strong>.
+          Puede ser de <strong>750 €</strong> para familias
+          con título reconocido de familia numerosa o monoparental.
+        </p>
+
+        <h4>Importante</h4>
+
+        <ul>
+          <li>
+            Existe un límite de ingresos de la unidad familiar.
+          </li>
+
+          <li>
+            El importe superior requiere que corresponda
+            el título indicado por la Generalitat.
+          </li>
+
+          <li>
+            Debes presentar la solicitud dentro del plazo.
+          </li>
+        </ul>
+
+        <div class="aviso-importante">
+          ${calcularAyudaCataluna().mensaje}
+        </div>
+      `;
+
+
+    default:
+
+      return `
+        <p>${tramite.detalle}</p>
+      `;
+  }
+}
+
+
+function crearAvisoDineroCataluna() {
+
+  const info = calcularAyudaCataluna();
+
+  return `
+    <div class="caja-dinero">
+
+      <div class="caja-dinero-icono">
+        💰
+      </div>
+
+      <div>
+
+        <strong>
+          ${
+            respuestas.monoparental
+              ? "Podrías optar a 750 €"
+              : "Podrías optar a 650 €"
+          }
+        </strong>
+
+        <p>
+          ${
+            info.expirada
+              ? "El plazo ordinario calculado podría haber finalizado."
+              : info.mensaje
+          }
+        </p>
+
+      </div>
+
+    </div>
+  `;
+}
 
 // ==========================================
 // GUARDAR TRÁMITES COMPLETADOS
