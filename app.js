@@ -1383,47 +1383,37 @@ function crearContenidoGuia(tramite) {
           la AEAT indica que no debes presentar otra solicitud.
         </div>
       `;
+case "ayuda-cataluna":
+
+  return `
+    <h4>💰 Prestación de la Generalitat</h4>
+
+    <p>
+      Esta ayuda es de <strong>650 € por bebé</strong>.
+      Puede alcanzar <strong>750 €</strong> si tienes reconocido
+      el título de familia numerosa o monoparental.
+    </p>
+
+    <div class="aviso-importante">
+      ${calcularAyudaCataluna().mensaje}
+    </div>
+
+    <button
+      type="button"
+      class="boton-guia"
+      onclick="abrirEvaluadorCataluna()"
+      style="margin-top:18px;"
+    >
+      💰 Comprobar si me corresponde
+    </button>
+
+    <div
+      id="evaluadorCataluna"
+      style="display:none; margin-top:20px;"
+    ></div>
+  `;
 
 
-    case "ayuda-cataluna":
-
-      return `
-        <h4>💰 Prestación de la Generalitat</h4>
-
-        <p>
-          La ayuda es de <strong>650 € por bebé</strong>.
-          Puede ser de <strong>750 €</strong> para familias
-          con título reconocido de familia numerosa o monoparental.
-        </p>
-
-        <h4>Importante</h4>
-
-        <ul>
-          <li>
-            Existe un límite de ingresos de la unidad familiar.
-          </li>
-
-          <li>
-            El importe superior requiere que corresponda
-            el título indicado por la Generalitat.
-          </li>
-
-          <li>
-            Debes presentar la solicitud dentro del plazo.
-          </li>
-        </ul>
-
-        <div class="aviso-importante">
-          ${calcularAyudaCataluna().mensaje}
-        </div>
-      `;
-
-
-    default:
-
-      return `
-        <p>${tramite.detalle}</p>
-      `;
   }
 }
 
@@ -1462,7 +1452,511 @@ function crearAvisoDineroCataluna() {
     </div>
   `;
 }
+// ==========================================
+// EVALUADOR AYUDA CATALUÑA 2026
+// ==========================================
 
+function abrirEvaluadorCataluna() {
+
+  const contenedor =
+    document.getElementById("evaluadorCataluna");
+
+  if (!contenedor) return;
+
+  contenedor.style.display = "block";
+
+  contenedor.innerHTML = `
+    <div class="evaluador">
+
+      <h4>
+        Vamos a comprobarlo
+      </h4>
+
+      <p>
+        Solo necesitamos cuatro datos más.
+        No se envían a ningún servidor.
+      </p>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          ¿Cuántas personas forman vuestra unidad familiar?
+        </strong>
+
+        <span>
+          Incluye progenitores, bebé y otros hijos
+          que formen parte de la unidad familiar.
+        </span>
+
+        <select id="miembrosFamilia">
+
+          <option value="">
+            Selecciona
+          </option>
+
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas</option>
+          <option value="5">5 personas</option>
+          <option value="6">6 personas</option>
+          <option value="7">7 personas</option>
+          <option value="8">8 personas</option>
+          <option value="9">9 personas</option>
+          <option value="10">10 personas</option>
+
+        </select>
+
+      </label>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          Ingresos anuales de la unidad familiar
+        </strong>
+
+        <span>
+          Introduce el importe aproximado en euros.
+          Después deberás verificar el cálculo oficial.
+        </span>
+
+        <input
+          type="number"
+          id="ingresosFamilia"
+          min="0"
+          step="100"
+          placeholder="Ej. 25000"
+        >
+
+      </label>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          ¿Algún miembro tiene una discapacidad
+          igual o superior al 33 %?
+        </strong>
+
+        <select id="discapacidad33">
+
+          <option value="">
+            Selecciona
+          </option>
+
+          <option value="no">
+            No
+          </option>
+
+          <option value="si">
+            Sí
+          </option>
+
+        </select>
+
+      </label>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          ¿Tenéis título vigente de familia numerosa
+          o monoparental?
+        </strong>
+
+        <select id="tituloEspecial">
+
+          <option value="">
+            Selecciona
+          </option>
+
+          <option value="no">
+            No
+          </option>
+
+          <option value="si">
+            Sí
+          </option>
+
+        </select>
+
+      </label>
+
+
+      <label class="campo-evaluador">
+
+        <strong>
+          ¿Uno de los progenitores ha residido legalmente
+          en Cataluña al menos 5 años, incluidos los
+          2 inmediatamente anteriores?
+        </strong>
+
+        <select id="residenciaCataluna">
+
+          <option value="">
+            Selecciona
+          </option>
+
+          <option value="si">
+            Sí
+          </option>
+
+          <option value="no">
+            No
+          </option>
+
+          <option value="duda">
+            No estoy seguro/a
+          </option>
+
+        </select>
+
+      </label>
+
+
+      <button
+        type="button"
+        onclick="evaluarAyudaCataluna()"
+      >
+        Ver resultado →
+      </button>
+
+
+      <div
+        id="resultadoEvaluadorCataluna"
+        style="margin-top:20px;"
+      ></div>
+
+    </div>
+  `;
+
+  contenedor.scrollIntoView({
+    behavior: "smooth",
+    block: "nearest"
+  });
+}
+
+
+// ==========================================
+// LÍMITES DE INGRESOS 2026
+// ==========================================
+
+function obtenerLimiteCataluna(miembros) {
+
+  const limites = {
+
+    3: 27904.32,
+    4: 36275.62,
+    5: 44646.91,
+    6: 53018.21,
+    7: 61389.50,
+    8: 69760.80,
+    9: 78132.10,
+    10: 86503.39
+
+  };
+
+  if (miembros <= 3) {
+    return limites[3];
+  }
+
+  if (miembros >= 10) {
+    return limites[10];
+  }
+
+  return limites[miembros];
+}
+
+
+// ==========================================
+// CALCULAR ELEGIBILIDAD
+// ==========================================
+
+function evaluarAyudaCataluna() {
+
+  const miembros =
+    Number(document.getElementById("miembrosFamilia").value);
+
+  const ingresos =
+    Number(document.getElementById("ingresosFamilia").value);
+
+  const discapacidad =
+    document.getElementById("discapacidad33").value;
+
+  const titulo =
+    document.getElementById("tituloEspecial").value;
+
+  const residencia =
+    document.getElementById("residenciaCataluna").value;
+
+  const resultado =
+    document.getElementById("resultadoEvaluadorCataluna");
+
+
+  if (
+    !miembros ||
+    document.getElementById("ingresosFamilia").value === "" ||
+    !discapacidad ||
+    !titulo ||
+    !residencia
+  ) {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+        ⚠️ Completa todos los campos para poder hacer
+        la comprobación.
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // AJUSTAR NÚMERO DE MIEMBROS
+  // ------------------------------------------
+
+  let miembrosComputables = miembros;
+
+
+  if (discapacidad === "si") {
+    miembrosComputables++;
+  }
+
+
+  if (respuestas.monoparental) {
+
+    miembrosComputables++;
+
+    if (miembrosComputables < 4) {
+      miembrosComputables = 4;
+    }
+
+  }
+
+
+  const limite =
+    obtenerLimiteCataluna(miembrosComputables);
+
+
+  const cumpleIngresos =
+    ingresos <= limite;
+
+
+  const infoPlazo =
+    calcularAyudaCataluna();
+
+
+  // ------------------------------------------
+  // IMPORTE
+  // ------------------------------------------
+
+  const importe =
+    titulo === "si"
+      ? 750
+      : 650;
+
+
+  // ------------------------------------------
+  // PLAZO VENCIDO
+  // ------------------------------------------
+
+  if (infoPlazo.expirada) {
+
+    resultado.innerHTML = `
+      <div class="resultado-no">
+
+        <strong>
+          ⏰ El plazo ordinario parece haber terminado
+        </strong>
+
+        <p>
+          Por la fecha de nacimiento que nos has indicado,
+          el plazo ordinario calculado ya habría finalizado.
+        </p>
+
+        <p>
+          Aun así, comprueba tu situación directamente
+          con la Generalitat antes de descartarla.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // RESIDENCIA
+  // ------------------------------------------
+
+  if (residencia === "no") {
+
+    resultado.innerHTML = `
+      <div class="resultado-no">
+
+        <strong>
+          ❌ En principio no cumplirías el requisito
+          general de residencia
+        </strong>
+
+        <p>
+          La Generalitat exige residencia legal en Cataluña
+          y, con carácter general, que uno de los progenitores
+          haya residido legalmente al menos 5 años,
+          incluidos los 2 inmediatamente anteriores.
+        </p>
+
+        <p>
+          Existen determinadas excepciones, por lo que
+          conviene comprobar la fuente oficial si tu situación
+          es especial.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // INGRESOS SUPERIORES
+  // ------------------------------------------
+
+  if (!cumpleIngresos) {
+
+    resultado.innerHTML = `
+      <div class="resultado-no">
+
+        <strong>
+          ❌ Por los datos introducidos,
+          parece que superáis el límite de ingresos
+        </strong>
+
+        <p>
+          Para vuestra situación hemos calculado
+          un límite aproximado de:
+        </p>
+
+        <div class="numero-grande">
+          ${formatearEuros(limite)}
+        </div>
+
+        <p>
+          Has indicado unos ingresos de
+          <strong>${formatearEuros(ingresos)}</strong>.
+        </p>
+
+        <p>
+          Verifica siempre el cálculo definitivo
+          con la Generalitat.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // RESIDENCIA DUDOSA
+  // ------------------------------------------
+
+  if (residencia === "duda") {
+
+    resultado.innerHTML = `
+      <div class="resultado-duda">
+
+        <strong>
+          ⚠️ Económicamente parece que encajáis
+        </strong>
+
+        <p>
+          El límite calculado para vuestra situación es
+          <strong>${formatearEuros(limite)}</strong>
+          y habéis indicado
+          <strong>${formatearEuros(ingresos)}</strong>.
+        </p>
+
+        <p>
+          Pero necesitamos que confirmes el requisito
+          de residencia antes de considerar que
+          probablemente tienes derecho.
+        </p>
+
+      </div>
+    `;
+
+    return;
+  }
+
+
+  // ------------------------------------------
+  // RESULTADO POSITIVO
+  // ------------------------------------------
+
+  resultado.innerHTML = `
+    <div class="resultado-si">
+
+      <div class="resultado-icono">
+        💰
+      </div>
+
+      <div>
+
+        <strong>
+          Por tus respuestas, parece que podrías
+          solicitar ${importe} €
+        </strong>
+
+        <p>
+          Vuestros ingresos indicados:
+          <strong>${formatearEuros(ingresos)}</strong>
+        </p>
+
+        <p>
+          Límite calculado:
+          <strong>${formatearEuros(limite)}</strong>
+        </p>
+
+        <p>
+          ${infoPlazo.mensaje}
+        </p>
+
+        <a
+          href="${enlacesOficiales.ayudaCataluna}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="enlace-oficial"
+        >
+          Solicitar en la Generalitat →
+        </a>
+
+      </div>
+
+    </div>
+  `;
+}
+
+
+// ==========================================
+// FORMATO €
+// ==========================================
+
+function formatearEuros(numero) {
+
+  return new Intl.NumberFormat(
+    "es-ES",
+    {
+      style: "currency",
+      currency: "EUR"
+    }
+  ).format(numero);
+}
 // ==========================================
 // GUARDAR TRÁMITES COMPLETADOS
 // ==========================================
