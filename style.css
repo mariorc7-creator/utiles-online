@@ -1828,3 +1828,50 @@ header .header-contenido {
     gap: 7px;
   }
 }
+
+
+/* =========================================
+   V25 · HERO LIMPIA
+========================================= */
+
+.hero-beneficios {
+  max-width: 720px;
+  margin: 16px auto 0;
+  gap: 12px;
+}
+
+.hero-beneficio {
+  min-height: 64px;
+  padding: 12px 14px;
+  gap: 12px;
+  border-radius: 14px;
+}
+
+.hero-beneficio-icono {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  border-radius: 10px;
+  font-size: 15px;
+}
+
+.hero-beneficio strong {
+  font-size: 12px;
+  margin-bottom: 1px;
+}
+
+.hero-beneficio small {
+  font-size: 10px;
+  line-height: 1.25;
+}
+
+@media (max-width: 700px) {
+  .hero-beneficios {
+    margin-top: 14px;
+    gap: 10px;
+  }
+
+  .hero-beneficio {
+    padding: 11px 12px;
+  }
+}

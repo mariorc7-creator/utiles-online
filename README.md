@@ -254,3 +254,10 @@ convocatoria vigente.
 - en móvil se priorizan logo + Premium; Gestoría desaparece en pantallas muy pequeñas
 - navegación superior menos saturada en tablets/móvil
 - se mantiene el logo visual de V23
+
+
+## V25 — hero más limpia
+- eliminada la línea duplicada de “Gratis · Sin registro · Fuentes oficiales” debajo de las tarjetas
+- iconos de beneficios reducidos
+- tarjetas de beneficios más compactas
+- hero menos cargada visualmente
