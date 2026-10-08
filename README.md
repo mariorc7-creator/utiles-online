@@ -42,3 +42,14 @@ convocatoria vigente.
 - Cataluña: conserva evaluador específico 650/750 €
 - Galicia: conserva Tarxeta Benvida
 - Andalucía: conserva ayuda por parto múltiple
+
+
+## V3 — rediseño visual
+- estética cálida y familiar
+- fondo crema y acentos pastel
+- cabecera translúcida
+- hero y CTA reforzados
+- tarjetas y cuestionario más suaves
+- resultados y ayudas más legibles
+- responsive móvil rehecho
+- lógica funcional intacta
