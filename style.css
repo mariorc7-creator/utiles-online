@@ -1,583 +1,506 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f7f9fc;
-  color: #172033;
-}
-
-header {
-  width: 100%;
-  padding: 22px 7%;
-  background: white;
-  border-bottom: 1px solid #e8ebf0;
-  font-weight: 700;
-  font-size: 20px;
-}
-
-.logo span {
-  color: #356ae6;
-}
-
-main {
-  min-height: calc(100vh - 70px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-}
-
-.hero {
-  width: 100%;
-  max-width: 850px;
-  text-align: center;
-}
-
-.badge {
-  display: inline-block;
-  background: #eaf1ff;
-  color: #2856b6;
-  padding: 9px 16px;
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
-
-h1 {
-  font-size: clamp(40px, 6vw, 68px);
-  line-height: 1.08;
-  margin: 0 0 24px;
-  letter-spacing: -2px;
-}
-
-.subtitle {
-  max-width: 680px;
-  margin: 0 auto 34px;
-  font-size: 20px;
-  line-height: 1.6;
-  color: #596274;
-}
-
-button {
-  border: 0;
-  background: #356ae6;
-  color: white;
-  font-size: 18px;
-  font-weight: 700;
-  padding: 17px 30px;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(53, 106, 230, 0.22);
-  transition: 0.2s ease;
-}
-
-button:hover {
-  background: #2859cb;
-  transform: translateY(-1px);
-}
-
-.trust {
-  margin-top: 22px;
-  font-size: 14px;
-  color: #778092;
-}
-
-.features {
-  margin: 60px auto 0;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  max-width: 760px;
-}
-
-.feature {
-  background: white;
-  border: 1px solid #e6eaf0;
-  border-radius: 14px;
-  padding: 22px 16px;
-}
-
-.feature-icon {
-  font-size: 26px;
-  margin-bottom: 10px;
-}
-
-.feature strong {
-  display: block;
-  margin-bottom: 6px;
-}
-
-.feature p {
-  margin: 0;
-  color: #70798a;
-  font-size: 14px;
-  line-height: 1.4;
-}
-
-
-/* =========================
-   CUESTIONARIO
-========================= */
-
-#cuestionario {
-  display: none;
-  width: 100%;
-  max-width: 650px;
-  margin: auto;
-  text-align: left;
-}
-
-.progreso {
-  color: #356ae6;
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 14px;
-}
-
-.pregunta {
-  background: white;
-  border: 1px solid #e5e9f0;
-  border-radius: 20px;
-  padding: 38px;
-  box-shadow: 0 15px 45px rgba(23, 32, 51, 0.08);
-}
-
-.pregunta h2 {
-  font-size: 30px;
-  margin: 0 0 10px;
-}
-
-.pregunta p {
-  color: #667085;
-  margin: 0 0 25px;
-  line-height: 1.5;
-}
-
-select {
-  width: 100%;
-  padding: 16px;
-  font-size: 17px;
-  border: 1px solid #ccd3df;
-  border-radius: 10px;
-  background: white;
-  margin-bottom: 22px;
-  color: #172033;
-}
-
-select:focus {
-  outline: 2px solid #356ae6;
-  border-color: #356ae6;
-}
-
-.botones {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-}
-
-.volver {
-  background: transparent;
-  color: #667085;
-  box-shadow: none;
-  padding-left: 0;
-}
-
-.volver:hover {
-  background: transparent;
-  color: #172033;
-  transform: none;
-}
-
-.error {
-  display: none;
-  color: #c62828;
-  font-size: 14px;
-  margin-top: -10px;
-  margin-bottom: 18px;
-}
-
-
-/* =========================
-   OPCIONES DEL CUESTIONARIO
-========================= */
-
-.opciones {
-  display: grid;
-  gap: 12px;
-  margin-bottom: 25px;
-}
-
-.opcion {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 17px;
-  background: white;
-  border: 1px solid #dce1e9;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.opcion:hover {
-  border-color: #356ae6;
-  background: #f7f9ff;
-}
-
-.opcion.seleccionada {
-  border-color: #356ae6;
-  background: #eef3ff;
-}
-
-.opcion input {
-  width: 18px;
-  height: 18px;
-  accent-color: #356ae6;
-}
-
-.opcion-texto strong {
-  display: block;
-  margin-bottom: 3px;
-}
-
-.opcion-texto span {
-  color: #70798a;
-  font-size: 14px;
-}
-
-
-/* =========================
-   CHECKLIST
-========================= */
-
-#resultado {
-  display: none;
-  width: 100%;
-  max-width: 760px;
-}
-
-.resultado-cabecera {
-  margin-bottom: 30px;
-}
-
-.resultado-cabecera h2 {
-  font-size: 36px;
-  margin: 0 0 10px;
-}
-
-.resultado-cabecera p {
-  color: #667085;
-  font-size: 17px;
-  line-height: 1.5;
-}
-
-.tramite {
-  background: white;
-  border: 1px solid #e5e9f0;
-  border-radius: 16px;
-  padding: 25px;
-  margin-bottom: 15px;
-}
-
-.tramite h3 {
-  margin: 0 0 10px;
-  font-size: 21px;
-}
-
-.tramite p {
-  color: #667085;
-  line-height: 1.5;
-}
-
-.prioridad {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 20px;
-  background: #fff2df;
-  color: #9a5700;
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-
-/* =========================
-   MÓVIL
-========================= */
-
-@media (max-width: 650px) {
-
-  main {
-    padding: 35px 18px;
-    align-items: flex-start;
-  }
-
-  h1 {
-    letter-spacing: -1px;
-    font-size: 42px;
-  }
-
-  .subtitle {
-    font-size: 18px;
-  }
-
-  .features {
-    grid-template-columns: 1fr;
-    margin-top: 45px;
-  }
-
-  .pregunta {
-    padding: 25px;
-  }
-
-  .pregunta h2 {
-    font-size: 25px;
-  }
-
-  .resultado-cabecera h2 {
-    font-size: 30px;
-  }
-
-}
-/* =========================
-   EXPERIENCIA CHECKLIST
-========================= */
-
-.boton-guia {
-  margin-top: 10px;
-  padding: 11px 16px;
-  background: #eef3ff;
-  color: #2856b6;
-  font-size: 15px;
-  box-shadow: none;
-}
-
-.boton-guia:hover {
-  background: #e2eaff;
-  color: #204aa2;
-  transform: none;
-}
-
-.guia-tramite {
-  margin-top: 18px;
-  padding: 22px;
-  background: #f8fafc;
-  border: 1px solid #e5eaf1;
-  border-radius: 12px;
-}
-
-.guia-tramite h4 {
-  margin: 20px 0 8px;
-  font-size: 16px;
-  color: #172033;
-}
-
-.guia-tramite h4:first-child {
-  margin-top: 0;
-}
-
-.guia-tramite p,
-.guia-tramite li {
-  color: #596274;
-  line-height: 1.6;
-  font-size: 15px;
-}
-
-.guia-tramite ol,
-.guia-tramite ul {
-  padding-left: 22px;
-}
-
-.guia-tramite li {
-  margin-bottom: 8px;
-}
-
-.enlace-oficial {
-  display: inline-block;
-  margin-top: 14px;
-  color: #356ae6;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.enlace-oficial:hover {
-  text-decoration: underline;
-}
-
-.tramite-check {
-  margin-top: 22px;
-  padding-top: 18px;
-  border-top: 1px solid #edf0f4;
-}
-
-.tramite-check label {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  font-weight: 700;
-}
-
-.tramite-check input {
-  width: 20px;
-  height: 20px;
-  accent-color: #356ae6;
-}
-
-.consejo {
-  margin-top: 15px;
-  padding: 14px 16px;
-  background: #eef3ff;
-  border-radius: 10px;
-  color: #3d506f;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.aviso-importante {
-  margin-top: 15px;
-  padding: 14px 16px;
-  background: #fff5e8;
-  border: 1px solid #ffe0b5;
-  border-radius: 10px;
-  color: #704300;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.caja-dinero {
-  display: flex;
-  gap: 15px;
-  align-items: flex-start;
-  margin: 18px 0;
-  padding: 18px;
-  background: #f0faf4;
-  border: 1px solid #cfead9;
-  border-radius: 12px;
-}
-
-.caja-dinero-icono {
-  font-size: 28px;
-}
-
-.caja-dinero strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 18px;
-  color: #166534;
-}
-
-.caja-dinero p {
-  margin: 0;
-  color: #3f6650;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-
-/* BARRA DE PROGRESO */
-
-.barra-progreso {
-  width: 100%;
-  height: 9px;
-  margin-top: 10px;
-  background: #dce5f8;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.barra-progreso-interior {
-  height: 100%;
-  width: 0;
-  background: #356ae6;
-  border-radius: 20px;
-  transition: width 0.3s ease;
-}
-/* =========================
-   EVALUADOR DE AYUDAS
-========================= */
-
-.evaluador {
-  padding: 22px;
-  background: white;
-  border: 1px solid #dce3ec;
-  border-radius: 14px;
-}
-
-.campo-evaluador {
-  display: block;
-  margin: 22px 0;
-}
-
-.campo-evaluador strong {
-  display: block;
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-
-.campo-evaluador span {
-  display: block;
-  margin-bottom: 10px;
-  color: #70798a;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.campo-evaluador select,
-.campo-evaluador input {
-  width: 100%;
-  padding: 13px;
-  border: 1px solid #ccd3df;
-  border-radius: 9px;
-  background: white;
-  font-size: 15px;
-}
-
-.resultado-si,
-.resultado-no,
-.resultado-duda {
-  padding: 20px;
-  border-radius: 12px;
-  line-height: 1.5;
-}
-
-.resultado-si {
-  background: #effaf3;
-  border: 1px solid #bfe4cc;
-  color: #245b38;
-}
-
-.resultado-no {
-  background: #fff1f1;
-  border: 1px solid #f1caca;
-  color: #7b2929;
-}
-
-.resultado-duda {
-  background: #fff8e8;
-  border: 1px solid #f2ddb1;
-  color: #73521b;
-}
-
-.resultado-si strong,
-.resultado-no strong,
-.resultado-duda strong {
-  font-size: 17px;
-}
-
-.numero-grande {
-  margin: 12px 0;
-  font-size: 27px;
-  font-weight: 800;
-}
-
-.resultado-icono {
-  font-size: 30px;
-  margin-bottom: 8px;
-}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Trámites después de tener un bebé en Cataluña | Trámites Fáciles
+  </title>
+
+  <meta
+    name="description"
+    content="Descubre qué trámites y ayudas debes revisar después de tener un bebé en Cataluña. Crea gratis una checklist personalizada con pasos y enlaces oficiales."
+  >
+
+  <meta name="robots" content="index, follow">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+  <!-- =========================
+       CABECERA
+  ========================== -->
+
+  <header>
+
+    <div class="header-contenido">
+
+      <div class="logo">
+        trámites<span>fáciles</span>
+      </div>
+
+      <div class="header-confianza">
+        Guía independiente
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <main>
+
+    <!-- =========================
+         PORTADA
+    ========================== -->
+
+    <section class="hero" id="portada">
+
+      <div class="badge">
+        👶 Guía para nuevos padres en Cataluña
+      </div>
+
+      <h1>
+        ¿Acabas de tener un bebé?
+      </h1>
+
+      <p class="subtitle">
+        Descubre qué trámites y ayudas debes revisar después
+        del nacimiento, en qué orden hacerlo y dónde gestionarlos.
+      </p>
+
+      <button onclick="empezar()">
+        Crear mi checklist gratis →
+      </button>
+
+      <div class="trust">
+        ✓ Gratis
+        &nbsp;&nbsp;
+        ✓ Sin registro
+        &nbsp;&nbsp;
+        ✓ Fuentes oficiales
+      </div>
+
+
+      <!-- =========================
+           BENEFICIOS
+      ========================== -->
+
+      <div class="features">
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            ✓
+          </div>
+
+          <strong>
+            Paso a paso
+          </strong>
+
+          <p>
+            Te indicamos qué revisar y en qué orden.
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            🎯
+          </div>
+
+          <strong>
+            Personalizado
+          </strong>
+
+          <p>
+            Adaptamos la checklist a las respuestas que nos das.
+          </p>
+
+        </div>
+
+
+        <div class="feature">
+
+          <div class="feature-icon">
+            🏛️
+          </div>
+
+          <strong>
+            Fuentes oficiales
+          </strong>
+
+          <p>
+            Te llevamos a los organismos públicos correspondientes.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- =========================
+           CONTENIDO SEO
+      ========================== -->
+
+      <section class="contenido-informativo">
+
+        <div class="contenido-etiqueta">
+          TODO EN UN MISMO SITIO
+        </div>
+
+        <h2>
+          Trámites después de tener un bebé en Cataluña
+        </h2>
+
+        <p>
+          Después del nacimiento de un bebé pueden aparecer
+          varios trámites administrativos y posibles prestaciones:
+          Registro Civil, Seguridad Social, tarjeta sanitaria,
+          empadronamiento, prestación por nacimiento,
+          deducción por maternidad y ayudas de la Generalitat.
+        </p>
+
+        <p>
+          El problema es que la información está repartida entre
+          diferentes administraciones. Trámites Fáciles organiza
+          esos pasos en una checklist adaptada a tu situación.
+        </p>
+
+
+        <div class="lista-tramites-portada">
+
+          <div>
+            <span>✓</span>
+            Inscripción del nacimiento
+          </div>
+
+          <div>
+            <span>✓</span>
+            Seguridad Social del bebé
+          </div>
+
+          <div>
+            <span>✓</span>
+            Tarjeta sanitaria de Cataluña
+          </div>
+
+          <div>
+            <span>✓</span>
+            Empadronamiento
+          </div>
+
+          <div>
+            <span>✓</span>
+            Prestación por nacimiento
+          </div>
+
+          <div>
+            <span>✓</span>
+            Deducción por maternidad
+          </div>
+
+          <div>
+            <span>✓</span>
+            Ayudas para familias en Cataluña
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           CÓMO FUNCIONA
+      ========================== -->
+
+      <section class="como-funciona">
+
+        <div class="contenido-etiqueta">
+          CÓMO FUNCIONA
+        </div>
+
+        <h2>
+          Tu checklist en menos de un minuto
+        </h2>
+
+
+        <div class="pasos-funcionamiento">
+
+          <div class="paso-funcionamiento">
+
+            <div class="numero-paso">
+              1
+            </div>
+
+            <strong>
+              Responde unas preguntas
+            </strong>
+
+            <p>
+              Comunidad, fecha de nacimiento y algunas
+              circunstancias familiares.
+            </p>
+
+          </div>
+
+
+          <div class="paso-funcionamiento">
+
+            <div class="numero-paso">
+              2
+            </div>
+
+            <strong>
+              Obtén tu checklist
+            </strong>
+
+            <p>
+              Te mostramos los trámites y ayudas que
+              merece la pena revisar.
+            </p>
+
+          </div>
+
+
+          <div class="paso-funcionamiento">
+
+            <div class="numero-paso">
+              3
+            </div>
+
+            <strong>
+              Hazlos paso a paso
+            </strong>
+
+            <p>
+              Consulta nuestras indicaciones y continúa
+              en la administración oficial correspondiente.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <button onclick="empezar()">
+          Crear mi checklist →
+        </button>
+
+      </section>
+
+
+      <!-- =========================
+           CONFIANZA
+      ========================== -->
+
+      <section class="bloque-confianza">
+
+        <div class="confianza-icono">
+          🛡️
+        </div>
+
+        <div>
+
+          <h2>
+            Una guía independiente
+          </h2>
+
+          <p>
+            Trámites Fáciles no pertenece a la Generalitat,
+            la Seguridad Social, la Agencia Tributaria
+            ni a ninguna otra Administración Pública.
+          </p>
+
+          <p>
+            Organizamos y explicamos información administrativa
+            para ayudarte a entender qué pasos debes revisar.
+            Cuando tienes que realizar un trámite, te dirigimos
+            a la fuente oficial correspondiente.
+          </p>
+
+          <p class="revision">
+            Información revisada: octubre de 2026
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           FAQ
+      ========================== -->
+
+      <section class="faq">
+
+        <div class="contenido-etiqueta">
+          PREGUNTAS FRECUENTES
+        </div>
+
+        <h2>
+          Dudas después del nacimiento
+        </h2>
+
+
+        <details>
+
+          <summary>
+            ¿Qué trámites hay que hacer después de tener un bebé?
+          </summary>
+
+          <p>
+            Dependiendo de tu situación, tendrás que comprobar
+            cuestiones como la inscripción del nacimiento,
+            asistencia sanitaria y tarjeta sanitaria,
+            empadronamiento y posibles prestaciones o
+            deducciones relacionadas con el nacimiento.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            ¿El hospital realiza automáticamente el Registro Civil?
+          </summary>
+
+          <p>
+            En muchos casos el centro sanitario puede comunicar
+            el nacimiento al Registro Civil. Conviene comprobar
+            la documentación recibida antes de iniciar de nuevo
+            el trámite.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            ¿Existen ayudas por nacimiento en Cataluña?
+          </summary>
+
+          <p>
+            Existen prestaciones y ayudas sujetas a requisitos
+            familiares, económicos, laborales o de residencia.
+            Nuestra checklist te indica cuáles merece la pena
+            comprobar según las respuestas que introduzcas.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            ¿Tengo que registrarme para utilizar la checklist?
+          </summary>
+
+          <p>
+            No. Puedes utilizar gratuitamente la herramienta
+            sin crear una cuenta.
+          </p>
+
+        </details>
+
+
+        <details>
+
+          <summary>
+            ¿Trámites Fáciles es una página oficial?
+          </summary>
+
+          <p>
+            No. Somos una guía independiente. Para realizar
+            los trámites te dirigimos a las páginas oficiales
+            de las administraciones correspondientes.
+          </p>
+
+        </details>
+
+      </section>
+
+
+      <!-- =========================
+           CTA FINAL
+      ========================== -->
+
+      <section class="cta-final">
+
+        <h2>
+          ¿Empezamos?
+        </h2>
+
+        <p>
+          Responde unas preguntas y descubre qué trámites
+          debes revisar después del nacimiento de tu bebé.
+        </p>
+
+        <button onclick="empezar()">
+          Crear mi checklist gratis →
+        </button>
+
+      </section>
+
+    </section>
+
+
+    <!-- =========================
+         CUESTIONARIO
+    ========================== -->
+
+    <section id="cuestionario">
+      <!-- app.js introduce aquí las preguntas -->
+    </section>
+
+
+    <!-- =========================
+         RESULTADO
+    ========================== -->
+
+    <section id="resultado">
+      <!-- app.js introduce aquí la checklist -->
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       PIE DE PÁGINA
+  ========================== -->
+
+  <footer>
+
+    <div class="footer-contenido">
+
+      <div class="logo">
+        trámites<span>fáciles</span>
+      </div>
+
+      <p>
+        Guía independiente para entender trámites administrativos.
+      </p>
+
+      <p class="footer-aviso">
+        No somos una Administración Pública.
+        Verifica siempre los requisitos definitivos
+        en el organismo oficial correspondiente.
+      </p>
+
+      <p class="footer-copy">
+        © 2026 Trámites Fáciles
+      </p>
+
+    </div>
+
+  </footer>
+
+
+  <script src="app.js"></script>
+
+</body>
+
+</html>
