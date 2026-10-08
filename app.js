@@ -618,6 +618,12 @@ function mostrarResultadoProvisional() {
           color:#2856b6;
         "
       >
+      <div class="barra-progreso">
+  <div
+    class="barra-progreso-interior"
+    id="barraProgreso"
+  ></div>
+</div>
       </div>
 
     </div>
@@ -649,7 +655,49 @@ function mostrarResultadoProvisional() {
   `;
 
   restaurarTramitesCompletados();
-  actualizarContador();
+  function actualizarContador() {
+
+  const checks = document.querySelectorAll(".checkTramite");
+
+  const completados = document.querySelectorAll(
+    ".checkTramite:checked"
+  );
+
+  const contador = document.getElementById(
+    "contadorProgreso"
+  );
+
+  const barra = document.getElementById(
+    "barraProgreso"
+  );
+
+  if (!contador) return;
+
+  const total = checks.length;
+  const hechos = completados.length;
+
+  const porcentaje =
+    total === 0
+      ? 0
+      : Math.round((hechos / total) * 100);
+
+
+  contador.childNodes[0].textContent =
+    `${hechos} de ${total} trámites completados`;
+
+
+  if (barra) {
+    barra.style.width = `${porcentaje}%`;
+  }
+
+
+  if (total > 0 && hechos === total) {
+
+    contador.childNodes[0].textContent =
+      `🎉 ¡Checklist completada! ${hechos} de ${total}`;
+
+  }
+}
 
   window.scrollTo({
     top: 0,
