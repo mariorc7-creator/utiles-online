@@ -2568,6 +2568,11 @@ function formatearFechaObjeto(fecha) {
 
 function volverPortada() {
 
+  if (window.location.pathname.startsWith("/checklist")) {
+    window.location.href = "/";
+    return;
+  }
+
   document.getElementById("cuestionario").style.display =
     "none";
 
@@ -2576,6 +2581,11 @@ function volverPortada() {
 
   document.getElementById("portada").style.display =
     "block";
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 }
 
 

@@ -270,3 +270,9 @@ convocatoria vigente.
 - tarjetas de navegación más compactas
 - selector regional más limpio
 - cierre de confianza más ligero
+
+
+## V27 — header + navegación checklist
+- se elimina el bloque “Guía independiente · España” del header
+- en /checklist/ el menú superior muestra “Mis ayudas y trámites” en lugar de “Checklist”
+- el botón “← Volver” del cuestionario ahora lleva al inicio y no deja al usuario en una pantalla rara
