@@ -72,3 +72,24 @@ convocatoria vigente.
 - hub de comunidades autónomas
 - sitemap ampliado
 - validación: no se aceptan fechas de nacimiento futuras
+
+## V6 — confianza y SEO técnico
+- Schema.org WebSite/WebPage en portada
+- BreadcrumbList y WebPage en landings
+- página de metodología editorial
+- página de privacidad explicando localStorage
+- 404 personalizada y noindex
+- enlaces internos de metodología/privacidad en footer
+- sitemap actualizado
+- sin añadir cookies ni trackers
+
+## V7 — contenido SEO de alta intención
+- landing específica: ayuda natalidad Madrid 2026
+- landing específica: ayuda hijos País Vasco 2026
+- landing específica: ayuda nacimiento Asturias 2026
+- landing específica: inscripción nacimiento Registro Civil
+- FAQPage schema en las cuatro landings
+- datos clave visibles en formato escaneable
+- bloque de ayudas destacadas en portada
+- más enlazado interno desde páginas generales
+- sitemap ampliado

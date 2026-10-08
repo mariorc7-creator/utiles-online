@@ -209,3 +209,84 @@ footer{margin-top:64px;padding:42px 20px;background:rgba(255,255,255,.9);border-
 @media (max-width:700px) {
   .seo-grid { grid-template-columns:1fr; }
 }
+
+/* =========================================
+   V6 · CONFIANZA / TRANSPARENCIA / SEO
+========================================= */
+.metodologia-home {
+  max-width: 850px;
+  margin: 58px auto 0;
+  padding: 28px;
+  text-align: left;
+  background: rgba(255,255,255,.88);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+.metodologia-home h2 {
+  margin: 0 0 10px;
+  font-size: 25px;
+  letter-spacing: -.6px;
+}
+.metodologia-home p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+.metodologia-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 14px;
+}
+.metodologia-links a,
+.metodologia-footer a {
+  color: #5966e5;
+  font-weight: 750;
+  text-decoration: none;
+}
+.metodologia-links a:hover,
+.metodologia-footer a:hover {
+  text-decoration: underline;
+}
+.metodologia-footer {
+  margin: 12px 0 0;
+}
+
+/* =========================================
+   V7 · CONTENIDO SEO DE ALTA INTENCIÓN
+========================================= */
+.destacadas-2026 {
+  max-width: 850px;
+  margin: 58px auto 0;
+  text-align: left;
+}
+.destacadas-2026 h2 {
+  margin: 0 0 10px;
+  font-size: 29px;
+  letter-spacing: -.8px;
+}
+.datos-seo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 20px 0 30px;
+}
+.dato-seo {
+  padding: 17px;
+  background: #fffdfa;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+}
+.dato-seo strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.dato-seo p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+@media (max-width:700px) {
+  .datos-seo-grid { grid-template-columns:1fr; }
+}
