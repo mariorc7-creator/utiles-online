@@ -463,3 +463,230 @@ footer{margin-top:64px;padding:42px 20px;background:rgba(255,255,255,.9);border-
 @media (max-width:700px) {
   .premium-grid { grid-template-columns: 1fr; }
 }
+
+
+/* =========================================
+   V10 · NAVEGACIÓN + PREMIUM VISIBLE
+========================================= */
+
+.nav-principal {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-principal a {
+  padding: 8px 10px;
+  border-radius: 10px;
+  color: #5f6b7f;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 750;
+  transition: .18s ease;
+}
+
+.nav-principal a:hover {
+  background: #f5f3f1;
+  color: #22304a;
+}
+
+.nav-principal .nav-premium {
+  background: #f4f0ff;
+  color: #6559d2;
+  border: 1px solid #e3dcff;
+}
+
+.nav-principal .nav-premium:hover {
+  background: #ebe5ff;
+  color: #5146bf;
+}
+
+.premium-home-teaser {
+  max-width: 760px;
+  margin: 18px auto 0;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  background: linear-gradient(135deg, #fbf8ff, #fff7f3);
+  border: 1px solid #e8e0f5;
+  border-radius: 16px;
+}
+
+.premium-home-teaser strong {
+  display: block;
+  margin: 5px 0 3px;
+  font-size: 15px;
+}
+
+.premium-home-teaser p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.premium-mini-badge {
+  display: inline-block;
+  padding: 5px 8px;
+  background: white;
+  color: #6559d2;
+  border: 1px solid #e3dcff;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.premium-home-link {
+  flex: 0 0 auto;
+  color: #5c51ca;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.premium-home-link:hover {
+  text-decoration: underline;
+}
+
+.cta-premium-secundario {
+  max-width: 850px;
+  margin: 36px auto 0;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #fbf8ff;
+  border: 1px solid #e4ddf8;
+  border-radius: 16px;
+}
+
+.cta-premium-secundario span {
+  display: block;
+  margin-bottom: 4px;
+  color: #6b60d6;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.cta-premium-secundario strong {
+  font-size: 14px;
+}
+
+.cta-premium-secundario a {
+  flex: 0 0 auto;
+  color: #5c51ca;
+  font-size: 13px;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.cta-premium-secundario a:hover {
+  text-decoration: underline;
+}
+
+.premium-trust-line {
+  margin: 15px auto 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.premium-trust-line span {
+  padding: 6px 9px;
+  background: rgba(255,255,255,.75);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.premium-comparativa {
+  max-width: 850px;
+  margin: 56px auto 0;
+  text-align: left;
+}
+
+.comparativa-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.comparativa-card {
+  padding: 24px;
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+
+.comparativa-card h3 {
+  margin: 0 0 14px;
+  font-size: 22px;
+}
+
+.comparativa-card ul {
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.comparativa-card > strong {
+  display: block;
+  margin-top: 16px;
+  font-size: 18px;
+}
+
+.comparativa-premium {
+  background: linear-gradient(135deg, #faf7ff, #fff9f6);
+  border-color: #ddd5f5;
+  box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 980px) {
+  .header-confianza {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .nav-principal a {
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 700px) {
+  .nav-principal {
+    gap: 2px;
+  }
+
+  .nav-principal a:nth-child(2),
+  .nav-principal a:nth-child(3) {
+    display: none;
+  }
+
+  .nav-principal a {
+    font-size: 11px;
+    padding: 7px 7px;
+  }
+
+  .premium-home-teaser,
+  .cta-premium-secundario {
+    display: block;
+  }
+
+  .premium-home-link,
+  .cta-premium-secundario a {
+    display: inline-block;
+    margin-top: 12px;
+  }
+
+  .comparativa-grid {
+    grid-template-columns: 1fr;
+  }
+}

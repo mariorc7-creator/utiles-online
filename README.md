@@ -113,3 +113,12 @@ convocatoria vigente.
 - páginas `/premium/gracias/` y `/premium/cancelado/`
 - checkout NO activado todavía: falta crear el enlace de pago real
 - checklist básica continúa siendo gratuita
+
+## V10 — navegación + monetización visible
+- navegación principal: Checklist / Ayudas / Trámites / Premium
+- Premium visible en la cabecera
+- teaser Premium discreto en portada
+- CTA Premium secundario en páginas SEO
+- comparación Gratis vs Premium
+- señales de confianza en la landing Premium
+- responsive para móvil sin saturar la cabecera
