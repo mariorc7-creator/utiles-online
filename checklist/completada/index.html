@@ -21,8 +21,10 @@
         <a href="/checklist/">Mis ayudas y trámites</a>
         <a href="/ayudas-nacimiento/">Ayudas</a>
         <a href="/tramites-bebe/">Trámites</a>
+        <!-- TEMPORALMENTE DESACTIVADO
         <a href="/premium/" class="nav-premium">✨ Premium</a>
         <a href="/gestoria/" class="nav-gestoria">🤝 Gestoría</a>
+        -->
       </nav>
 
       <a href="/" class="boton-inicio enlace-inicio">← Inicio</a>
@@ -52,6 +54,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (typeof cargarProgresoGuardado === "function") cargarProgresoGuardado();
     if (typeof cuestionarioCompleto === "function" && cuestionarioCompleto()) {
       mostrarResultadoProvisional();
+      // Premium y Gestoría quedan preparados pero ocultos hasta su lanzamiento.
+      document.querySelectorAll(".upsell-premium, .upsell-gestoria").forEach(function (el) {
+        el.style.display = "none";
+      });
     } else {
       window.location.replace("/checklist/");
     }
