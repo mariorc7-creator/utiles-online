@@ -1,0 +1,206 @@
+/* Home · ayudas por comunidad v2 */
+.home-comunidades {
+  display: block !important;
+  width: 100% !important;
+  max-width: 820px !important;
+  margin: 18px auto 0 !important;
+  padding: 24px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  text-align: left !important;
+  border: 1px solid #e5e2fa !important;
+  border-radius: 22px !important;
+  background: linear-gradient(145deg, #fbfaff 0%, #f7f8ff 55%, #fffaf7 100%) !important;
+  box-shadow: 0 12px 32px rgba(63, 58, 115, .055) !important;
+}
+
+.home-comunidades-cabecera {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+}
+
+.home-comunidades-icono {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: #fff;
+  font-size: 23px;
+  box-shadow: 0 7px 18px rgba(74, 68, 128, .08);
+}
+
+.home-comunidades .home-ayudas-compactas-copy {
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.home-comunidades .home-ayudas-compactas-copy h2 {
+  margin: 5px 0 6px !important;
+  font-size: 22px !important;
+  line-height: 1.22 !important;
+}
+
+.home-comunidades .home-ayudas-compactas-copy p {
+  margin: 0 !important;
+  max-width: 610px;
+  color: #747d8c;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.home-comunidades .home-ayudas-compactas-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: stretch !important;
+  gap: 10px !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  margin: 20px 0 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.home-comunidades .home-ayudas-compactas-form select {
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 0 44px 0 16px !important;
+  box-sizing: border-box !important;
+  border: 1px solid #dcd9e9 !important;
+  border-radius: 15px !important;
+  background-color: #fff !important;
+  color: #354052 !important;
+  font-size: 15px !important;
+  box-shadow: 0 5px 14px rgba(42, 43, 73, .04) !important;
+}
+
+.home-comunidades .home-ayudas-compactas-form select:focus {
+  outline: none;
+  border-color: #7b83f3 !important;
+  box-shadow: 0 0 0 4px rgba(111, 124, 247, .10) !important;
+}
+
+.home-comunidades .home-ayudas-compactas-form button {
+  width: auto !important;
+  min-width: 142px !important;
+  max-width: 180px !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  margin: 0 !important;
+  padding: 0 18px !important;
+  box-sizing: border-box !important;
+  border-radius: 15px !important;
+  white-space: nowrap !important;
+  font-size: 14px !important;
+  box-shadow: 0 8px 20px rgba(111, 124, 247, .18) !important;
+}
+
+.home-comunidades-populares {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px 12px;
+  margin-top: 16px;
+}
+
+.home-comunidades-populares > span {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8a91a0;
+}
+
+.home-comunidades .home-ayudas-destacadas {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 7px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.home-comunidades .home-ayudas-destacadas a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid #e1def1;
+  border-radius: 999px;
+  background: rgba(255,255,255,.9);
+  color: #5c6475;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.home-comunidades .home-ayudas-destacadas a:hover {
+  border-color: #c9cdfb;
+  color: #5965dc;
+  background: #fff;
+}
+
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+@media (max-width: 760px) {
+  .home-comunidades {
+    margin-top: 12px !important;
+    padding: 18px !important;
+    border-radius: 18px !important;
+  }
+
+  .home-comunidades-cabecera {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 11px;
+  }
+
+  .home-comunidades-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    font-size: 20px;
+  }
+
+  .home-comunidades .home-ayudas-compactas-copy h2 {
+    font-size: 19px !important;
+  }
+
+  .home-comunidades .home-ayudas-compactas-form {
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+    margin-top: 16px !important;
+  }
+
+  .home-comunidades .home-ayudas-compactas-form button {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+
+  .home-comunidades-populares {
+    display: block;
+  }
+
+  .home-comunidades-populares > span {
+    display: block;
+    margin-bottom: 8px;
+  }
+}
