@@ -19,17 +19,17 @@
   const launcher = document.createElement('button');
   launcher.id = 'papelesia-launcher';
   launcher.type = 'button';
-  launcher.setAttribute('aria-label', 'Abrir PAPELESIA');
-  launcher.innerHTML = '<span>👶✨</span><span>PAPELESIA</span>';
+  launcher.setAttribute('aria-label', 'Abrir PapelesIA');
+  launcher.innerHTML = '<span>👶✨</span><span>PapelesIA</span>';
 
   const panel = document.createElement('section');
   panel.id = 'papelesia-panel';
-  panel.setAttribute('aria-label', 'Chat PAPELESIA');
+  panel.setAttribute('aria-label', 'Chat PapelesIA');
   panel.innerHTML = `
     <div class="papelesia-head">
       <div class="papelesia-identidad">
         <div class="papelesia-avatar">👶</div>
-        <div><strong>PAPELESIA</strong><small>Asistente de ayudas y trámites</small></div>
+        <div><strong>PapelesIA</strong><small>Asistente de ayudas y trámites</small></div>
       </div>
       <button class="papelesia-cerrar" type="button" aria-label="Cerrar">×</button>
     </div>
@@ -38,7 +38,7 @@
       <textarea maxlength="600" rows="1" placeholder="Pregúntame sobre ayudas o trámites..." aria-label="Escribe tu pregunta"></textarea>
       <button type="submit">Enviar</button>
     </form>
-    <div class="papelesia-nota">PAPELESIA orienta, pero no sustituye a la Administración. Verifica siempre requisitos y plazos en la fuente oficial.</div>
+    <div class="papelesia-nota">PapelesIA orienta, pero no sustituye a la Administración. Verifica siempre requisitos y plazos en la fuente oficial.</div>
   `;
 
   document.body.appendChild(launcher);
@@ -59,7 +59,7 @@
     return el;
   }
 
-  addMsg('¡Hola! Soy PAPELESIA 👋\nPuedo ayudarte a orientarte con ayudas y trámites después de tener un bebé en España. ¿Qué necesitas saber?', 'bot');
+  addMsg('¡Hola! Soy PapelesIA 👋\nPuedo ayudarte a orientarte con ayudas y trámites después de tener un bebé en España. ¿Qué necesitas saber?', 'bot');
 
   launcher.addEventListener('click', () => {
     panel.classList.toggle('abierto');
@@ -84,7 +84,7 @@
     historial.push({ role: 'user', content: texto });
     if (historial.length > 8) historial.splice(0, historial.length - 8);
 
-    const esperando = addMsg('PAPELESIA está pensando…', 'bot', 'estado');
+    const esperando = addMsg('PapelesIA está pensando…', 'bot', 'estado');
     form.querySelector('button').disabled = true;
 
     try {
