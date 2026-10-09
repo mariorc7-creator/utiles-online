@@ -1,0 +1,207 @@
+/* Home · ajuste de tono profesional */
+
+:root {
+  --home-border: #e3e6ec;
+  --home-muted: #687286;
+  --home-surface: #ffffff;
+  --home-soft: #f7f8fb;
+}
+
+.home-dashboard {
+  background: transparent !important;
+}
+
+.home-hero-principal .badge {
+  background: #f3f5f9 !important;
+  border: 1px solid #e4e8ef !important;
+  color: #586274 !important;
+  box-shadow: none !important;
+  letter-spacing: .01em;
+}
+
+.home-hero-principal h1 {
+  letter-spacing: -.025em;
+}
+
+.home-hero-principal .subtitle {
+  color: #5f697b !important;
+}
+
+.home-hero-cta button,
+.home-papelesia-boton,
+.home-comunidades .home-ayudas-compactas-form button {
+  box-shadow: 0 6px 14px rgba(74, 84, 190, .12) !important;
+}
+
+.home-hero-principal .hero-beneficios {
+  gap: 10px !important;
+}
+
+.home-hero-principal .hero-beneficio {
+  border: 1px solid var(--home-border) !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.home-hero-principal .hero-beneficio-icono {
+  position: relative;
+  width: 28px !important;
+  height: 28px !important;
+  overflow: hidden;
+  color: transparent !important;
+  font-size: 0 !important;
+  border-radius: 8px !important;
+  background: #eef1ff !important;
+}
+
+.home-hero-principal .hero-beneficio-icono::after {
+  content: "✓";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #6570df;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.home-hero-principal .hero-beneficio strong {
+  color: #263247 !important;
+}
+
+.home-hero-principal .hero-beneficio small {
+  color: #778195 !important;
+}
+
+.home-necesidades {
+  border-color: var(--home-border) !important;
+  border-radius: 18px !important;
+  background: var(--home-surface) !important;
+  box-shadow: 0 8px 24px rgba(32, 42, 64, .035) !important;
+}
+
+.home-necesidades-grid a.home-necesidad-card {
+  border-color: var(--home-border) !important;
+  border-radius: 14px !important;
+  box-shadow: none !important;
+}
+
+.home-necesidades-grid a.home-necesidad-card:hover {
+  border-color: #cbd1ef !important;
+  box-shadow: 0 8px 18px rgba(55, 65, 120, .06) !important;
+}
+
+.home-necesidad-icono {
+  border-radius: 12px !important;
+  background: #f3f5fa !important;
+  filter: grayscale(.15);
+}
+
+.home-papelesia {
+  border-color: var(--home-border) !important;
+  border-radius: 18px !important;
+  background: #f8f9fc !important;
+  box-shadow: none !important;
+}
+
+.home-papelesia-icono {
+  position: relative;
+  overflow: hidden;
+  color: transparent !important;
+  font-size: 0 !important;
+  border: 1px solid #e1e5ed;
+  border-radius: 12px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.home-papelesia-icono::after {
+  content: "IA";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #626dd9;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.home-papelesia-copy p,
+.home-necesidades-grid small,
+.home-comunidades .home-ayudas-compactas-copy p {
+  color: var(--home-muted) !important;
+}
+
+.home-comunidades {
+  border-color: var(--home-border) !important;
+  border-radius: 18px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 24px rgba(32, 42, 64, .035) !important;
+}
+
+.home-comunidades-icono {
+  position: relative;
+  overflow: hidden;
+  color: transparent !important;
+  font-size: 0 !important;
+  border: 1px solid #e1e5ed;
+  border-radius: 12px !important;
+  background: #f7f8fb !important;
+  box-shadow: none !important;
+}
+
+.home-comunidades-icono::after {
+  content: "CCAA";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #687286;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+
+.home-comunidades .home-ayudas-compactas-form select {
+  border-color: #dfe3ea !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.home-comunidades .home-ayudas-compactas-form button {
+  border-radius: 12px !important;
+}
+
+.home-comunidades .home-ayudas-destacadas a {
+  border-color: #e0e4eb !important;
+  background: #f8f9fb !important;
+  color: #5f6878 !important;
+  font-weight: 650 !important;
+}
+
+.home-cierre-compacto {
+  border-top: 1px solid #e5e8ee;
+  padding-top: 16px !important;
+}
+
+.home-cierre-compacto span {
+  color: #667184 !important;
+}
+
+footer {
+  border-top: 1px solid #e7e9ee;
+}
+
+@media (max-width: 760px) {
+  .home-necesidades,
+  .home-papelesia,
+  .home-comunidades {
+    border-radius: 16px !important;
+  }
+
+  .home-hero-principal .hero-beneficio-icono {
+    width: 26px !important;
+    height: 26px !important;
+  }
+}
