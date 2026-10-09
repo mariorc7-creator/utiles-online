@@ -11,8 +11,8 @@
     content="Si prefieres ayuda profesional con tus trámites después del nacimiento, solicita contacto con una gestoría colaboradora."
   >
 
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://papelesdelbebe.es/gestoria/">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://www.papelesdelbebe.es/gestoria/">
 
   <link rel="stylesheet" href="../style.css">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -35,8 +35,7 @@
         <a href="/checklist/">Mis ayudas y trámites</a>
         <a href="/ayudas-nacimiento/">Ayudas</a>
         <a href="/tramites-bebe/">Trámites</a>
-        <a href="/premium/" class="nav-premium">✨ Premium</a>
-        <a href="/gestoria/" class="nav-gestoria">🤝 Gestoría</a>
+        <!-- Premium y Gestoría permanecen preparados, pero ocultos hasta su lanzamiento. -->
       </nav>
 
       <a href="/" class="boton-inicio enlace-inicio">
@@ -83,7 +82,6 @@
 
       <form id="formLeadGestoria" class="formulario-lead">
 
-        <!-- Honeypot antispam -->
         <div class="campo-honeypot" aria-hidden="true">
           <label>
             Empresa
@@ -144,9 +142,7 @@
 
           <select id="leadComunidad" name="comunidad" required>
 
-            <option value="">
-              Selecciona
-            </option>
+            <option value="">Selecciona</option>
 
             <option>Andalucía</option>
             <option>Aragón</option>
@@ -177,29 +173,13 @@
 
           <select id="leadNecesidad" name="necesidad" required>
 
-            <option value="">
-              Selecciona
-            </option>
+            <option value="">Selecciona</option>
 
-            <option value="todos">
-              Quiero ayuda con todos los trámites
-            </option>
-
-            <option value="prestacion">
-              Prestación por nacimiento
-            </option>
-
-            <option value="ayudas">
-              Ayudas y deducciones
-            </option>
-
-            <option value="seguridad-social">
-              Seguridad Social y asistencia sanitaria
-            </option>
-
-            <option value="otro">
-              Otro
-            </option>
+            <option value="todos">Quiero ayuda con todos los trámites</option>
+            <option value="prestacion">Prestación por nacimiento</option>
+            <option value="ayudas">Ayudas y deducciones</option>
+            <option value="seguridad-social">Seguridad Social y asistencia sanitaria</option>
+            <option value="otro">Otro</option>
 
           </select>
         </label>
@@ -326,18 +306,12 @@
 
 <script>
 
-const formulario =
-  document.getElementById("formLeadGestoria");
-
-const parametros =
-  new URLSearchParams(window.location.search);
-
-const origenQuery =
-  parametros.get("origen");
+const formulario = document.getElementById("formLeadGestoria");
+const parametros = new URLSearchParams(window.location.search);
+const origenQuery = parametros.get("origen");
 
 if (origenQuery) {
-  document.getElementById("leadOrigen").value =
-    origenQuery;
+  document.getElementById("leadOrigen").value = origenQuery;
 }
 
 formulario.addEventListener(
@@ -346,57 +320,27 @@ formulario.addEventListener(
 
     event.preventDefault();
 
-
-    const boton =
-      document.getElementById("botonEnviarLead");
-
-    const resultado =
-      document.getElementById("resultadoLead");
-
+    const boton = document.getElementById("botonEnviarLead");
+    const resultado = document.getElementById("resultadoLead");
 
     const datos = {
-
-      nombre:
-        document.getElementById("leadNombre").value.trim(),
-
-      email:
-        document.getElementById("leadEmail").value.trim(),
-
-      telefono:
-        document.getElementById("leadTelefono").value.trim(),
-
-      comunidad:
-        document.getElementById("leadComunidad").value,
-
-      necesidad:
-        document.getElementById("leadNecesidad").value,
-
-      mensaje:
-        document.getElementById("leadMensaje").value.trim(),
-
-      origen:
-        document.getElementById("leadOrigen").value,
-
-      consentimiento:
-        document.getElementById("leadConsentimiento").checked,
-
-      empresa:
-        document.getElementById("empresa").value
-
+      nombre: document.getElementById("leadNombre").value.trim(),
+      email: document.getElementById("leadEmail").value.trim(),
+      telefono: document.getElementById("leadTelefono").value.trim(),
+      comunidad: document.getElementById("leadComunidad").value,
+      necesidad: document.getElementById("leadNecesidad").value,
+      mensaje: document.getElementById("leadMensaje").value.trim(),
+      origen: document.getElementById("leadOrigen").value,
+      consentimiento: document.getElementById("leadConsentimiento").checked,
+      empresa: document.getElementById("empresa").value
     };
 
-
-    const endpoint =
-      window.PAPELES_BEBE_CONFIG?.leadEndpoint
-      || "/api/lead";
-
+    const endpoint = window.PAPELES_BEBE_CONFIG?.leadEndpoint || "/api/lead";
 
     boton.disabled = true;
     boton.textContent = "Enviando...";
 
-
     try {
-
       const respuesta = await fetch(
         endpoint,
         {
@@ -408,65 +352,39 @@ formulario.addEventListener(
         }
       );
 
-
-      const body =
-        await respuesta.json().catch(() => ({}));
-
+      const body = await respuesta.json().catch(() => ({}));
 
       if (!respuesta.ok) {
-
         throw new Error(
           body.error || "No hemos podido enviar la solicitud."
         );
-
       }
-
 
       resultado.innerHTML = `
         <div class="resultado-si">
-
-          <strong>
-            ✓ Solicitud recibida
-          </strong>
-
+          <strong>✓ Solicitud recibida</strong>
           <p>
             Hemos recibido tus datos correctamente.
             Si encontramos una gestoría colaboradora adecuada,
             podrá ponerse en contacto contigo.
           </p>
-
         </div>
       `;
 
-
       formulario.reset();
 
-
     } catch (error) {
-
       resultado.innerHTML = `
         <div class="resultado-no">
-
-          <strong>
-            No hemos podido enviar la solicitud
-          </strong>
-
-          <p>
-            ${error.message}
-          </p>
-
+          <strong>No hemos podido enviar la solicitud</strong>
+          <p>${error.message}</p>
         </div>
       `;
 
     } finally {
-
       boton.disabled = false;
-
-      boton.textContent =
-        "Solicitar contacto profesional →";
-
+      boton.textContent = "Solicitar contacto profesional →";
     }
-
   }
 );
 
