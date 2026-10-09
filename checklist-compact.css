@@ -1,0 +1,179 @@
+/* Mis ayudas y trámites · cuestionario compacto */
+
+/* El objetivo en escritorio es que cada paso, incluido el botón Continuar,
+   quepa completo en una pantalla normal sin obligar a hacer scroll. */
+@media (min-width: 761px) {
+  body:has(#cuestionario) .header-contenido {
+    min-height: 62px;
+  }
+
+  body:has(#cuestionario) main {
+    min-height: calc(100vh - 62px);
+  }
+
+  #cuestionario {
+    max-width: 760px;
+    margin: 20px auto 26px;
+  }
+
+  #cuestionario .progreso {
+    margin-bottom: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  #cuestionario .pregunta {
+    padding: 22px 26px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(63,48,39,.07);
+  }
+
+  #cuestionario .pregunta h2 {
+    margin-bottom: 6px;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -.45px;
+  }
+
+  #cuestionario .pregunta > p {
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  #cuestionario .opciones {
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+
+  #cuestionario .opcion {
+    gap: 12px;
+    min-height: 58px;
+    padding: 10px 14px;
+    border-radius: 12px;
+  }
+
+  #cuestionario .opcion input {
+    width: 17px;
+    height: 17px;
+    flex: 0 0 auto;
+  }
+
+  #cuestionario .opcion-texto strong {
+    margin-bottom: 1px;
+    font-size: 15px;
+    line-height: 1.25;
+  }
+
+  #cuestionario .opcion-texto span {
+    font-size: 12.5px;
+    line-height: 1.35;
+  }
+
+  #cuestionario select,
+  #cuestionario input[type="date"] {
+    min-height: 46px;
+    padding: 10px 13px !important;
+    margin-bottom: 12px !important;
+    font-size: 15px !important;
+  }
+
+  #cuestionario .botones {
+    margin-top: 2px;
+    gap: 12px;
+  }
+
+  #cuestionario .botones button {
+    min-height: 42px;
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  #cuestionario .volver {
+    padding-left: 0;
+  }
+
+  #cuestionario .error {
+    margin-top: -4px;
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+}
+
+/* En portátiles bajos comprimimos un poco más para evitar scroll vertical. */
+@media (min-width: 761px) and (max-height: 760px) {
+  #cuestionario {
+    margin-top: 12px;
+  }
+
+  #cuestionario .pregunta {
+    padding: 18px 22px;
+  }
+
+  #cuestionario .pregunta h2 {
+    font-size: 23px;
+  }
+
+  #cuestionario .pregunta > p {
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  #cuestionario .opciones {
+    gap: 5px;
+    margin-bottom: 9px;
+  }
+
+  #cuestionario .opcion {
+    min-height: 50px;
+    padding: 8px 12px;
+  }
+
+  #cuestionario .opcion-texto strong {
+    font-size: 14px;
+  }
+
+  #cuestionario .opcion-texto span {
+    font-size: 11.5px;
+  }
+}
+
+@media (max-width: 760px) {
+  #cuestionario {
+    margin: 18px auto 28px;
+  }
+
+  #cuestionario .progreso {
+    margin-bottom: 9px;
+  }
+
+  #cuestionario .pregunta {
+    padding: 18px 16px;
+    border-radius: 17px;
+  }
+
+  #cuestionario .pregunta h2 {
+    font-size: 22px;
+    line-height: 1.18;
+  }
+
+  #cuestionario .pregunta > p {
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  #cuestionario .opciones {
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  #cuestionario .opcion {
+    padding: 11px 12px;
+  }
+
+  #cuestionario .opcion-texto span {
+    font-size: 12.5px;
+  }
+}
