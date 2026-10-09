@@ -1,25 +1,47 @@
-# Analítica de lanzamiento — Papeles del Bebé V8
+# Analítica — Papeles del Bebé
 
-La V8 crea un funnel que se puede medir únicamente con pageviews:
+Última actualización: 09/10/2026
+
+## Google Analytics 4
+
+GA4 está configurado con el ID de medición:
+
+- `G-YQ7QHVVWZV`
+
+La integración se realiza mediante `/analytics.js` y sigue un enfoque de consentimiento previo:
+
+- Google Analytics no se carga hasta que el usuario acepta la analítica.
+- Si el usuario rechaza, la web funciona con normalidad y GA4 no se activa.
+- La preferencia se guarda en `localStorage` bajo `papelesbebe_analytics_consent`.
+- `allow_google_signals` está desactivado.
+- `allow_ad_personalization_signals` está desactivado.
+
+## Funnel principal
+
+La estructura permite medir el funnel principal con pageviews y eventos:
 
 - `/` = visita a la web
-- `/checklist/` = persona que empieza o retoma la checklist
-- `/checklist/completada/` = persona que completa las 6 preguntas
+- `/checklist/` = inicio o reanudación de checklist
+- `/checklist/completada/` = checklist completada
+
+Eventos personalizados enviados a GA4 cuando existe consentimiento:
+
+- `checklist_start`
+- `checklist_completed`
 
 Esto permite calcular:
-- tasa de inicio = visitas a `/checklist/` / visitas a landing
-- tasa de finalización = visitas a `/checklist/completada/` / visitas a `/checklist/`
 
-## Vercel Web Analytics
-No se ha hardcodeado ningún script porque Vercel Web Analytics v2 genera un
-`<unique-path>` específico del proyecto al habilitarlo.
+- tasa de inicio = usuarios que llegan a `/checklist/` / usuarios de landing
+- tasa de finalización = usuarios que llegan a `/checklist/completada/` / usuarios que pasan por `/checklist/`
 
-Pasos cuando quieras activarlo:
-1. Vercel → proyecto `utiles-online` → Analytics.
-2. Pulsa Enable.
-3. Sigue la implementación HTML que muestre Vercel para el proyecto.
-4. Haz un nuevo deployment.
-5. Comprueba que aparecen pageviews de `/`, `/checklist/` y `/checklist/completada/`.
+## Privacidad
 
-Vercel Web Analytics usa medición first-party sin cookies de seguimiento.
-No se han añadido Google Analytics, Meta Pixel ni trackers externos en esta V8.
+La política de privacidad en `/privacidad/` describe el uso de GA4 y deja claro que la analítica es opcional.
+
+Las respuestas de la checklist siguen almacenándose localmente en el navegador. GA4 se utiliza para medir uso agregado de la web y no sustituye la lógica determinista de la checklist.
+
+## Próximos pasos
+
+- Extender `/analytics.js` a todas las landings SEO relevantes.
+- Verificar recepción de pageviews y eventos en GA4 Realtime/DebugView.
+- Conectar la propiedad GA4 con GSC Wizard para poder consultar sesiones, canales, páginas y conversiones desde el agente SEO.
