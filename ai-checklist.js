@@ -52,7 +52,7 @@
     boton.disabled = true;
     boton.textContent = "Analizando…";
     salida.style.display = "block";
-    salida.innerHTML = '<div class="papelesia-checklist-cargando">PAPELESIA está revisando tu situación…</div>';
+    salida.innerHTML = '<div class="papelesia-checklist-cargando">PapelesIA está revisando tu situación…</div>';
 
     const datos = datosParaIA();
     const mensaje = [
@@ -81,14 +81,14 @@
       salida.innerHTML = `
         <div>${texto}</div>
         <div class="papelesia-checklist-aviso">
-          PAPELESIA complementa la checklist, pero no sustituye la información oficial. Comprueba siempre los requisitos definitivos en el organismo correspondiente.
+          PapelesIA complementa la checklist, pero no sustituye la información oficial. Comprueba siempre los requisitos definitivos en el organismo correspondiente.
         </div>
       `;
     } catch (error) {
-      salida.innerHTML = `<div class="papelesia-checklist-aviso">${escapar(error.message || "PAPELESIA no está disponible ahora mismo.")}</div>`;
+      salida.innerHTML = `<div class="papelesia-checklist-aviso">${escapar(error.message || "PapelesIA no está disponible ahora mismo.")}</div>`;
     } finally {
       boton.disabled = false;
-      boton.textContent = "✨ Analizar con PAPELESIA";
+      boton.textContent = "✨ Analizar con PapelesIA";
     }
   }
 
@@ -103,11 +103,11 @@
     bloque.innerHTML = `
       <div class="papelesia-checklist-cabecera">
         <div>
-          <div class="papelesia-checklist-marca">✨ PAPELESIA</div>
+          <div class="papelesia-checklist-marca">✨ PapelesIA</div>
           <h3>Tu checklist, revisada con IA</h3>
-          <p>PAPELESIA puede resumir tu situación y decirte qué conviene revisar primero según las respuestas que has dado.</p>
+          <p>PapelesIA puede resumir tu situación y decirte qué conviene revisar primero según las respuestas que has dado.</p>
         </div>
-        <button type="button" id="papelesiaChecklistBoton">✨ Analizar con PAPELESIA</button>
+        <button type="button" id="papelesiaChecklistBoton">✨ Analizar con PapelesIA</button>
       </div>
       <div id="papelesiaChecklistResultado" class="papelesia-checklist-resultado"></div>
     `;
