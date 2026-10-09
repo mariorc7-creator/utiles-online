@@ -48,6 +48,7 @@
 </footer>
 
 <script src="../../app.js"></script>
+<script src="../../ai-checklist.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
@@ -58,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".upsell-premium, .upsell-gestoria").forEach(function (el) {
         el.style.display = "none";
       });
+      // Capa IA opcional: complementa la checklist determinista sin sustituirla.
+      if (typeof insertarChecklistIA === "function") insertarChecklistIA();
     } else {
       window.location.replace("/checklist/");
     }
