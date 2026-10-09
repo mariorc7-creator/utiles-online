@@ -1,4 +1,52 @@
-/* Home polish · selector de ayudas por comunidad */
+/* Home polish · navegación principal y selector de ayudas por comunidad */
+
+/* ¿QUÉ NECESITAS? — dos opciones, centradas y equilibradas */
+.home-necesidades {
+  width: 100%;
+  max-width: 720px;
+  margin: 20px auto 0 !important;
+  padding: 0;
+  text-align: center;
+}
+
+.home-necesidades .contenido-etiqueta {
+  margin: 0 auto 14px;
+}
+
+.home-necesidades-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 14px;
+  width: 100%;
+  margin-top: 0;
+}
+
+.home-necesidades-grid a {
+  min-height: 118px;
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 16px;
+  text-align: left;
+}
+
+.home-necesidades-grid span {
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.home-necesidades-grid strong {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.home-necesidades-grid small {
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* Selector de ayudas por comunidad */
 .home-ayudas-compactas-form {
   display: grid;
   grid-template-columns: minmax(260px, 360px) 150px;
@@ -53,6 +101,18 @@
 }
 
 @media (max-width: 760px) {
+  .home-necesidades {
+    max-width: 520px;
+  }
+
+  .home-necesidades-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .home-necesidades-grid a {
+    min-height: 104px;
+  }
+
   .home-ayudas-compactas-form {
     grid-template-columns: 1fr;
     justify-content: stretch;
