@@ -1,0 +1,48 @@
+/* Home polish · selector de ayudas por comunidad */
+.home-ayudas-compactas-form {
+  display: grid;
+  grid-template-columns: minmax(360px, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-ayudas-compactas-form select {
+  width: 100%;
+  min-height: 58px;
+  margin: 0;
+  padding: 0 48px 0 18px;
+  border: 1px solid #ddd8d3;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--text);
+  font-size: 16px;
+  box-shadow: 0 4px 14px rgba(63,48,39,.04);
+}
+
+.home-ayudas-compactas-form select:hover {
+  border-color: #c9c4ee;
+}
+
+.home-ayudas-compactas-form select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(111,124,247,.10);
+}
+
+.home-ayudas-compactas-form button {
+  min-height: 58px;
+  padding: 0 22px;
+  border-radius: 16px;
+  font-size: 16px;
+  white-space: nowrap;
+  box-shadow: 0 9px 22px rgba(111,124,247,.18);
+}
+
+@media (max-width: 760px) {
+  .home-ayudas-compactas-form {
+    grid-template-columns: 1fr;
+  }
+
+  .home-ayudas-compactas-form button {
+    width: 100%;
+  }
+}
