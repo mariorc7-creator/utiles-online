@@ -19,7 +19,7 @@
   >
 
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.papelesdelbebe.es/"> 
+  <link rel="canonical" href="https://www.papelesdelbebe.es/">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="home-polish.css">
 
@@ -74,64 +74,72 @@
   </header>
 
   <main>
-    <section class="hero" id="portada">
-      <div class="badge">Guía práctica para familias en España</div>
+    <section class="hero home-dashboard" id="portada">
+      <div class="home-hero-principal">
+        <div class="badge">Guía práctica para familias en España</div>
 
-      <h1>¿Acabas de tener un bebé?</h1>
+        <h1>¿Acabas de tener un bebé?</h1>
 
-      <p class="subtitle">
-        Descubre qué ayudas y trámites debes revisar según tu situación, con información clara y fuentes oficiales.
-      </p>
+        <p class="subtitle">
+          Descubre qué ayudas y trámites debes revisar según tu situación, con información clara y fuentes oficiales.
+        </p>
 
-      <button onclick="irChecklist()">Ver mis ayudas y trámites →</button>
-
-      <p class="cta-explicacion">Solo necesitas responder 6 preguntas.</p>
-
-      <div class="hero-beneficios" aria-label="Ventajas">
-        <div class="hero-beneficio">
-          <span class="hero-beneficio-icono">🎁</span>
-          <span><strong>Gratis</strong><small>Acceso gratuito</small></span>
+        <div class="home-hero-cta">
+          <button onclick="irChecklist()">Crear mi checklist →</button>
+          <p class="cta-explicacion">6 preguntas · gratis · sin registro</p>
         </div>
 
-        <div class="hero-beneficio">
-          <span class="hero-beneficio-icono">⚡</span>
-          <span><strong>Sin registro</strong><small>No necesitas crear una cuenta</small></span>
+        <div class="hero-beneficios" aria-label="Ventajas">
+          <div class="hero-beneficio">
+            <span class="hero-beneficio-icono">🎁</span>
+            <span><strong>Gratis</strong><small>Acceso gratuito</small></span>
+          </div>
+
+          <div class="hero-beneficio">
+            <span class="hero-beneficio-icono">⚡</span>
+            <span><strong>Sin registro</strong><small>No necesitas crear una cuenta</small></span>
+          </div>
+
+          <div class="hero-beneficio">
+            <span class="hero-beneficio-icono">🏛️</span>
+            <span><strong>Fuentes oficiales</strong><small>Enlaces a organismos oficiales</small></span>
+          </div>
         </div>
 
-        <div class="hero-beneficio">
-          <span class="hero-beneficio-icono">🏛️</span>
-          <span><strong>Fuentes oficiales</strong><small>Enlaces a organismos oficiales</small></span>
-        </div>
+        <div id="reanudarProgreso"></div>
       </div>
 
-      <div id="reanudarProgreso"></div>
-
-      <section class="home-necesidades">
+      <section class="home-necesidades" aria-labelledby="home-necesidades-titulo">
         <div class="contenido-etiqueta">¿QUÉ NECESITAS?</div>
+        <h2 id="home-necesidades-titulo">Ve directamente a lo que buscas</h2>
         <div class="home-necesidades-grid">
-          <a href="/ayudas-nacimiento/">
-            <span>💶</span>
-            <strong>Ayudas y dinero</strong>
-            <small>Prestaciones, deducciones y ayudas regionales</small>
+          <a href="/ayudas-nacimiento/" class="home-necesidad-card">
+            <span class="home-necesidad-icono">💶</span>
+            <div>
+              <strong>Ayudas y dinero</strong>
+              <small>Prestaciones, deducciones y ayudas regionales</small>
+            </div>
+            <b aria-hidden="true">→</b>
           </a>
-          <a href="/tramites-bebe/">
-            <span>📄</span>
-            <strong>Trámites</strong>
-            <small>Registro, Seguridad Social, padrón y tarjeta sanitaria</small>
+          <a href="/tramites-bebe/" class="home-necesidad-card">
+            <span class="home-necesidad-icono">📄</span>
+            <div>
+              <strong>Trámites</strong>
+              <small>Registro, Seguridad Social, padrón y tarjeta sanitaria</small>
+            </div>
+            <b aria-hidden="true">→</b>
           </a>
-          <!-- TEMPORALMENTE DESACTIVADO: Premium y Gestoría se habilitarán más adelante
-          <a href="/premium/">
-            <span>✨</span>
-            <strong>Plan Premium</strong>
-            <small>Todo ordenado en un único plan personalizado</small>
-          </a>
-          <a href="/gestoria/">
-            <span>🤝</span>
-            <strong>Ayuda profesional</strong>
-            <small>Solicita contacto con una gestoría colaboradora</small>
-          </a>
-          -->
         </div>
+      </section>
+
+      <section class="home-papelesia" aria-labelledby="home-papelesia-titulo">
+        <div class="home-papelesia-icono" aria-hidden="true">👶✨</div>
+        <div class="home-papelesia-copy">
+          <span class="contenido-etiqueta">PAPELESIA</span>
+          <h2 id="home-papelesia-titulo">¿Tienes una duda concreta?</h2>
+          <p>Pregunta al asistente de Papeles del Bebé sobre ayudas y trámites.</p>
+        </div>
+        <button type="button" class="home-papelesia-boton" onclick="abrirPapelesIA()">Preguntar a PapelesIA →</button>
       </section>
 
       <section class="home-ayudas-compactas">
@@ -177,7 +185,7 @@
         </div>
       </section>
 
-      <section class="home-cierre-compacto">
+      <section class="home-cierre-compacto" aria-label="Confianza">
         <span>🏛️ Fuentes oficiales</span>
         <span>🔐 Sin registro</span>
         <span>📍 Información por comunidad</span>
@@ -207,6 +215,13 @@
   function abrirComunidadSeleccionada() {
     const sel = document.getElementById("selectorComunidadHome");
     if (sel && sel.value) window.location.href = sel.value;
+  }
+
+  function abrirPapelesIA() {
+    const panel = document.getElementById('papelesia-panel');
+    const launcher = document.getElementById('papelesia-launcher');
+    if (panel && panel.classList.contains('abierto')) return;
+    if (launcher) launcher.click();
   }
   </script>
   <script src="/analytics.js"></script>
