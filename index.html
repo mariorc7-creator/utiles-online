@@ -53,200 +53,162 @@
 
 <body>
 
-  <!-- =========================
-       CABECERA
-  ========================== -->
-
   <header>
-
     <div class="header-contenido">
-
       <a href="/" class="logo logo-enlace" aria-label="Ir al inicio">
         Papeles del <span>Bebé</span>
       </a>
 
-<div class="header-acciones">
-      <nav class="nav-principal" aria-label="Navegación principal">
-        <a href="/checklist/">Mis ayudas y trámites</a>
-        <a href="/ayudas-nacimiento/">Ayudas</a>
-        <a href="/tramites-bebe/">Trámites</a>
-        <!-- TEMPORALMENTE DESACTIVADO: se reactivará más adelante
-        <a href="/premium/" class="nav-premium">✨ Premium</a>
-        <a href="/gestoria/" class="nav-gestoria">🤝 Gestoría</a>
-        -->
-      </nav>
+      <div class="header-acciones">
+        <nav class="nav-principal" aria-label="Navegación principal">
+          <a href="/checklist/">Mis ayudas y trámites</a>
+          <a href="/ayudas-nacimiento/">Ayudas</a>
+          <a href="/tramites-bebe/">Trámites</a>
+          <!-- TEMPORALMENTE DESACTIVADO: se reactivará más adelante
+          <a href="/premium/" class="nav-premium">✨ Premium</a>
+          <a href="/gestoria/" class="nav-gestoria">🤝 Gestoría</a>
+          -->
+        </nav>
+      </div>
     </div>
-
-    </div>
-
   </header>
 
   <main>
-
-    <!-- =========================
-         PORTADA
-    ========================== -->
-
     <section class="hero" id="portada">
+      <div class="badge">Guía práctica para familias en España</div>
 
-      <div class="badge">
-        Guía práctica para familias en España
-      </div>
-
-      <h1>
-        ¿Acabas de tener un bebé?
-      </h1>
+      <h1>¿Acabas de tener un bebé?</h1>
 
       <p class="subtitle">
         Descubre qué ayudas y trámites debes revisar según tu situación, con información clara y fuentes oficiales.
       </p>
 
-      <button onclick="irChecklist()">
-        Ver mis ayudas y trámites →
-      </button>
+      <button onclick="irChecklist()">Ver mis ayudas y trámites →</button>
 
       <p class="cta-explicacion">Solo necesitas responder 6 preguntas.</p>
 
-<div class="hero-beneficios" aria-label="Ventajas">
-  <div class="hero-beneficio">
-    <span class="hero-beneficio-icono">🎁</span>
-    <span><strong>Gratis</strong><small>Acceso gratuito</small></span>
-  </div>
+      <div class="hero-beneficios" aria-label="Ventajas">
+        <div class="hero-beneficio">
+          <span class="hero-beneficio-icono">🎁</span>
+          <span><strong>Gratis</strong><small>Acceso gratuito</small></span>
+        </div>
 
-  <div class="hero-beneficio">
-    <span class="hero-beneficio-icono">⚡</span>
-    <span><strong>Sin registro</strong><small>No necesitas crear una cuenta</small></span>
-  </div>
+        <div class="hero-beneficio">
+          <span class="hero-beneficio-icono">⚡</span>
+          <span><strong>Sin registro</strong><small>No necesitas crear una cuenta</small></span>
+        </div>
 
-  <div class="hero-beneficio">
-    <span class="hero-beneficio-icono">🏛️</span>
-    <span><strong>Fuentes oficiales</strong><small>Enlaces a organismos oficiales</small></span>
-  </div>
-</div>
+        <div class="hero-beneficio">
+          <span class="hero-beneficio-icono">🏛️</span>
+          <span><strong>Fuentes oficiales</strong><small>Enlaces a organismos oficiales</small></span>
+        </div>
+      </div>
 
       <div id="reanudarProgreso"></div>
 
-<section class="home-necesidades">
-  <div class="contenido-etiqueta">¿QUÉ NECESITAS?</div>
-  <div class="home-necesidades-grid">
-    <a href="/ayudas-nacimiento/">
-      <span>💶</span>
-      <strong>Ayudas y dinero</strong>
-      <small>Prestaciones, deducciones y ayudas regionales</small>
-    </a>
-    <a href="/tramites-bebe/">
-      <span>📄</span>
-      <strong>Trámites</strong>
-      <small>Registro, Seguridad Social, padrón y tarjeta sanitaria</small>
-    </a>
-    <!-- TEMPORALMENTE DESACTIVADO: Premium y Gestoría se habilitarán más adelante
-    <a href="/premium/">
-      <span>✨</span>
-      <strong>Plan Premium</strong>
-      <small>Todo ordenado en un único plan personalizado</small>
-    </a>
-    <a href="/gestoria/">
-      <span>🤝</span>
-      <strong>Ayuda profesional</strong>
-      <small>Solicita contacto con una gestoría colaboradora</small>
-    </a>
-    -->
-  </div>
-</section>
+      <section class="home-necesidades">
+        <div class="contenido-etiqueta">¿QUÉ NECESITAS?</div>
+        <div class="home-necesidades-grid">
+          <a href="/ayudas-nacimiento/">
+            <span>💶</span>
+            <strong>Ayudas y dinero</strong>
+            <small>Prestaciones, deducciones y ayudas regionales</small>
+          </a>
+          <a href="/tramites-bebe/">
+            <span>📄</span>
+            <strong>Trámites</strong>
+            <small>Registro, Seguridad Social, padrón y tarjeta sanitaria</small>
+          </a>
+          <!-- TEMPORALMENTE DESACTIVADO: Premium y Gestoría se habilitarán más adelante
+          <a href="/premium/">
+            <span>✨</span>
+            <strong>Plan Premium</strong>
+            <small>Todo ordenado en un único plan personalizado</small>
+          </a>
+          <a href="/gestoria/">
+            <span>🤝</span>
+            <strong>Ayuda profesional</strong>
+            <small>Solicita contacto con una gestoría colaboradora</small>
+          </a>
+          -->
+        </div>
+      </section>
 
-<section class="home-ayudas-compactas">
-  <div class="home-ayudas-compactas-copy">
-    <span class="contenido-etiqueta">AYUDAS POR COMUNIDAD</span>
-    <h2>Busca las ayudas de tu zona</h2>
-    <p>Selecciona tu comunidad y ve directamente a la información regional.</p>
-  </div>
+      <section class="home-ayudas-compactas">
+        <div class="home-ayudas-compactas-copy">
+          <span class="contenido-etiqueta">AYUDAS POR COMUNIDAD</span>
+          <h2>Busca las ayudas de tu zona</h2>
+          <p>Selecciona tu comunidad y ve directamente a la información regional.</p>
+        </div>
 
-  <div class="home-ayudas-compactas-form">
-    <select id="selectorComunidadHome" aria-label="Selecciona tu comunidad autónoma">
-      <option value="">Selecciona tu comunidad</option>
-      <option value="/comunidades/andalucia/">Andalucía</option>
-      <option value="/comunidades/aragon/">Aragón</option>
-      <option value="/comunidades/asturias/">Asturias</option>
-      <option value="/comunidades/islas-baleares/">Islas Baleares</option>
-      <option value="/comunidades/canarias/">Canarias</option>
-      <option value="/comunidades/cantabria/">Cantabria</option>
-      <option value="/comunidades/castilla-la-mancha/">Castilla-La Mancha</option>
-      <option value="/comunidades/castilla-y-leon/">Castilla y León</option>
-      <option value="/comunidades/cataluna/">Cataluña</option>
-      <option value="/comunidades/comunidad-valenciana/">Comunidad Valenciana</option>
-      <option value="/comunidades/extremadura/">Extremadura</option>
-      <option value="/comunidades/galicia/">Galicia</option>
-      <option value="/comunidades/comunidad-de-madrid/">Comunidad de Madrid</option>
-      <option value="/comunidades/region-de-murcia/">Región de Murcia</option>
-      <option value="/comunidades/navarra/">Navarra</option>
-      <option value="/comunidades/pais-vasco/">País Vasco</option>
-      <option value="/comunidades/la-rioja/">La Rioja</option>
-      <option value="/comunidades/ceuta/">Ceuta</option>
-      <option value="/comunidades/melilla/">Melilla</option>
-    </select>
+        <div class="home-ayudas-compactas-form">
+          <select id="selectorComunidadHome" aria-label="Selecciona tu comunidad autónoma">
+            <option value="">Selecciona tu comunidad</option>
+            <option value="/comunidades/andalucia/">Andalucía</option>
+            <option value="/comunidades/aragon/">Aragón</option>
+            <option value="/comunidades/asturias/">Asturias</option>
+            <option value="/comunidades/islas-baleares/">Islas Baleares</option>
+            <option value="/comunidades/canarias/">Canarias</option>
+            <option value="/comunidades/cantabria/">Cantabria</option>
+            <option value="/comunidades/castilla-la-mancha/">Castilla-La Mancha</option>
+            <option value="/comunidades/castilla-y-leon/">Castilla y León</option>
+            <option value="/comunidades/cataluna/">Cataluña</option>
+            <option value="/comunidades/comunidad-valenciana/">Comunidad Valenciana</option>
+            <option value="/comunidades/extremadura/">Extremadura</option>
+            <option value="/comunidades/galicia/">Galicia</option>
+            <option value="/comunidades/comunidad-de-madrid/">Comunidad de Madrid</option>
+            <option value="/comunidades/region-de-murcia/">Región de Murcia</option>
+            <option value="/comunidades/navarra/">Navarra</option>
+            <option value="/comunidades/pais-vasco/">País Vasco</option>
+            <option value="/comunidades/la-rioja/">La Rioja</option>
+            <option value="/comunidades/ceuta/">Ceuta</option>
+            <option value="/comunidades/melilla/">Melilla</option>
+          </select>
 
-    <button type="button" onclick="abrirComunidadSeleccionada()">
-      Ver ayudas →
-    </button>
-  </div>
+          <button type="button" onclick="abrirComunidadSeleccionada()">Ver ayudas →</button>
+        </div>
 
-  <div class="home-ayudas-destacadas">
-    <a href="/ayuda-nacimiento-asturias/">Asturias</a>
-    <a href="/ayuda-natalidad-madrid/">Madrid</a>
-    <a href="/tarxeta-benvida-2026/">Galicia</a>
-    <a href="/ayudas-hijos-pais-vasco/">País Vasco</a>
-    <a href="/ayuda-nacimiento-valencia-2026/">València</a>
-  </div>
-</section>
+        <div class="home-ayudas-destacadas">
+          <a href="/ayuda-nacimiento-asturias/">Asturias</a>
+          <a href="/ayuda-natalidad-madrid/">Madrid</a>
+          <a href="/tarxeta-benvida-2026/">Galicia</a>
+          <a href="/ayudas-hijos-pais-vasco/">País Vasco</a>
+          <a href="/ayuda-nacimiento-valencia-2026/">València</a>
+        </div>
+      </section>
 
-<section class="home-cierre-compacto">
-  <span>🏛️ Fuentes oficiales</span>
-  <span>🔐 Sin registro</span>
-  <span>📍 Información por comunidad</span>
-  <span>🔄 Información revisada</span>
-</section>
-
-</main>
-
-  <!-- =========================
-       PIE DE PÁGINA
-  ========================== -->
+      <section class="home-cierre-compacto">
+        <span>🏛️ Fuentes oficiales</span>
+        <span>🔐 Sin registro</span>
+        <span>📍 Información por comunidad</span>
+        <span>🔄 Información revisada</span>
+      </section>
+    </section>
+  </main>
 
   <footer>
-
     <div class="footer-contenido">
-
-      <div class="logo">
-        Papeles del <span>Bebé</span>
-      </div>
-
-      <p>
-        Menos papeleo. Más tiempo para tu bebé.
-      </p>
-
+      <div class="logo">Papeles del <span>Bebé</span></div>
+      <p>Menos papeleo. Más tiempo para tu bebé.</p>
       <p class="footer-aviso">
         Independiente · España. No somos una Administración Pública.
         Verifica siempre los requisitos definitivos
         en el organismo oficial correspondiente.
       </p>
-
-      <p class="footer-copy">
-        © 2026 Papeles del Bebé
-      </p>
-
+      <p class="footer-copy">© 2026 Papeles del Bebé</p>
     </div>
-
   </footer>
 
   <script src="app.js"></script>
+  <script src="qa-fixes.js"></script>
   <script src="config.js"></script>
   <script src="papelesia.js"></script>
-<script>
-function abrirComunidadSeleccionada() {
-  const sel = document.getElementById("selectorComunidadHome");
-  if (sel && sel.value) window.location.href = sel.value;
-}
-</script>
+  <script>
+  function abrirComunidadSeleccionada() {
+    const sel = document.getElementById("selectorComunidadHome");
+    if (sel && sel.value) window.location.href = sel.value;
+  }
+  </script>
 </body>
 
 </html>
