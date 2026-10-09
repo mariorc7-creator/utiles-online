@@ -2,7 +2,7 @@
   "name": "Papeles del Bebé",
   "short_name": "Papeles Bebé",
   "start_url": "/",
-  "display": "standalone",
+  "display": "browser",
   "background_color": "#fffaf7",
   "theme_color": "#6D73F6",
   "icons": []
