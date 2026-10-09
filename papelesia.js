@@ -5,14 +5,46 @@
   style.textContent = `
     #papelesia-launcher{position:fixed;right:22px;bottom:22px;z-index:1000;border:0;border-radius:999px;background:linear-gradient(135deg,#6f7cf7,#8792ff);color:#fff;font-weight:900;padding:14px 18px;box-shadow:0 14px 35px rgba(89,102,229,.3);cursor:pointer;display:flex;align-items:center;gap:8px}
     #papelesia-launcher:hover{transform:translateY(-2px)}
-    #papelesia-panel{position:fixed;right:22px;bottom:82px;width:min(390px,calc(100vw - 28px));height:min(590px,calc(100vh - 120px));z-index:1001;background:#fff;border:1px solid #e8e2dc;border-radius:22px;box-shadow:0 24px 70px rgba(34,48,74,.22);display:none;overflow:hidden;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    #papelesia-panel{position:fixed;right:22px;bottom:82px;width:min(390px,calc(100vw - 28px));height:min(590px,calc(100vh - 120px));height:min(590px,calc(100dvh - 120px));z-index:1001;background:#fff;border:1px solid #e8e2dc;border-radius:22px;box-shadow:0 24px 70px rgba(34,48,74,.22);display:none;overflow:hidden;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     #papelesia-panel.abierto{display:flex;flex-direction:column}
-    .papelesia-head{padding:16px 17px;background:linear-gradient(135deg,#f6f3ff,#fff5f0);border-bottom:1px solid #eee7e2;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .papelesia-identidad{display:flex;align-items:center;gap:10px}.papelesia-avatar{width:40px;height:40px;border-radius:13px;background:#eef0ff;display:grid;place-items:center;font-size:20px}.papelesia-identidad strong{display:block;color:#22304a;font-size:16px}.papelesia-identidad small{display:block;color:#6f7b90;font-size:12px;margin-top:1px}.papelesia-cerrar{background:transparent!important;color:#6f7b90!important;box-shadow:none!important;padding:6px!important;font-size:22px!important;line-height:1!important}
-    #papelesia-mensajes{flex:1;overflow:auto;padding:16px;background:#fffdfb;display:flex;flex-direction:column;gap:11px}
+    .papelesia-head{padding:16px 17px;background:linear-gradient(135deg,#f6f3ff,#fff5f0);border-bottom:1px solid #eee7e2;display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto}
+    .papelesia-identidad{display:flex;align-items:center;gap:10px;min-width:0}.papelesia-avatar{width:40px;height:40px;border-radius:13px;background:#eef0ff;display:grid;place-items:center;font-size:20px;flex:0 0 auto}.papelesia-identidad strong{display:block;color:#22304a;font-size:16px}.papelesia-identidad small{display:block;color:#6f7b90;font-size:12px;margin-top:1px}.papelesia-cerrar{background:transparent!important;color:#6f7b90!important;box-shadow:none!important;padding:8px!important;font-size:24px!important;line-height:1!important;min-width:40px!important;min-height:40px!important;display:grid!important;place-items:center!important;flex:0 0 auto!important}
+    #papelesia-mensajes{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:16px;background:#fffdfb;display:flex;flex-direction:column;gap:11px}
     .papelesia-msg{max-width:84%;padding:11px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap}.papelesia-msg.bot{align-self:flex-start;background:#f1f3ff;color:#33405a;border-bottom-left-radius:5px}.papelesia-msg.user{align-self:flex-end;background:#6f7cf7;color:#fff;border-bottom-right-radius:5px}.papelesia-msg.estado{opacity:.7;font-style:italic}
-    .papelesia-form{padding:12px;border-top:1px solid #eee7e2;background:#fff;display:flex;gap:8px}.papelesia-form textarea{flex:1;resize:none;min-height:44px;max-height:110px;border:1px solid #d9d2cc;border-radius:12px;padding:11px 12px;font:inherit;font-size:14px;outline:none}.papelesia-form textarea:focus{border-color:#6f7cf7;box-shadow:0 0 0 3px rgba(111,124,247,.1)}.papelesia-form button{padding:10px 14px!important;border-radius:12px!important;font-size:14px!important}.papelesia-nota{padding:0 14px 12px;background:#fff;color:#8a93a4;font-size:10.5px;line-height:1.35}
-    @media(max-width:600px){#papelesia-launcher{right:14px;bottom:14px}#papelesia-panel{right:14px;bottom:72px;width:calc(100vw - 28px);height:calc(100vh - 96px)}}
+    .papelesia-form{padding:12px;border-top:1px solid #eee7e2;background:#fff;display:flex;gap:8px;flex:0 0 auto}.papelesia-form textarea{flex:1;resize:none;min-height:44px;max-height:110px;border:1px solid #d9d2cc;border-radius:12px;padding:11px 12px;font:inherit;font-size:14px;outline:none;min-width:0}.papelesia-form textarea:focus{border-color:#6f7cf7;box-shadow:0 0 0 3px rgba(111,124,247,.1)}.papelesia-form button{padding:10px 14px!important;border-radius:12px!important;font-size:14px!important;flex:0 0 auto}.papelesia-nota{padding:0 14px 12px;background:#fff;color:#8a93a4;font-size:10.5px;line-height:1.35;flex:0 0 auto}
+
+    @media(max-width:600px){
+      #papelesia-launcher{right:12px;bottom:12px;padding:12px 15px;font-size:14px}
+      #papelesia-panel{
+        left:10px;
+        right:10px;
+        bottom:72px;
+        width:auto;
+        height:min(68dvh,520px);
+        max-height:calc(100dvh - 92px);
+        border-radius:18px;
+      }
+      .papelesia-head{padding:12px 13px}
+      .papelesia-avatar{width:36px;height:36px;border-radius:11px;font-size:18px}
+      .papelesia-identidad strong{font-size:15px}
+      .papelesia-identidad small{font-size:11px}
+      #papelesia-mensajes{padding:12px}
+      .papelesia-msg{max-width:90%;font-size:13.5px;padding:10px 11px}
+      .papelesia-form{padding:9px}
+      .papelesia-form textarea{font-size:16px;min-height:42px}
+      .papelesia-form button{padding:9px 11px!important;font-size:13px!important}
+      .papelesia-nota{padding:0 11px 9px;font-size:9.5px}
+    }
+
+    @media(max-width:380px){
+      #papelesia-panel{left:7px;right:7px;bottom:68px;height:min(66dvh,480px);max-height:calc(100dvh - 84px)}
+      #papelesia-launcher span:first-child{display:none}
+    }
+
+    @media(max-height:620px) and (max-width:600px){
+      #papelesia-panel{height:calc(100dvh - 88px);max-height:calc(100dvh - 88px);bottom:70px}
+      .papelesia-nota{display:none}
+    }
   `;
   document.head.appendChild(style);
 
@@ -20,18 +52,20 @@
   launcher.id = 'papelesia-launcher';
   launcher.type = 'button';
   launcher.setAttribute('aria-label', 'Abrir PapelesIA');
+  launcher.setAttribute('aria-expanded', 'false');
   launcher.innerHTML = '<span>👶✨</span><span>PapelesIA</span>';
 
   const panel = document.createElement('section');
   panel.id = 'papelesia-panel';
   panel.setAttribute('aria-label', 'Chat PapelesIA');
+  panel.setAttribute('aria-hidden', 'true');
   panel.innerHTML = `
     <div class="papelesia-head">
       <div class="papelesia-identidad">
         <div class="papelesia-avatar">👶</div>
         <div><strong>PapelesIA</strong><small>Asistente de ayudas y trámites</small></div>
       </div>
-      <button class="papelesia-cerrar" type="button" aria-label="Cerrar">×</button>
+      <button class="papelesia-cerrar" type="button" aria-label="Cerrar PapelesIA">×</button>
     </div>
     <div id="papelesia-mensajes"></div>
     <form class="papelesia-form">
@@ -59,13 +93,35 @@
     return el;
   }
 
+  function esMovil() {
+    return window.matchMedia('(max-width: 600px)').matches;
+  }
+
+  function abrirPanel() {
+    panel.classList.add('abierto');
+    panel.setAttribute('aria-hidden', 'false');
+    launcher.setAttribute('aria-expanded', 'true');
+    if (!esMovil()) setTimeout(() => textarea.focus(), 50);
+  }
+
+  function cerrarPanel() {
+    panel.classList.remove('abierto');
+    panel.setAttribute('aria-hidden', 'true');
+    launcher.setAttribute('aria-expanded', 'false');
+    textarea.blur();
+  }
+
   addMsg('¡Hola! Soy PapelesIA 👋\nPuedo ayudarte a orientarte con ayudas y trámites después de tener un bebé en España. ¿Qué necesitas saber?', 'bot');
 
   launcher.addEventListener('click', () => {
-    panel.classList.toggle('abierto');
-    if (panel.classList.contains('abierto')) setTimeout(() => textarea.focus(), 50);
+    if (panel.classList.contains('abierto')) cerrarPanel();
+    else abrirPanel();
   });
-  cerrar.addEventListener('click', () => panel.classList.remove('abierto'));
+  cerrar.addEventListener('click', cerrarPanel);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && panel.classList.contains('abierto')) cerrarPanel();
+  });
 
   textarea.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -105,7 +161,7 @@
       addMsg(err.message || 'Ahora mismo no puedo responder. Inténtalo de nuevo en unos minutos.', 'bot');
     } finally {
       form.querySelector('button').disabled = false;
-      textarea.focus();
+      if (!esMovil()) textarea.focus();
     }
   });
 })();
