@@ -19,7 +19,7 @@
 - El análisis IA reutiliza `/api/papelesia` para mantener una única integración de modelo y configuración.
 
 ## QA funcional — 09/10/2026
-Se ha revisado el flujo principal de navegación y checklist.
+Se ha revisado el flujo principal de navegación, persistencia y checklist, además de estructura de rutas, sitemap y páginas pausadas.
 
 Correcciones aplicadas:
 - Corregido `Continuar mi checklist` desde la home. La home no contiene los nodos `#cuestionario` y `#resultado`, por lo que la llamada directa a `continuarProgreso()` podía lanzar un error JavaScript. Ahora redirige correctamente a `/checklist/`.
@@ -28,15 +28,24 @@ Correcciones aplicadas:
 - Añadida validación defensiva para impedir fechas de nacimiento futuras aunque se manipule el campo HTML.
 - PapelesIA también está cargado dentro de `/checklist/` y `/checklist/completada/`, no solo en la home.
 - Comprobada la existencia en el repositorio de los destinos principales de la home y de las páginas regionales enlazadas.
+- Canonicals de `/checklist/` y `/checklist/completada/` unificados a `https://www.papelesdelbebe.es/...`.
+- Premium y Gestoría estaban ocultos visualmente pero seguían siendo indexables. Se han cambiado a `noindex, follow` mientras estén pausados.
+- Premium y Gestoría se han retirado del sitemap mientras estén pausados.
+- Canonicals de Premium y Gestoría actualizados al hostname definitivo con `www`.
 
 Pendientes de QA/SEO coordinado:
-- Homogeneizar progresivamente todas las URLs canónicas al hostname definitivo `www.papelesdelbebe.es`; algunas páginas internas aún conservan canonicals históricos sin `www`.
+- Homogeneizar progresivamente todas las URLs canónicas del resto de páginas internas al hostname definitivo `www.papelesdelbebe.es`; algunas landings históricas pueden conservar todavía canonicals sin `www`.
 - Extender PapelesIA al resto de landings públicas cuando se decida un patrón global de carga, evitando mantener manualmente el mismo script en decenas de páginas.
+- Preparar pruebas E2E automáticas del flujo de checklist para detectar regresiones en guardar, reanudar, reiniciar y completar.
 
 ## Funciones temporalmente desactivadas
 
 ### Premium
 El código y las rutas de Premium se conservan para una futura activación, pero se han retirado temporalmente de la navegación y de los principales puntos de conversión visibles.
+
+Mientras esté pausado:
+- `/premium/` se mantiene con `noindex, follow`.
+- no aparece en el sitemap.
 
 No eliminar:
 - `/premium/`
@@ -45,6 +54,10 @@ No eliminar:
 
 ### Gestoría
 El código y la infraestructura de captación de leads se conservan para una futura activación, pero la Gestoría queda temporalmente fuera de la experiencia principal del usuario.
+
+Mientras esté pausada:
+- `/gestoria/` se mantiene con `noindex, follow`.
+- no aparece en el sitemap.
 
 No eliminar:
 - `/gestoria/`
@@ -61,6 +74,8 @@ No eliminar:
 - Hub de Ayudas: Premium y Gestoría comentados en navegación.
 - Página de Trámites: Premium y Gestoría comentados en navegación y CTA Premium desactivado.
 - PapelesIA añadido como asistente conversacional de la web.
+- Correcciones QA de persistencia/reinicio y validación de fecha añadidas mediante `qa-fixes.js`.
+- Premium y Gestoría retirados del sitemap y marcados `noindex` durante la pausa.
 
 ## Criterio de mantenimiento
 Premium y Gestoría están pausados, no descartados. Cualquier trabajo futuro debe mantener su código recuperable y evitar eliminar infraestructura asociada salvo decisión explícita posterior.
