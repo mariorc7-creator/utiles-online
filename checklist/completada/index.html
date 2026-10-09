@@ -28,7 +28,7 @@
       </nav>
 
       <a href="/" class="boton-inicio enlace-inicio">← Inicio</a>
-</div>
+    </div>
   </div>
 </header>
 
@@ -48,18 +48,18 @@
 </footer>
 
 <script src="../../app.js"></script>
+<script src="../../qa-fixes.js"></script>
 <script src="../../ai-checklist.js"></script>
+<script src="../../papelesia.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(function () {
     if (typeof cargarProgresoGuardado === "function") cargarProgresoGuardado();
     if (typeof cuestionarioCompleto === "function" && cuestionarioCompleto()) {
       mostrarResultadoProvisional();
-      // Premium y Gestoría quedan preparados pero ocultos hasta su lanzamiento.
       document.querySelectorAll(".upsell-premium, .upsell-gestoria").forEach(function (el) {
         el.style.display = "none";
       });
-      // Capa IA opcional: complementa la checklist determinista sin sustituirla.
       if (typeof insertarChecklistIA === "function") insertarChecklistIA();
     } else {
       window.location.replace("/checklist/");
