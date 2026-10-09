@@ -15,7 +15,7 @@
 
   <meta
     name="description"
-    content="Descubre qué trámites y ayudas revisar después de tener un bebé en España. Crea gratis tu checklist personalizada por comunidad autónoma, con enlaces oficiales."
+    content="Descubre qué trámites y ayudas revisar después de tener un bebé en España. Obtén gratis tus ayudas y trámites personalizados por comunidad autónoma, con enlaces oficiales."
   >
 
   <meta name="robots" content="index, follow">
@@ -64,10 +64,6 @@
           <a href="/checklist/">Mis ayudas y trámites</a>
           <a href="/ayudas-nacimiento/">Ayudas</a>
           <a href="/tramites-bebe/">Trámites</a>
-          <!-- TEMPORALMENTE DESACTIVADO: se reactivará más adelante
-          <a href="/premium/" class="nav-premium">✨ Premium</a>
-          <a href="/gestoria/" class="nav-gestoria">🤝 Gestoría</a>
-          -->
         </nav>
       </div>
     </div>
@@ -85,8 +81,8 @@
         </p>
 
         <div class="home-hero-cta">
-          <button onclick="irChecklist()">Crear mi checklist →</button>
-          <p class="cta-explicacion">6 preguntas · gratis · sin registro</p>
+          <button onclick="irChecklist()">Ver mis ayudas y trámites →</button>
+          <p class="cta-explicacion">Responde 6 preguntas · gratis · sin registro</p>
         </div>
 
         <div class="hero-beneficios" aria-label="Ventajas">
@@ -142,16 +138,20 @@
         <button type="button" class="home-papelesia-boton" onclick="abrirPapelesIA()">Preguntar a PapelesIA →</button>
       </section>
 
-      <section class="home-ayudas-compactas">
-        <div class="home-ayudas-compactas-copy">
-          <span class="contenido-etiqueta">AYUDAS POR COMUNIDAD</span>
-          <h2>Busca las ayudas de tu zona</h2>
-          <p>Selecciona tu comunidad y ve directamente a la información regional.</p>
+      <section class="home-ayudas-compactas home-comunidades" aria-labelledby="home-comunidades-titulo">
+        <div class="home-comunidades-cabecera">
+          <div class="home-comunidades-icono" aria-hidden="true">📍</div>
+          <div class="home-ayudas-compactas-copy">
+            <span class="contenido-etiqueta">AYUDAS POR COMUNIDAD</span>
+            <h2 id="home-comunidades-titulo">Encuentra las ayudas de tu comunidad</h2>
+            <p>Elige dónde vives y te llevamos directamente a las ayudas y recursos de tu zona.</p>
+          </div>
         </div>
 
         <div class="home-ayudas-compactas-form">
+          <label class="sr-only" for="selectorComunidadHome">Selecciona tu comunidad autónoma</label>
           <select id="selectorComunidadHome" aria-label="Selecciona tu comunidad autónoma">
-            <option value="">Selecciona tu comunidad</option>
+            <option value="">¿En qué comunidad vives?</option>
             <option value="/comunidades/andalucia/">Andalucía</option>
             <option value="/comunidades/aragon/">Aragón</option>
             <option value="/comunidades/asturias/">Asturias</option>
@@ -173,15 +173,18 @@
             <option value="/comunidades/melilla/">Melilla</option>
           </select>
 
-          <button type="button" onclick="abrirComunidadSeleccionada()">Ver ayudas →</button>
+          <button type="button" onclick="abrirComunidadSeleccionada()">Buscar ayudas</button>
         </div>
 
-        <div class="home-ayudas-destacadas">
-          <a href="/ayuda-nacimiento-asturias/">Asturias</a>
-          <a href="/ayuda-natalidad-madrid/">Madrid</a>
-          <a href="/tarxeta-benvida-2026/">Galicia</a>
-          <a href="/ayudas-hijos-pais-vasco/">País Vasco</a>
-          <a href="/ayuda-nacimiento-valencia-2026/">València</a>
+        <div class="home-comunidades-populares">
+          <span>Más consultadas:</span>
+          <div class="home-ayudas-destacadas">
+            <a href="/ayuda-nacimiento-asturias/">Asturias</a>
+            <a href="/ayuda-natalidad-madrid/">Madrid</a>
+            <a href="/tarxeta-benvida-2026/">Galicia</a>
+            <a href="/ayudas-hijos-pais-vasco/">País Vasco</a>
+            <a href="/ayuda-nacimiento-valencia-2026/">València</a>
+          </div>
         </div>
       </section>
 
