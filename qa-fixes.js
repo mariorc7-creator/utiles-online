@@ -1,5 +1,5 @@
 (function () {
-  function limpiarEstadoChecklist() {
+  function limpiarEstadoPlan() {
     try {
       localStorage.removeItem("tramitesFacilesRespuestas");
       localStorage.removeItem("tramitesFacilesCompletados");
@@ -16,6 +16,47 @@
 
     const reanudar = document.getElementById("reanudarProgreso");
     if (reanudar) reanudar.innerHTML = "";
+  }
+
+  function normalizarTextoVisible() {
+    if (!document.body) return;
+
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          const padre = node.parentElement;
+          if (!padre) return NodeFilter.FILTER_REJECT;
+          const tag = padre.tagName;
+          if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") {
+            return NodeFilter.FILTER_REJECT;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const cambios = [
+      [/✓\s*Checklist personalizada/gi, "✓ Ayudas y trámites personalizados"],
+      [/Checklist personalizada/gi, "Ayudas y trámites personalizados"],
+      [/Dejaste la checklist a medias\./gi, "Dejaste tus ayudas y trámites a medias."],
+      [/Continuar mi checklist\s*→?/gi, "Continuar donde lo dejé →"],
+      [/Tu checklist anterior sigue guardada en este navegador\./gi, "Tus respuestas anteriores siguen guardadas en este navegador."],
+      [/Estamos preparando un Plan Premium personalizado con tus fechas,\s*documentos, ayudas y próximos pasos\./gi, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio."],
+      [/Estamos preparando un Plan Premium personalizado con tus fechas, documentos, ayudas y próximos pasos\./gi, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio."],
+      [/Ver qué incluye\s*→?/gi, "Ver Plan Premium · 9,90 € →"]
+    ];
+
+    let node;
+    while ((node = walker.nextNode())) {
+      const original = node.nodeValue;
+      let nuevo = original;
+      cambios.forEach(([patron, reemplazo]) => {
+        nuevo = nuevo.replace(patron, reemplazo);
+      });
+      if (nuevo !== original) node.nodeValue = nuevo;
+    }
   }
 
   function adaptarBloqueReanudar() {
@@ -40,13 +81,57 @@
     }
   }
 
+  function mejorarBloquePremium() {
+    const premium = document.querySelector(".upsell-premium");
+    if (!premium) return;
+
+    const texto = premium.querySelector("p");
+    if (texto) {
+      texto.textContent = "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio.";
+    }
+
+    const enlace = premium.querySelector("a.cta-enlace");
+    if (enlace) {
+      enlace.textContent = "Ver Plan Premium · 9,90 € →";
+      enlace.setAttribute("aria-label", "Ver qué incluye el Plan Premium por 9,90 euros, pago único");
+    }
+  }
+
+  function reforzarEnlacesOficiales() {
+    document.querySelectorAll('a[href^="http"]').forEach((enlace) => {
+      try {
+        const url = new URL(enlace.href);
+        const host = url.hostname.toLowerCase();
+        const oficial =
+          host.endsWith(".gob.es") ||
+          host.endsWith(".gencat.cat") ||
+          host.endsWith(".seg-social.es") ||
+          host.endsWith(".agenciatributaria.gob.es") ||
+          host.endsWith(".mjusticia.gob.es");
+
+        if (oficial) {
+          enlace.setAttribute("rel", "noopener noreferrer");
+          if (!enlace.getAttribute("title")) {
+            enlace.setAttribute("title", "Abrir fuente oficial");
+          }
+        }
+      } catch (e) {}
+    });
+  }
+
+  function aplicarMejoras() {
+    adaptarBloqueReanudar();
+    mejorarBloquePremium();
+    normalizarTextoVisible();
+    reforzarEnlacesOficiales();
+  }
+
   const continuarOriginal = typeof continuarProgreso === "function" ? continuarProgreso : null;
 
   window.continuarProgreso = function () {
     const cuestionario = document.getElementById("cuestionario");
     const resultado = document.getElementById("resultado");
 
-    // En la home no existen estos contenedores: continuar ahí provocaba un error JS.
     if (!cuestionario || !resultado) {
       window.location.href = "/checklist/";
       return;
@@ -56,9 +141,7 @@
   };
 
   window.empezarDeNuevo = function () {
-    limpiarEstadoChecklist();
-
-    // Reinicio limpio desde cualquier pantalla y sin arrastrar parámetros antiguos.
+    limpiarEstadoPlan();
     window.location.href = "/checklist/";
   };
 
@@ -97,15 +180,19 @@
   };
 
   document.addEventListener("DOMContentLoaded", function () {
-    const contenedor = document.getElementById("reanudarProgreso");
-    if (!contenedor) return;
+    aplicarMejoras();
 
-    adaptarBloqueReanudar();
-
+    if (!document.body) return;
+    let pendiente = false;
     const observer = new MutationObserver(function () {
-      adaptarBloqueReanudar();
+      if (pendiente) return;
+      pendiente = true;
+      requestAnimationFrame(function () {
+        pendiente = false;
+        aplicarMejoras();
+      });
     });
 
-    observer.observe(contenedor, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true });
   });
 })();
