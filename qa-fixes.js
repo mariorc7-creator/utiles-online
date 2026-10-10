@@ -1,4 +1,8 @@
 (function () {
+  function setTextoSiCambia(elemento, texto) {
+    if (elemento && elemento.textContent !== texto) elemento.textContent = texto;
+  }
+
   function limpiarEstadoPlan() {
     try {
       localStorage.removeItem("tramitesFacilesRespuestas");
@@ -70,12 +74,12 @@
     const texto = contenido.querySelector("p");
     const botones = contenido.querySelectorAll("button");
 
-    if (titulo) titulo.textContent = "¿Continuamos donde lo dejaste?";
-    if (texto) texto.textContent = "Tus respuestas anteriores siguen guardadas en este navegador.";
+    setTextoSiCambia(titulo, "¿Continuamos donde lo dejaste?");
+    setTextoSiCambia(texto, "Tus respuestas anteriores siguen guardadas en este navegador.");
+    setTextoSiCambia(botones[0], "Continuar donde lo dejé →");
 
-    if (botones[0]) botones[0].textContent = "Continuar donde lo dejé →";
     if (botones[1]) {
-      botones[1].textContent = "Descartar progreso";
+      setTextoSiCambia(botones[1], "Descartar progreso");
       botones[1].setAttribute("aria-label", "Descartar las respuestas guardadas y empezar de nuevo");
       botones[1].setAttribute("title", "Borra las respuestas guardadas y empieza desde cero");
     }
@@ -86,13 +90,11 @@
     if (!premium) return;
 
     const texto = premium.querySelector("p");
-    if (texto) {
-      texto.textContent = "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio.";
-    }
+    setTextoSiCambia(texto, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio.");
 
     const enlace = premium.querySelector("a.cta-enlace");
     if (enlace) {
-      enlace.textContent = "Ver Plan Premium · 9,90 € →";
+      setTextoSiCambia(enlace, "Ver Plan Premium · 9,90 € →");
       enlace.setAttribute("aria-label", "Ver qué incluye el Plan Premium por 9,90 euros, pago único");
     }
   }
