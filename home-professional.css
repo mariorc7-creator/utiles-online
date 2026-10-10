@@ -133,6 +133,28 @@
   color: var(--home-muted) !important;
 }
 
+/* Premium debe distinguirse de PapelesIA y su CTA debe quedar centrado. */
+.home-premium-destacado {
+  background: linear-gradient(135deg, #faf9ff 0%, #f7f6ff 100%) !important;
+  border-color: #dddff2 !important;
+}
+
+.home-premium-destacado .home-papelesia-icono::after {
+  content: "PRO";
+  color: #665ad7;
+  font-size: 12px;
+  letter-spacing: .06em;
+}
+
+.home-premium-destacado .home-papelesia-boton,
+.home-papelesia-boton.cta-enlace {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+}
+
 .home-comunidades {
   border-color: var(--home-border) !important;
   border-radius: 18px !important;
@@ -203,5 +225,88 @@ footer {
   .home-hero-principal .hero-beneficio-icono {
     width: 26px !important;
     height: 26px !important;
+  }
+
+  /* Cabecera móvil: dos niveles claros, sin esconder las secciones principales. */
+  header {
+    position: sticky;
+    top: 0;
+  }
+
+  .header-contenido {
+    min-height: 0 !important;
+    padding: 11px 14px 10px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 9px 12px !important;
+  }
+
+  .header-contenido .logo {
+    width: 100%;
+    font-size: 18px !important;
+    line-height: 1.2;
+    text-align: left;
+  }
+
+  .header-acciones {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nav-principal {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1.45fr .72fr .78fr .82fr;
+    gap: 6px !important;
+  }
+
+  .nav-principal a,
+  .nav-principal a:nth-child(2),
+  .nav-principal a:nth-child(3) {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 6px 7px !important;
+    border: 1px solid #e5e7ee;
+    border-radius: 9px !important;
+    background: #f8f9fb;
+    color: #596477;
+    font-size: 10.5px !important;
+    line-height: 1.15;
+    text-align: center;
+    white-space: normal;
+  }
+
+  .nav-principal .nav-premium {
+    background: #f3f0ff !important;
+    border-color: #ddd8fb !important;
+    color: #6257c9 !important;
+  }
+
+  .home-dashboard {
+    padding-top: 18px !important;
+  }
+
+  .home-hero-principal .badge {
+    margin-bottom: 16px !important;
+  }
+
+  .home-premium-destacado .home-papelesia-boton {
+    min-height: 48px !important;
+  }
+}
+
+@media (max-width: 410px) {
+  .nav-principal {
+    grid-template-columns: 1.4fr .7fr .75fr .8fr;
+  }
+
+  .nav-principal a,
+  .nav-principal a:nth-child(2),
+  .nav-principal a:nth-child(3) {
+    font-size: 10px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
   }
 }
