@@ -144,7 +144,17 @@
 
   window.empezarDeNuevo = function () {
     limpiarEstadoPlan();
-    window.location.href = "/checklist/";
+
+    if (window.location.pathname.startsWith("/checklist")) {
+      if (typeof empezarOriginalPapelesBebe === "function") {
+        empezarOriginalPapelesBebe();
+      } else if (typeof empezar === "function") {
+        empezar();
+      }
+      return;
+    }
+
+    window.location.href = "/checklist/?empezar=1";
   };
 
   window.guardarFechaNacimiento = function () {
