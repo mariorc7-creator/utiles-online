@@ -24,6 +24,29 @@
   <link rel="stylesheet" href="home-polish.css">
   <link rel="stylesheet" href="home-community.css">
   <link rel="stylesheet" href="home-professional.css">
+  <style>
+    @media (max-width: 760px) {
+      .header-acciones .nav-principal {
+        display:flex !important;
+        width:100% !important;
+        gap:6px !important;
+        overflow-x:auto !important;
+        padding-bottom:2px !important;
+        scroll-snap-type:x proximity;
+        scrollbar-width:none;
+      }
+      .header-acciones .nav-principal::-webkit-scrollbar{display:none}
+      .header-acciones .nav-principal a,
+      .header-acciones .nav-principal a:nth-child(2),
+      .header-acciones .nav-principal a:nth-child(3) {
+        flex:0 0 auto !important;
+        min-height:36px !important;
+        padding:7px 10px !important;
+        white-space:nowrap !important;
+        scroll-snap-align:start;
+      }
+    }
+  </style>
 
   <script type="application/ld+json">
   {
@@ -67,9 +90,7 @@
           <a href="/ayudas-nacimiento/">Ayudas</a>
           <a href="/tramites-bebe/">Trámites</a>
           <a href="/herramientas/">Herramientas</a>
-          <!-- Premium pausado temporalmente. Mantener código para futura reactivación.
           <a href="/premium/" class="nav-premium">Premium</a>
-          -->
         </nav>
       </div>
     </div>
@@ -131,11 +152,11 @@
             </div>
             <b aria-hidden="true">→</b>
           </a>
-          <a href="/herramientas/buscador-ayudas/" class="home-necesidad-card">
+          <a href="/herramientas/" class="home-necesidad-card">
             <span class="home-necesidad-icono">🧰</span>
             <div>
-              <strong>Simulador de ayudas</strong>
-              <small>Comunidad, situación familiar y laboral · resultado orientativo gratis</small>
+              <strong>Herramientas gratuitas</strong>
+              <small>Simulador de ayudas, calculadora de permiso y calendario de 90 días</small>
             </div>
             <b aria-hidden="true">→</b>
           </a>
@@ -152,7 +173,6 @@
         <button type="button" class="home-papelesia-boton" onclick="abrirPapelesIA()">Preguntar a PapelesIA →</button>
       </section>
 
-      <!-- Premium pausado temporalmente. Mantener este bloque para futura reactivación.
       <section class="home-papelesia home-premium-destacado" aria-labelledby="home-premium-titulo">
         <div class="home-papelesia-icono" aria-hidden="true">PRO</div>
         <div class="home-papelesia-copy">
@@ -162,7 +182,6 @@
         </div>
         <a class="home-papelesia-boton cta-enlace" href="/premium/">Ver Premium · 9,90 € →</a>
       </section>
-      -->
 
       <section class="home-ayudas-compactas home-comunidades" aria-labelledby="home-comunidades-titulo">
         <div class="home-comunidades-cabecera">
@@ -262,7 +281,7 @@
   </footer>
 
   <script src="app.js"></script>
-  <script src="qa-fixes.js?v=20261009-2"></script>
+  <script src="qa-fixes.js?v=20261011-3"></script>
   <script src="config.js"></script>
   <script src="papelesia.js"></script>
   <script>
