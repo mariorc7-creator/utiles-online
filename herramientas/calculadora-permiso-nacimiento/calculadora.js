@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!boton || !tipo || !fecha || !resultado) return;
 
+  const ahora = new Date();
+  const yyyy = ahora.getFullYear();
+  const mm = String(ahora.getMonth() + 1).padStart(2, '0');
+  const dd = String(ahora.getDate()).padStart(2, '0');
+  fecha.max = `${yyyy}-${mm}-${dd}`;
+
   function formatear(d) {
     return new Intl.DateTimeFormat('es-ES', {
       day: '2-digit',
@@ -26,12 +32,17 @@ document.addEventListener('DOMContentLoaded', function () {
     return x;
   }
 
+  function limpiarResultado() {
+    resultado.className = 'tool-result';
+    resultado.innerHTML = '';
+  }
+
   function mostrarError(mensaje) {
     resultado.className = 'tool-result show tool-result-error';
     resultado.innerHTML = '<strong>' + mensaje + '</strong>';
   }
 
-  boton.addEventListener('click', function () {
+  function calcular() {
     const valorFecha = fecha.value;
 
     if (!valorFecha) {
@@ -43,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const nacimiento = new Date(valorFecha + 'T12:00:00');
     if (Number.isNaN(nacimiento.getTime())) {
       mostrarError('La fecha introducida no es válida.');
+      fecha.focus();
       return;
     }
 
@@ -50,6 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
     hoy.setHours(23, 59, 59, 999);
     if (nacimiento > hoy) {
       mostrarError('La fecha no puede ser futura.');
+      fecha.focus();
       return;
     }
 
@@ -71,5 +84,15 @@ document.addEventListener('DOMContentLoaded', function () {
       '<p><b>' + hasta8a + ' semanas</b> adicionales pueden disfrutarse por semanas hasta los 8 años: ' + formatear(limite8a) + '.</p>';
 
     resultado.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  boton.addEventListener('click', calcular);
+  fecha.addEventListener('input', limpiarResultado);
+  tipo.addEventListener('change', limpiarResultado);
+  fecha.addEventListener('keydown', function (ev) {
+    if (ev.key === 'Enter') {
+      ev.preventDefault();
+      calcular();
+    }
   });
 });
