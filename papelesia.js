@@ -26,15 +26,7 @@
 
     @media(max-width:600px){
       #papelesia-launcher{right:14px;bottom:14px;padding:13px 16px;font-size:14px}
-      #papelesia-panel{
-        left:10px;
-        right:10px;
-        bottom:14px;
-        width:auto;
-        height:min(64dvh,500px);
-        max-height:calc(100dvh - 28px);
-        border-radius:18px;
-      }
+      #papelesia-panel{left:10px;right:10px;bottom:14px;width:auto;height:min(64dvh,500px);max-height:calc(100dvh - 28px);border-radius:18px}
       .papelesia-head{padding:11px 12px}
       .papelesia-avatar{width:36px;height:36px;border-radius:11px;font-size:18px}
       .papelesia-identidad strong{font-size:15px}
@@ -123,6 +115,25 @@
     textarea.blur();
     launcher.style.display = 'flex';
   }
+
+  function prefijarPregunta(texto, abrir=true) {
+    if (typeof texto !== 'string' || !texto.trim()) return;
+    textarea.value = texto.trim().slice(0, 600);
+    textarea.dispatchEvent(new Event('input', { bubbles:true }));
+    if (abrir) abrirPanel();
+    if (!esMovil()) setTimeout(() => textarea.focus(), 50);
+  }
+
+  window.PapelesIA = Object.assign(window.PapelesIA || {}, {
+    open: abrirPanel,
+    close: cerrarPanel,
+    prefill: prefijarPregunta
+  });
+
+  window.addEventListener('papelesia:prefill', (event) => {
+    const detail = event && event.detail ? event.detail : {};
+    prefijarPregunta(detail.text || '', detail.open !== false);
+  });
 
   addMsg('¡Hola! Soy PapelesIA 👋\nPuedo ayudarte a orientarte con ayudas y trámites después de tener un bebé en España. ¿Qué necesitas saber?', 'bot');
 
