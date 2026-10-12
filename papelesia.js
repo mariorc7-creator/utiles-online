@@ -3,29 +3,30 @@
 
   const style = document.createElement('style');
   style.textContent = `
-    #papelesia-launcher{position:fixed;right:22px;bottom:22px;z-index:1000;border:0;border-radius:999px;background:linear-gradient(135deg,#6f7cf7,#8792ff);color:#fff;font-weight:900;padding:14px 18px;box-shadow:0 14px 35px rgba(89,102,229,.3);cursor:pointer;display:flex;align-items:center;gap:8px}
-    #papelesia-launcher:hover{transform:translateY(-2px)}
+    #papelesia-launcher{position:fixed;right:22px;bottom:22px;z-index:1000;border:1px solid rgba(255,255,255,.75);border-radius:999px;background:linear-gradient(135deg,#0f9f8f,#16b6a4 58%,#27c7b4);color:#fff;font-weight:900;padding:14px 18px;box-shadow:0 16px 38px rgba(15,159,143,.34),0 0 0 4px rgba(22,182,164,.08);cursor:pointer;display:flex;align-items:center;gap:8px;transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+    #papelesia-launcher:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 20px 44px rgba(15,159,143,.42),0 0 0 5px rgba(22,182,164,.11);filter:saturate(1.08)}
+    #papelesia-launcher:focus-visible{outline:3px solid rgba(15,159,143,.28);outline-offset:4px}
     #papelesia-panel{position:fixed;right:22px;bottom:82px;width:min(390px,calc(100vw - 28px));height:min(590px,calc(100dvh - 120px));z-index:1001;background:#fff;border:1px solid #e8e2dc;border-radius:22px;box-shadow:0 24px 70px rgba(34,48,74,.22);display:none;overflow:hidden;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     #papelesia-panel.abierto{display:flex;flex-direction:column}
-    .papelesia-head{padding:16px 17px;background:linear-gradient(135deg,#f6f3ff,#fff5f0);border-bottom:1px solid #eee7e2;display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto}
+    .papelesia-head{padding:16px 17px;background:linear-gradient(135deg,#eefcf9,#f7fffd);border-bottom:1px solid #dcefeb;display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto}
     .papelesia-identidad{display:flex;align-items:center;gap:10px;min-width:0}
-    .papelesia-avatar{width:40px;height:40px;border-radius:13px;background:#eef0ff;display:grid;place-items:center;font-size:20px;flex:0 0 auto}
+    .papelesia-avatar{width:40px;height:40px;border-radius:13px;background:#e7f8f4;display:grid;place-items:center;font-size:20px;flex:0 0 auto}
     .papelesia-identidad strong{display:block;color:#22304a;font-size:16px}
     .papelesia-identidad small{display:block;color:#6f7b90;font-size:12px;margin-top:1px}
     .papelesia-cerrar{background:transparent!important;color:#6f7b90!important;box-shadow:none!important;padding:8px!important;font-size:26px!important;line-height:1!important;min-width:44px!important;min-height:44px!important;display:grid!important;place-items:center!important;flex:0 0 auto!important}
     #papelesia-mensajes{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;padding:16px;background:#fffdfb;display:flex;flex-direction:column;gap:11px}
     .papelesia-msg{max-width:84%;padding:11px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap}
-    .papelesia-msg.bot{align-self:flex-start;background:#f1f3ff;color:#33405a;border-bottom-left-radius:5px}
-    .papelesia-msg.user{align-self:flex-end;background:#6f7cf7;color:#fff;border-bottom-right-radius:5px}
+    .papelesia-msg.bot{align-self:flex-start;background:#eef9f6;color:#33405a;border-bottom-left-radius:5px}
+    .papelesia-msg.user{align-self:flex-end;background:#0f9f8f;color:#fff;border-bottom-right-radius:5px}
     .papelesia-msg.estado{opacity:.7;font-style:italic}
     .papelesia-form{padding:10px 12px;border-top:1px solid #eee7e2;background:#fff;display:flex;gap:8px;align-items:flex-end;flex:0 0 auto}
     .papelesia-form textarea{flex:1;resize:none;min-height:44px;max-height:96px;border:1px solid #d9d2cc;border-radius:14px;padding:11px 12px;font:inherit;font-size:14px;outline:none;min-width:0}
-    .papelesia-form textarea:focus{border-color:#6f7cf7;box-shadow:0 0 0 3px rgba(111,124,247,.1)}
-    .papelesia-form button{padding:11px 14px!important;border-radius:14px!important;font-size:14px!important;min-height:44px!important;flex:0 0 auto}
+    .papelesia-form textarea:focus{border-color:#0f9f8f;box-shadow:0 0 0 3px rgba(15,159,143,.1)}
+    .papelesia-form button{padding:11px 14px!important;border-radius:14px!important;font-size:14px!important;min-height:44px!important;flex:0 0 auto!important;background:#0f9f8f!important;color:#fff!important}
     .papelesia-nota{padding:0 12px 10px;background:#fff;color:#8a93a4;font-size:10.5px;line-height:1.35;flex:0 0 auto}
 
     @media(max-width:600px){
-      #papelesia-launcher{right:14px;bottom:14px;padding:13px 16px;font-size:14px}
+      #papelesia-launcher{right:14px;bottom:14px;padding:13px 17px;font-size:14px;box-shadow:0 14px 34px rgba(15,159,143,.38),0 0 0 4px rgba(22,182,164,.09)}
       #papelesia-panel{left:10px;right:10px;bottom:14px;width:auto;height:min(64dvh,500px);max-height:calc(100dvh - 28px);border-radius:18px}
       .papelesia-head{padding:11px 12px}
       .papelesia-avatar{width:36px;height:36px;border-radius:11px;font-size:18px}
