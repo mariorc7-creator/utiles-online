@@ -80,8 +80,8 @@
 
     if (botones[1]) {
       setTextoSiCambia(botones[1], "Descartar progreso");
-      botones[1].setAttribute("aria-label", "Descartar las respuestas guardadas y empezar de nuevo");
-      botones[1].setAttribute("title", "Borra las respuestas guardadas y empieza desde cero");
+      botones[1].setAttribute("aria-label", "Descartar las respuestas guardadas");
+      botones[1].setAttribute("title", "Borra las respuestas guardadas y mantente en la página actual");
     }
   }
 
@@ -154,7 +154,8 @@
       return;
     }
 
-    window.location.href = "/checklist/?empezar=1";
+    const portada = document.getElementById("portada");
+    if (portada) portada.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   window.guardarFechaNacimiento = function () {
