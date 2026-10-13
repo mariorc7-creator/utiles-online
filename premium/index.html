@@ -30,35 +30,35 @@
 </header>
 <main class="premium-shell">
   <section class="premium-hero">
-    <span class="premium-badge">PLAN PREMIUM · PRÓXIMAMENTE</span>
+    <span class="premium-badge">PLAN PREMIUM · GRATIS TEMPORALMENTE</span>
     <h1>Tu plan completo, ordenado y listo para seguir</h1>
-    <p class="premium-subtitle">Estamos terminando de preparar el acceso al Plan Premium. Incluirá prioridades, calendario orientativo, documentación a preparar, ayudas a revisar y accesos directos a las guías.</p>
+    <p class="premium-subtitle">Durante esta fase puedes usar el Plan Premium sin pagar: prioridades, calendario orientativo, documentación a preparar, ayudas a revisar y accesos directos a las guías.</p>
 
-    <div class="premium-price"><strong>9,90 €</strong><span>pago único · precio previsto</span></div>
+    <div class="premium-price"><strong>0 €</strong><span>acceso gratuito temporal · sin tarjeta</span></div>
 
     <div class="premium-actions">
-      <a class="premium-btn" id="premiumPrimary" href="/checklist/">Usar gratis Mis ayudas y trámites →</a>
+      <a class="premium-btn" id="premiumPrimary" href="/checklist/?empezar=1&origen=premium">Crear mi Plan Premium gratis →</a>
     </div>
 
-    <p class="premium-note" id="premiumStatus"><strong>Premium aún no está disponible para compra.</strong> Mientras tanto puedes usar gratis el plan de ayudas y trámites personalizado. No se realizará ningún cobro desde esta página.</p>
+    <p class="premium-note" id="premiumStatus"><strong>Acceso gratuito temporal.</strong> No se realizará ningún cobro ni se solicitará tarjeta. Solo necesitamos 6 respuestas para personalizar tu plan.</p>
 
     <section class="premium-section">
-      <h2>Qué incluirá</h2>
+      <h2>Qué incluye</h2>
       <div class="premium-grid">
         <div class="premium-card"><strong>📅 Calendario orientativo</strong><p>Organiza qué revisar ahora, durante los primeros días, el primer mes y los primeros 90 días.</p></div>
         <div class="premium-card"><strong>📄 Documentos</strong><p>Lista práctica adaptada a tu situación laboral y familiar.</p></div>
         <div class="premium-card"><strong>💰 Ayudas a revisar</strong><p>Incluye ayudas estatales y acceso a la guía de tu comunidad.</p></div>
         <div class="premium-card"><strong>🧭 Prioridades</strong><p>Ordena los trámites y marca cuáles conviene revisar primero.</p></div>
         <div class="premium-card"><strong>🏛️ Guías y fuentes</strong><p>Accesos directos a las páginas donde ampliar y validar requisitos.</p></div>
-        <div class="premium-card"><strong>🖨️ Guardable</strong><p>Permitirá imprimir o guardar el plan como PDF desde el navegador.</p></div>
+        <div class="premium-card"><strong>🖨️ Guardable</strong><p>Permite imprimir o guardar el plan como PDF desde el navegador.</p></div>
       </div>
     </section>
 
     <section class="premium-section">
       <h2>Gratis vs Premium</h2>
       <div class="premium-grid">
-        <div class="premium-card"><strong>Plan gratuito · 0 €</strong><p>Te dice qué ayudas y trámites debes revisar y te lleva a las guías correspondientes.</p></div>
-        <div class="premium-card"><strong>Plan Premium · próximamente</strong><p>Convertirá esas respuestas en un documento personalizado y ordenado con prioridades, calendario, documentos y seguimiento.</p></div>
+        <div class="premium-card"><strong>Plan gratuito</strong><p>Te dice qué ayudas y trámites debes revisar y te lleva a las guías correspondientes.</p></div>
+        <div class="premium-card"><strong>Plan Premium · gratis temporalmente</strong><p>Convierte tus respuestas en un documento personalizado y ordenado con prioridades, calendario, documentos y seguimiento.</p></div>
       </div>
     </section>
   </section>
@@ -70,6 +70,13 @@
     <p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p>
   </div>
 </footer>
+<script src="../config.js"></script>
+<script src="premium-flow.js?v=20261013-3"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.PapelesPremiumFlow) window.PapelesPremiumFlow.initPremiumPage();
+});
+</script>
 <script src="/analytics.js"></script>
 </body>
 </html>
