@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.papelesdelbebe.es/sitemap.xml
+Sitemap: https://www.papelesdelbebe.es/sitemap-pack45.xml
