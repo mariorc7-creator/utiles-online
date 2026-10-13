@@ -36,23 +36,7 @@
     <div class="obs-trust"><span>✓ Fuentes oficiales</span><span>✓ Fecha de revisión visible</span><span>✓ Sin inventar elegibilidad</span></div>
   </section>
 
-  <section class="obs-section" aria-labelledby="alertas-titulo">
-    <div class="obs-heading">
-      <div><span class="obs-kicker">ALERTAS DE OPORTUNIDAD</span><h2 id="alertas-titulo">Qué conviene revisar ahora</h2></div>
-      <label class="obs-filter">Territorio
-        <select id="filtroTerritorio"><option value="">Todos</option></select>
-      </label>
-    </div>
-    <div id="alertasOportunidad" class="obs-alertas" aria-live="polite"></div>
-  </section>
-
-  <section class="obs-section" aria-labelledby="comparativa-titulo">
-    <div class="obs-heading"><div><span class="obs-kicker">ACTIVO ENLAZABLE</span><h2 id="comparativa-titulo">Comparativa piloto de ayudas verificadas</h2></div></div>
-    <p class="obs-intro">No ordenamos por “mejor ayuda” porque las cuantías, duración y requisitos no son comparables entre sí. La tabla sí permite ver diferencias de alcance, importe y modelo de plazo.</p>
-    <div class="obs-table-wrap"><table class="obs-table"><thead><tr><th>Ayuda</th><th>Territorio</th><th>Ámbito</th><th>Importe publicado</th><th>Plazo</th><th>Revisión</th></tr></thead><tbody id="tablaComparativa"></tbody></table></div>
-  </section>
-
-  <section class="obs-section" aria-labelledby="mapa-titulo">
+  <section class="obs-section obs-map-section" aria-labelledby="mapa-titulo">
     <div class="obs-heading"><div><span class="obs-kicker">MAPA INTERACTIVO</span><h2 id="mapa-titulo">Explora las ayudas por territorio</h2></div></div>
     <p class="obs-intro">Pulsa sobre una comunidad en el mapa para filtrar sus oportunidades verificadas. Los territorios destacados ya tienen alertas activas en el Observatorio; el resto dispone de guía y se irá ampliando.</p>
     <div class="obs-map-layout">
@@ -74,6 +58,22 @@
       </aside>
     </div>
     <noscript><p class="obs-empty">El mapa interactivo necesita JavaScript. Puedes consultar las guías desde <a href="/comunidades/">Ayudas por comunidad</a>.</p></noscript>
+  </section>
+
+  <section class="obs-section" aria-labelledby="alertas-titulo">
+    <div class="obs-heading">
+      <div><span class="obs-kicker">ALERTAS DE OPORTUNIDAD</span><h2 id="alertas-titulo">Qué conviene revisar ahora</h2></div>
+      <label class="obs-filter">Territorio
+        <select id="filtroTerritorio"><option value="">Todos</option></select>
+      </label>
+    </div>
+    <div id="alertasOportunidad" class="obs-alertas" aria-live="polite"></div>
+  </section>
+
+  <section class="obs-section" aria-labelledby="comparativa-titulo">
+    <div class="obs-heading"><div><span class="obs-kicker">ACTIVO ENLAZABLE</span><h2 id="comparativa-titulo">Comparativa piloto de ayudas verificadas</h2></div></div>
+    <p class="obs-intro">No ordenamos por “mejor ayuda” porque las cuantías, duración y requisitos no son comparables entre sí. La tabla sí permite ver diferencias de alcance, importe y modelo de plazo.</p>
+    <div class="obs-table-wrap"><table class="obs-table"><thead><tr><th>Ayuda</th><th>Territorio</th><th>Ámbito</th><th>Importe publicado</th><th>Plazo</th><th>Revisión</th></tr></thead><tbody id="tablaComparativa"></tbody></table></div>
   </section>
 
   <section class="obs-section obs-method">
