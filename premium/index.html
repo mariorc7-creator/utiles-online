@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Plan Premium de trámites del bebé | Papeles del Bebé</title>
-  <meta name="description" content="Convierte tus ayudas y trámites en un plan personalizado con fechas, documentos y ayudas a revisar. Pago único.">
+  <meta name="description" content="Convierte tus ayudas y trámites en un plan personalizado con prioridades, calendario, documentos y enlaces útiles.">
   <meta name="robots" content="noindex, follow">
   <link rel="canonical" href="https://www.papelesdelbebe.es/premium/">
   <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="premium.css">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <meta name="theme-color" content="#6D73F6">
 </head>
@@ -20,124 +21,70 @@
         <a href="/checklist/">Mis ayudas y trámites</a>
         <a href="/ayudas-nacimiento/">Ayudas</a>
         <a href="/tramites-bebe/">Trámites</a>
+        <a href="/herramientas/">Herramientas</a>
         <a href="/premium/" class="nav-premium">Premium</a>
       </nav>
-
       <a href="/" class="boton-inicio enlace-inicio">← Inicio</a>
     </div>
   </div>
 </header>
-
-<main>
-  <section class="hero seo-page">
-    <div class="badge">Plan Premium</div>
+<main class="premium-shell">
+  <section class="premium-hero">
+    <span class="premium-badge">PLAN PREMIUM · VERSIÓN DE PRUEBA</span>
     <h1>Tu plan completo, ordenado y listo para seguir</h1>
-    <p class="subtitle">
-      Un resumen personalizado con tus trámites, ayudas, fechas límite y documentos
-      que conviene preparar.
-    </p>
+    <p class="premium-subtitle">El Premium ya genera un plan real a partir de tus respuestas: prioridades, calendario orientativo, documentación a preparar, ayudas a revisar y accesos directos a las guías.</p>
 
-    <div id="stripeTestNotice" class="stripe-test-notice">
-      🧪 Modo de prueba de Stripe activo. No se realizará ningún cobro real.
+    <div id="stripeTestNotice" class="premium-test">🧪 Stripe sigue en modo de prueba. No se realiza ningún cobro real mientras validamos el producto.</div>
+
+    <div class="premium-price"><strong>9,90 €</strong><span>pago único cuando activemos cobro real</span></div>
+
+    <div class="premium-actions">
+      <a class="premium-btn" href="/premium/plan/?modo=prueba">Probar mi Plan Premium →</a>
+      <button class="premium-btn secondary" id="botonCheckoutPrueba" type="button">Probar checkout de Stripe</button>
     </div>
 
-    <div class="precio-premium">
-      <span class="precio-premium-cifra">9,90 €</span>
-      <span class="precio-premium-texto">pago único</span>
-    </div>
+    <p class="premium-note">Para probar el plan con tus datos, completa antes “Mis ayudas y trámites”. Si no tienes respuestas guardadas, el propio Premium permite cargar un ejemplo.</p>
 
-    <button id="botonComprarPremium" type="button" onclick="comprarPremium()">
-      Comprar Plan Premium →
-    </button>
-
-    <div class="premium-trust-line">
-      <span>✓ Pago único</span>
-      <span>✓ Sin suscripción</span>
-      <span>✓ El plan gratuito sigue disponible</span>
-    </div>
-
-    <p id="mensajeCheckout" class="checkout-pendiente">
-      Checkout de prueba conectado. Puedes probar el flujo completo sin cobro real.
-    </p>
-
-    <section class="contenido-informativo">
-      <div class="contenido-etiqueta">QUÉ INCLUYE</div>
-
+    <section class="premium-section">
+      <h2>Qué genera de verdad</h2>
       <div class="premium-grid">
-        <div><strong>📅 Fechas y plazos</strong><p>Qué revisar primero y qué no conviene dejar pasar.</p></div>
-        <div><strong>📄 Documentos</strong><p>Lista práctica de documentación que suele hacer falta.</p></div>
-        <div><strong>💰 Ayudas</strong><p>Resumen de las prestaciones y ayudas que merece la pena comprobar.</p></div>
-        <div><strong>🧭 Plan ordenado</strong><p>Un único documento para no saltar entre veinte webs.</p></div>
-        <div><strong>🏛️ Fuentes oficiales</strong><p>Enlaces directos a los organismos correspondientes.</p></div>
-        <div><strong>🖨️ Guardable</strong><p>Pensado para consultar, imprimir o guardar durante las primeras semanas.</p></div>
+        <div class="premium-card"><strong>📅 Calendario orientativo</strong><p>Organiza qué revisar ahora, durante los primeros días, el primer mes y los primeros 90 días.</p></div>
+        <div class="premium-card"><strong>📄 Documentos</strong><p>Lista práctica adaptada a tu situación laboral y familiar.</p></div>
+        <div class="premium-card"><strong>💰 Ayudas a revisar</strong><p>Incluye ayudas estatales y acceso a la guía de tu comunidad.</p></div>
+        <div class="premium-card"><strong>🧭 Prioridades</strong><p>Ordena los trámites y marca cuáles conviene revisar primero.</p></div>
+        <div class="premium-card"><strong>🏛️ Guías y fuentes</strong><p>Accesos directos a las páginas donde ampliar y validar requisitos.</p></div>
+        <div class="premium-card"><strong>🖨️ Guardable</strong><p>Botón para imprimir o guardar el plan como PDF desde el navegador.</p></div>
       </div>
     </section>
 
-    <section class="premium-comparativa">
-      <div class="contenido-etiqueta">GRATIS VS PREMIUM</div>
-      <div class="comparativa-grid">
-        <div class="comparativa-card">
-          <h3>Plan gratuito</h3>
-          <ul>
-            <li>Trámites que debes revisar</li>
-            <li>Ayudas que merece la pena comprobar</li>
-            <li>Enlaces oficiales</li>
-            <li>Progreso guardado</li>
-          </ul>
-          <strong>0 €</strong>
-        </div>
-
-        <div class="comparativa-card comparativa-premium">
-          <span class="premium-mini-badge">Premium</span>
-          <h3>Plan completo</h3>
-          <ul>
-            <li>Todo lo anterior</li>
-            <li>Fechas y prioridades ordenadas</li>
-            <li>Documentos a preparar</li>
-            <li>Resumen personalizado en un único plan</li>
-          </ul>
-          <strong>9,90 € · pago único</strong>
-        </div>
-      </div>
-    </section>
-
-    <section class="bloque-confianza">
-      <div class="confianza-icono">🔐</div>
-      <div>
-        <h2>El plan gratuito seguirá siendo gratis</h2>
-        <p>
-          El Premium no bloquea los trámites básicos. Es para quien quiere tener
-          toda la información personalizada, ordenada y resumida en un solo plan.
-        </p>
+    <section class="premium-section">
+      <h2>Gratis vs Premium</h2>
+      <div class="premium-grid">
+        <div class="premium-card"><strong>Plan gratuito · 0 €</strong><p>Te dice qué ayudas y trámites debes revisar y te lleva a las guías correspondientes.</p></div>
+        <div class="premium-card"><strong>Plan Premium · 9,90 €</strong><p>Convierte esas respuestas en un documento personalizado y ordenado con prioridades, calendario, documentos y seguimiento.</p></div>
       </div>
     </section>
   </section>
 </main>
-
 <footer>
   <div class="footer-contenido">
     <div class="logo">Papeles del <span>Bebé</span></div>
     <p>Menos papeleo. Más tiempo para tu bebé.</p>
     <p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p>
-    <p class="footer-copy">© 2026 Papeles del Bebé</p>
   </div>
 </footer>
-
 <script src="../config.js"></script>
 <script>
-function comprarPremium() {
-  const cfg = window.PAPELES_BEBE_CONFIG || {};
-  const url = cfg.premiumCheckoutUrl || "";
-  const mensaje = document.getElementById("mensajeCheckout");
-
-  if (!url) {
-    mensaje.textContent = "Pago todavía no activado. Estamos preparando el checkout seguro.";
-    mensaje.style.display = "block";
-    return;
-  }
-
-  window.location.href = url;
-}
+(function(){
+  var b=document.getElementById('botonCheckoutPrueba');
+  if(!b)return;
+  b.addEventListener('click',function(){
+    var cfg=window.PAPELES_BEBE_CONFIG||{};
+    if(!cfg.premiumCheckoutUrl){alert('Checkout de prueba no disponible.');return;}
+    window.location.href=cfg.premiumCheckoutUrl;
+  });
+})();
 </script>
+<script src="/analytics.js"></script>
 </body>
 </html>
