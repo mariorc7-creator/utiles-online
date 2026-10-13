@@ -30,30 +30,27 @@
 </header>
 <main class="premium-shell">
   <section class="premium-hero">
-    <span class="premium-badge">PLAN PREMIUM · VERSIÓN DE PRUEBA</span>
+    <span class="premium-badge">PLAN PREMIUM</span>
     <h1>Tu plan completo, ordenado y listo para seguir</h1>
-    <p class="premium-subtitle">El Premium ya genera un plan real a partir de tus respuestas: prioridades, calendario orientativo, documentación a preparar, ayudas a revisar y accesos directos a las guías.</p>
+    <p class="premium-subtitle">Un plan personalizado a partir de tus respuestas: prioridades, calendario orientativo, documentación a preparar, ayudas a revisar y accesos directos a las guías.</p>
 
-    <div id="stripeTestNotice" class="premium-test">🧪 Stripe sigue en modo de prueba. No se realiza ningún cobro real mientras validamos el producto.</div>
-
-    <div class="premium-price"><strong>9,90 €</strong><span>pago único cuando activemos cobro real</span></div>
+    <div class="premium-price"><strong>9,90 €</strong><span>pago único</span></div>
 
     <div class="premium-actions">
-      <a class="premium-btn" href="/premium/plan/?modo=prueba">Probar mi Plan Premium →</a>
-      <button class="premium-btn secondary" id="botonCheckoutPrueba" type="button">Probar checkout de Stripe</button>
+      <a class="premium-btn" href="/premium/plan/">Ver mi Plan Premium →</a>
     </div>
 
-    <p class="premium-note">Para probar el plan con tus datos, completa antes “Mis ayudas y trámites”. Si no tienes respuestas guardadas, el propio Premium permite cargar un ejemplo.</p>
+    <p class="premium-note">Completa antes “Mis ayudas y trámites” para personalizar el plan. Si aún no tienes respuestas guardadas, podrás empezar desde el propio plan.</p>
 
     <section class="premium-section">
-      <h2>Qué genera de verdad</h2>
+      <h2>Qué incluye</h2>
       <div class="premium-grid">
         <div class="premium-card"><strong>📅 Calendario orientativo</strong><p>Organiza qué revisar ahora, durante los primeros días, el primer mes y los primeros 90 días.</p></div>
         <div class="premium-card"><strong>📄 Documentos</strong><p>Lista práctica adaptada a tu situación laboral y familiar.</p></div>
         <div class="premium-card"><strong>💰 Ayudas a revisar</strong><p>Incluye ayudas estatales y acceso a la guía de tu comunidad.</p></div>
         <div class="premium-card"><strong>🧭 Prioridades</strong><p>Ordena los trámites y marca cuáles conviene revisar primero.</p></div>
         <div class="premium-card"><strong>🏛️ Guías y fuentes</strong><p>Accesos directos a las páginas donde ampliar y validar requisitos.</p></div>
-        <div class="premium-card"><strong>🖨️ Guardable</strong><p>Botón para imprimir o guardar el plan como PDF desde el navegador.</p></div>
+        <div class="premium-card"><strong>🖨️ Guardable</strong><p>Permite imprimir o guardar el plan como PDF desde el navegador.</p></div>
       </div>
     </section>
 
@@ -73,18 +70,6 @@
     <p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p>
   </div>
 </footer>
-<script src="../config.js"></script>
-<script>
-(function(){
-  var b=document.getElementById('botonCheckoutPrueba');
-  if(!b)return;
-  b.addEventListener('click',function(){
-    var cfg=window.PAPELES_BEBE_CONFIG||{};
-    if(!cfg.premiumCheckoutUrl){alert('Checkout de prueba no disponible.');return;}
-    window.location.href=cfg.premiumCheckoutUrl;
-  });
-})();
-</script>
 <script src="/analytics.js"></script>
 </body>
 </html>
