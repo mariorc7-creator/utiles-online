@@ -49,8 +49,10 @@
 <script src="../app.js"></script>
 <script src="../qa-fixes.js?v=20261013-1"></script>
 <script src="../papelesia.js?v=20261013-1"></script>
+<script src="../premium/premium-flow.js?v=20261013-2"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  if (window.PapelesPremiumFlow) window.PapelesPremiumFlow.markReturnFromPremium();
   setTimeout(function () {
     if (typeof cargarProgresoGuardado === "function") cargarProgresoGuardado();
     const params = new URLSearchParams(window.location.search);
