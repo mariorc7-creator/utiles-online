@@ -7,7 +7,7 @@
   var provinciaComunidad={
     'ES-A':'Comunidad Valenciana','ES-AB':'Castilla-La Mancha','ES-AL':'Andalucía','ES-AV':'Castilla y León','ES-B':'Cataluña','ES-BA':'Extremadura','ES-BI':'País Vasco','ES-BU':'Castilla y León','ES-C':'Galicia','ES-CA':'Andalucía','ES-CC':'Extremadura','ES-CE':'Ceuta','ES-CO':'Andalucía','ES-CR':'Castilla-La Mancha','ES-CS':'Comunidad Valenciana','ES-CU':'Castilla-La Mancha','ES-GC':'Canarias','ES-GI':'Cataluña','ES-GR':'Andalucía','ES-GU':'Castilla-La Mancha','ES-H':'Andalucía','ES-HU':'Aragón','ES-J':'Andalucía','ES-L':'Cataluña','ES-LE':'Castilla y León','ES-LO':'La Rioja','ES-LU':'Galicia','ES-M':'Comunidad de Madrid','ES-MA':'Andalucía','ES-ML':'Melilla','ES-MU':'Región de Murcia','ES-NA':'Navarra','ES-O':'Asturias','ES-OR':'Galicia','ES-P':'Castilla y León','ES-PM':'Islas Baleares','ES-PO':'Galicia','ES-S':'Cantabria','ES-SA':'Castilla y León','ES-SE':'Andalucía','ES-SG':'Castilla y León','ES-SO':'Castilla y León','ES-SS':'País Vasco','ES-T':'Cataluña','ES-TE':'Aragón','ES-TF':'Canarias','ES-TO':'Castilla-La Mancha','ES-V':'Comunidad Valenciana','ES-VA':'Castilla y León','ES-VI':'País Vasco','ES-Z':'Aragón','ES-ZA':'Castilla y León'
   };
-  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot',"'":'&#39;'}[c];});}
   function fmt(v){if(!v)return '—';var p=v.split('-');return p.length===3?p[2]+'/'+p[1]+'/'+p[0]:v;}
   function daysLeft(v){if(!v)return null;var end=new Date(v+'T23:59:59');var now=new Date();return Math.ceil((end-now)/86400000);}
   function plazo(o){
@@ -32,6 +32,21 @@
   function syncMapSelection(c){document.querySelectorAll('#mapaEspana g[data-comunidad]').forEach(function(g){g.classList.toggle('selected',!!c&&g.getAttribute('data-comunidad')===c);});if(c)setDetail(c);}
   function selectTerritory(c){var sel=document.getElementById('filtroTerritorio');if(sel){sel.value=c;renderAlerts(c);}syncMapSelection(c);setDetail(c);}
   function fallbackMap(msg){var root=document.getElementById('mapaEspana');if(!root)return;root.innerHTML='<div class="obs-map-fallback"><strong>No hemos podido cargar el mapa ahora mismo.</strong><span>'+esc(msg||'Puedes seguir usando el selector de territorio de arriba.')+'</span></div>';}
+  function fitSvgToMap(svg){
+    try{
+      var nodes=svg.querySelectorAll('g[data-comunidad]');
+      var minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity,found=false;
+      nodes.forEach(function(g){
+        var b=g.getBBox();
+        if(!b||(!b.width&&!b.height))return;
+        minX=Math.min(minX,b.x);minY=Math.min(minY,b.y);maxX=Math.max(maxX,b.x+b.width);maxY=Math.max(maxY,b.y+b.height);found=true;
+      });
+      if(!found)return;
+      var w=maxX-minX,h=maxY-minY;
+      var padX=Math.max(12,w*.035),padY=Math.max(12,h*.055);
+      svg.setAttribute('viewBox',(minX-padX)+' '+(minY-padY)+' '+(w+padX*2)+' '+(h+padY*2));
+    }catch(e){}
+  }
   function decorateSvg(svg){
     svg.removeAttribute('width');svg.removeAttribute('height');svg.setAttribute('preserveAspectRatio','xMidYMid meet');svg.classList.add('obs-map-svg');
     svg.querySelectorAll('text').forEach(function(t){t.remove();});
@@ -41,6 +56,7 @@
       g.addEventListener('click',function(){selectTerritory(c);});
       g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();selectTerritory(c);}});
     });
+    requestAnimationFrame(function(){fitSvgToMap(svg);});
   }
   function renderMap(){var root=document.getElementById('mapaEspana');if(!root)return;fetch('https://raw.githubusercontent.com/jboekesteijn/provinces-of-spain/master/Provinces_of_Spain.svg').then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.text();}).then(function(txt){var doc=new DOMParser().parseFromString(txt,'image/svg+xml');var svg=doc.documentElement;if(!svg||svg.nodeName.toLowerCase()!=='svg')throw new Error('SVG no válido');root.innerHTML='';root.appendChild(document.importNode(svg,true));decorateSvg(root.querySelector('svg'));}).catch(function(){fallbackMap('El resto del Observatorio sigue funcionando con normalidad.');});}
   function init(){renderFilter();renderAlerts('');renderTable();renderMap();}
