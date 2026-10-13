@@ -22,9 +22,9 @@
     }
     a.push(task('Deducción por maternidad y fiscalidad familiar','Comprueba si encajas en la deducción por maternidad y otras deducciones aplicables a tu caso.','/deduccion-maternidad/','Revisar'));
     if(COMUNIDADES[d.comunidad]) a.push(task('Ayudas de '+d.comunidad,'Consulta la guía territorial y valida renta, residencia, convocatoria y plazo en la fuente oficial.',COMUNIDADES[d.comunidad],'Revisar'));
-    if(d.monoparental===true) a.push(task('Beneficios por familia monoparental','Revisa título/acreditación, deducciones y ayudas específicas de tu comunidad.','/familia-monoparental-ayudas/','Revisar'));
-    if(d.nacimientoMultiple===true) a.push(task('Ayudas por nacimiento múltiple','Comprueba prestaciones y apoyos específicos por parto o adopción múltiple.','/ayudas-nacimiento-multiple/','Revisar'));
-    if(d.discapacidadProgenitor===true) a.push(task('Ayudas vinculadas a discapacidad','Comprueba beneficios específicos cuando existe discapacidad reconocida en progenitores o unidad familiar.','/ayudas-familias-discapacidad/','Revisar'));
+    if(d.monoparental===true) a.push(task('Beneficios por familia monoparental','Revisa título/acreditación, deducciones y ayudas específicas de tu comunidad.','/ayudas-nacimiento/','Revisar'));
+    if(d.nacimientoMultiple===true) a.push(task('Ayudas por nacimiento múltiple','Comprueba prestaciones y apoyos específicos por parto o adopción múltiple.','/ayudas-nacimiento/','Revisar'));
+    if(d.discapacidadProgenitor===true) a.push(task('Ayudas vinculadas a discapacidad','Comprueba beneficios específicos cuando existe discapacidad reconocida en progenitores o unidad familiar.','/ayudas-nacimiento/','Revisar'));
     return a;
   }
   function docs(d){
