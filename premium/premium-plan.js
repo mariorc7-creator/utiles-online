@@ -16,14 +16,15 @@
     var a=[];
     a.push(task('Registro del nacimiento','Comprueba que la inscripción del nacimiento esté realizada y conserva el justificante o los datos registrales.','/registro-civil-bebe/','Alta'));
     a.push(task('Alta del bebé en Seguridad Social','Revisa el alta como beneficiario y los datos necesarios para acceder a asistencia sanitaria.','/alta-bebe-seguridad-social/','Alta'));
-    a.push(task('Empadronamiento y tarjeta sanitaria','Comprueba padrón y asignación sanitaria según tu municipio y servicio autonómico de salud.','/empadronamiento-bebe/','Alta'));
+    a.push(task('Empadronamiento del bebé','Comprueba el alta en el padrón municipal y conserva el volante o certificado cuando lo necesites.','/empadronar-bebe/','Alta'));
+    a.push(task('Tarjeta sanitaria del bebé','Comprueba la asignación sanitaria y la tarjeta del bebé según tu servicio autonómico de salud.','/tarjeta-sanitaria-bebe/','Alta'));
     if(d.situacionLaboral==='asalariado'||d.situacionLaboral==='autonomo'||d.situacionLaboral==='desempleado'){
       a.push(task('Prestación por nacimiento y cuidado','Revisa tu situación de cotización, documentación y solicitud ante la Seguridad Social.','/permiso-nacimiento-cuidado-menor-2026/','Alta'));
     }
     a.push(task('Deducción por maternidad y fiscalidad familiar','Comprueba si encajas en la deducción por maternidad y otras deducciones aplicables a tu caso.','/deduccion-maternidad/','Revisar'));
     if(COMUNIDADES[d.comunidad]) a.push(task('Ayudas de '+d.comunidad,'Consulta la guía territorial y valida renta, residencia, convocatoria y plazo en la fuente oficial.',COMUNIDADES[d.comunidad],'Revisar'));
-    if(d.monoparental===true) a.push(task('Beneficios por familia monoparental','Revisa título/acreditación, deducciones y ayudas específicas de tu comunidad.','/ayudas-nacimiento/','Revisar'));
-    if(d.nacimientoMultiple===true) a.push(task('Ayudas por nacimiento múltiple','Comprueba prestaciones y apoyos específicos por parto o adopción múltiple.','/ayudas-nacimiento/','Revisar'));
+    if(d.monoparental===true) a.push(task('Beneficios por familia monoparental','Revisa título/acreditación, deducciones y ayudas específicas de tu comunidad.','/familias-monoparentales-ayudas-2026/','Revisar'));
+    if(d.nacimientoMultiple===true) a.push(task('Ayudas por nacimiento múltiple','Comprueba prestaciones y apoyos específicos por parto o adopción múltiple.','/parto-multiple-prestacion-seguridad-social/','Revisar'));
     if(d.discapacidadProgenitor===true) a.push(task('Ayudas vinculadas a discapacidad','Comprueba beneficios específicos cuando existe discapacidad reconocida en progenitores o unidad familiar.','/ayudas-nacimiento/','Revisar'));
     return a;
   }
