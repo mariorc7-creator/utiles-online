@@ -37,10 +37,10 @@
     <div class="premium-price"><strong>9,90 €</strong><span>pago único</span></div>
 
     <div class="premium-actions">
-      <a class="premium-btn" href="/checklist/">Preparar mis datos →</a>
+      <a class="premium-btn" id="premiumPrimary" href="/checklist/?empezar=1&origen=premium">Preparar mis datos →</a>
     </div>
 
-    <p class="premium-note">El Plan Premium completo se desbloqueará después del pago. Mientras terminamos de activar el cobro real, puedes preparar gratis tus respuestas para que el plan quede listo.</p>
+    <p class="premium-note" id="premiumStatus">Primero necesitamos 6 respuestas para personalizar el plan. Al terminar volverás aquí automáticamente.</p>
 
     <section class="premium-section">
       <h2>Qué incluye</h2>
@@ -70,6 +70,13 @@
     <p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p>
   </div>
 </footer>
+<script src="../config.js"></script>
+<script src="premium-flow.js?v=20261013-2"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.PapelesPremiumFlow) window.PapelesPremiumFlow.initPremiumPage();
+});
+</script>
 <script src="/analytics.js"></script>
 </body>
 </html>
