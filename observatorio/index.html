@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Observatorio de ayudas por nacimiento en España | Papeles del Bebé</title>
+  <meta name="description" content="Observatorio de ayudas por nacimiento y familia en España: alertas de oportunidad, comparativas territoriales y datos verificados con fuentes oficiales.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.papelesdelbebe.es/observatorio/">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="observatorio.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#6D73F6">
+</head>
+<body>
+<header>
+  <div class="header-contenido">
+    <a href="/" class="logo logo-enlace">Papeles del <span>Bebé</span></a>
+    <div class="header-acciones">
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <a href="/checklist/">Mis ayudas y trámites</a>
+        <a href="/ayudas-nacimiento/">Ayudas</a>
+        <a href="/tramites-bebe/">Trámites</a>
+        <a href="/herramientas/">Herramientas</a>
+        <a href="/observatorio/" aria-current="page">Observatorio</a>
+        <a href="/premium/" class="nav-premium">Premium</a>
+      </nav>
+    </div>
+  </div>
+</header>
+<main class="obs-shell">
+  <section class="obs-hero">
+    <span class="obs-badge">OBSERVATORIO PAPELES DEL BEBÉ · BETA</span>
+    <h1>Ayudas que cambian, plazos que importan</h1>
+    <p>Reunimos oportunidades verificadas para familias y las convertimos en alertas, comparativas y datos reutilizables. Solo mostramos fechas, importes y estados cuando existe una fuente oficial revisada.</p>
+    <div class="obs-trust"><span>✓ Fuentes oficiales</span><span>✓ Fecha de revisión visible</span><span>✓ Sin inventar elegibilidad</span></div>
+  </section>
+
+  <section class="obs-section" aria-labelledby="alertas-titulo">
+    <div class="obs-heading">
+      <div><span class="obs-kicker">ALERTAS DE OPORTUNIDAD</span><h2 id="alertas-titulo">Qué conviene revisar ahora</h2></div>
+      <label class="obs-filter">Territorio
+        <select id="filtroTerritorio"><option value="">Todos</option></select>
+      </label>
+    </div>
+    <div id="alertasOportunidad" class="obs-alertas" aria-live="polite"></div>
+  </section>
+
+  <section class="obs-section" aria-labelledby="comparativa-titulo">
+    <div class="obs-heading"><div><span class="obs-kicker">ACTIVO ENLAZABLE</span><h2 id="comparativa-titulo">Comparativa piloto de ayudas verificadas</h2></div></div>
+    <p class="obs-intro">No ordenamos por “mejor ayuda” porque las cuantías, duración y requisitos no son comparables entre sí. La tabla sí permite ver diferencias de alcance, importe y modelo de plazo.</p>
+    <div class="obs-table-wrap"><table class="obs-table"><thead><tr><th>Ayuda</th><th>Territorio</th><th>Ámbito</th><th>Importe publicado</th><th>Plazo</th><th>Revisión</th></tr></thead><tbody id="tablaComparativa"></tbody></table></div>
+  </section>
+
+  <section class="obs-section" aria-labelledby="mapa-titulo">
+    <div class="obs-heading"><div><span class="obs-kicker">MAPA DE COBERTURA</span><h2 id="mapa-titulo">Cobertura territorial de Papeles del Bebé</h2></div></div>
+    <p class="obs-intro">La web ya dispone de guías por todas las comunidades autónomas y ciudades autónomas. El siguiente paso del Observatorio es aumentar, dentro de cada territorio, las ayudas con estado y plazo verificados.</p>
+    <div class="obs-map-grid" id="mapaCobertura"></div>
+  </section>
+
+  <section class="obs-section obs-method">
+    <span class="obs-kicker">METODOLOGÍA</span>
+    <h2>Cómo tratamos una oportunidad</h2>
+    <p>Una alerta entra en el Observatorio cuando podemos identificar el organismo, el ámbito territorial, la fuente oficial y una fecha de revisión. Si existe un cierre oficial, calculamos los días restantes en el navegador. Si el plazo depende de la fecha de nacimiento o de otro hecho personal, lo indicamos como plazo individual y no mostramos un contador engañoso.</p>
+    <a class="obs-btn ghost" href="/metodologia/">Ver metodología →</a>
+  </section>
+</main>
+<footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p><p class="footer-aviso">Observatorio independiente. Verifica siempre la información definitiva en el organismo oficial correspondiente.</p><p class="footer-copy">© 2026 Papeles del Bebé</p></div></footer>
+<script src="/datos/oportunidades.js"></script>
+<script src="observatorio.js"></script>
+<script src="/analytics.js" defer></script>
+</body>
+</html>
