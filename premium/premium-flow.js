@@ -21,29 +21,19 @@
 
     var data=readAnswers();
     var ready=complete(data);
-    var cfg=window.PAPELES_BEBE_CONFIG||{};
 
     if(!ready){
-      cta.textContent='Preparar mis datos →';
+      cta.textContent='Crear mi Plan Premium gratis →';
       cta.href='/checklist/?empezar=1&origen=premium';
-      status.textContent='Primero necesitamos 6 respuestas para personalizar el plan. Al terminar volverás aquí automáticamente.';
+      status.innerHTML='<strong>Acceso gratuito temporal.</strong> No se realizará ningún cobro ni se solicitará tarjeta. Completa 6 respuestas y volverás aquí automáticamente.';
       return;
     }
 
-    status.innerHTML='<strong>✓ Tus datos ya están preparados.</strong> El siguiente paso es el pago seguro para desbloquear el Plan Premium.';
-
-    if(cfg.premiumLive&&cfg.premiumCheckoutUrl){
-      cta.textContent='Continuar al pago · '+(cfg.premiumPrice||'9,90 €')+' →';
-      cta.href=cfg.premiumCheckoutUrl;
-      cta.removeAttribute('aria-disabled');
-      cta.classList.remove('is-disabled');
-    } else {
-      cta.textContent='Datos preparados ✓';
-      cta.href='#premiumStatus';
-      cta.setAttribute('aria-disabled','true');
-      cta.classList.add('is-disabled');
-      cta.addEventListener('click',function(ev){ev.preventDefault();status.scrollIntoView({behavior:'smooth',block:'center'});});
-    }
+    status.innerHTML='<strong>✓ Tus datos ya están preparados.</strong> Puedes abrir ahora el Plan Premium gratis durante esta fase.';
+    cta.textContent='Abrir mi Plan Premium gratis →';
+    cta.href='/premium/plan/?acceso=temporal';
+    cta.removeAttribute('aria-disabled');
+    cta.classList.remove('is-disabled');
   }
 
   function markReturnFromPremium(){
