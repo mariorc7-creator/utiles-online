@@ -53,9 +53,27 @@
   </section>
 
   <section class="obs-section" aria-labelledby="mapa-titulo">
-    <div class="obs-heading"><div><span class="obs-kicker">MAPA DE COBERTURA</span><h2 id="mapa-titulo">Cobertura territorial de Papeles del Bebé</h2></div></div>
-    <p class="obs-intro">La web ya dispone de guías por todas las comunidades autónomas y ciudades autónomas. El siguiente paso del Observatorio es aumentar, dentro de cada territorio, las ayudas con estado y plazo verificados.</p>
-    <div class="obs-map-grid" id="mapaCobertura"></div>
+    <div class="obs-heading"><div><span class="obs-kicker">MAPA INTERACTIVO</span><h2 id="mapa-titulo">Explora las ayudas por territorio</h2></div></div>
+    <p class="obs-intro">Pulsa sobre una comunidad en el mapa para filtrar sus oportunidades verificadas. Los territorios destacados ya tienen alertas activas en el Observatorio; el resto dispone de guía y se irá ampliando.</p>
+    <div class="obs-map-layout">
+      <div class="obs-map-panel">
+        <div id="mapaEspana" class="obs-spain-map" role="img" aria-label="Mapa interactivo de España por comunidades autónomas">
+          <div class="obs-map-loading">Cargando mapa interactivo…</div>
+        </div>
+        <div class="obs-map-legend" aria-label="Leyenda del mapa">
+          <span><i class="obs-legend-dot activo"></i> Con oportunidades verificadas</span>
+          <span><i class="obs-legend-dot"></i> Guía territorial disponible</span>
+        </div>
+        <p class="obs-map-credit">Mapa vectorial basado en “Provinces of Spain”, CC BY-SA 4.0. Datos geográficos originales de Wikimedia Commons.</p>
+      </div>
+      <aside class="obs-map-detail" id="mapaDetalle" aria-live="polite">
+        <span class="obs-kicker">SELECCIONA UN TERRITORIO</span>
+        <h3>España</h3>
+        <p>Haz clic en una comunidad para ver su cobertura y filtrar automáticamente las alertas de oportunidad.</p>
+        <a class="obs-btn ghost" href="/comunidades/">Ver todas las guías territoriales →</a>
+      </aside>
+    </div>
+    <noscript><p class="obs-empty">El mapa interactivo necesita JavaScript. Puedes consultar las guías desde <a href="/comunidades/">Ayudas por comunidad</a>.</p></noscript>
   </section>
 
   <section class="obs-section obs-method">
@@ -69,5 +87,6 @@
 <script src="/datos/oportunidades.js"></script>
 <script src="observatorio.js"></script>
 <script src="/analytics.js" defer></script>
+<script src="/site-nav.js" defer></script>
 </body>
 </html>
