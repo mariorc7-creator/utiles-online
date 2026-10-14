@@ -49,7 +49,11 @@
       [/Tu checklist anterior sigue guardada en este navegador\./gi, "Tus respuestas anteriores siguen guardadas en este navegador."],
       [/Estamos preparando un Plan Premium personalizado con tus fechas,\s*documentos, ayudas y próximos pasos\./gi, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio."],
       [/Estamos preparando un Plan Premium personalizado con tus fechas, documentos, ayudas y próximos pasos\./gi, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio."],
-      [/Ver qué incluye\s*→?/gi, "Ver Plan Premium · 9,90 € →"]
+      [/Ver qué incluye\s*→?/gi, "Abrir Premium gratis →"],
+      [/Ver Plan Premium\s*·\s*9,90\s*€\s*→?/gi, "Abrir Premium gratis →"],
+      [/Ver Premium\s*·\s*9,90\s*€\s*→?/gi, "Abrir Premium gratis →"],
+      [/9,90\s*€/gi, "GRATIS"],
+      [/pago único/gi, "gratis temporalmente"]
     ];
 
     let node;
@@ -86,17 +90,27 @@
   }
 
   function mejorarBloquePremium() {
-    const premium = document.querySelector(".upsell-premium");
-    if (!premium) return;
+    document.querySelectorAll(".upsell-premium").forEach(function (premium) {
+      const texto = premium.querySelector("p");
+      setTextoSiCambia(texto, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio.");
 
-    const texto = premium.querySelector("p");
-    setTextoSiCambia(texto, "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio.");
+      const precio = premium.querySelector(".upsell-premium-precio strong");
+      const detallePrecio = premium.querySelector(".upsell-premium-precio span");
+      setTextoSiCambia(precio, "GRATIS");
+      setTextoSiCambia(detallePrecio, "temporalmente");
 
-    const enlace = premium.querySelector("a.cta-enlace");
-    if (enlace) {
-      setTextoSiCambia(enlace, "Ver Plan Premium · 9,90 € →");
-      enlace.setAttribute("aria-label", "Ver qué incluye el Plan Premium por 9,90 euros, pago único");
-    }
+      const enlace = premium.querySelector("a.cta-enlace");
+      if (enlace) {
+        setTextoSiCambia(enlace, "Abrir Premium gratis →");
+        enlace.setAttribute("aria-label", "Abrir el Plan Premium gratis temporalmente");
+      }
+    });
+
+    document.querySelectorAll('a[href="/premium/"], a[href^="/premium/?"]').forEach(function (enlace) {
+      if (/9,90|ver premium|ver plan premium/i.test(enlace.textContent || "")) {
+        setTextoSiCambia(enlace, "Abrir Premium gratis →");
+      }
+    });
   }
 
   function reforzarEnlacesOficiales() {
@@ -206,6 +220,6 @@
       });
     });
 
-    observer.observe(document.body, { childList: true, subtree: true });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
   });
 })();
