@@ -35,7 +35,6 @@ body:has(#portada)>main:not([class])::before{content:none;display:none}
 }
 .logo-enlace::before{display:none!important;content:none!important}
 .logo-enlace span{display:none!important}
-.nav-premium{display:none!important}
 @media(max-width:900px){
   .logo-enlace{width:196px;height:46px;flex-basis:196px}
 }
