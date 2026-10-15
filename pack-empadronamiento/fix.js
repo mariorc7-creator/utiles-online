@@ -61,15 +61,22 @@
     return String(v ?? '').trim().toLowerCase();
   }
 
-  function fieldHasValue(obj) {
-    const vals = [obj?.value, obj?.fieldValue, obj?.buttonValue]
-      .filter(v => v !== undefined && v !== null)
-      .map(normalizeValue);
-    return vals.some(v => v && !['off','false','0','none','null'].includes(v));
+  function isMeaningful(v) {
+    const n = normalizeValue(v);
+    return !!n && !['off','false','0','none','null','undefined'].includes(n);
+  }
+
+  function selectedWidget(obj) {
+    if (obj?.checked === true) return true;
+    const current = normalizeValue(obj?.fieldValue ?? obj?.value);
+    if (!isMeaningful(current)) return false;
+    const button = normalizeValue(obj?.buttonValue ?? obj?.exportValue);
+    if (button) return current === button;
+    return true;
   }
 
   function widgetLabel(obj) {
-    return [obj?.name,obj?.fieldName,obj?.alternativeText,obj?.exportValue,obj?.buttonValue,obj?.contents,obj?.fieldValue]
+    return [obj?.name,obj?.fieldName,obj?.alternativeText,obj?.exportValue,obj?.buttonValue,obj?.contents]
       .filter(Boolean).join(' ').toUpperCase();
   }
 
@@ -105,15 +112,21 @@
     return { pdf, text: fullText, annotations, fields, pages };
   }
 
+  function isBirthSelected(obj) {
+    const current = [obj?.fieldValue, obj?.value].filter(v => v !== undefined && v !== null).map(String).join(' ');
+    if (/NACIM/i.test(current) && isMeaningful(current)) return true;
+    return /NACIM/i.test(widgetLabel(obj)) && selectedWidget(obj);
+  }
+
   function selectedBirthByPosition(doc) {
     for (const page of doc.pages || []) {
       const birthTexts = page.textItems.filter(t => /NACIM/i.test(t.str));
       if (!birthTexts.length) continue;
       for (const a of page.annotations || []) {
-        if (!fieldHasValue(a) || !Array.isArray(a.rect)) continue;
+        if (!selectedWidget(a) || !Array.isArray(a.rect)) continue;
         const cx = (a.rect[0] + a.rect[2]) / 2;
         const cy = (a.rect[1] + a.rect[3]) / 2;
-        const nearBirth = birthTexts.some(t => Math.abs(t.y - cy) < 24 && Math.abs(t.x - cx) < 240);
+        const nearBirth = birthTexts.some(t => Math.abs(t.y - cy) < 18 && Math.abs(t.x - cx) < 110);
         if (nearBirth) return true;
       }
     }
@@ -134,27 +147,27 @@
 
     const fieldEntries = Object.entries(doc.fields || {});
     const flatFields = fieldEntries.flatMap(([name, list]) => (Array.isArray(list) ? list : [list]).map(x => ({name, ...x})));
-    const filled = flatFields.filter(fieldHasValue);
+    const filled = flatFields.filter(selectedWidget);
     if (flatFields.length) checks.push(filled.length
       ? ['ok','Campos digitales detectados',`El PDF conserva ${filled.length} campo(s) con valor de ${flatFields.length} detectados.`]
       : ['unknown','Campos no verificables','El PDF contiene campos, pero el navegador no expone valores guardados suficientes para comprobarlos con fiabilidad.']);
     else checks.push(['unknown','Relleno automático limitado','Este PDF no expone campos editables al navegador. Podemos revisar estructura y algunas marcas, pero no todos los datos.']);
 
     const candidates = flatFields.concat(doc.annotations || []);
-    const birthByMetadata = candidates.some(f => /NACIM/i.test(widgetLabel(f)) && fieldHasValue(f));
+    const birthByMetadata = candidates.some(isBirthSelected);
     const birthByPosition = selectedBirthByPosition(doc);
     const birthSelected = birthByMetadata || birthByPosition;
     checks.push(birthSelected
-      ? ['ok','Causa del alta: Nacimiento','Detectamos una marca asociada a “Nacimiento” en el PDF.']
-      : ['unknown','Causa del alta: no verificable automáticamente','No podemos confirmar esa marca con suficiente seguridad en este PDF. Revísala visualmente; no significa que esté mal.']);
+      ? ['ok','Causa del alta: Nacimiento','Detectamos que la opción “Nacimiento” está seleccionada en el PDF.']
+      : ['warn','Falta marcar la causa del alta: Nacimiento','No detectamos “Nacimiento” seleccionado. Si visualmente tampoco está marcado, márcalo antes de presentar; si sí lo está, esta versión del PDF no expone la marca de forma detectable.']);
 
-    const sigAnnotations = doc.annotations.filter(a => /sig/i.test(String(a.fieldType || '')) && fieldHasValue(a));
+    const sigAnnotations = doc.annotations.filter(a => /sig/i.test(String(a.fieldType || '')) && selectedWidget(a));
     if (currentCase.convivencia === 'ambos') {
       checks.push(sigAnnotations.length >= 2
         ? ['ok','Firmas digitales detectadas','Detectamos al menos dos firmas digitales.']
         : ['unknown','Firmas: revisión visual','Las firmas manuscritas o aplanadas no siempre son detectables. Comprueba visualmente que estén las que correspondan.']);
     } else if (currentCase.convivencia === 'uno') {
-      if (currentCase.autorizacion === 'no') checks.push(['bad','Posible bloqueo por autorización/custodia','Indicastes que se empadrona con un solo progenitor y no tienes autorización/custodia clara. Resuelve este punto antes de presentar.']);
+      if (currentCase.autorizacion === 'no') checks.push(['bad','Posible bloqueo por autorización/custodia','Indicaste que se empadrona con un solo progenitor y no tienes autorización/custodia clara. Resuelve este punto antes de presentar.']);
       else checks.push(['warn','Revisa autorización/custodia','Al ir con un solo progenitor, confirma que adjuntas la autorización, resolución o declaración responsable que corresponda.']);
     }
 
@@ -167,8 +180,8 @@
 
   function mount() {
     if ($('pb-review')) return;
-    const anchor = document.querySelector('main .panel:last-of-type');
-    if (!anchor || !anchor.parentNode) return;
+    const container = $('resultadoWrap');
+    if (!container) return;
     injectStyles();
     const section = document.createElement('section');
     section.id = 'pb-review';
@@ -176,7 +189,7 @@
     section.innerHTML = `
       <span class="badge">🔍 REVISIÓN ANTES DE ENVIAR</span>
       <h2>3. Sube tu PDF y comprobamos posibles olvidos</h2>
-      <p class="pb-review-lead">Comparamos el documento con la Hoja Padronal de Madrid y con el caso que acabas de preparar. Solo marcamos como error lo que podemos detectar con suficiente seguridad; cuando el PDF no expone una marca o firma, te diremos que requiere revisión visual.</p>
+      <p class="pb-review-lead">Comparamos el documento con la Hoja Padronal de Madrid y con el caso que acabas de preparar. Solo marcamos como correcto lo que podemos detectar con suficiente seguridad.</p>
       <div class="pb-drop">
         <label for="pb-review-file"><strong>Adjunta el PDF que vas a presentar</strong></label>
         <input id="pb-review-file" type="file" accept="application/pdf,.pdf">
@@ -188,7 +201,7 @@
       <div id="pb-review-results" class="pb-review-results"></div>
       <div id="pb-review-summary" class="pb-review-summary hidden"></div>
     `;
-    anchor.parentNode.insertBefore(section, anchor);
+    container.appendChild(section);
 
     const input = $('pb-review-file');
     const run = $('pb-review-run');
@@ -228,9 +241,9 @@
         summary.textContent = strongIssues
           ? `Resultado: hay ${strongIssues} punto(s) que resolver antes de presentar.`
           : warnings
-            ? `Resultado: no vemos un bloqueo automático claro; hay ${warnings} revisión(es) recomendadas${unknowns ? ` y ${unknowns} punto(s) que requieren comprobación visual` : ''}.`
+            ? `Resultado: hay ${warnings} punto(s) que revisar antes de presentar${unknowns ? ` y ${unknowns} comprobación(es) visuales` : ''}.`
             : unknowns
-              ? `Resultado: no vemos incidencias automáticas claras. Hay ${unknowns} punto(s) que el PDF no permite verificar con seguridad y conviene revisar visualmente.`
+              ? `Resultado: no vemos incidencias automáticas claras. Hay ${unknowns} punto(s) que conviene revisar visualmente.`
               : 'Resultado: no vemos incidencias automáticas claras.';
         summary.classList.remove('hidden');
         $('pb-review-status').textContent = 'Revisión terminada. El archivo sigue únicamente en tu navegador.';
