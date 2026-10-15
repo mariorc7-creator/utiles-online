@@ -15,6 +15,14 @@
     document.head.appendChild(sharedContext);
   }
 
+  if (!window.__papelesBebeToolEnhancementsLoaded) {
+    window.__papelesBebeToolEnhancementsLoaded = true;
+    const toolEnhancements = document.createElement('script');
+    toolEnhancements.src = '/herramientas/tool-enhancements.js?v=20261015-1';
+    toolEnhancements.defer = true;
+    document.head.appendChild(toolEnhancements);
+  }
+
   const GA_ID = 'G-YQ7QHVVWZV';
   const STORAGE_KEY = 'papelesbebe_analytics_consent';
 
