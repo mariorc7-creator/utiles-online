@@ -8,7 +8,22 @@ const BOOTSTRAP = '<script src="/analytics.js?v=20261015-7" defer></script>';
 const HEADER = `<header class="pb-global-header" data-pb-global-header="1"><div class="header-contenido"><a href="/" class="logo logo-enlace" aria-label="Ir al inicio">Papeles del <span>Bebé</span></a><nav class="nav-principal" aria-label="Navegación principal"><a href="/mi-panel/" data-pb-nav="panel">Mi panel</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/tramites-bebe/">Trámites</a><a href="/observatorio/">Observatorio</a><a href="/premium/" class="nav-premium">Premium</a></nav></div></header>`;
 const FOOTER = `<footer class="pb-global-footer" data-pb-global-footer="1"><div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mi panel</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/tramites-bebe/">Trámites</a><a href="/observatorio/">Observatorio</a><a href="/metodologia/">Metodología</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div></footer>`;
 
-function normalizeHtml(html) {
+function applyPageFixes(html, relPath) {
+  const rel = relPath.replace(/\\/g, '/');
+  if (rel === 'pack-empadronamiento/index.html') {
+    html = html.replace(
+      /src="https:\/\/sede\.madrid\.es\/UnidadesDescentralizadas\/UDCEstadistica\/TramitesMunicipales\/Ficheros\/Hoja_padronal\.pdf#view=FitH"/g,
+      'src="/api/official-document?doc=madrid-hoja-padronal#view=FitH"'
+    );
+    if (!html.includes('/pack-empadronamiento/fix.js')) {
+      html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/fix.js?v=20261015-1" defer></script>\n</body>');
+    }
+  }
+  return html;
+}
+
+function normalizeHtml(html, relPath) {
+  html = applyPageFixes(html, relPath);
   if (!/\/analytics\.js(?:\?|["'])/.test(html)) {
     html = /<\/body>/i.test(html) ? html.replace(/<\/body>/i, `${BOOTSTRAP}\n</body>`) : `${html}\n${BOOTSTRAP}\n`;
   }
@@ -31,7 +46,10 @@ function copyTree(src, dst) {
     if (entry.isDirectory()) { copyTree(from, to); continue; }
     if (!entry.isFile()) continue;
     let data = fs.readFileSync(from);
-    if (entry.name.endsWith('.html')) data = Buffer.from(normalizeHtml(data.toString('utf8')), 'utf8');
+    if (entry.name.endsWith('.html')) {
+      const rel = path.relative(ROOT, from);
+      data = Buffer.from(normalizeHtml(data.toString('utf8'), rel), 'utf8');
+    }
     fs.mkdirSync(path.dirname(to), { recursive: true });
     fs.writeFileSync(to, data);
   }
@@ -50,7 +68,7 @@ function audit(dir) {
     if (entry.isDirectory()) audit(full);
     else if (entry.isFile() && entry.name.endsWith('.html')) {
       htmlCount++;
-      const rel = path.relative(OUT, full);
+      const rel = path.relative(OUT, full).replace(/\\/g, '/');
       const html = fs.readFileSync(full, 'utf8');
       if (!html.includes('/analytics.js')) failures.push(`${rel}: sin bootstrap global`);
       if (!html.includes('data-pb-global-header="1"')) failures.push(`${rel}: sin cabecera global`);
@@ -60,6 +78,10 @@ function audit(dir) {
       if (/Gestor[ií]a|Guía independiente|←\s*Inicio/i.test(header)) failures.push(`${rel}: navegación legacy residual`);
       const suspicious = [...html.matchAll(/href=["'](?:#|javascript:|\s*)["']/gi)].length;
       if (suspicious) warnings.push(`${rel}: ${suspicious} enlace(s) placeholder`);
+      if (rel === 'pack-empadronamiento/index.html') {
+        if (!html.includes('/api/official-document?doc=madrid-hoja-padronal')) failures.push(`${rel}: PDF oficial no pasa por proxy same-origin`);
+        if (!html.includes('/pack-empadronamiento/fix.js')) failures.push(`${rel}: sin fix externo del copiloto`);
+      }
     }
   }
 }
