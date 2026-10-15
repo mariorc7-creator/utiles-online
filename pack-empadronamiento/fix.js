@@ -57,26 +57,34 @@
     };
   }
 
-  function normalizeValue(v) {
-    return String(v ?? '').trim().toLowerCase();
-  }
-
-  function isMeaningful(v) {
-    const n = normalizeValue(v);
+  function norm(v) { return String(v ?? '').trim().toLowerCase(); }
+  function meaningful(v) {
+    const n = norm(v);
     return !!n && !['off','false','0','none','null','undefined'].includes(n);
   }
-
-  function selectedWidget(obj) {
-    if (obj?.checked === true) return true;
-    const current = normalizeValue(obj?.fieldValue ?? obj?.value);
-    if (!isMeaningful(current)) return false;
-    const button = normalizeValue(obj?.buttonValue ?? obj?.exportValue);
-    if (button) return current === button;
-    return true;
+  function currentValue(obj) { return obj?.fieldValue ?? obj?.value; }
+  function buttonExport(obj) { return obj?.buttonValue ?? obj?.exportValue; }
+  function isButton(obj) {
+    return obj?.fieldType === 'Btn' || obj?.checkBox === true || obj?.radioButton === true || buttonExport(obj) !== undefined;
   }
-
-  function widgetLabel(obj) {
-    return [obj?.name,obj?.fieldName,obj?.alternativeText,obj?.exportValue,obj?.buttonValue,obj?.contents]
+  function isTextWidget(obj) {
+    return obj?.fieldType === 'Tx' || (!isButton(obj) && Array.isArray(obj?.rect));
+  }
+  function isSelectedButton(obj) {
+    if (!isButton(obj)) return false;
+    if (obj?.checked === true) return true;
+    const cur = norm(currentValue(obj));
+    if (!meaningful(cur)) return false;
+    const exp = norm(buttonExport(obj));
+    if (exp) return cur === exp;
+    return ['yes','on','1','true','x','si','sí'].includes(cur);
+  }
+  function textValue(obj) {
+    const v = currentValue(obj);
+    return meaningful(v) ? String(v).trim() : '';
+  }
+  function labelText(obj) {
+    return [obj?.name,obj?.fieldName,obj?.alternativeText,obj?.contents,obj?.exportValue,obj?.buttonValue]
       .filter(Boolean).join(' ').toUpperCase();
   }
 
@@ -112,25 +120,96 @@
     return { pdf, text: fullText, annotations, fields, pages };
   }
 
-  function isBirthSelected(obj) {
-    const current = [obj?.fieldValue, obj?.value].filter(v => v !== undefined && v !== null).map(String).join(' ');
-    if (/NACIM/i.test(current) && isMeaningful(current)) return true;
-    return /NACIM/i.test(widgetLabel(obj)) && selectedWidget(obj);
-  }
-
-  function selectedBirthByPosition(doc) {
-    for (const page of doc.pages || []) {
-      const birthTexts = page.textItems.filter(t => /NACIM/i.test(t.str));
-      if (!birthTexts.length) continue;
-      for (const a of page.annotations || []) {
-        if (!selectedWidget(a) || !Array.isArray(a.rect)) continue;
+  function nearestWidget(page, labelRegex, opts={}) {
+    const labels = page.textItems.filter(t => labelRegex.test(t.str));
+    const widgets = page.annotations.filter(a => Array.isArray(a.rect) && (opts.buttons ? isButton(a) : isTextWidget(a)));
+    let best = null;
+    for (const t of labels) {
+      for (const a of widgets) {
         const cx = (a.rect[0] + a.rect[2]) / 2;
         const cy = (a.rect[1] + a.rect[3]) / 2;
-        const nearBirth = birthTexts.some(t => Math.abs(t.y - cy) < 18 && Math.abs(t.x - cx) < 110);
-        if (nearBirth) return true;
+        const dx = cx - t.x;
+        const dy = cy - t.y;
+        if (Math.abs(dy) > (opts.yTolerance ?? 32)) continue;
+        if (dx < (opts.minDx ?? -35) || dx > (opts.maxDx ?? 360)) continue;
+        const score = Math.abs(dy) * 4 + Math.abs(dx);
+        if (!best || score < best.score) best = {annotation:a, score, label:t};
       }
     }
-    return false;
+    return best?.annotation || null;
+  }
+
+  function causeSelection(doc) {
+    const page = (doc.pages || [])[0];
+    if (!page) return {status:'unknown'};
+    const labels = {
+      nacimiento:/^\s*Nacimiento\s*$/i,
+      omision:/^\s*Omisión\s*$/i,
+      cambio:/Cambio domicilio/i,
+      traslado:/Traslado residencia/i
+    };
+    const found = {};
+    for (const [key, re] of Object.entries(labels)) {
+      const a = nearestWidget(page, re, {buttons:true, yTolerance:20, minDx:-55, maxDx:95});
+      if (a) found[key] = isSelectedButton(a);
+    }
+    const selected = Object.entries(found).filter(([,v]) => v).map(([k]) => k);
+    if (selected.includes('nacimiento') && selected.length === 1) return {status:'ok'};
+    if (selected.includes('nacimiento') && selected.length > 1) return {status:'bad', detail:'Nacimiento está marcado, pero también detectamos otra causa del alta seleccionada.'};
+    if (selected.length) return {status:'bad', detail:`Detectamos otra causa del alta marcada (${selected.join(', ')}), no “Nacimiento”.`};
+
+    // Segundo intento: algunos PDF exponen el valor actual en el grupo de botones.
+    const buttonFields = Object.entries(doc.fields || {}).flatMap(([name,list]) => (Array.isArray(list)?list:[list]).map(x=>({name,...x}))).filter(isButton);
+    const actualBirth = buttonFields.some(f => /NACIM/i.test(String(currentValue(f) || '')) && meaningful(currentValue(f)));
+    if (actualBirth) return {status:'ok'};
+    return {status:'missing'};
+  }
+
+  function checkAddress(doc) {
+    const page = (doc.pages || [])[0];
+    if (!page) return {status:'unknown'};
+    const street = nearestWidget(page, /Nombre de la vía/i, {yTolerance:34, minDx:-35, maxDx:420});
+    const number = nearestWidget(page, /^\s*Número\s*$/i, {yTolerance:34, minDx:-30, maxDx:160});
+    if (!street && !number) return {status:'unknown'};
+    const missing = [];
+    if (!street || !textValue(street)) missing.push('nombre de la vía');
+    if (!number || !textValue(number)) missing.push('número');
+    return missing.length ? {status:'missing', missing} : {status:'ok'};
+  }
+
+  function checkMinorCore(doc) {
+    const page = (doc.pages || [])[0];
+    if (!page) return {status:'unknown'};
+    // Usamos los primeros campos personales del bloque Nº Orden 1; no damos OK si no podemos mapearlos con seguridad.
+    const candidates = page.annotations.filter(a => isTextWidget(a) && Array.isArray(a.rect));
+    const labels = page.textItems;
+    const order1 = labels.find(t => /^\s*1\s*$/.test(t.str));
+    if (!order1) return {status:'unknown'};
+    const band = candidates.filter(a => {
+      const cy = (a.rect[1] + a.rect[3]) / 2;
+      return cy < order1.y + 85 && cy > order1.y - 230;
+    });
+    const valueNear = (re) => {
+      const ls = labels.filter(t => re.test(t.str) && t.y < order1.y + 85 && t.y > order1.y - 230);
+      let best = null;
+      for (const t of ls) for (const a of band) {
+        const cx=(a.rect[0]+a.rect[2])/2, cy=(a.rect[1]+a.rect[3])/2;
+        const dx=cx-t.x, dy=cy-t.y;
+        if (Math.abs(dy)>35 || dx < -35 || dx > 380) continue;
+        const score=Math.abs(dy)*4+Math.abs(dx);
+        if(!best||score<best.score) best={a,score};
+      }
+      return best?.a || null;
+    };
+    const firstName = valueNear(/^\s*Nombre\s*$/i);
+    const surname = valueNear(/1er Apellido/i);
+    const birthDate = valueNear(/Fecha de nacimiento/i);
+    if (!firstName && !surname && !birthDate) return {status:'unknown'};
+    const missing=[];
+    if(!firstName || !textValue(firstName)) missing.push('nombre');
+    if(!surname || !textValue(surname)) missing.push('primer apellido');
+    if(!birthDate || !textValue(birthDate)) missing.push('fecha de nacimiento');
+    return missing.length ? {status:'missing', missing} : {status:'ok'};
   }
 
   function analyze(doc, currentCase) {
@@ -143,29 +222,28 @@
       : ['bad','Documento no reconocido','No encuentro suficientes elementos de la Hoja Padronal de Madrid. Comprueba que has subido el documento correcto.']);
 
     const version = (text.match(/HP\d{8}/) || [])[0];
-    if (version) checks.push(['ok','Código del formulario detectado',`El PDF indica ${version}. No lo comparamos contra una versión fija para evitar falsos avisos cuando el Ayuntamiento actualiza el documento.`]);
+    if (version) checks.push(['ok','Código del formulario detectado',`El PDF indica ${version}.`]);
 
-    const fieldEntries = Object.entries(doc.fields || {});
-    const flatFields = fieldEntries.flatMap(([name, list]) => (Array.isArray(list) ? list : [list]).map(x => ({name, ...x})));
-    const filled = flatFields.filter(selectedWidget);
-    if (flatFields.length) checks.push(filled.length
-      ? ['ok','Campos digitales detectados',`El PDF conserva ${filled.length} campo(s) con valor de ${flatFields.length} detectados.`]
-      : ['unknown','Campos no verificables','El PDF contiene campos, pero el navegador no expone valores guardados suficientes para comprobarlos con fiabilidad.']);
-    else checks.push(['unknown','Relleno automático limitado','Este PDF no expone campos editables al navegador. Podemos revisar estructura y algunas marcas, pero no todos los datos.']);
+    const address = checkAddress(doc);
+    if (address.status === 'ok') checks.push(['ok','Domicilio básico completo','Detectamos informados el nombre de la vía y el número. Revisa también portal, escalera, planta y puerta cuando correspondan.']);
+    else if (address.status === 'missing') checks.push(['warn','Domicilio incompleto',`Falta o no podemos leer: ${address.missing.join(', ')}.`]);
+    else checks.push(['unknown','Domicilio: revisión visual','No podemos mapear con suficiente seguridad los campos de domicilio en este PDF.']);
 
-    const candidates = flatFields.concat(doc.annotations || []);
-    const birthByMetadata = candidates.some(isBirthSelected);
-    const birthByPosition = selectedBirthByPosition(doc);
-    const birthSelected = birthByMetadata || birthByPosition;
-    checks.push(birthSelected
-      ? ['ok','Causa del alta: Nacimiento','Detectamos que la opción “Nacimiento” está seleccionada en el PDF.']
-      : ['warn','Falta marcar la causa del alta: Nacimiento','No detectamos “Nacimiento” seleccionado. Si visualmente tampoco está marcado, márcalo antes de presentar; si sí lo está, esta versión del PDF no expone la marca de forma detectable.']);
+    const minor = checkMinorCore(doc);
+    if (minor.status === 'ok') checks.push(['ok','Datos básicos del menor completos','Detectamos nombre, primer apellido y fecha de nacimiento en el primer bloque de persona.']);
+    else if (minor.status === 'missing') checks.push(['warn','Datos del menor incompletos',`Falta o no podemos leer: ${minor.missing.join(', ')}.`]);
+    else checks.push(['unknown','Datos del menor: revisión visual','No podemos mapear con suficiente seguridad todos los campos básicos del menor.']);
 
-    const sigAnnotations = doc.annotations.filter(a => /sig/i.test(String(a.fieldType || '')) && selectedWidget(a));
+    const cause = causeSelection(doc);
+    if (cause.status === 'ok') checks.push(['ok','Causa del alta: Nacimiento','Detectamos “Nacimiento” como causa seleccionada.']);
+    else if (cause.status === 'bad') checks.push(['bad','Causa del alta incorrecta',cause.detail]);
+    else checks.push(['warn','Falta marcar la causa del alta: Nacimiento','No detectamos “Nacimiento” seleccionado. Para un recién nacido, marca esa casilla antes de presentar.']);
+
+    const sigAnnotations = doc.annotations.filter(a => a?.fieldType === 'Sig' && meaningful(currentValue(a)));
     if (currentCase.convivencia === 'ambos') {
       checks.push(sigAnnotations.length >= 2
         ? ['ok','Firmas digitales detectadas','Detectamos al menos dos firmas digitales.']
-        : ['unknown','Firmas: revisión visual','Las firmas manuscritas o aplanadas no siempre son detectables. Comprueba visualmente que estén las que correspondan.']);
+        : ['unknown','Firmas: revisión visual','Las firmas manuscritas o aplanadas no siempre son detectables. Comprueba visualmente las firmas que correspondan.']);
     } else if (currentCase.convivencia === 'uno') {
       if (currentCase.autorizacion === 'no') checks.push(['bad','Posible bloqueo por autorización/custodia','Indicaste que se empadrona con un solo progenitor y no tienes autorización/custodia clara. Resuelve este punto antes de presentar.']);
       else checks.push(['warn','Revisa autorización/custodia','Al ir con un solo progenitor, confirma que adjuntas la autorización, resolución o declaración responsable que corresponda.']);
@@ -174,7 +252,6 @@
     if (currentCase.edad === 'mas1') checks.push(['warn','Caso de más de un año','Madrid diferencia este supuesto. Revisa la vía indicada en el trámite oficial antes de presentar.']);
     if (currentCase.estado === 'si') checks.push(['warn','Quizá no necesitas presentar otra alta','Antes de enviar nada, confirma que no estás duplicando un alta que ya consta en padrón.']);
     if (currentCase.urgencia === 'si') checks.push(['warn','Necesitas justificante rápido','Confirma cómo obtener el volante/certificado que necesitas y conserva el resguardo.']);
-
     return checks;
   }
 
@@ -189,7 +266,7 @@
     section.innerHTML = `
       <span class="badge">🔍 REVISIÓN ANTES DE ENVIAR</span>
       <h2>3. Sube tu PDF y comprobamos posibles olvidos</h2>
-      <p class="pb-review-lead">Comparamos el documento con la Hoja Padronal de Madrid y con el caso que acabas de preparar. Solo marcamos como correcto lo que podemos detectar con suficiente seguridad.</p>
+      <p class="pb-review-lead">Revisamos la causa del alta, datos básicos del domicilio y del menor, además de los avisos de tu caso. Solo damos un ✓ cuando podemos detectar el dato con suficiente seguridad.</p>
       <div class="pb-drop">
         <label for="pb-review-file"><strong>Adjunta el PDF que vas a presentar</strong></label>
         <input id="pb-review-file" type="file" accept="application/pdf,.pdf">
@@ -228,23 +305,22 @@
       $('pb-review-results').innerHTML = '';
       try {
         const doc = await inspectPdf(file);
-        const currentCase = getCase();
-        const checks = analyze(doc, currentCase);
+        const checks = analyze(doc, getCase());
         checks.forEach(c => addResult($('pb-review-results'), ...c));
-        const strongIssues = checks.filter(c => c[0] === 'bad').length;
-        const warnings = checks.filter(c => c[0] === 'warn').length;
-        const unknowns = checks.filter(c => c[0] === 'unknown').length;
+        const bad = checks.filter(c => c[0] === 'bad').length;
+        const warn = checks.filter(c => c[0] === 'warn').length;
+        const unknown = checks.filter(c => c[0] === 'unknown').length;
         const meta = $('pb-review-meta');
         meta.innerHTML = `<span>${doc.pdf.numPages} páginas</span><span>${Object.keys(doc.fields || {}).length} grupos de campos</span><span>${doc.annotations.length} anotaciones</span>`;
         meta.classList.remove('hidden');
         const summary = $('pb-review-summary');
-        summary.textContent = strongIssues
-          ? `Resultado: hay ${strongIssues} punto(s) que resolver antes de presentar.`
-          : warnings
-            ? `Resultado: hay ${warnings} punto(s) que revisar antes de presentar${unknowns ? ` y ${unknowns} comprobación(es) visuales` : ''}.`
-            : unknowns
-              ? `Resultado: no vemos incidencias automáticas claras. Hay ${unknowns} punto(s) que conviene revisar visualmente.`
-              : 'Resultado: no vemos incidencias automáticas claras.';
+        summary.textContent = bad
+          ? `Resultado: hay ${bad} problema(s) claro(s) y ${warn} punto(s) que revisar antes de presentar.`
+          : warn
+            ? `Resultado: hay ${warn} punto(s) que revisar antes de presentar${unknown ? ` y ${unknown} comprobación(es) visuales` : ''}.`
+            : unknown
+              ? `Resultado: no detectamos incidencias claras, pero quedan ${unknown} comprobación(es) visuales.`
+              : 'Resultado: no detectamos incidencias automáticas claras.';
         summary.classList.remove('hidden');
         $('pb-review-status').textContent = 'Revisión terminada. El archivo sigue únicamente en tu navegador.';
       } catch (err) {
