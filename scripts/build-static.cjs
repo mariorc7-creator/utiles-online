@@ -10,7 +10,7 @@ function applyPageFixes(html, relPath) {
   const rel = relPath.replace(/\\/g, '/');
   if (rel === 'pack-empadronamiento/index.html') {
     html = html.replace(/<script src="\/pack-empadronamiento\/(?:fix|review-v6|municipal-universal)\.js[^>]*><\/script>\s*/gi, '');
-    html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/review-v6.js?v=20261015-8" defer></script>\n<script src="/pack-empadronamiento/municipal-universal.js?v=20261015-1" defer></script>\n</body>');
+    html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/review-v6.js?v=20261015-9" defer></script>\n<script src="/pack-empadronamiento/municipal-universal.js?v=20261015-2" defer></script>\n</body>');
   }
   return html;
 }
@@ -55,14 +55,14 @@ function audit(dir) {
       if (suspicious) warnings.push(`${rel}: ${suspicious} enlace(s) placeholder`);
       if (rel === 'pack-empadronamiento/index.html') {
         if (!html.includes('https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf')) failures.push(`${rel}: falta enlace al PDF oficial`);
-        if (!html.includes('/pack-empadronamiento/review-v6.js?v=20261015-8')) failures.push(`${rel}: sin verificador PDF v8`);
-        if (!html.includes('/pack-empadronamiento/municipal-universal.js?v=20261015-1')) failures.push(`${rel}: sin motor municipal universal`);
+        if (!html.includes('/pack-empadronamiento/review-v6.js?v=20261015-9')) failures.push(`${rel}: sin verificador PDF v9`);
+        if (!html.includes('/pack-empadronamiento/municipal-universal.js?v=20261015-2')) failures.push(`${rel}: sin motor municipal universal v2`);
         if (html.includes('/pack-empadronamiento/fix.js')) failures.push(`${rel}: sigue cargando verificador antiguo`);
       }
     }
   });
   if (warnings.length) console.warn('WARNINGS:\n' + warnings.join('\n'));
-  if (failures.length) { console.error('FAILURES:\n' + failures.join('\n')); process.exit(1); }
+  if (failures.length) { console.error('FAILURES:\n' + failures.join('\n)); process.exit(1); }
   console.log(`Build OK: ${dir}`);
 }
 
