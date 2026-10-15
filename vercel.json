@@ -12,5 +12,19 @@
       "destination": "https://www.papelesdelbebe.es/:path*",
       "statusCode": 301
     }
+  ],
+  "headers": [
+    {
+      "source": "/analytics.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/global-ui.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+      ]
+    }
   ]
 }
