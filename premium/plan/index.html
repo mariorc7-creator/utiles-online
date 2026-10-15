@@ -35,7 +35,27 @@
     <p class="footer-aviso">Plan orientativo. Verifica requisitos y plazos definitivos en la administración competente.</p>
   </div>
 </footer>
-<script src="../premium-plan.js?v=20261013-4"></script>
+<script>
+(function(){
+  var MASTER='papelesbebe_que_me_falta_v1';
+  var PREMIUM='papelesbebe_premium_progress_v2';
+  var map={registro:'registro',ss:'seguridad-social',salud:'tarjeta-sanitaria',padron:'padron',prestacion:'prestacion',maternidad:'deduccion',ccaa:'ayudas',mono:'ayudas',multiple:'ayudas',discapacidad:'ayudas'};
+  try{
+    var master=JSON.parse(localStorage.getItem(MASTER)||'{}')||{};
+    if(Object.keys(master).length){
+      var premium=JSON.parse(localStorage.getItem(PREMIUM)||'{}')||{};
+      premium.tasks=premium.tasks||{};
+      premium.docs=premium.docs||{};
+      Object.keys(map).forEach(function(task){
+        var key=map[task];
+        if(typeof master[key]==='boolean') premium.tasks[task]=master[key]?'done':'pending';
+      });
+      localStorage.setItem(PREMIUM,JSON.stringify(premium));
+    }
+  }catch(e){}
+})();
+</script>
+<script src="../premium-plan.js?v=20261015-5"></script>
 <script src="../../papelesia.js?v=20261013-1"></script>
 <script src="/analytics.js"></script>
 </body>
