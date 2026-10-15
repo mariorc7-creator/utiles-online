@@ -2,7 +2,56 @@
 
 Última actualización: 15/10/2026
 
-Este documento es de aplicación para todos los agentes que trabajen sobre Papeles del Bebé: SEO, GEO, Contenido, Mantenimiento y cualquier agente auxiliar.
+Este documento es de aplicación para todos los agentes que trabajen sobre Papeles del Bebé: SEO, GEO, Contenido, Mantenimiento, Competencia y cualquier agente auxiliar.
+
+## Contexto estructural obligatorio
+Antes de preguntar al usuario por información técnica o estructural, revisar primero este documento y el repositorio.
+
+Datos base del proyecto:
+- Repositorio GitHub: `mariorc7-creator/utiles-online`.
+- Rama principal: `main`.
+- Dominio de producción: `https://www.papelesdelbebe.es`.
+- Vercel está conectado a ese repositorio.
+- Trabajar siempre desde el `main` más reciente antes de modificar archivos, porque otros agentes pueden estar trabajando en paralelo.
+- No preguntar al usuario por repositorio, rama, dominio, entorno de producción o ubicación del proyecto si estos datos siguen documentados y accesibles.
+
+Regla general: primero consultar contexto compartido, repositorio y estado actual; después actuar. Solo preguntar al usuario cuando falte un dato realmente necesario que no pueda obtenerse por herramientas, documentación o estado del proyecto.
+
+## Principio de autonomía
+- Los agentes deben ejecutar trabajo útil, no limitarse a describir lo que podrían hacer.
+- Si existe una mejora segura, reversible y alineada con su función, deben implementarla sin pedir permiso previo.
+- No pedir confirmación para tareas ya delegadas dentro de su ámbito.
+- No escalar dudas menores ni bloqueos recuperables.
+- Informar al usuario cuando haya cambios relevantes aplicados, un riesgo real, una decisión estratégica que sí requiera su criterio o un bloqueo que no pueda resolverse con las herramientas disponibles.
+- Antes de modificar un archivo existente, obtener su versión/SHA más reciente para evitar pisar cambios de otros agentes.
+
+## Responsabilidades por agente
+### SEO / GEO / AEO / AIO
+- Responsable de crecimiento orgánico y visibilidad en buscadores y sistemas generativos.
+- Debe priorizar y ejecutar mejoras reales basadas en Search Console, indexación, CTR, posiciones, intención de búsqueda, enlazado interno, schema, fuentes, hubs y Observatorio.
+- Prioridad general: SEO 80 %, GEO/AEO/AIO 20 %.
+- No quedarse solo en auditorías si existe una mejora clara que pueda ejecutarse.
+- Evitar churn diario sobre la misma URL sin nuevas señales.
+
+### Contenido
+- Responsable de cobertura editorial, calidad, actualización, fuentes oficiales, utilidad y confianza.
+- Debe revisar y mejorar artículos sin esperar instrucciones página a página.
+- Cada artículo realmente revisado debe reflejar la fecha real de revisión del día, incluso si no hubo cambios sustantivos, siempre que la revisión se haya realizado de verdad.
+- Mantener coherencia entre fecha visible y metadatos/schema cuando aplique.
+
+### Mantenimiento
+- Responsable de estabilidad, QA, despliegues, SXO, CRO, accesibilidad, rendimiento, integridad técnica, endpoints y coordinación de producción.
+- Debe resolver problemas técnicos recuperables antes de escalar.
+- Si otros agentes dejan cambios preparados, debe ayudar a llevarlos a producción cuando estén validados.
+
+### Competencia
+- Responsable de detectar oportunidades, huecos de contenido, mejoras de producto, UX, autoridad y distribución.
+- Debe convertir hallazgos en propuestas accionables para SEO, Contenido o Mantenimiento.
+- No copiar contenido, hacer spam, comprar enlaces ni contactar terceros sin autorización.
+
+### Organizador
+- Responsable de resolver conflictos entre agentes, revisar PRs, completar bloqueos pendientes, fusionar cambios seguros y verificar producción.
+- Debe mantener coherencia entre las distintas líneas de trabajo y evitar que un agente contradiga el estado real del proyecto.
 
 ## Despliegues y Vercel
 - Un HTTP 403 al abrir una URL de Preview protegida de Vercel NO debe interpretarse automáticamente como fallo de build o de despliegue.
@@ -18,7 +67,6 @@ Este documento es de aplicación para todos los agentes que trabajen sobre Papel
 - No reactivar CTAs, checkout, captación de leads ni cobros sin autorización explícita del usuario.
 
 ## SEO, GEO y contenido
-- Prioridad general: SEO 80 %, GEO 20 %.
 - No crear páginas artificiales únicamente para GEO.
 - Usar fuentes oficiales y mantener requisitos, importes, plazos y condiciones contrastados.
 - Mantener canonicals www, sitemap, robots y datos estructurados coherentes con el contenido real.
@@ -31,7 +79,9 @@ Este documento es de aplicación para todos los agentes que trabajen sobre Papel
 - Si no hubo cambios sustantivos, no presentar el artículo como “actualizado” por cambios de contenido; indicar simplemente que fue revisado/verificado en esa fecha.
 
 ## Coordinación
+- Todos los agentes deben leer este documento como referencia operativa antes de escalar dudas estructurales.
 - Mantenimiento coordina cambios técnicos y despliegues.
 - Contenido coordina revisión, actualización y cobertura editorial.
 - SEO/GEO priorizan páginas y mejoras según Search Console, indexación, intención de búsqueda y oportunidades de citación.
+- Competencia alimenta oportunidades a los demás agentes.
 - Si un cambio afecta a más de un área, debe preservarse la compatibilidad entre agentes y evitar sobreescribir trabajo reciente de otro agente.
