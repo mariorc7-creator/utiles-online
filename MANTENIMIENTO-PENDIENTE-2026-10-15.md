@@ -1,29 +1,34 @@
 # Mantenimiento pendiente de revisión — 15/10/2026
 
-## Alcance
-Preparación sin despliegue: no fusionar automáticamente sin comprobar el comportamiento en staging.
+## Estado final
+La PR #5 fue revisada por Organizador, completada, fusionada y desplegada en producción el 15/10/2026.
 
-## Cambio aplicado en esta rama
-- `config.js`: `leadEnabled: false` para respetar la decisión de mantener Gestoría pausada.
+Cambios aplicados:
+- `config.js`: `leadEnabled: false`.
+- Premium desactivado: `premiumLive: false`.
+- Stripe desactivado también en QA: `premiumTestCheckoutUrl: ""` y `premiumTestMode: false`.
+- `/api/lead` bloqueado en servidor con respuesta `503`, sin procesar ni reenviar datos.
 
-## Pendientes antes de producción (P0)
-- Verificar que la interfaz no muestra CTAs activos de Gestoría ni Premium.
-- Revisar `/api/lead`: la bandera de cliente NO constituye protección del endpoint. Bloquear el envío en servidor mientras Gestoría esté pausada.
-- Revisar todos los accesos a Stripe, incluido el enlace de prueba. No activar cobros ni Premium.
-- Verificar que la checklist continúa determinista y que PAPELESIA solo la complementa.
+## Validaciones realizadas
+- Build de preview correcto en Vercel.
+- Producción desplegada desde `main` y estado `READY`.
+- Premium y Gestoría mantienen `noindex` mientras sigan pausados.
+- Portada, hub de trámites y hub de ayudas responden correctamente y mantienen canonical `www`.
+- El bloqueo server-side de Gestoría evita que una llamada directa al endpoint procese datos.
 
-## Validaciones SEO y SXO (P1)
-- Canonicals absolutos con https://www.papelesdelbebe.es, redirección del dominio sin www, sitemap y robots.
-- Revisar páginas indexables, errores 404, navegación, responsive, accesibilidad y Core Web Vitals.
-- Medir el embudo checklist_start / checklist_completed únicamente con consentimiento, sin enviar respuestas familiares, fechas de nacimiento, datos de menores ni identificadores personales.
-- Comprobar GA4 en entorno de prueba y no duplicar eventos.
+## Nota importante sobre el 403 de Vercel
+El `403 Forbidden` detectado por el Agente de Mantenimiento NO es un fallo de la web ni del deployment. Ocurre al intentar abrir mediante el conector una URL de Preview protegida por Vercel Authentication.
 
-## Procedimiento del organizador
-1. Revisar diferencias contra main reciente y resolver conflictos.
-2. Completar protección server-side de Gestoría y revisar accesos Premium.
-3. Ejecutar pruebas funcionales y SEO.
-4. Fusionar y desplegar únicamente tras validación.
-5. Comprobar producción, dominio www, endpoints y analítica; documentar commit y fecha.
+A partir de ahora, si un preview devuelve 403:
+1. No tratarlo automáticamente como fallo de despliegue.
+2. Comprobar primero el estado del deployment (`READY`/`ERROR`).
+3. Para inspeccionar una Preview protegida, usar el mecanismo de acceso autenticado/bypass temporal de Vercel disponible en el conector (`get_access_to_vercel_url` o `web_fetch_vercel_url`).
+4. Si el merge llega a `main`, verificar además el deployment de `production` y la web pública.
+5. Solo escalar como bloqueo real si no se puede obtener acceso autenticado, el deployment está en `ERROR`, o producción no responde correctamente.
 
-## Bloqueo
-La integración Vercel del agente devuelve 403 en el equipo mario-herramientas. El panel web del propietario sí muestra producción Ready, pero no permite verificarla mediante el conector.
+## Producción
+Commit de merge de PR #5:
+`aff8f4ebab76d736deadd8f0f98bc0013014b692`
+
+Deployment de producción verificado como `READY`:
+`dpl_4b6X7FzHTGved8yqogWE5HpvrS52`
