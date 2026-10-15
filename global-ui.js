@@ -45,6 +45,21 @@
     return '';
   }
 
+  function masterKeyForPremiumId(id) {
+    return {
+      registro: 'registro',
+      ss: 'seguridad-social',
+      salud: 'tarjeta-sanitaria',
+      padron: 'padron',
+      prestacion: 'prestacion',
+      maternidad: 'deduccion',
+      ccaa: 'ayudas',
+      mono: 'ayudas',
+      multiple: 'ayudas',
+      discapacidad: 'ayudas'
+    }[id] || '';
+  }
+
   function migrateLegacyProgress() {
     let master = readMaster();
     const hasMaster = Object.keys(master).length > 0;
@@ -93,9 +108,7 @@
       a.href = href;
       a.textContent = text;
       if (href === '/premium/') a.className = 'nav-premium';
-      const active = href === '/mi-panel/'
-        ? path.startsWith('/mi-panel/')
-        : path.startsWith(href);
+      const active = href === '/mi-panel/' ? path.startsWith('/mi-panel/') : path.startsWith(href);
       if (active) a.setAttribute('aria-current', 'page');
       nav.appendChild(a);
     });
@@ -167,6 +180,28 @@
     });
   }
 
+  function syncPremiumDom() {
+    const selects = Array.from(document.querySelectorAll('select[data-task-status]'));
+    if (!selects.length) return;
+    const master = readMaster();
+    selects.forEach((select) => {
+      const key = masterKeyForPremiumId(select.dataset.taskStatus);
+      if (!key) return;
+      if (typeof master[key] === 'boolean') {
+        const desired = master[key] ? 'done' : 'pending';
+        if (select.value !== desired) select.value = desired;
+      }
+      if (!select.dataset.pbMasterBound) {
+        select.dataset.pbMasterBound = '1';
+        select.addEventListener('change', () => {
+          const next = readMaster();
+          next[key] = select.value === 'done' || select.value === 'na';
+          writeMaster(next);
+        });
+      }
+    });
+  }
+
   function actualizarPremiumGratis() {
     const home = document.querySelector('.home-premium-destacado');
     if (home) {
@@ -184,6 +219,7 @@
     syncAppChecklist();
     syncPrintableChecklist();
     syncSimpleProgress();
+    syncPremiumDom();
     actualizarPremiumGratis();
   }
 
