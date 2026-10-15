@@ -25,6 +25,14 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Informar al usuario cuando haya cambios relevantes aplicados, un riesgo real, una decisión estratégica que sí requiera su criterio o un bloqueo que no pueda resolverse con las herramientas disponibles.
 - Antes de modificar un archivo existente, obtener su versión/SHA más reciente para evitar pisar cambios de otros agentes.
 
+## UX global obligatoria
+- Todas las páginas públicas deben mostrar la misma cabecera global. No crear variantes locales de navegación por sección.
+- La navegación maestra es: `Mi panel`, `Herramientas`, `Guías`, `Ayudas`, `Trámites`, `Observatorio`, `Premium`.
+- No mostrar en la cabecera `Gestoría`, badges tipo `Guía independiente · España`, botones locales `← Inicio` ni menús históricos.
+- `global-ui.js` es la autoridad de navegación en cliente y debe cargarse mediante `analytics.js`; cualquier página nueva debe incluir `/analytics.js` salvo excepción técnica documentada.
+- Si una página existente usa markup de cabecera antiguo, no debe romper la experiencia: la capa global debe sustituirlo por la cabecera maestra.
+- El estado de progreso también debe sentirse único: Mi panel, checklist, guía imprimible y Premium no deben presentar progresos contradictorios para el mismo trámite.
+
 ## Responsabilidades por agente
 ### SEO / GEO / AEO / AIO
 - Responsable de crecimiento orgánico y visibilidad en buscadores y sistemas generativos.
