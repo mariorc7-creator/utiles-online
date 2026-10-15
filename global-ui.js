@@ -1,6 +1,7 @@
 (() => {
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
+  const HEADER_VERSION = '20261015-4';
   const NAV_ITEMS = [
     ['/mi-panel/', 'Mi panel'],
     ['/herramientas/', 'Herramientas'],
@@ -74,45 +75,55 @@
     }
   }
 
-  function normalizarCabecera() {
-    const header = document.querySelector('header');
-    if (!header) return;
-    let container = header.querySelector('.header-contenido');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'header-contenido';
-      while (header.firstChild) container.appendChild(header.firstChild);
-      header.appendChild(container);
-    }
+  function asegurarEstilosCabecera() {
+    if (document.getElementById('pb-global-header-style')) return;
+    const style = document.createElement('style');
+    style.id = 'pb-global-header-style';
+    style.textContent = `
+      header.pb-global-header{background:#fff!important;border-bottom:1px solid #e7e8ef!important;box-shadow:0 1px 0 rgba(24,31,54,.02)!important;position:relative!important;z-index:1000!important}
+      header.pb-global-header .header-contenido{max-width:1280px!important;margin:0 auto!important;min-height:74px!important;padding:10px 24px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;box-sizing:border-box!important}
+      header.pb-global-header .logo-enlace{flex:0 0 auto!important;text-decoration:none!important}
+      header.pb-global-header .nav-principal{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:6px!important;flex-wrap:wrap!important;margin:0!important;padding:0!important}
+      header.pb-global-header .nav-principal a{display:inline-flex!important;align-items:center!important;min-height:42px!important;padding:9px 11px!important;border-radius:12px!important;border:1px solid transparent!important;background:transparent!important;color:#586176!important;text-decoration:none!important;font-weight:750!important;font-size:.94rem!important;line-height:1.2!important;white-space:nowrap!important;box-shadow:none!important}
+      header.pb-global-header .nav-principal a:hover{background:#f6f7ff!important;color:#454bc0!important}
+      header.pb-global-header .nav-principal a[aria-current="page"]{background:#f0efff!important;color:#555bd1!important;border-color:#dcddff!important}
+      header.pb-global-header .nav-principal a.nav-premium{background:#f3efff!important;color:#6751cf!important;border-color:#dfd5ff!important}
+      header.pb-global-header .header-acciones,header.pb-global-header .boton-inicio,header.pb-global-header .enlace-inicio,header.pb-global-header .header-badge,header.pb-global-header .header-tag,header.pb-global-header .guia-independiente{display:none!important}
+      @media(max-width:900px){header.pb-global-header .header-contenido{align-items:flex-start!important;flex-direction:column!important;gap:8px!important;padding:10px 16px!important}header.pb-global-header .nav-principal{width:100%!important;justify-content:flex-start!important;overflow-x:auto!important;flex-wrap:nowrap!important;padding-bottom:2px!important}header.pb-global-header .nav-principal a{font-size:.88rem!important;padding:8px 10px!important}}
+    `;
+    document.head.appendChild(style);
+  }
 
-    let logo = container.querySelector('.logo-enlace, a.logo');
-    if (!logo) {
-      logo = document.createElement('a');
-      logo.href = '/';
-      logo.className = 'logo logo-enlace';
-      logo.setAttribute('aria-label', 'Ir al inicio');
-      logo.innerHTML = 'Papeles del <span>Bebé</span>';
-    }
-
-    Array.from(container.children).forEach((child) => {
-      if (child !== logo) child.remove();
-    });
-    if (!logo.parentNode) container.appendChild(logo);
-
-    const nav = document.createElement('nav');
-    nav.className = 'nav-principal';
-    nav.setAttribute('aria-label', 'Navegación principal');
+  function navHtml() {
     const path = location.pathname;
-    NAV_ITEMS.forEach(([href, text]) => {
-      const a = document.createElement('a');
-      a.href = href;
-      a.textContent = text;
-      if (href === '/premium/') a.className = 'nav-premium';
+    return NAV_ITEMS.map(([href, text]) => {
       const active = href === '/mi-panel/' ? path.startsWith('/mi-panel/') : path.startsWith(href);
-      if (active) a.setAttribute('aria-current', 'page');
-      nav.appendChild(a);
-    });
-    container.appendChild(nav);
+      const classes = href === '/premium/' ? ' class="nav-premium"' : '';
+      const current = active ? ' aria-current="page"' : '';
+      return `<a href="${href}"${classes}${current}>${text}</a>`;
+    }).join('');
+  }
+
+  function normalizarCabecera() {
+    asegurarEstilosCabecera();
+    let header = document.querySelector('body > header, header');
+    if (!header) {
+      header = document.createElement('header');
+      document.body.insertBefore(header, document.body.firstChild);
+    }
+
+    const expectedPath = location.pathname;
+    const alreadyCurrent = header.dataset.pbHeaderVersion === HEADER_VERSION && header.dataset.pbHeaderPath === expectedPath;
+    if (alreadyCurrent) return;
+
+    header.className = 'pb-global-header';
+    header.dataset.pbHeaderVersion = HEADER_VERSION;
+    header.dataset.pbHeaderPath = expectedPath;
+    header.innerHTML = `
+      <div class="header-contenido">
+        <a href="/" class="logo logo-enlace" aria-label="Ir al inicio">Papeles del <span>Bebé</span></a>
+        <nav class="nav-principal" aria-label="Navegación principal">${navHtml()}</nav>
+      </div>`;
   }
 
   function syncAppChecklist() {
