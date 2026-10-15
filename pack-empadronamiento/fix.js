@@ -57,11 +57,20 @@
     };
   }
 
+  function normalizeValue(v) {
+    return String(v ?? '').trim().toLowerCase();
+  }
+
   function fieldHasValue(obj) {
-    const vals = [obj?.value, obj?.fieldValue, obj?.buttonValue, obj?.exportValue]
+    const vals = [obj?.value, obj?.fieldValue, obj?.buttonValue]
       .filter(v => v !== undefined && v !== null)
-      .map(v => String(v).trim().toLowerCase());
-    return vals.some(v => v && v !== 'off' && v !== 'false' && v !== '0');
+      .map(normalizeValue);
+    return vals.some(v => v && !['off','false','0','none','null'].includes(v));
+  }
+
+  function widgetLabel(obj) {
+    return [obj?.name,obj?.fieldName,obj?.alternativeText,obj?.exportValue,obj?.buttonValue,obj?.contents,obj?.fieldValue]
+      .filter(Boolean).join(' ').toUpperCase();
   }
 
   function addResult(container, state, title, detail) {
@@ -78,15 +87,37 @@
     const pdf = await pdfjs.getDocument({ data }).promise;
     let fullText = '';
     let annotations = [];
+    const pages = [];
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const text = await page.getTextContent();
+      const pageAnnotations = await page.getAnnotations().catch(() => []);
       fullText += '\n' + text.items.map(x => x.str || '').join(' ');
-      try { annotations = annotations.concat(await page.getAnnotations()); } catch (_) {}
+      annotations = annotations.concat(pageAnnotations.map(a => ({...a, pageNumber:i})));
+      pages.push({
+        pageNumber:i,
+        textItems:text.items.map(x => ({str:String(x.str || ''), x:x.transform?.[4] ?? 0, y:x.transform?.[5] ?? 0})),
+        annotations:pageAnnotations
+      });
     }
     let fields = {};
     try { fields = await pdf.getFieldObjects() || {}; } catch (_) {}
-    return { pdf, text: fullText, annotations, fields };
+    return { pdf, text: fullText, annotations, fields, pages };
+  }
+
+  function selectedBirthByPosition(doc) {
+    for (const page of doc.pages || []) {
+      const birthTexts = page.textItems.filter(t => /NACIM/i.test(t.str));
+      if (!birthTexts.length) continue;
+      for (const a of page.annotations || []) {
+        if (!fieldHasValue(a) || !Array.isArray(a.rect)) continue;
+        const cx = (a.rect[0] + a.rect[2]) / 2;
+        const cy = (a.rect[1] + a.rect[3]) / 2;
+        const nearBirth = birthTexts.some(t => Math.abs(t.y - cy) < 24 && Math.abs(t.x - cx) < 240);
+        if (nearBirth) return true;
+      }
+    }
+    return false;
   }
 
   function analyze(doc, currentCase) {
@@ -94,57 +125,49 @@
     const checks = [];
     const officialSignals = ['PADRÓN MUNICIPAL DE HABITANTES','CAUSA DEL ALTA','AUTORIZACIÓN DE EMPADRONAMIENTO','INSTRUCCIONES PARA CUMPLIMENTAR LA HOJA'];
     const signalCount = officialSignals.filter(s => text.includes(s)).length;
-    checks.push(signalCount >= 3
-      ? ['ok','Documento reconocido','La estructura coincide con la Hoja Padronal oficial de Madrid.']
-      : ['bad','Documento no reconocido','No encuentro suficientes elementos de la Hoja Padronal oficial. Comprueba que has subido el documento correcto.']);
-
-    checks.push(doc.pdf.numPages === 2
-      ? ['ok','Número de páginas correcto','La versión oficial verificada actualmente tiene 2 páginas.']
-      : ['warn','Revisa las páginas',`Tu PDF tiene ${doc.pdf.numPages} página(s); la hoja oficial verificada tiene 2.`]);
+    checks.push(signalCount >= 2
+      ? ['ok','Documento reconocido','La estructura coincide con la Hoja Padronal de Madrid.']
+      : ['bad','Documento no reconocido','No encuentro suficientes elementos de la Hoja Padronal de Madrid. Comprueba que has subido el documento correcto.']);
 
     const version = (text.match(/HP\d{8}/) || [])[0];
-    if (version === 'HP29062026') checks.push(['ok','Versión del formulario reconocida','Detectamos el código HP29062026 de la hoja oficial verificada el 15/10/2026.']);
-    else if (version) checks.push(['warn','Versión distinta a la verificada',`Detectamos ${version}. Conviene abrir de nuevo el PDF oficial y comprobar si hay una versión más reciente.`]);
-    else checks.push(['unknown','Versión no comprobable','No hemos podido leer el código de versión del formulario.']);
+    if (version) checks.push(['ok','Código del formulario detectado',`El PDF indica ${version}. No lo comparamos contra una versión fija para evitar falsos avisos cuando el Ayuntamiento actualiza el documento.`]);
 
     const fieldEntries = Object.entries(doc.fields || {});
     const flatFields = fieldEntries.flatMap(([name, list]) => (Array.isArray(list) ? list : [list]).map(x => ({name, ...x})));
     const filled = flatFields.filter(fieldHasValue);
     if (flatFields.length) checks.push(filled.length
-      ? ['ok','Campos digitales detectados',`El PDF conserva ${filled.length} campo(s) con valor de ${flatFields.length} detectados. Revisamos automáticamente lo que el formato permite.`]
-      : ['warn','No detectamos campos cumplimentados','El PDF contiene campos de formulario, pero no detectamos valores guardados. Si lo rellenaste, quizá se aplanó o se guardó como imagen.']);
-    else checks.push(['unknown','Relleno automático limitado','Este PDF no expone campos editables al navegador. Podemos comprobar estructura y contexto, pero no todos los datos escritos o manuscritos.']);
+      ? ['ok','Campos digitales detectados',`El PDF conserva ${filled.length} campo(s) con valor de ${flatFields.length} detectados.`]
+      : ['unknown','Campos no verificables','El PDF contiene campos, pero el navegador no expone valores guardados suficientes para comprobarlos con fiabilidad.']);
+    else checks.push(['unknown','Relleno automático limitado','Este PDF no expone campos editables al navegador. Podemos revisar estructura y algunas marcas, pero no todos los datos.']);
 
-    const birthSelected = flatFields.some(f => /NACIM/i.test(`${f.name} ${f.exportValue || ''} ${f.value || ''} ${f.fieldValue || ''}`) && fieldHasValue(f));
+    const candidates = flatFields.concat(doc.annotations || []);
+    const birthByMetadata = candidates.some(f => /NACIM/i.test(widgetLabel(f)) && fieldHasValue(f));
+    const birthByPosition = selectedBirthByPosition(doc);
+    const birthSelected = birthByMetadata || birthByPosition;
     checks.push(birthSelected
-      ? ['ok','Causa del alta: Nacimiento','Detectamos una selección digital asociada a Nacimiento.']
-      : ['unknown','Causa del alta: revisa Nacimiento','La hoja oficial exige marcar “Nacimiento” para recién nacidos. No podemos confirmar visualmente la marca si está aplanada, escaneada o hecha a mano.']);
+      ? ['ok','Causa del alta: Nacimiento','Detectamos una marca asociada a “Nacimiento” en el PDF.']
+      : ['unknown','Causa del alta: no verificable automáticamente','No podemos confirmar esa marca con suficiente seguridad en este PDF. Revísala visualmente; no significa que esté mal.']);
 
     const sigAnnotations = doc.annotations.filter(a => /sig/i.test(String(a.fieldType || '')) && fieldHasValue(a));
     if (currentCase.convivencia === 'ambos') {
       checks.push(sigAnnotations.length >= 2
-        ? ['ok','Firmas detectadas','Detectamos al menos dos firmas digitales.']
-        : ['warn','Comprueba las dos firmas','En tu caso la hoja debe llevar la firma de ambos progenitores/representantes. No podemos confirmar firmas manuscritas desde el texto del PDF.']);
+        ? ['ok','Firmas digitales detectadas','Detectamos al menos dos firmas digitales.']
+        : ['unknown','Firmas: revisión visual','Las firmas manuscritas o aplanadas no siempre son detectables. Comprueba visualmente que estén las que correspondan.']);
     } else if (currentCase.convivencia === 'uno') {
       if (currentCase.autorizacion === 'no') checks.push(['bad','Posible bloqueo por autorización/custodia','Indicastes que se empadrona con un solo progenitor y no tienes autorización/custodia clara. Resuelve este punto antes de presentar.']);
-      else checks.push(['warn','Revisa autorización/custodia','Al ir con un solo progenitor, confirma que adjuntas la autorización, resolución o declaración responsable que corresponda a tu caso.']);
+      else checks.push(['warn','Revisa autorización/custodia','Al ir con un solo progenitor, confirma que adjuntas la autorización, resolución o declaración responsable que corresponda.']);
     }
 
-    if (currentCase.edad === 'mas1') checks.push(['warn','Caso de más de un año','Madrid diferencia este supuesto. Si el expediente incluye solo al menor, revisa la vía presencial/OAC indicada en el trámite oficial.']);
+    if (currentCase.edad === 'mas1') checks.push(['warn','Caso de más de un año','Madrid diferencia este supuesto. Revisa la vía indicada en el trámite oficial antes de presentar.']);
     if (currentCase.estado === 'si') checks.push(['warn','Quizá no necesitas presentar otra alta','Antes de enviar nada, confirma que no estás duplicando un alta que ya consta en padrón.']);
-    if (currentCase.urgencia === 'si') checks.push(['warn','Necesitas justificante rápido','No des por hecho que el alta es inmediata. Conserva el resguardo y confirma cómo obtener el volante/certificado que necesitas.']);
-
-    const textQuality = text.length;
-    checks.push(textQuality > 1800
-      ? ['ok','PDF legible para revisión automática',`Hemos podido leer ${textQuality.toLocaleString('es-ES')} caracteres del documento.`]
-      : ['warn','Revisión automática parcial','El PDF contiene poco texto legible. Si es un escaneo o está escrito a mano, revisa manualmente las marcas y firmas que te señalamos.']);
+    if (currentCase.urgencia === 'si') checks.push(['warn','Necesitas justificante rápido','Confirma cómo obtener el volante/certificado que necesitas y conserva el resguardo.']);
 
     return checks;
   }
 
   function mount() {
     if ($('pb-review')) return;
-    const anchor = $('print-sheet') || document.querySelector('main .panel:last-of-type');
+    const anchor = document.querySelector('main .panel:last-of-type');
     if (!anchor || !anchor.parentNode) return;
     injectStyles();
     const section = document.createElement('section');
@@ -152,8 +175,8 @@
     section.className = 'pb-review';
     section.innerHTML = `
       <span class="badge">🔍 REVISIÓN ANTES DE ENVIAR</span>
-      <h2>9. Sube tu PDF y comprobamos posibles olvidos</h2>
-      <p class="pb-review-lead">Comparamos el documento con la Hoja Padronal oficial de Madrid y con el caso que acabas de preparar. Te diremos qué detectamos, qué falta revisar y qué puntos no podemos verificar automáticamente.</p>
+      <h2>3. Sube tu PDF y comprobamos posibles olvidos</h2>
+      <p class="pb-review-lead">Comparamos el documento con la Hoja Padronal de Madrid y con el caso que acabas de preparar. Solo marcamos como error lo que podemos detectar con suficiente seguridad; cuando el PDF no expone una marca o firma, te diremos que requiere revisión visual.</p>
       <div class="pb-drop">
         <label for="pb-review-file"><strong>Adjunta el PDF que vas a presentar</strong></label>
         <input id="pb-review-file" type="file" accept="application/pdf,.pdf">
@@ -197,15 +220,18 @@
         checks.forEach(c => addResult($('pb-review-results'), ...c));
         const strongIssues = checks.filter(c => c[0] === 'bad').length;
         const warnings = checks.filter(c => c[0] === 'warn').length;
+        const unknowns = checks.filter(c => c[0] === 'unknown').length;
         const meta = $('pb-review-meta');
         meta.innerHTML = `<span>${doc.pdf.numPages} páginas</span><span>${Object.keys(doc.fields || {}).length} grupos de campos</span><span>${doc.annotations.length} anotaciones</span>`;
         meta.classList.remove('hidden');
         const summary = $('pb-review-summary');
         summary.textContent = strongIssues
-          ? `Resultado: hay ${strongIssues} punto(s) que resolver antes de presentar y ${warnings} revisión(es) recomendadas.`
+          ? `Resultado: hay ${strongIssues} punto(s) que resolver antes de presentar.`
           : warnings
-            ? `Resultado: no vemos un bloqueo automático claro, pero hay ${warnings} punto(s) que debes revisar antes de presentar.`
-            : 'Resultado: no vemos incidencias automáticas claras. Aun así, comprueba visualmente firmas, marcas y documentación adjunta antes de enviar.';
+            ? `Resultado: no vemos un bloqueo automático claro; hay ${warnings} revisión(es) recomendadas${unknowns ? ` y ${unknowns} punto(s) que requieren comprobación visual` : ''}.`
+            : unknowns
+              ? `Resultado: no vemos incidencias automáticas claras. Hay ${unknowns} punto(s) que el PDF no permite verificar con seguridad y conviene revisar visualmente.`
+              : 'Resultado: no vemos incidencias automáticas claras.';
         summary.classList.remove('hidden');
         $('pb-review-status').textContent = 'Revisión terminada. El archivo sigue únicamente en tu navegador.';
       } catch (err) {
