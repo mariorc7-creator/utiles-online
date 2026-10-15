@@ -12,7 +12,7 @@ function applyPageFixes(html, relPath) {
   const rel = relPath.replace(/\\/g, '/');
   if (rel === 'pack-empadronamiento/index.html') {
     if (!html.includes('/pack-empadronamiento/fix.js')) {
-      html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/fix.js?v=20261015-1" defer></script>\n</body>');
+      html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/fix.js?v=20261015-2" defer></script>\n</body>');
     }
   }
   return html;
