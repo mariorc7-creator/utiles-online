@@ -3,139 +3,179 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Preparador para empadronar a un bebé | Papeles del Bebé</title>
-<meta name="description" content="Preparador práctico para el empadronamiento de un bebé: qué hacer según tu municipio, documentos concretos, formulario oficial y ayuda campo por campo.">
+<title>Copiloto para empadronar a un bebé | Papeles del Bebé</title>
+<meta name="description" content="Copiloto práctico para preparar el empadronamiento de un bebé: documento oficial, ayuda campo por campo, checklist personalizada y ruta según municipio y situación familiar.">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://www.papelesdelbebe.es/pack-empadronamiento/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/style.css">
 <style>
-.pack{max-width:1080px;margin:0 auto;padding:32px 22px 76px}.hero-pack{padding:34px;border:1px solid #e1e4f2;border-radius:24px;background:linear-gradient(135deg,#fff,#f7f7ff);margin-bottom:22px}.hero-pack h1{font-size:clamp(2rem,4.8vw,3.2rem);line-height:1.03;margin:.3rem 0 .65rem}.hero-pack p{max-width:800px;color:#60697d;line-height:1.65}.badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:#eef0ff;color:#5057c8;font-weight:800;font-size:.82rem}.panel{border:1px solid #e1e4ef;border-radius:20px;padding:22px;background:#fff;margin:18px 0}.panel h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field label{display:block;font-weight:800;margin-bottom:6px;color:#303a52}.field select{width:100%;padding:12px;border:1px solid #d9ddea;border-radius:12px;background:#fff;font:inherit}.result{margin-top:18px;border-radius:18px;padding:20px;background:#f7f8ff;border:1px solid #dfe3ff}.result h3{margin:0 0 8px}.result ul{padding-left:20px}.result li{margin:.45rem 0}.pill{display:inline-flex;border-radius:999px;padding:5px 9px;font-size:.78rem;font-weight:800;background:#edf9f1;color:#246c46}.warn{background:#fff8e8;border:1px solid #f0dfae;color:#6e5622}.action{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:12px;padding:11px 14px;background:#5e64dc;color:white;text-decoration:none;font-weight:800;cursor:pointer}.action.secondary{background:#f0efff;color:#5057c8}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.doc-card{border:1px solid #e3e5ef;border-radius:16px;padding:18px;background:#fff}.doc-card h3{margin-top:0;font-size:1.05rem}.doc-card p,.doc-card li{color:#5f687d;line-height:1.55}.step{display:grid;grid-template-columns:34px 1fr;gap:12px;margin:16px 0}.n{width:34px;height:34px;border-radius:50%;background:#6369e7;color:white;display:grid;place-items:center;font-weight:850}.field-demo{display:grid;grid-template-columns:1fr 1fr;gap:10px}.demo{border:1px solid #dfe2ee;border-radius:11px;padding:11px;background:#fafbff}.demo b{display:block;font-size:.74rem;color:#6a7387;margin-bottom:3px}.sourcebox{font-size:.9rem;color:#60697d;background:#f7f8fb;border-radius:14px;padding:14px}.sourcebox a{color:#5057c8;font-weight:750}.small{font-size:.87rem;color:#72798b}.hidden{display:none!important}@media(max-width:760px){.pack{padding:18px 14px 66px}.hero-pack{padding:24px 18px}.grid,.field-demo{grid-template-columns:1fr}}@media print{header,footer,#pb-mobile-nav,.controls,.actions{display:none!important}.pack{padding:0}.panel,.doc-card,.hero-pack{break-inside:avoid}}
+:root{--pb:#6067e8;--pb2:#eef0ff;--ink:#263047;--muted:#697287;--line:#e1e5ef;--ok:#206842;--okbg:#edf9f2;--warn:#735719;--warnbg:#fff8e7}
+.pack{max-width:1180px;margin:0 auto;padding:30px 20px 80px}.hero{padding:30px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#fff,#f6f7ff);margin-bottom:18px}.hero h1{font-size:clamp(2rem,4.8vw,3.25rem);line-height:1.04;margin:.35rem 0 .65rem}.hero p{max-width:870px;color:var(--muted);font-size:1.05rem;line-height:1.62}.badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--pb2);color:#4e56c6;font-weight:850;font-size:.8rem}.panel{border:1px solid var(--line);border-radius:18px;background:#fff;padding:20px;margin:16px 0}.panel h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field label{display:block;font-weight:800;color:#303a52;margin-bottom:6px}.field select,.field input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #d9ddea;border-radius:11px;background:#fff;font:inherit}.result{margin-top:16px;border:1px solid #dde2ff;background:#f8f9ff;border-radius:16px;padding:18px}.result h3{margin:0 0 8px}.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.75rem;font-weight:850;background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.action{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:11px;padding:11px 14px;background:var(--pb);color:#fff;text-decoration:none;font-weight:850;cursor:pointer}.action.secondary{background:var(--pb2);color:#4e56c6}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.city.hidden{display:none!important}.copilot{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,.75fr);gap:16px;align-items:start}.pdf-shell{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#f7f8fb}.pdf-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;background:#fff;border-bottom:1px solid var(--line)}.pdf-toolbar strong{font-size:.95rem}.pdf-frame{width:100%;height:760px;border:0;background:#f4f5f9}.help-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff;position:sticky;top:14px}.help-card h2{margin-top:0}.stepper{display:grid;gap:10px}.guide-step{border:1px solid #e4e7f0;border-radius:13px;padding:12px}.guide-step.active{border-color:#b9bfff;background:#f8f8ff}.guide-step b{display:block;margin-bottom:4px}.guide-step p{margin:.2rem 0;color:var(--muted);line-height:1.45}.mini{font-size:.84rem;color:#747c8f}.check{display:flex;gap:8px;align-items:flex-start;margin:8px 0}.summary{border:1px solid #dfe3ff;background:#f8f9ff;border-radius:14px;padding:15px}.summary ul{margin:.5rem 0 0;padding-left:20px}.summary li{margin:.4rem 0}.privacy{font-size:.82rem;color:#747c8f;background:#f7f8fb;border-radius:10px;padding:9px}.doc-card{border:1px solid var(--line);border-radius:15px;padding:16px}.doc-card h3{margin-top:0;font-size:1.02rem}.doc-card p,.doc-card li{color:var(--muted);line-height:1.5}.source{font-size:.88rem;color:var(--muted);background:#f7f8fb;border-radius:12px;padding:12px}.source a{font-weight:750;color:#4e56c6}.todo-list label{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0}.todo-list input{margin-top:3px}.output{white-space:pre-wrap;background:#182035;color:#f2f4fb;padding:15px;border-radius:14px;font-size:.9rem;line-height:1.5;min-height:100px}.soft-note{padding:13px 14px;border:1px solid #f0dfac;background:var(--warnbg);border-radius:12px;color:var(--warn)}
+@media(max-width:900px){.copilot{grid-template-columns:1fr}.help-card{position:static}.pdf-frame{height:620px}}
+@media(max-width:720px){.pack{padding:18px 13px 68px}.hero{padding:22px 17px}.grid{grid-template-columns:1fr}.pdf-frame{height:520px}.pdf-toolbar{align-items:flex-start;flex-direction:column}}
+@media print{header,footer,#pb-mobile-nav,.controls,.pdf-shell,.actions{display:none!important}.pack{padding:0}.panel,.help-card,.hero{break-inside:avoid}.copilot{display:block}.help-card{position:static}}
 </style>
 </head>
 <body>
 <header><div class="header-contenido"><a href="/" class="logo logo-enlace">Papeles del <span>Bebé</span></a></div></header>
 <main class="pack">
-<section class="hero-pack">
-<span class="badge">🧭 PREPARADOR REAL · EMPADRONAMIENTO</span>
-<h1>No te damos una lista genérica: te decimos qué hacer según tu municipio</h1>
-<p>Selecciona tu ciudad y tu situación. El objetivo es que salgas de aquí sabiendo si debes hacer algo, qué documento buscar, dónde ir y qué parte del formulario debes revisar.</p>
+<section class="hero">
+<span class="badge">🧭 COPILOTO DE TRÁMITE · EMPADRONAMIENTO</span>
+<h1>Ve el documento oficial y prepáralo con ayuda, campo por campo</h1>
+<p>No queremos limitar-nos a explicarte el trámite. Para Madrid puedes ver la <strong>Hoja Padronal oficial</strong> dentro de Papeles del Bebé, preparar los datos que vas a necesitar y generar una hoja-resumen para trasladarlos al documento oficial. Tus respuestas se procesan solo en tu navegador y no se envían al servidor.</p>
 </section>
 
-<section class="panel controls" aria-labelledby="diagnostico-titulo">
-<h2 id="diagnostico-titulo">Diagnóstico en 30 segundos</h2>
+<section class="panel controls" aria-labelledby="diagnostico">
+<h2 id="diagnostico">1. Dinos tu situación</h2>
 <div class="grid">
 <div class="field"><label for="municipio">Municipio</label><select id="municipio"><option value="madrid">Madrid</option><option value="zaragoza">Zaragoza</option><option value="lleida">Lleida</option><option value="otro">Otro municipio</option></select></div>
-<div class="field"><label for="estado">¿El bebé ya aparece empadronado?</label><select id="estado"><option value="no-se">No lo sé</option><option value="si">Sí</option><option value="no">No</option></select></div>
-<div class="field"><label for="urgencia">¿Necesitas un volante/certificado pronto?</label><select id="urgencia"><option value="no">No</option><option value="si">Sí, lo necesito pronto</option></select></div>
+<div class="field"><label for="estado">¿El bebé ya aparece empadronado?</label><select id="estado"><option value="nose">No lo sé</option><option value="si">Sí</option><option value="no">No</option></select></div>
+<div class="field"><label for="convivencia">¿Con quién se empadrona?</label><select id="convivencia"><option value="ambos">Con ambos progenitores</option><option value="uno">Con un solo progenitor</option><option value="otros">Con otras personas</option></select></div>
 <div class="field"><label for="edad">Edad del bebé</label><select id="edad"><option value="menos1">Menos de 1 año</option><option value="mas1">Más de 1 año</option></select></div>
 </div>
 <div id="resultado" class="result" aria-live="polite"></div>
 </section>
 
-<section id="madrid" class="city panel">
-<span class="pill">MADRID · FUENTE OFICIAL REVISADA</span>
-<h2>Madrid: esto es lo que cambia de verdad</h2>
-<p>El Ayuntamiento indica que el alta por nacimiento se hace <strong>por regla general de oficio</strong> cuando recibe la información del INE. Si los progenitores quieren solicitarla, pueden usar el trámite de <strong>Alta por nacimiento durante el primer año de vida</strong>. Si el menor tiene más de un año y el expediente solo le incluye a él, debe tramitarse en una Oficina de Atención a la Ciudadanía.</p>
-<div class="grid">
-<article class="doc-card"><h3>Si el bebé se empadrona con sus dos progenitores</h3><ul><li>Certificado de nacimiento o libro de familia.</li><li>Hoja padronal firmada por ambos progenitores.</li><li>Si se hace presencialmente, la hoja debe llevar firma manuscrita.</li></ul></article>
-<article class="doc-card"><h3>Si se empadrona con un solo progenitor</h3><ul><li>Certificado de nacimiento o libro de familia.</li><li>Autorización del otro progenitor, o la documentación judicial/declaración responsable que corresponda según la custodia.</li></ul></article>
-<article class="doc-card"><h3>Vivienda</h3><p>Cuando el menor no emancipado se empadrona en el domicilio donde ya están empadronados sus progenitores o representantes legales, la sede de Madrid indica que <strong>no es necesario aportar documentación que acredite el uso de la vivienda</strong>.</p></article>
-<article class="doc-card"><h3>Identidad del menor</h3><p>Para menores de 14 años, Madrid admite libro de familia o certificado de nacimiento originales; si el menor tiene DNI o pasaporte, también se aporta.</p></article>
+<section id="madrid" class="city">
+<section class="panel">
+<span class="pill">MADRID · FUENTE OFICIAL VERIFICADA</span>
+<h2>2. Copiloto con la Hoja Padronal oficial</h2>
+<div class="soft-note"><strong>Importante:</strong> Madrid indica que el alta por nacimiento se realiza por regla general de oficio cuando recibe la información del INE. Si aún no aparece o quieres solicitarla, este copiloto te ayuda a preparar la documentación y el formulario.</div>
+</section>
+
+<section class="copilot">
+<div class="pdf-shell" aria-label="Documento oficial de Madrid">
+<div class="pdf-toolbar"><strong>Documento oficial · Hoja Padronal de Madrid</strong><div class="actions" style="margin:0"><a class="action secondary" href="https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf" target="_blank" rel="noopener">Abrir PDF oficial ↗</a></div></div>
+<iframe class="pdf-frame" title="Hoja Padronal oficial del Ayuntamiento de Madrid" src="https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf#view=FitH"></iframe>
 </div>
 
-<section class="panel" style="background:#fafbff">
-<h2>Cómo rellenar la Hoja Padronal de Madrid para un recién nacido</h2>
-<div class="step"><div class="n">1</div><div><strong>Dirección</strong><p>Rellena calle/plaza/avenida, número, portal, escalera, planta y puerta del domicilio habitual.</p></div></div>
-<div class="step"><div class="n">2</div><div><strong>Datos del bebé</strong><p>Nombre y apellidos, fecha y lugar de nacimiento y nacionalidad exactamente como figuran en la documentación registral.</p></div></div>
-<div class="step"><div class="n">3</div><div><strong>Causa del alta</strong><p>Para un recién nacido, la propia hoja oficial indica que debes marcar <strong>“Nacimiento”</strong>.</p></div></div>
-<div class="step"><div class="n">4</div><div><strong>Autorización de progenitores</strong><p>El formulario incluye un bloque específico de autorización de progenitores/representantes legales. Para menores empadronados con ambos progenitores, Madrid exige la firma de ambos.</p></div></div>
-<div class="step"><div class="n">5</div><div><strong>Documentación presentada</strong><p>La hoja incluye casillas para documento de identidad, certificado de nacimiento, libro de familia, autorización y documentación de vivienda. Marca solo lo que realmente aportas.</p></div></div>
-<div class="field-demo">
-<div class="demo"><b>CAUSA DEL ALTA</b>☑ Nacimiento</div>
-<div class="demo"><b>DATOS DEL MENOR</b>Nombre y apellidos · fecha de nacimiento</div>
-<div class="demo"><b>DOMICILIO</b>Vía · número · portal · planta · puerta</div>
-<div class="demo"><b>FIRMAS</b>Ambos progenitores cuando corresponda</div>
+<aside class="help-card">
+<h2>Rellénalo conmigo</h2>
+<p class="mini">No guardamos estos datos. Se usan únicamente para crear tu resumen local.</p>
+<div class="stepper">
+<div class="guide-step active"><b>Dirección habitual</b><div class="field"><input id="direccion" autocomplete="street-address" placeholder="Ej.: Calle Ejemplo 12, 3º B"></div><p>Trasládala al bloque de domicilio de la hoja.</p></div>
+<div class="guide-step"><b>Nombre y apellidos del bebé</b><div class="field"><input id="bebename" autocomplete="off" placeholder="Tal como figura en el certificado"></div><p>Debe coincidir exactamente con la documentación registral.</p></div>
+<div class="guide-step"><b>Fecha de nacimiento</b><div class="field"><input id="fecha" type="date" autocomplete="off"></div><p>En la causa del alta, para recién nacidos la hoja oficial indica marcar <strong>Nacimiento</strong>.</p></div>
+<div class="guide-step"><b>Progenitor que presenta la gestión</b><div class="field"><input id="adulto" autocomplete="name" placeholder="Nombre y apellidos"></div></div>
+<div class="guide-step"><b>Documento identificativo</b><div class="field"><input id="docid" autocomplete="off" placeholder="DNI/NIE/Pasaporte"></div><p>Solo para tu hoja-resumen local.</p></div>
 </div>
-<div class="actions">
-<a class="action" href="https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf" target="_blank" rel="noopener">Abrir Hoja Padronal oficial PDF ↗</a>
-<a class="action secondary" href="https://sede.madrid.es/portal/site/tramites/menuitem.62876cb64654a55e2dbd7003a8a409a0/?vgnextchannel=45f45704a7758810VgnVCM1000008a4a900aRCRD&vgnextoid=3e3debb41f6e2410VgnVCM2000000c205a0aRCRD" target="_blank" rel="noopener">Ver trámite oficial ↗</a>
+<div class="actions"><button class="action" id="generar" type="button">Generar mi resumen →</button><button class="action secondary" id="limpiar" type="button">Borrar datos</button></div>
+<div class="privacy">🔒 Estos campos no se envían por red. El resumen se genera localmente en tu navegador.</div>
+</aside>
+</section>
+
+<section class="panel">
+<h2>3. Qué debes revisar en la Hoja Padronal</h2>
+<div class="grid">
+<article class="doc-card"><h3>☑ Causa del alta</h3><p>Para un recién nacido, la propia hoja oficial indica marcar <strong>“Nacimiento”</strong>.</p></article>
+<article class="doc-card"><h3>👶 Datos del menor</h3><p>Nombre, apellidos, fecha y lugar de nacimiento y nacionalidad exactamente como consten en la documentación registral.</p></article>
+<article class="doc-card"><h3>🏠 Domicilio</h3><p>Revisa vía, número, portal, escalera, planta y puerta. Si el menor no emancipado se empadrona donde ya están sus progenitores o representantes, Madrid indica que no es necesario acreditar el uso de la vivienda.</p></article>
+<article class="doc-card"><h3>✍️ Firmas y autorizaciones</h3><p>Si se empadrona con ambos progenitores, la hoja debe ir firmada por ambos. Si se empadrona con uno solo, pueden ser necesarios autorización del otro progenitor o documentos de custodia/declaración responsable según el caso.</p></article>
 </div>
 </section>
-<div class="sourcebox"><strong>Comprobado en la Sede Electrónica del Ayuntamiento de Madrid.</strong> La sede también advierte que el empadronamiento no es inmediato y que el plazo máximo de resolución es de tres meses. Revisado el 15/10/2026.</div>
+
+<section class="panel">
+<h2>4. Tu checklist operativa</h2>
+<div class="todo-list" id="checklist">
+<label><input type="checkbox" data-label="He comprobado si el bebé ya consta de alta de oficio.">He comprobado si el bebé ya consta de alta de oficio.</label>
+<label><input type="checkbox" data-label="Tengo certificado de nacimiento o libro de familia si corresponde.">Tengo certificado de nacimiento o libro de familia si corresponde.</label>
+<label><input type="checkbox" data-label="He descargado/abierto la Hoja Padronal oficial.">He descargado/abierto la Hoja Padronal oficial.</label>
+<label><input type="checkbox" data-label="He marcado Nacimiento como causa del alta.">He marcado <strong>Nacimiento</strong> como causa del alta.</label>
+<label><input type="checkbox" data-label="He revisado quién debe firmar según mi situación familiar.">He revisado quién debe firmar según mi situación familiar.</label>
+<label><input type="checkbox" data-label="He guardado el justificante o resguardo del trámite.">He guardado el justificante o resguardo del trámite.</label>
+</div>
+</section>
+
+<section class="panel">
+<h2>5. Mi hoja de preparación</h2>
+<p>Esto no sustituye el formulario oficial. Es una chuleta para que puedas trasladar tus datos sin ir saltando entre pestañas.</p>
+<div id="output" class="output">Completa los campos del copiloto y pulsa “Generar mi resumen”.</div>
+<div class="actions"><button class="action" id="copiar" type="button">Copiar resumen</button><button class="action secondary" type="button" onclick="window.print()">Imprimir / guardar PDF</button><a class="action secondary" href="https://sede.madrid.es/portal/site/tramites/menuitem.62876cb64654a55e2dbd7003a8a409a0/?vgnextchannel=f47ea38813180210VgnVCM100000c90da8c0RCRD&vgnextfmt=default&vgnextoid=3e3debb41f6e2410VgnVCM2000000c205a0aRCRD" target="_blank" rel="noopener">Trámite oficial ↗</a></div>
+</section>
+
+<div class="source"><strong>Fuente oficial:</strong> Ayuntamiento de Madrid. La sede municipal indica que el alta por nacimiento se realiza por regla general de oficio; durante el primer año puede solicitarse mediante el trámite de alta por nacimiento. La Hoja Padronal oficial indica que, para recién nacidos, debe marcarse “Nacimiento” como causa del alta. Verificado el 15/10/2026.</div>
 </section>
 
 <section id="zaragoza" class="city panel hidden">
-<span class="pill">ZARAGOZA · FUENTE OFICIAL REVISADA</span>
-<h2>Zaragoza: normalmente no tienes que hacer nada</h2>
-<p>El Ayuntamiento de Zaragoza indica expresamente que, en la mayoría de los casos, el alta del recién nacido se hace de oficio cuando recibe los datos del Registro Civil a través del INE.</p>
-<div class="grid">
-<article class="doc-card"><h3>¿Cuándo tiene sentido solicitarla tú?</h3><p>El propio Ayuntamiento contempla la solicitud manual si existe una razón de urgencia, por ejemplo si necesitas un certificado rápidamente, o si prefieres no esperar al alta de oficio.</p></article>
-<article class="doc-card"><h3>¿Dónde mirarlo?</h3><p>Existe un trámite específico llamado <strong>“Padrón: Alta por nacimiento”</strong>. Ahí debes comprobar documentación y canal vigente antes de presentar nada.</p></article>
-</div>
-<div class="actions"><a class="action" href="https://www.zaragoza.es/sede/servicio/tramite/22940" target="_blank" rel="noopener">Abrir alta por nacimiento oficial ↗</a><a class="action secondary" href="https://www.zaragoza.es/sede/servicio/tramite/23720" target="_blank" rel="noopener">Pedir/consultar volante ↗</a></div>
-<div class="sourcebox"><strong>Fuente:</strong> Ayuntamiento de Zaragoza. Revisado el 15/10/2026.</div>
+<span class="pill">ZARAGOZA · FUENTE OFICIAL VERIFICADA</span>
+<h2>Zaragoza: primero comprueba si ya se hizo de oficio</h2>
+<p>El Ayuntamiento señala que normalmente el alta del recién nacido se realiza de oficio al recibir los datos del Registro Civil a través del INE. Si necesitas el certificado con urgencia o no aparece el alta, consulta el trámite específico.</p>
+<div class="actions"><a class="action" href="https://www.zaragoza.es/sede/servicio/tramite/22940" target="_blank" rel="noopener">Alta por nacimiento oficial ↗</a><a class="action secondary" href="https://www.zaragoza.es/sede/servicio/tramite/23720" target="_blank" rel="noopener">Volante/certificado ↗</a></div>
+<p class="mini">Próximo paso de producto: incorporar el formulario oficial embebido y el mismo copiloto campo por campo cuando el Ayuntamiento publique un documento estable y verificable para esta gestión.</p>
 </section>
 
 <section id="lleida" class="city panel hidden">
-<span class="pill">LLEIDA · FUENTE OFICIAL REVISADA</span>
-<h2>Lleida: ve directamente al servicio de Padró</h2>
-<p>La Paeria indica que el servicio del Padró Municipal gestiona las <strong>altas por nacimiento</strong>. También informa de que las gestiones del padrón pueden realizarse por internet o en la OMAC.</p>
-<div class="grid">
-<article class="doc-card"><h3>Online</h3><p>La información municipal remite a <strong>padro.paeria.cat</strong> para las gestiones del padrón.</p></article>
-<article class="doc-card"><h3>Presencial</h3><p>OMAC, Rambla Ferran, 32. La Paeria publica cita previa y canales de atención municipal para estas gestiones.</p></article>
-</div>
-<div class="actions"><a class="action" href="https://www.paeria.cat/ca/serveis/padro" target="_blank" rel="noopener">Abrir información oficial de Padró ↗</a><a class="action secondary" href="https://tramits.paeria.cat/Ciutadania/" target="_blank" rel="noopener">Abrir carpeta de trámites ↗</a></div>
-<div class="sourcebox"><strong>Fuente:</strong> La Paeria – Ajuntament de Lleida. Revisado el 15/10/2026.</div>
+<span class="pill">LLEIDA · FUENTE OFICIAL VERIFICADA</span>
+<h2>Lleida: acceso directo al servicio de Padró</h2>
+<p>La Paeria gestiona las altas por nacimiento desde el servicio de Padró. Puedes consultar la información municipal y los trámites online antes de desplazarte.</p>
+<div class="actions"><a class="action" href="https://www.paeria.cat/ca/serveis/padro" target="_blank" rel="noopener">Servicio oficial de Padró ↗</a><a class="action secondary" href="https://tramits.paeria.cat/Ciutadania/" target="_blank" rel="noopener">Trámites online ↗</a></div>
 </section>
 
 <section id="otro" class="city panel hidden">
 <span class="pill warn">OTRO MUNICIPIO</span>
-<h2>No vamos a inventarte requisitos</h2>
-<p>El padrón es municipal y aquí es donde una lista genérica deja de ser útil. Para un municipio no verificado todavía, usa esta comprobación mínima antes de desplazarte:</p>
-<ol><li>Busca en la web oficial de tu ayuntamiento “alta por nacimiento” o “padrón recién nacido”.</li><li>Comprueba si el alta se hace de oficio.</li><li>Si necesitas un certificado con urgencia, busca si permiten solicitud manual.</li><li>Confirma si exigen hoja padronal, certificado/libro de familia, firmas de ambos progenitores y alguna autorización adicional.</li><li>Descarga siempre el formulario desde la web oficial de ese ayuntamiento.</li></ol>
-<p class="small">Estamos ampliando los municipios con fichas verificadas. Preferimos mostrar tres ciudades bien comprobadas que 50 respuestas genéricas.</p>
+<h2>No vamos a inventarte documentación</h2>
+<p>El padrón es municipal. Mientras no tengamos verificado tu ayuntamiento, preferimos darte una ruta segura: busca “alta por nacimiento” o “padrón recién nacido” en la sede oficial, comprueba si el alta es automática, descarga solo formularios oficiales y confirma las firmas/autorizaciones exigidas.</p>
 </section>
 
 <section class="panel">
-<h2>Checklist útil antes de salir de casa</h2>
-<div class="grid">
-<label class="doc-card"><input type="checkbox"> He comprobado si el bebé ya consta de alta.</label>
-<label class="doc-card"><input type="checkbox"> Tengo certificado de nacimiento o libro de familia si mi municipio lo pide.</label>
-<label class="doc-card"><input type="checkbox"> Sé si deben firmar ambos progenitores.</label>
-<label class="doc-card"><input type="checkbox"> He descargado el formulario oficial de mi ayuntamiento.</label>
-<label class="doc-card"><input type="checkbox"> Sé si necesito cita previa.</label>
-<label class="doc-card"><input type="checkbox"> Sé qué justificante/volante necesito después.</label>
-</div>
-<div class="actions"><button id="copiar" class="action" type="button">Copiar mi lista</button><button class="action secondary" type="button" onclick="window.print()">Imprimir / guardar PDF</button></div>
-<p id="copy-status" class="small" aria-live="polite"></p>
+<h2>Qué convierte esto en algo útil</h2>
+<div class="grid"><article class="doc-card"><h3>Documento oficial dentro de la guía</h3><p>No tienes que imaginar qué formulario buscar: lo ves mientras sigues las instrucciones.</p></article><article class="doc-card"><h3>Preparación local</h3><p>Puedes preparar los datos sin enviarnos información familiar sensible.</p></article><article class="doc-card"><h3>Guía adaptada a tu situación</h3><p>La ruta cambia según municipio, edad del bebé y con quién se empadrona.</p></article><article class="doc-card"><h3>Salida accionable</h3><p>Terminas con una checklist y una hoja-resumen para completar el trámite oficial.</p></article></div>
 </section>
-
-<p class="small"><strong>Importante:</strong> esto es una ayuda de preparación. Los requisitos oficiales del ayuntamiento prevalecen siempre. No recopilamos datos del bebé para usar esta herramienta.</p>
 </main>
 <script>
 (() => {
- const municipio=document.getElementById('municipio'), estado=document.getElementById('estado'), urgencia=document.getElementById('urgencia'), edad=document.getElementById('edad'), resultado=document.getElementById('resultado');
+ const $=id=>document.getElementById(id);
+ const municipio=$('municipio'), estado=$('estado'), convivencia=$('convivencia'), edad=$('edad'), resultado=$('resultado');
  const cities=['madrid','zaragoza','lleida','otro'];
- function render(){
-  const m=municipio.value, e=estado.value, u=urgencia.value, a=edad.value;
-  cities.forEach(id=>document.getElementById(id).classList.toggle('hidden',id!==m));
+ function showCity(){cities.forEach(id=>$(id).classList.toggle('hidden',id!==municipio.value)); renderDiagnosis();}
+ function renderDiagnosis(){
   let html='';
-  if(e==='si') html='<h3>✓ Si ya aparece, no tramites otra alta</h3><p>Tu siguiente paso es pedir el volante o certificado que necesites y continuar con los demás trámites.</p>';
-  else if(m==='madrid') {
-    if(a==='menos1' && u==='si') html='<h3>Tu mejor ruta: Alta por nacimiento</h3><p>Madrid permite solicitarla durante el primer año. Si necesitas el padrón pronto, usa el trámite específico y revisa las firmas/consentimientos.</p>';
-    else if(a==='mas1') html='<h3>Con más de un año cambia el procedimiento</h3><p>Si el expediente solo incluye al menor, Madrid indica que debe tramitarse en una Oficina de Atención a la Ciudadanía.</p>';
-    else html='<h3>Primero comprueba; normalmente el alta llega de oficio</h3><p>Si no tienes urgencia, evita duplicar la solicitud. Comprueba si ya consta y actúa solo si sigue sin aparecer.</p>';
-  } else if(m==='zaragoza') {
-    html=u==='si'?'<h3>Urgencia: puedes solicitar el alta</h3><p>Zaragoza contempla el alta a solicitud de los progenitores cuando hay urgencia, por ejemplo si necesitas un certificado rápido.</p>':'<h3>Probablemente no tienes que hacer nada todavía</h3><p>Zaragoza indica que la mayoría de altas por nacimiento se realizan de oficio.</p>';
-  } else if(m==='lleida') {
-    html='<h3>Comprueba el alta en el servicio de Padró de La Paeria</h3><p>La Paeria gestiona las altas por nacimiento y ofrece canal online y OMAC. Entra en el servicio oficial antes de preparar documentación genérica.</p>';
-  } else html='<h3>Necesitamos el municipio exacto para ser precisos</h3><p>No te damos una lista inventada: comprueba primero el procedimiento oficial de tu ayuntamiento con la guía inferior.</p>';
+  if(municipio.value==='madrid'){
+   if(estado.value==='si') html='<h3>Probablemente no necesitas pedir otra alta</h3><p>Si el bebé ya consta empadronado, evita duplicar el trámite. Puedes usar el copiloto de abajo si necesitas revisar o preparar documentación relacionada.</p>';
+   else if(edad.value==='menos1') html='<h3>Tu ruta recomendada</h3><ul><li>Primero comprueba si el alta ya se ha producido de oficio.</li><li>Si no consta, Madrid permite solicitar el alta por nacimiento durante el primer año.</li><li>'+ (convivencia.value==='ambos'?'Si se empadrona con ambos progenitores, prepara certificado de nacimiento/libro de familia y revisa la firma de ambos.':convivencia.value==='uno'?'Si se empadrona con un solo progenitor, revisa autorización del otro progenitor o documentación de custodia/declaración responsable según corresponda.':'Si se empadrona con personas distintas de sus progenitores, revisa las autorizaciones específicas del formulario y de la sede municipal.') +'</li></ul>';
+   else html='<h3>Atención: más de un año</h3><p>Madrid diferencia los casos de menores de más de un año. Si el expediente solo incluye al menor, la sede indica tramitación en Oficina de Atención a la Ciudadanía. Revisa el trámite oficial antes de presentar documentación.</p>';
+  } else if(municipio.value==='zaragoza') html='<h3>Primero, confirma si ya se hizo de oficio</h3><p>Zaragoza indica que normalmente el alta por nacimiento llega de oficio. Si necesitas certificado con urgencia o no aparece el alta, usa el trámite oficial específico.</p>';
+  else if(municipio.value==='lleida') html='<h3>Ruta recomendada</h3><p>Consulta el servicio de Padró de la Paeria y comprueba si el alta ya consta antes de iniciar una gestión nueva.</p>';
+  else html='<h3>Municipio todavía no verificado</h3><p>Te llevamos a una ruta segura, pero no te mostraremos requisitos inventados. Usa la sede oficial de tu ayuntamiento y confirma allí el formulario y las autorizaciones.</p>';
   resultado.innerHTML=html;
  }
- [municipio,estado,urgencia,edad].forEach(el=>el.addEventListener('change',render)); render();
- document.getElementById('copiar').addEventListener('click',async()=>{const checks=[...document.querySelectorAll('.panel input[type=checkbox]')]; const lines=checks.map(x=>`${x.checked?'✓':'☐'} ${x.parentElement.textContent.trim()}`).join('\n'); try{await navigator.clipboard.writeText('Empadronamiento del bebé\n'+lines);document.getElementById('copy-status').textContent='✓ Lista copiada.';}catch(_){document.getElementById('copy-status').textContent='No se ha podido copiar automáticamente.';}});
+ [municipio,estado,convivencia,edad].forEach(el=>el.addEventListener('change',()=>{if(el===municipio)showCity();else renderDiagnosis();}));
+ showCity();
+ const fields=['direccion','bebename','fecha','adulto','docid'];
+ function esc(v){return (v||'').trim()||'[pendiente]';}
+ function generar(){
+  const checks=[...document.querySelectorAll('#checklist input[type=checkbox]')];
+  const hechas=checks.filter(x=>x.checked).map(x=>'✓ '+x.dataset.label);
+  const pendientes=checks.filter(x=>!x.checked).map(x=>'□ '+x.dataset.label);
+  const convivenciaTxt=convivencia.options[convivencia.selectedIndex].text;
+  $('output').textContent=[
+   'MI PREPARACIÓN · EMPADRONAMIENTO DEL BEBÉ',
+   '',
+   'Municipio: Madrid',
+   'Situación: '+convivenciaTxt,
+   'Dirección: '+esc($('direccion').value),
+   'Bebé: '+esc($('bebename').value),
+   'Fecha de nacimiento: '+esc($('fecha').value),
+   'Progenitor/persona que presenta: '+esc($('adulto').value),
+   'Documento: '+esc($('docid').value),
+   '',
+   'En la Hoja Padronal: marcar causa del alta → NACIMIENTO',
+   '',
+   'COMPLETADO',...(hechas.length?hechas:['—']),
+   '',
+   'PENDIENTE',...(pendientes.length?pendientes:['—']),
+   '',
+   'Documento oficial: Hoja Padronal del Ayuntamiento de Madrid',
+   'Este resumen es una ayuda de preparación y no sustituye el formulario oficial.'
+  ].join('\n');
+ }
+ $('generar').addEventListener('click',generar);
+ $('limpiar').addEventListener('click',()=>{fields.forEach(id=>$(id).value='');document.querySelectorAll('#checklist input').forEach(x=>x.checked=false);$('output').textContent='Datos borrados. Completa los campos y genera de nuevo tu resumen.';});
+ $('copiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('output').textContent);$('copiar').textContent='✓ Copiado';setTimeout(()=>$('copiar').textContent='Copiar resumen',1500);}catch(e){$('copiar').textContent='Selecciona y copia manualmente';}});
+ document.querySelectorAll('#checklist input').forEach(x=>x.addEventListener('change',()=>{if($('output').textContent.startsWith('MI PREPARACIÓN'))generar();}));
 })();
 </script>
 <script src="/analytics.js"></script>
-</body></html>
+</body>
+</html>
