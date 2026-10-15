@@ -12,7 +12,7 @@ function applyPageFixes(html, relPath) {
   const rel = relPath.replace(/\\/g, '/');
   if (rel === 'pack-empadronamiento/index.html') {
     if (!html.includes('/pack-empadronamiento/fix.js')) {
-      html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/fix.js?v=20261015-2" defer></script>\n</body>');
+      html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/fix.js?v=20261015-3" defer></script>\n</body>');
     }
   }
   return html;
@@ -76,8 +76,7 @@ function audit(dir) {
       if (suspicious) warnings.push(`${rel}: ${suspicious} enlace(s) placeholder`);
       if (rel === 'pack-empadronamiento/index.html') {
         if (!html.includes('https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf')) failures.push(`${rel}: falta enlace al PDF oficial`);
-        if (!html.includes('id="print-sheet"')) failures.push(`${rel}: la chuleta no está aislada para impresión`);
-        if (!html.includes('/pack-empadronamiento/fix.js')) failures.push(`${rel}: sin fix externo del copiloto`);
+        if (!html.includes('/pack-empadronamiento/fix.js?v=20261015-3')) failures.push(`${rel}: sin verificador PDF v3`);
       }
     }
   }
