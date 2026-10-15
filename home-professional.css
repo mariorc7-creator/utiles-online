@@ -236,11 +236,19 @@ footer {
     gap: 9px 12px !important;
   }
 
-  .header-contenido .logo {
-    width: 100%;
-    font-size: 18px !important;
-    line-height: 1.2;
+  /* El logo es una imagen de fondo. No debe reaparecer el texto HTML encima. */
+  .header-contenido .logo.logo-enlace {
+    width: 168px !important;
+    height: 40px !important;
+    flex: 0 0 168px !important;
+    margin-right: auto !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
     text-align: left;
+  }
+
+  .header-contenido .logo.logo-enlace span {
+    display: none !important;
   }
 
   .header-acciones {
@@ -370,6 +378,12 @@ footer {
 }
 
 @media (max-width: 410px) {
+  .header-contenido .logo.logo-enlace {
+    width: 154px !important;
+    height: 37px !important;
+    flex-basis: 154px !important;
+  }
+
   .nav-principal {
     grid-template-columns: 1.4fr .7fr .75fr .8fr;
   }
