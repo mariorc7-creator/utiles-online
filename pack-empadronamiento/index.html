@@ -11,10 +11,17 @@
 <link rel="stylesheet" href="/style.css">
 <style>
 :root{--pb:#6067e8;--pb2:#eef0ff;--ink:#263047;--muted:#697287;--line:#e1e5ef;--ok:#206842;--okbg:#edf9f2;--warn:#735719;--warnbg:#fff8e7}
-.pack{max-width:1180px;margin:0 auto;padding:30px 20px 80px}.hero{padding:30px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#fff,#f6f7ff);margin-bottom:18px}.hero h1{font-size:clamp(2rem,4.8vw,3.25rem);line-height:1.04;margin:.35rem 0 .65rem}.hero p{max-width:870px;color:var(--muted);font-size:1.05rem;line-height:1.62}.badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--pb2);color:#4e56c6;font-weight:850;font-size:.8rem}.panel{border:1px solid var(--line);border-radius:18px;background:#fff;padding:20px;margin:16px 0}.panel h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field label{display:block;font-weight:800;color:#303a52;margin-bottom:6px}.field select,.field input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #d9ddea;border-radius:11px;background:#fff;font:inherit}.result{margin-top:16px;border:1px solid #dde2ff;background:#f8f9ff;border-radius:16px;padding:18px}.result h3{margin:0 0 8px}.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.75rem;font-weight:850;background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.action{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:11px;padding:11px 14px;background:var(--pb);color:#fff;text-decoration:none;font-weight:850;cursor:pointer}.action.secondary{background:var(--pb2);color:#4e56c6}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.city.hidden{display:none!important}.copilot{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,.75fr);gap:16px;align-items:start}.pdf-shell{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#f7f8fb}.pdf-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 14px;background:#fff;border-bottom:1px solid var(--line)}.pdf-toolbar strong{font-size:.95rem}.pdf-frame{width:100%;height:760px;border:0;background:#f4f5f9}.help-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff;position:sticky;top:14px}.help-card h2{margin-top:0}.stepper{display:grid;gap:10px}.guide-step{border:1px solid #e4e7f0;border-radius:13px;padding:12px}.guide-step.active{border-color:#b9bfff;background:#f8f8ff}.guide-step b{display:block;margin-bottom:4px}.guide-step p{margin:.2rem 0;color:var(--muted);line-height:1.45}.mini{font-size:.84rem;color:#747c8f}.check{display:flex;gap:8px;align-items:flex-start;margin:8px 0}.summary{border:1px solid #dfe3ff;background:#f8f9ff;border-radius:14px;padding:15px}.summary ul{margin:.5rem 0 0;padding-left:20px}.summary li{margin:.4rem 0}.privacy{font-size:.82rem;color:#747c8f;background:#f7f8fb;border-radius:10px;padding:9px}.doc-card{border:1px solid var(--line);border-radius:15px;padding:16px}.doc-card h3{margin-top:0;font-size:1.02rem}.doc-card p,.doc-card li{color:var(--muted);line-height:1.5}.source{font-size:.88rem;color:var(--muted);background:#f7f8fb;border-radius:12px;padding:12px}.source a{font-weight:750;color:#4e56c6}.todo-list label{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0}.todo-list input{margin-top:3px}.output{white-space:pre-wrap;background:#182035;color:#f2f4fb;padding:15px;border-radius:14px;font-size:.9rem;line-height:1.5;min-height:100px}.soft-note{padding:13px 14px;border:1px solid #f0dfac;background:var(--warnbg);border-radius:12px;color:var(--warn)}
-@media(max-width:900px){.copilot{grid-template-columns:1fr}.help-card{position:static}.pdf-frame{height:620px}}
-@media(max-width:720px){.pack{padding:18px 13px 68px}.hero{padding:22px 17px}.grid{grid-template-columns:1fr}.pdf-frame{height:520px}.pdf-toolbar{align-items:flex-start;flex-direction:column}}
-@media print{header,footer,#pb-mobile-nav,.controls,.pdf-shell,.actions{display:none!important}.pack{padding:0}.panel,.help-card,.hero{break-inside:avoid}.copilot{display:block}.help-card{position:static}}
+.pack{max-width:1180px;margin:0 auto;padding:30px 20px 80px}.hero{padding:30px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,#fff,#f6f7ff);margin-bottom:18px}.hero h1{font-size:clamp(2rem,4.8vw,3.25rem);line-height:1.04;margin:.35rem 0 .65rem}.hero p{max-width:870px;color:var(--muted);font-size:1.05rem;line-height:1.62}.badge{display:inline-flex;padding:7px 11px;border-radius:999px;background:var(--pb2);color:#4e56c6;font-weight:850;font-size:.8rem}.panel{border:1px solid var(--line);border-radius:18px;background:#fff;padding:20px;margin:16px 0}.panel h2{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field label{display:block;font-weight:800;color:#303a52;margin-bottom:6px}.field select,.field input{width:100%;box-sizing:border-box;padding:11px 12px;border:1px solid #d9ddea;border-radius:11px;background:#fff;font:inherit}.result{margin-top:16px;border:1px solid #dde2ff;background:#f8f9ff;border-radius:16px;padding:18px}.result h3{margin:0 0 8px}.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:.75rem;font-weight:850;background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.action{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;border-radius:11px;padding:11px 14px;background:var(--pb);color:#fff;text-decoration:none;font-weight:850;cursor:pointer}.action.secondary{background:var(--pb2);color:#4e56c6}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.city.hidden{display:none!important}.copilot{display:grid;grid-template-columns:minmax(260px,.72fr) minmax(320px,1.28fr);gap:16px;align-items:start}.pdf-shell{border:1px solid var(--line);border-radius:18px;background:#fff;padding:20px}.pdf-shell h3{margin:.15rem 0 .5rem}.pdf-shell p{color:var(--muted);line-height:1.55}.pdf-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center}.pdf-toolbar strong{font-size:.95rem}.help-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff;position:sticky;top:14px}.help-card h2{margin-top:0}.stepper{display:grid;gap:10px}.guide-step{border:1px solid #e4e7f0;border-radius:13px;padding:12px}.guide-step.active{border-color:#b9bfff;background:#f8f8ff}.guide-step b{display:block;margin-bottom:4px}.guide-step p{margin:.2rem 0;color:var(--muted);line-height:1.45}.mini{font-size:.84rem;color:#747c8f}.check{display:flex;gap:8px;align-items:flex-start;margin:8px 0}.summary{border:1px solid #dfe3ff;background:#f8f9ff;border-radius:14px;padding:15px}.summary ul{margin:.5rem 0 0;padding-left:20px}.summary li{margin:.4rem 0}.privacy{font-size:.82rem;color:#747c8f;background:#f7f8fb;border-radius:10px;padding:9px}.doc-card{border:1px solid var(--line);border-radius:15px;padding:16px}.doc-card h3{margin-top:0;font-size:1.02rem}.doc-card p,.doc-card li{color:var(--muted);line-height:1.5}.source{font-size:.88rem;color:var(--muted);background:#f7f8fb;border-radius:12px;padding:12px}.source a{font-weight:750;color:#4e56c6}.todo-list label{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:11px;margin:8px 0}.todo-list input{margin-top:3px}.output{white-space:pre-wrap;background:#182035;color:#f2f4fb;padding:15px;border-radius:14px;font-size:.9rem;line-height:1.5;min-height:100px}.soft-note{padding:13px 14px;border:1px solid #f0dfac;background:var(--warnbg);border-radius:12px;color:var(--warn)}
+@media(max-width:900px){.copilot{grid-template-columns:1fr}.help-card{position:static}}
+@media(max-width:720px){.pack{padding:18px 13px 68px}.hero{padding:22px 17px}.grid{grid-template-columns:1fr}.pdf-toolbar{align-items:flex-start;flex-direction:column}}
+@media print{
+ body *{visibility:hidden!important}
+ #print-sheet,#print-sheet *{visibility:visible!important}
+ #print-sheet{position:absolute;left:0;top:0;width:100%;margin:0!important;padding:0!important;border:0!important;box-shadow:none!important;background:#fff!important}
+ #print-sheet .actions{display:none!important}
+ #print-sheet .output{background:#fff!important;color:#000!important;border:1px solid #bbb!important;min-height:0!important;white-space:pre-wrap!important}
+ #print-sheet h2{margin-top:0!important}
+}
 </style>
 </head>
 <body>
@@ -22,8 +29,8 @@
 <main class="pack">
 <section class="hero">
 <span class="badge">🧭 COPILOTO DE TRÁMITE · EMPADRONAMIENTO</span>
-<h1>Ve el documento oficial y prepáralo con ayuda, campo por campo</h1>
-<p>No queremos limitar-nos a explicarte el trámite. Para Madrid puedes ver la <strong>Hoja Padronal oficial</strong> dentro de Papeles del Bebé, preparar los datos que vas a necesitar y generar una hoja-resumen para trasladarlos al documento oficial. Tus respuestas se procesan solo en tu navegador y no se envían al servidor.</p>
+<h1>Abre el documento oficial y prepáralo con ayuda, campo por campo</h1>
+<p>No queremos limitarnos a explicarte el trámite. Para Madrid te llevamos directamente a la <strong>Hoja Padronal oficial</strong>, te ayudamos a preparar los datos que vas a necesitar y generamos una hoja-resumen para trasladarlos al documento. Tus respuestas se procesan solo en tu navegador y no se envían al servidor.</p>
 </section>
 
 <section class="panel controls" aria-labelledby="diagnostico">
@@ -46,8 +53,11 @@
 
 <section class="copilot">
 <div class="pdf-shell" aria-label="Documento oficial de Madrid">
-<div class="pdf-toolbar"><strong>Documento oficial · Hoja Padronal de Madrid</strong><div class="actions" style="margin:0"><a class="action secondary" href="https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf" target="_blank" rel="noopener">Abrir PDF oficial ↗</a></div></div>
-<iframe class="pdf-frame" title="Hoja Padronal oficial del Ayuntamiento de Madrid" src="https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf#view=FitH"></iframe>
+<span class="pill">DOCUMENTO OFICIAL</span>
+<h3>Hoja Padronal de Madrid</h3>
+<p>La sede del Ayuntamiento no permite mostrar este PDF de forma fiable dentro de otras webs. Para evitar errores, lo abrimos directamente desde la fuente oficial en una pestaña nueva.</p>
+<div class="actions"><a class="action" href="https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf" target="_blank" rel="noopener">Abrir PDF oficial ↗</a></div>
+<p class="mini">Consejo: déjalo abierto en otra pestaña y usa el copiloto de la derecha para ir rellenándolo.</p>
 </div>
 
 <aside class="help-card">
@@ -87,11 +97,11 @@
 </div>
 </section>
 
-<section class="panel">
+<section class="panel" id="print-sheet">
 <h2>5. Mi hoja de preparación</h2>
 <p>Esto no sustituye el formulario oficial. Es una chuleta para que puedas trasladar tus datos sin ir saltando entre pestañas.</p>
 <div id="output" class="output">Completa los campos del copiloto y pulsa “Generar mi resumen”.</div>
-<div class="actions"><button class="action" id="copiar" type="button">Copiar resumen</button><button class="action secondary" type="button" onclick="window.print()">Imprimir / guardar PDF</button><a class="action secondary" href="https://sede.madrid.es/portal/site/tramites/menuitem.62876cb64654a55e2dbd7003a8a409a0/?vgnextchannel=f47ea38813180210VgnVCM100000c90da8c0RCRD&vgnextfmt=default&vgnextoid=3e3debb41f6e2410VgnVCM2000000c205a0aRCRD" target="_blank" rel="noopener">Trámite oficial ↗</a></div>
+<div class="actions"><button class="action" id="copiar" type="button">Copiar resumen</button><button class="action secondary" type="button" onclick="window.print()">Imprimir solo mi chuleta</button><a class="action secondary" href="https://sede.madrid.es/portal/site/tramites/menuitem.62876cb64654a55e2dbd7003a8a409a0/?vgnextchannel=f47ea38813180210VgnVCM100000c90da8c0RCRD&vgnextfmt=default&vgnextoid=3e3debb41f6e2410VgnVCM2000000c205a0aRCRD" target="_blank" rel="noopener">Trámite oficial ↗</a></div>
 </section>
 
 <div class="source"><strong>Fuente oficial:</strong> Ayuntamiento de Madrid. La sede municipal indica que el alta por nacimiento se realiza por regla general de oficio; durante el primer año puede solicitarse mediante el trámite de alta por nacimiento. La Hoja Padronal oficial indica que, para recién nacidos, debe marcarse “Nacimiento” como causa del alta. Verificado el 15/10/2026.</div>
@@ -102,7 +112,7 @@
 <h2>Zaragoza: primero comprueba si ya se hizo de oficio</h2>
 <p>El Ayuntamiento señala que normalmente el alta del recién nacido se realiza de oficio al recibir los datos del Registro Civil a través del INE. Si necesitas el certificado con urgencia o no aparece el alta, consulta el trámite específico.</p>
 <div class="actions"><a class="action" href="https://www.zaragoza.es/sede/servicio/tramite/22940" target="_blank" rel="noopener">Alta por nacimiento oficial ↗</a><a class="action secondary" href="https://www.zaragoza.es/sede/servicio/tramite/23720" target="_blank" rel="noopener">Volante/certificado ↗</a></div>
-<p class="mini">Próximo paso de producto: incorporar el formulario oficial embebido y el mismo copiloto campo por campo cuando el Ayuntamiento publique un documento estable y verificable para esta gestión.</p>
+<p class="mini">Próximo paso de producto: incorporar el mismo copiloto campo por campo cuando tengamos un formulario municipal estable y verificable para esta gestión.</p>
 </section>
 
 <section id="lleida" class="city panel hidden">
@@ -120,7 +130,7 @@
 
 <section class="panel">
 <h2>Qué convierte esto en algo útil</h2>
-<div class="grid"><article class="doc-card"><h3>Documento oficial dentro de la guía</h3><p>No tienes que imaginar qué formulario buscar: lo ves mientras sigues las instrucciones.</p></article><article class="doc-card"><h3>Preparación local</h3><p>Puedes preparar los datos sin enviarnos información familiar sensible.</p></article><article class="doc-card"><h3>Guía adaptada a tu situación</h3><p>La ruta cambia según municipio, edad del bebé y con quién se empadrona.</p></article><article class="doc-card"><h3>Salida accionable</h3><p>Terminas con una checklist y una hoja-resumen para completar el trámite oficial.</p></article></div>
+<div class="grid"><article class="doc-card"><h3>Documento oficial sin intermediarios</h3><p>Te llevamos directamente al PDF publicado por el organismo competente, sin copias ni versiones dudosas.</p></article><article class="doc-card"><h3>Preparación local</h3><p>Puedes preparar los datos sin enviarnos información familiar sensible.</p></article><article class="doc-card"><h3>Guía adaptada a tu situación</h3><p>La ruta cambia según municipio, edad del bebé y con quién se empadrona.</p></article><article class="doc-card"><h3>Salida accionable</h3><p>Terminas con una checklist y una hoja-resumen lista para imprimir o guardar en PDF.</p></article></div>
 </section>
 </main>
 <script>
