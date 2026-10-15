@@ -1,7 +1,7 @@
 (() => {
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
-  const HEADER_VERSION = '20261015-7';
+  const HEADER_VERSION = '20261015-8';
   const FOOTER_VERSION = '20261015-1';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
@@ -131,9 +131,15 @@
     if (!link) return;
     const count = progressCount();
     let badge = link.querySelector('.pb-progress-badge');
-    if (!badge) { badge = document.createElement('span'); badge.className = 'pb-progress-badge'; link.appendChild(badge); }
-    badge.textContent = count === MASTER_KEYS.length ? `${count}/7 ✓` : `${count}/7`;
-    badge.setAttribute('aria-label', `${count} de 7 bloques completados`);
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'pb-progress-badge';
+      link.appendChild(badge);
+    }
+    const text = count === MASTER_KEYS.length ? `${count}/7 ✓` : `${count}/7`;
+    const aria = `${count} de 7 bloques completados`;
+    if (badge.textContent !== text) badge.textContent = text;
+    if (badge.getAttribute('aria-label') !== aria) badge.setAttribute('aria-label', aria);
   }
 
   function normalizarFooter() {
@@ -183,8 +189,11 @@
     }
     const done = readMaster()[key] === true;
     const reviewOnly = key === 'ayudas' || key === 'deduccion';
+    const signature = `${key}:${done ? '1' : '0'}:${reviewOnly ? '1' : '0'}`;
+    if (box.dataset.pbRenderSignature === signature) return;
+    box.dataset.pbRenderSignature = signature;
     box.className = `pb-article-progress${done ? ' is-done' : ''}`;
-    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel, la checklist y Premium.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button><a href="/mi-panel/">Abrir Mi panel →</a></div>`;
+    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel, la checklist y Premium.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button><a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
@@ -255,9 +264,10 @@
     const etiqueta = home.querySelector('.contenido-etiqueta');
     const texto = home.querySelector('.home-papelesia-copy p');
     const cta = home.querySelector('a[href="/premium/"]');
-    if (etiqueta) etiqueta.textContent = 'PLAN PREMIUM · GRATIS TEMPORALMENTE';
-    if (texto) texto.textContent = 'Fechas, prioridades, documentos y ayudas reunidos en un plan personalizado. Gratis temporalmente y sin tarjeta.';
-    if (cta) cta.textContent = 'Abrir Premium gratis →';
+    if (etiqueta && etiqueta.textContent !== 'PLAN PREMIUM · GRATIS TEMPORALMENTE') etiqueta.textContent = 'PLAN PREMIUM · GRATIS TEMPORALMENTE';
+    const copy = 'Fechas, prioridades, documentos y ayudas reunidos en un plan personalizado. Gratis temporalmente y sin tarjeta.';
+    if (texto && texto.textContent !== copy) texto.textContent = copy;
+    if (cta && cta.textContent !== 'Abrir Premium gratis →') cta.textContent = 'Abrir Premium gratis →';
   }
 
   function aplicar() {
@@ -278,11 +288,23 @@
   window.addEventListener('storage', aplicar);
   window.addEventListener('papelesbebe:progress', aplicar);
 
+  document.addEventListener('click', (event) => {
+    const panelLink = event.target.closest('a[data-pb-open-panel]');
+    if (!panelLink) return;
+    event.preventDefault();
+    window.location.assign('/mi-panel/');
+  });
+
   let pendiente = false;
   const iniciarObserver = () => {
     if (!document.body) return;
-    const observer = new MutationObserver(() => {
-      if (pendiente) return;
+    const observer = new MutationObserver((mutations) => {
+      const relevant = mutations.some((mutation) => {
+        const target = mutation.target;
+        if (!(target instanceof Element)) return true;
+        return !target.closest('#pb-article-progress, .pb-global-header, .pb-global-footer, #pb-mobile-nav');
+      });
+      if (!relevant || pendiente) return;
       pendiente = true;
       requestAnimationFrame(() => { pendiente = false; aplicar(); });
     });
