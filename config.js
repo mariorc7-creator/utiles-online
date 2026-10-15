@@ -9,5 +9,5 @@ window.PAPELES_BEBE_CONFIG = {
   premiumTestCheckoutUrl: "https://buy.stripe.com/test_eVq28saFT1sMatzd0T5os00",
   premiumTestMode: true,
   leadEndpoint: "/api/lead",
-  leadEnabled: true
+  leadEnabled: false
 };
