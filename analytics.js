@@ -7,6 +7,14 @@
     document.head.appendChild(ui);
   }
 
+  if (!window.__papelesBebeSharedContextLoaded) {
+    window.__papelesBebeSharedContextLoaded = true;
+    const sharedContext = document.createElement('script');
+    sharedContext.src = '/herramientas/shared-context.js?v=20261015-1';
+    sharedContext.defer = true;
+    document.head.appendChild(sharedContext);
+  }
+
   const GA_ID = 'G-YQ7QHVVWZV';
   const STORAGE_KEY = 'papelesbebe_analytics_consent';
 
