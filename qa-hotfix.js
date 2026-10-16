@@ -83,6 +83,37 @@
     }, 100);
   }
 
+  function restorePanelContextFromWorkspace() {
+    if (location.pathname !== '/mi-panel/' && location.pathname !== '/mi-panel') return;
+    const profile = document.getElementById('profile');
+    if (!profile || profile.querySelector('div')) return;
+    const workspace = readLocal(WORKSPACE_KEY);
+    const tools = workspace.tools || {};
+    const aid = (tools['/herramientas/buscador-ayudas/'] || {}).fields || {};
+    const health = (tools['/preparador-tarjeta-sanitaria/'] || {}).fields || {};
+    const permit = (tools['/herramientas/calculadora-permiso-nacimiento/'] || {}).fields || {};
+    const community = aid.comunidad || health.comunidad || '';
+    const family = aid.familia || (permit.tipo === 'mono' ? 'monoparental' : permit.tipo === 'general' ? 'general' : '');
+    const employment = aid.laboral || '';
+    const birthDate = permit.fecha || aid.fecha || '';
+    const communityLabels = {andalucia:'Andalucía',aragon:'Aragón',asturias:'Asturias',baleares:'Illes Balears',canarias:'Canarias',cantabria:'Cantabria',castillalamancha:'Castilla-La Mancha','castilla-la-mancha':'Castilla-La Mancha',castillayleon:'Castilla y León','castilla-y-leon':'Castilla y León',cataluna:'Cataluña',valencia:'Comunitat Valenciana','comunidad-valenciana':'Comunitat Valenciana',extremadura:'Extremadura',galicia:'Galicia',madrid:'Comunidad de Madrid','comunidad-de-madrid':'Comunidad de Madrid',murcia:'Región de Murcia','region-de-murcia':'Región de Murcia',navarra:'Navarra',paisvasco:'País Vasco','pais-vasco':'País Vasco',larioja:'La Rioja','la-rioja':'La Rioja',ceuta:'Ceuta',melilla:'Melilla'};
+    const familyLabels = {general:'General',monoparental:'Monoparental',numerosa:'Familia numerosa'};
+    const employmentLabels = {asalariado:'Cuenta ajena',autonomo:'Autónomo/a',desempleado:'Desempleado/a',no_trabajo:'Actualmente no trabaja'};
+    const items = [];
+    if (community) items.push(['Comunidad', communityLabels[community] || community]);
+    if (employment) items.push(['Situación laboral', employmentLabels[employment] || employment]);
+    if (family) items.push(['Familia', familyLabels[family] || family]);
+    if (birthDate) {
+      let shown = birthDate;
+      try { shown = new Intl.DateTimeFormat('es-ES',{day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date(birthDate+'T12:00:00')); } catch (_) {}
+      items.push(['Fecha usada', shown]);
+    }
+    if (!items.length) return;
+    profile.innerHTML = items.map(([k,v]) => `<div><span>${k}</span><strong>${v}</strong></div>`).join('');
+    const note = profile.closest('.panel-card')?.querySelector('.panel-note');
+    if (note) note.textContent = 'Reutilizamos solo respuestas funcionales guardadas en este navegador para que puedas continuar otro día. No mostramos datos personales ni clínicos.';
+  }
+
   function improveHubFormA11y() {
     const select = document.getElementById('selectorComunidadHub');
     if (select && !select.getAttribute('aria-label')) select.setAttribute('aria-label', 'Selecciona tu comunidad o ciudad autónoma');
@@ -108,6 +139,7 @@
     hardenStartOverButton();
     fixHubNavigationState();
     removeHubProgressNoise();
+    restorePanelContextFromWorkspace();
   }
 
   function boot() {
