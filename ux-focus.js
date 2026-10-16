@@ -4,19 +4,28 @@
 
   const WORKSPACE_KEY = 'papelesbebe_workspace_v1';
   const PROGRESS_KEY = 'papelesbebe_que_me_falta_v1';
+  const CONTEXT_KEY = 'papelesbebe_shared_context_v1';
 
   const css = document.createElement('style');
   css.textContent = `
     .pb-focus-box{margin:18px 0 22px;padding:18px;border:1px solid #dfe2fb;border-radius:20px;background:linear-gradient(135deg,#f8f8ff,#fff);box-shadow:0 8px 28px rgba(48,52,100,.05)}
-    .pb-focus-box .pb-kicker{display:block;font-size:.72rem;font-weight:900;letter-spacing:.06em;color:#5960cf;margin-bottom:5px}.pb-focus-box h2{margin:0 0 6px;font-size:1.3rem}.pb-focus-box p{margin:0;color:#62677a;line-height:1.5}.pb-focus-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.pb-focus-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 13px;border-radius:11px;text-decoration:none;font-weight:850;background:#6067e8;color:#fff}.pb-focus-actions a.secondary{background:#fff;color:#4e54c8;border:1px solid #d4d7f3}
+    .pb-focus-box .pb-kicker{display:block;font-size:.72rem;font-weight:900;letter-spacing:.06em;color:#5960cf;margin-bottom:5px}.pb-focus-box h2{margin:0 0 6px;font-size:1.3rem}.pb-focus-box p{margin:0;color:#62677a;line-height:1.5}.pb-focus-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.pb-focus-actions a,.pb-focus-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 13px;border-radius:11px;text-decoration:none;font-weight:850;background:#6067e8;color:#fff;border:0;cursor:pointer;font:inherit}.pb-focus-actions a.secondary,.pb-focus-actions button.secondary{background:#fff;color:#4e54c8;border:1px solid #d4d7f3}
     .pb-home-more{margin:14px 0;border:1px solid #e4e6ef;border-radius:18px;background:#fff;overflow:hidden}.pb-home-more>summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:850;color:#353b67;display:flex;align-items:center;justify-content:space-between}.pb-home-more>summary::-webkit-details-marker{display:none}.pb-home-more>summary:after{content:'+';font-size:1.25rem;color:#666}.pb-home-more[open]>summary:after{content:'–'}.pb-home-more[open]>summary{border-bottom:1px solid #ececf3}.pb-home-more>section{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
     .pb-returning .home-necesidades{margin-top:14px}.pb-returning .hero-beneficios{display:none}.pb-returning .home-hero-cta .cta-explicacion{display:none}
+    .pb-restart-note{margin:10px 0 0;font-size:.84rem;color:#777c8d}.pb-restart-note button{appearance:none;border:0;background:transparent;color:#5c63cf;text-decoration:underline;text-underline-offset:3px;font-weight:800;cursor:pointer;padding:0}
     .pb-tramites-hidden{display:none!important}.pb-more-steps{display:inline-flex;margin:12px 0 4px;padding:10px 14px;border-radius:11px;border:1px solid #d4d7f3;background:#fff;color:#4e54c8;font-weight:850;cursor:pointer}
-    @media(max-width:760px){.pb-focus-actions a{width:100%;box-sizing:border-box}.pb-focus-box{padding:16px}.pb-home-more>summary{padding:14px 15px}}
+    @media(max-width:760px){.pb-focus-actions a,.pb-focus-actions button{width:100%;box-sizing:border-box}.pb-focus-box{padding:16px}.pb-home-more>summary{padding:14px 15px}}
   `;
   document.head.appendChild(css);
 
   function readJson(key){try{return JSON.parse(localStorage.getItem(key)||'{}')||{};}catch(_){return {};}}
+  function clearSavedJourney(){
+    try {
+      localStorage.removeItem(WORKSPACE_KEY);
+      localStorage.removeItem(PROGRESS_KEY);
+      sessionStorage.removeItem(CONTEXT_KEY);
+    } catch (_) {}
+  }
 
   function enhanceHome(){
     if (location.pathname !== '/' && location.pathname !== '') return;
@@ -55,7 +64,12 @@
       if (sub) sub.innerHTML=done ? `<strong>${done} de 7 bloques revisados.</strong> Te enseñamos solo el siguiente paso para que no tengas que volver a empezar.` : 'Tienes un proceso guardado en este navegador. Continúa desde tu panel.';
       if (cta) {
         const lastPath=workspace.last?.path && workspace.last.path!=='/mi-panel/' ? workspace.last.path : '/mi-panel/';
-        cta.innerHTML=`<a class="cta-enlace" href="/mi-panel/">Continuar desde mi panel →</a><p style="margin:10px 0 0;font-size:.9rem"><a href="${lastPath}" style="font-weight:750">Volver a mi última herramienta</a></p>`;
+        cta.innerHTML=`<div class="pb-focus-actions" style="justify-content:center"><a class="cta-enlace" href="/mi-panel/">Continuar desde mi panel →</a><a class="secondary" href="${lastPath}">Volver a mi última herramienta</a></div><p class="pb-restart-note">¿Este progreso ya no te sirve? <button type="button" id="pb-start-over">Empezar de nuevo</button></p>`;
+        cta.querySelector('#pb-start-over')?.addEventListener('click',()=>{
+          if (!window.confirm('¿Quieres borrar el progreso guardado en este navegador y empezar desde cero?')) return;
+          clearSavedJourney();
+          location.reload();
+        });
       }
     }
 
