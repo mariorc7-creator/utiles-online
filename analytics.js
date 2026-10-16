@@ -23,6 +23,13 @@
     document.head.appendChild(toolEnhancements);
   }
 
+  if (window.location.pathname.startsWith('/api/preparar-tarjeta-sanitaria')) {
+    const resultActions = document.createElement('script');
+    resultActions.src = '/preparador-tarjeta-sanitaria/resultado-actions.js?v=20261016-1';
+    resultActions.defer = true;
+    document.head.appendChild(resultActions);
+  }
+
   const GA_ID = 'G-YQ7QHVVWZV';
   const STORAGE_KEY = 'papelesbebe_analytics_consent';
 
