@@ -39,6 +39,14 @@
     document.head.appendChild(uxFocus);
   }
 
+  if (!window.__papelesBebeUxHotfixLoaded) {
+    window.__papelesBebeUxHotfixLoaded = true;
+    const uxHotfix = document.createElement('script');
+    uxHotfix.src = '/ux-hotfix.js?v=20261016-1';
+    uxHotfix.defer = true;
+    document.head.appendChild(uxHotfix);
+  }
+
   if (window.location.pathname.startsWith('/api/preparar-tarjeta-sanitaria')) {
     const resultActions = document.createElement('script');
     resultActions.src = '/preparador-tarjeta-sanitaria/resultado-actions.js?v=20261016-1';
