@@ -63,7 +63,7 @@ function audit(dir) {
     }
   });
   if (warnings.length) console.warn('WARNINGS:\n' + warnings.join('\n'));
-  if (failures.length) { console.error('FAILURES:\n' + failures.join('\n)); process.exit(1); }
+  if (failures.length) { console.error('FAILURES:\n' + failures.join('\n')); process.exit(1); }
   console.log(`Build OK: ${dir}`);
 }
 
