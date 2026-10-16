@@ -37,6 +37,13 @@
     document.head.appendChild(valueV2);
   }
 
+  if (window.location.pathname === '/mi-panel/' || window.location.pathname === '/mi-panel') {
+    const panelValueV2 = document.createElement('script');
+    panelValueV2.src = '/mi-panel/value-v2.js?v=20261016-1';
+    panelValueV2.defer = true;
+    document.head.appendChild(panelValueV2);
+  }
+
   const GA_ID = 'G-YQ7QHVVWZV';
   const STORAGE_KEY = 'papelesbebe_analytics_consent';
 
