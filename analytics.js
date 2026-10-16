@@ -32,16 +32,23 @@
 
   if (window.location.pathname === '/herramientas/que-me-falta/' || window.location.pathname === '/herramientas/que-me-falta') {
     const valueV2 = document.createElement('script');
-    valueV2.src = '/herramientas/que-me-falta/value-v2.js?v=20261016-1';
+    valueV2.src = '/herramientas/que-me-falta/value-v2.js?v=20261016-3';
     valueV2.defer = true;
     document.head.appendChild(valueV2);
   }
 
   if (window.location.pathname === '/mi-panel/' || window.location.pathname === '/mi-panel') {
     const panelValueV2 = document.createElement('script');
-    panelValueV2.src = '/mi-panel/value-v2.js?v=20261016-1';
+    panelValueV2.src = '/mi-panel/value-v2.js?v=20261016-3';
     panelValueV2.defer = true;
     document.head.appendChild(panelValueV2);
+  }
+
+  if (window.location.pathname === '/herramientas/buscador-ayudas/' || window.location.pathname === '/herramientas/buscador-ayudas') {
+    const aidValueV2 = document.createElement('script');
+    aidValueV2.src = '/herramientas/buscador-ayudas/value-v2.js?v=20261016-1';
+    aidValueV2.defer = true;
+    document.head.appendChild(aidValueV2);
   }
 
   const GA_ID = 'G-YQ7QHVVWZV';
