@@ -30,6 +30,13 @@
     document.head.appendChild(resultActions);
   }
 
+  if (window.location.pathname === '/herramientas/que-me-falta/' || window.location.pathname === '/herramientas/que-me-falta') {
+    const valueV2 = document.createElement('script');
+    valueV2.src = '/herramientas/que-me-falta/value-v2.js?v=20261016-1';
+    valueV2.defer = true;
+    document.head.appendChild(valueV2);
+  }
+
   const GA_ID = 'G-YQ7QHVVWZV';
   const STORAGE_KEY = 'papelesbebe_analytics_consent';
 
