@@ -1,56 +1,149 @@
 (() => {
   const $ = id => document.getElementById(id);
   const DIR = 'https://administracion.gob.es/informacion/sedes-electronicas-y-portales-de-internet-publicos/portales/entidades-locales';
-  const norm = v => String(v ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
-  const meaningful = v => { const n=norm(v); return !!n && !['off','false','0','none','null','undefined'].includes(n); };
-  const fieldValue = o => o?.fieldValue ?? o?.value;
-  const exportValue = o => o?.buttonValue ?? o?.exportValue;
-  const isButton = o => o?.fieldType === 'Btn' || o?.checkBox === true || o?.radioButton === true || exportValue(o) !== undefined;
-  const selected = o => {
-    if(!isButton(o)) return false;
-    if(o?.checked === true) return true;
-    const cur=norm(fieldValue(o)); if(!meaningful(cur)) return false;
-    const exp=norm(exportValue(o));
-    if(exp) return cur===exp;
-    return ['yes','on','1','true','x','si'].includes(cur);
+
+  const COMUNIDADES = [
+    'Andalucía','Aragón','Asturias','Islas Baleares','Canarias','Cantabria','Castilla-La Mancha','Castilla y León','Cataluña','Comunidad Valenciana','Extremadura','Galicia','Comunidad de Madrid','Región de Murcia','Navarra','País Vasco','La Rioja','Ceuta','Melilla'
+  ];
+
+  const CAPITALES = {
+    'Andalucía':['Almería','Cádiz','Córdoba','Granada','Huelva','Jaén','Málaga','Sevilla'],
+    'Aragón':['Huesca','Teruel','Zaragoza'],
+    'Asturias':['Oviedo'],
+    'Islas Baleares':['Palma'],
+    'Canarias':['Las Palmas de Gran Canaria','Santa Cruz de Tenerife'],
+    'Cantabria':['Santander'],
+    'Castilla-La Mancha':['Albacete','Ciudad Real','Cuenca','Guadalajara','Toledo'],
+    'Castilla y León':['Ávila','Burgos','León','Palencia','Salamanca','Segovia','Soria','Valladolid','Zamora'],
+    'Cataluña':['Barcelona','Girona','Lleida','Tarragona'],
+    'Comunidad Valenciana':['Alicante','Castellón de la Plana','Valencia'],
+    'Extremadura':['Badajoz','Cáceres','Mérida'],
+    'Galicia':['A Coruña','Lugo','Ourense','Pontevedra','Santiago de Compostela'],
+    'Comunidad de Madrid':['Madrid'],
+    'Región de Murcia':['Murcia'],
+    'Navarra':['Pamplona'],
+    'País Vasco':['Bilbao','Donostia-San Sebastián','Vitoria-Gasteiz'],
+    'La Rioja':['Logroño'],
+    'Ceuta':['Ceuta'],
+    'Melilla':['Melilla']
   };
-  const semantic = o => norm([o?.name,o?.fieldName,o?.alternativeText,o?.contents,o?.exportValue,o?.buttonValue].filter(Boolean).join(' '));
 
-  const CAPS = {
-    madrid:{pdf:true,review:'specific'},
-    zaragoza:{pdf:false,review:'none'},
-    lleida:{pdf:false,review:'none'},
-    otro:{pdf:null,review:'optional'}
+  const SPECIAL = {
+    'Madrid': 'madrid',
+    'Zaragoza': 'zaragoza',
+    'Lleida': 'lleida'
   };
 
-  function escapeHtml(s){return String(s).replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));}
-
-  function ensureMunicipioLibre(){
-    const sel=$('municipio'); if(!sel || $('municipioLibre')) return;
-    const otro=[...sel.options].find(o=>o.value==='otro');
-    if(otro) otro.textContent='Otro municipio (escríbelo)';
-    const wrap=sel.closest('.field')||sel.parentElement;
-    const input=document.createElement('input');
-    input.id='municipioLibre'; input.type='text'; input.autocomplete='address-level2'; input.placeholder='Ej.: Badalona, Gijón, Sevilla…';
-    input.style.cssText='display:none;width:100%;box-sizing:border-box;margin-top:8px;padding:11px 12px;border:1px solid #d8ddea;border-radius:11px;background:#fff;font:inherit';
-    wrap.appendChild(input);
-    const toggle=()=>{input.style.display=sel.value==='otro'?'block':'none';};
-    sel.addEventListener('change',toggle); toggle();
+  function slug(v){
+    return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
   }
 
-  function municipalName(){
-    const v=$('municipio')?.value;
-    if(v==='madrid') return 'Madrid';
-    if(v==='zaragoza') return 'Zaragoza';
-    if(v==='lleida') return 'Lleida';
-    return $('municipioLibre')?.value?.trim() || 'tu municipio';
+  function escapeHtml(s){
+    return String(s).replace(/[&<>'\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','\"':'&quot;'}[c]));
   }
 
   function reviewSection(){ return $('pb-review-v6'); }
-  function setReviewVisibility(mode){
-    const sec=reviewSection(); if(!sec) return;
-    if(mode==='show'){sec.style.display='';return;}
-    sec.style.display='none';
+  function setReviewVisibility(show){
+    const sec = reviewSection();
+    if (!sec) return;
+    sec.style.display = show ? '' : 'none';
+  }
+
+  function municipalityLabel(){
+    const sel = $('municipio');
+    if (!sel) return 'tu municipio';
+    if (sel.value === 'otro') return $('municipioLibre')?.value?.trim() || 'tu municipio';
+    const opt = sel.options?.[sel.selectedIndex];
+    return opt?.textContent?.trim() || 'tu municipio';
+  }
+
+  function selectedCommunity(){
+    return $('comunidadMunicipal')?.value || '';
+  }
+
+  function addCommunitySelector(){
+    const municipio = $('municipio');
+    if (!municipio || $('comunidadMunicipal')) return;
+    const field = municipio.closest('.field');
+    if (!field) return;
+
+    const communityField = document.createElement('div');
+    communityField.className = 'field';
+    communityField.innerHTML = '<label for="comunidadMunicipal">Comunidad autónoma</label><select id="comunidadMunicipal" aria-label="Comunidad autónoma"><option value="">Selecciona tu comunidad</option>' + COMUNIDADES.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('') + '</select>';
+    field.parentElement.insertBefore(communityField, field);
+  }
+
+  function ensureMunicipioLibre(){
+    const sel = $('municipio');
+    if (!sel || $('municipioLibre')) return;
+    const wrap = sel.closest('.field') || sel.parentElement;
+    const input = document.createElement('input');
+    input.id = 'municipioLibre';
+    input.type = 'text';
+    input.autocomplete = 'address-level2';
+    input.placeholder = 'Escribe tu municipio';
+    input.setAttribute('aria-label','Escribe tu municipio');
+    input.style.cssText = 'display:none;width:100%;box-sizing:border-box;margin-top:8px;padding:11px 12px;border:1px solid #d8ddea;border-radius:11px;background:#fff;font:inherit';
+    wrap.appendChild(input);
+    const toggle = () => { input.style.display = sel.value === 'otro' ? 'block' : 'none'; };
+    sel.addEventListener('change', toggle);
+    toggle();
+  }
+
+  function fillMunicipalities(){
+    const sel = $('municipio');
+    if (!sel) return;
+    const community = selectedCommunity();
+    const previousLabel = municipalityLabel();
+    const cities = community ? (CAPITALES[community] || []) : Object.values(CAPITALES).flat();
+    const unique = [...new Set(cities)].sort((a,b)=>a.localeCompare(b,'es'));
+
+    sel.innerHTML = '<option value="">Selecciona municipio</option>' + unique.map(city=>{
+      const value = SPECIAL[city] || slug(city);
+      return `<option value="${escapeHtml(value)}">${escapeHtml(city)}</option>`;
+    }).join('') + '<option value="otro">Otro municipio (escríbelo)</option>';
+
+    const candidate = [...sel.options].find(o=>o.textContent.trim() === previousLabel);
+    if (candidate) sel.value = candidate.value;
+    else if (community === 'Comunidad de Madrid') sel.value = 'madrid';
+    else sel.value = '';
+
+    if ($('municipioLibre')) $('municipioLibre').style.display = sel.value === 'otro' ? 'block' : 'none';
+  }
+
+  function inferCommunityFromMunicipality(){
+    const name = municipalityLabel();
+    for (const [community,cities] of Object.entries(CAPITALES)) {
+      if (cities.includes(name)) return community;
+    }
+    return '';
+  }
+
+  function restoreCoverageContext(){
+    try {
+      const raw = JSON.parse(localStorage.getItem('pb_empadronamiento_coverage_v1') || '{}');
+      if (raw.comunidad && COMUNIDADES.includes(raw.comunidad)) $('comunidadMunicipal').value = raw.comunidad;
+      fillMunicipalities();
+      if (raw.municipioLabel) {
+        const opt = [...$('municipio').options].find(o=>o.textContent.trim()===raw.municipioLabel);
+        if (opt) $('municipio').value = opt.value;
+        else if (raw.municipioLibre) {
+          $('municipio').value = 'otro';
+          $('municipioLibre').value = raw.municipioLibre;
+          $('municipioLibre').style.display = 'block';
+        }
+      }
+    } catch (_) {}
+  }
+
+  function saveCoverageContext(){
+    try {
+      localStorage.setItem('pb_empadronamiento_coverage_v1', JSON.stringify({
+        comunidad: selectedCommunity(),
+        municipioLabel: municipalityLabel(),
+        municipioLibre: $('municipioLibre')?.value?.trim() || ''
+      }));
+    } catch (_) {}
   }
 
   function optionsHtml(kind){
@@ -70,134 +163,99 @@
     return '';
   }
 
-  function enhanceGenericResult(){
-    const sel=$('municipio'); if(!sel) return;
-    const panel=$('nonMadrid'); const text=$('nonMadridText'); const acts=$('nonMadridActions');
-    if(!panel||!text||!acts) return;
+  function enhanceResult(){
+    const sel = $('municipio');
+    const panel = $('nonMadrid');
+    const text = $('nonMadridText');
+    const acts = $('nonMadridActions');
+    if (!sel || !panel || !text || !acts) return;
 
-    const value=sel.value;
-    const cap=CAPS[value]||CAPS.otro;
-    const m=municipalName();
+    saveCoverageContext();
+    const value = sel.value;
+    const m = municipalityLabel();
+    const community = selectedCommunity() || inferCommunityFromMunicipality();
 
     panel.querySelectorAll('.pb-muni-options,.pb-universal-note,.pb-pdf-choice').forEach(n=>n.remove());
 
-    if(value==='madrid'){
-      setReviewVisibility('show');
+    if (!value) {
+      setReviewVisibility(false);
+      text.innerHTML = '<strong>Selecciona tu municipio</strong> para preparar la vía adecuada.';
+      acts.innerHTML = '';
       return;
     }
 
-    if(value==='lleida'){
-      text.innerHTML='<strong>En Lleida no te mostramos una revisión de PDF porque este flujo no depende de una Hoja Padronal PDF como la de Madrid.</strong> Lo importante es elegir la vía correcta según tu situación.';
-      acts.innerHTML='<a class="action" target="_blank" rel="noopener" href="https://www.paeria.cat/ca/serveis/padro">Servicio de Padró ↗</a><a class="action secondary" target="_blank" rel="noopener" href="https://tramits.paeria.cat/Ciutadania/">Trámites online ↗</a>';
+    if (value === 'madrid') {
+      setReviewVisibility(true);
+      panel.classList.add('hidden');
+      return;
+    }
+
+    setReviewVisibility(false);
+    panel.classList.remove('hidden');
+    const heading = panel.querySelector('h2');
+    if (heading) heading.textContent = `Resultado para ${m}`;
+
+    if (value === 'lleida') {
+      text.innerHTML = '<strong>En Lleida no mostramos revisión de PDF</strong> porque este flujo no depende de una Hoja Padronal PDF rellenable verificada como la de Madrid. Te llevamos directamente a la vía oficial.';
+      acts.innerHTML = '<a class="action" target="_blank" rel="noopener" href="https://www.paeria.cat/ca/serveis/padro">Servicio de Padró ↗</a><a class="action secondary" target="_blank" rel="noopener" href="https://tramits.paeria.cat/Ciutadania/">Trámites online ↗</a>';
       panel.insertAdjacentHTML('beforeend',optionsHtml('lleida'));
-      setReviewVisibility('hide');
       return;
     }
 
-    if(value==='zaragoza'){
-      text.innerHTML='<strong>En Zaragoza priorizamos las vías oficiales disponibles y no mostramos un revisor PDF cuando no hay un formulario PDF que tenga sentido validar.</strong>';
-      acts.innerHTML='<a class="action" target="_blank" rel="noopener" href="https://www.zaragoza.es/sede/servicio/tramite/22940">Alta por nacimiento ↗</a><a class="action secondary" target="_blank" rel="noopener" href="https://www.zaragoza.es/sede/servicio/tramite/23720">Volante/certificado ↗</a>';
+    if (value === 'zaragoza') {
+      text.innerHTML = '<strong>En Zaragoza no mostramos revisión de PDF</strong> porque no tenemos verificado un formulario PDF rellenable que deba revisarse en este flujo. Priorizamos las vías oficiales disponibles.';
+      acts.innerHTML = '<a class="action" target="_blank" rel="noopener" href="https://www.zaragoza.es/sede/servicio/tramite/22940">Alta por nacimiento ↗</a><a class="action secondary" target="_blank" rel="noopener" href="https://www.zaragoza.es/sede/servicio/tramite/23720">Volante/certificado ↗</a>';
       panel.insertAdjacentHTML('beforeend',optionsHtml('zaragoza'));
-      setReviewVisibility('hide');
       return;
     }
 
-    text.innerHTML=`Para <strong>${escapeHtml(m)}</strong> te llevamos primero a la fuente oficial. Como cada ayuntamiento funciona distinto, no damos por hecho que exista un formulario PDF.`;
-    acts.innerHTML=`<a class="action" target="_blank" rel="noopener" href="${DIR}">Buscar portal oficial del ayuntamiento ↗</a>`;
-    setReviewVisibility('hide');
+    text.innerHTML = `Para <strong>${escapeHtml(m)}</strong>${community ? ` (${escapeHtml(community)})` : ''} no mostramos revisor PDF mientras no tengamos verificado un formulario oficial rellenable. Así evitamos ofrecer una revisión que no corresponde al trámite real de tu ayuntamiento.`;
+    acts.innerHTML = `<a class="action" target="_blank" rel="noopener" href="${DIR}">Buscar sede oficial de ${escapeHtml(m)} ↗</a>`;
+    const note = document.createElement('div');
+    note.className = 'notice pb-universal-note';
+    note.innerHTML = '<strong>Cobertura nacional activa.</strong><br>Puedes indicar cualquier municipio de España. Si no aparece en la lista rápida, elige “Otro municipio” y escríbelo. La revisión PDF solo aparece cuando hemos verificado que existe un PDF oficial rellenable compatible.';
+    panel.appendChild(note);
+  }
 
-    const choice=document.createElement('div');
-    choice.className='notice pb-pdf-choice';
-    choice.innerHTML='<strong>¿Tu ayuntamiento sí te ha dado un formulario PDF?</strong><br>Solo en ese caso puedes activar el revisor universal. Si no tienes PDF, ignora esta opción y sigue el trámite oficial.<div class="actions"><button class="action secondary" id="pb-enable-generic-pdf" type="button">Sí, tengo un PDF para revisar</button></div>';
-    panel.appendChild(choice);
-    $('pb-enable-generic-pdf')?.addEventListener('click',()=>{
-      setReviewVisibility('show');
-      reviewSection()?.scrollIntoView({behavior:'smooth',block:'start'});
+  function updateCopy(){
+    const hero = document.querySelector('.pack .hero p');
+    if (hero) hero.innerHTML = 'No te pedimos nombre, DNI ni dirección. Solo las respuestas que cambian el trámite. El resultado se centra en lo útil: <strong>qué revisar, qué puedes ignorar y cuál es la vía oficial de tu municipio</strong>. Si existe un PDF oficial rellenable verificado, también podrás revisarlo antes de presentar.';
+
+    const cards = document.querySelectorAll('.pack .panel .soft');
+    cards.forEach(card=>{
+      if (/Revisa tu PDF antes de enviar/i.test(card.textContent)) {
+        card.innerHTML = '<strong>Revisión PDF solo cuando corresponde</strong><br>El revisor aparece únicamente si hemos verificado un formulario PDF oficial rellenable para ese municipio.';
+      }
     });
   }
 
-  async function inspect(file){
-    if(!window.pdfjsLib) throw new Error('pdfjs');
-    const data=new Uint8Array(await file.arrayBuffer());
-    const pdf=await window.pdfjsLib.getDocument({data}).promise;
-    let text=''; let annotations=[]; let fields={};
-    for(let i=1;i<=pdf.numPages;i++){
-      const p=await pdf.getPage(i); const tc=await p.getTextContent();
-      text+=' '+tc.items.map(x=>x.str||'').join(' ');
-      const anns=await p.getAnnotations().catch(()=>[]); annotations=annotations.concat(anns);
-    }
-    try{fields=await pdf.getFieldObjects()||{};}catch(_){ }
-    const flat=Object.entries(fields).flatMap(([name,list])=>(Array.isArray(list)?list:[list]).map(x=>({name,...x})));
-    return {text:norm(text), objects:flat.concat(annotations)};
-  }
-
-  function genericChecks(doc){
-    const objs=doc.objects||[];
-    const picked=objs.filter(selected);
-    const pickedSem=picked.map(o=>semantic(o));
-    let causa={state:'unknown',title:'Causa del alta',detail:'No podemos confirmar automáticamente qué causa está marcada en este modelo municipal.'};
-    if(pickedSem.some(s=>s.includes('nacimiento'))) causa={state:'ok',title:'Causa del alta',detail:'La selección “Nacimiento” aparece identificada en el PDF.'};
-    else {
-      const wrong=pickedSem.find(s=>/traslado|cambio.*domicilio|omision/.test(s));
-      if(wrong){
-        const label=wrong.includes('traslado')?'Traslado':wrong.includes('cambio')?'Cambio de domicilio':'Omisión';
-        causa={state:'bad',title:'Causa del alta',detail:`El PDF parece tener seleccionada “${label}”. Revisa si para tu caso debe figurar “Nacimiento”.`};
-      } else if(doc.text.includes('nacimiento')) causa={state:'unknown',title:'Causa del alta',detail:'El formulario contiene la opción “Nacimiento”, pero este modelo no expone la casilla con suficiente seguridad. Compruébala visualmente.'};
-    }
-
-    const filled=objs.filter(o=>!isButton(o)&&meaningful(fieldValue(o)));
-    const semFilled=filled.map(o=>semantic(o));
-    const hasName=semFilled.some(s=>/(nombre|name)/.test(s));
-    const hasBirth=semFilled.some(s=>/(fecha.*nac|nacimiento|birth)/.test(s));
-    const menor=(hasName&&hasBirth)?{state:'ok',title:'Datos del bebé',detail:'Detectamos datos cumplimentados compatibles con nombre y fecha de nacimiento.'}:{state:'unknown',title:'Datos del bebé',detail:'No podemos confirmar todos los datos del menor en este formulario. Revisa nombre, apellidos y fecha de nacimiento.'};
-    const hasAddress=semFilled.some(s=>/(domicilio|direccion|via|calle|address)/.test(s));
-    const domicilio=hasAddress?{state:'ok',title:'Domicilio',detail:'Detectamos información cumplimentada en campos relacionados con el domicilio.'}:{state:'unknown',title:'Domicilio',detail:'No podemos confirmar el domicilio automáticamente en este modelo. Revísalo visualmente.'};
-    return [causa,domicilio,menor];
-  }
-
-  function draw(rows,out){
-    const icons={ok:'✓',bad:'✕',unknown:'?'};
-    out.innerHTML='';
-    for(const r of rows){
-      const d=document.createElement('div'); d.className=`pb-check ${r.state}`;
-      d.innerHTML=`<div>${icons[r.state]||'?'}</div><div><strong>${r.title}</strong><small>${r.detail}</small></div>`; out.appendChild(d);
-    }
-    const bad=rows.some(r=>r.state==='bad'), unknown=rows.some(r=>r.state==='unknown');
-    const s=document.createElement('div'); s.className='pb-review-summary';
-    s.textContent=bad?'Hay un punto que conviene corregir antes de presentar.':unknown?'No detectamos un error claro, pero este formulario municipal requiere alguna revisión visual.':'Las comprobaciones automáticas principales no detectan problemas.';
-    out.appendChild(s);
-  }
-
-  function bindUniversalReview(){
-    const run=$('pb-review-run'); if(!run || run.dataset.universalBound) return;
-    run.dataset.universalBound='1';
-    run.addEventListener('click',async e=>{
-      if($('municipio')?.value==='madrid') return;
-      e.preventDefault(); e.stopImmediatePropagation();
-      const file=$('pb-review-file')?.files?.[0], out=$('pb-review-results');
-      if(!file){draw([{state:'unknown',title:'Selecciona un PDF',detail:'Elige primero el formulario de empadronamiento que quieres revisar.'}],out);return;}
-      run.disabled=true; run.textContent='Revisando…'; out.innerHTML='';
-      try{draw(genericChecks(await inspect(file)),out);}catch(_){draw([{state:'bad',title:'No se pudo revisar el PDF',detail:'Prueba a guardar de nuevo el formulario y vuelve a subirlo.'}],out);}finally{run.disabled=false;run.textContent='Revisar PDF';}
-    },true);
-  }
-
   function syncUi(){
-    const v=$('municipio')?.value;
-    if(v==='madrid') setReviewVisibility('show');
-    else setReviewVisibility('hide');
-    enhanceGenericResult();
+    const value = $('municipio')?.value;
+    setReviewVisibility(value === 'madrid');
+    enhanceResult();
   }
 
   function init(){
+    addCommunitySelector();
     ensureMunicipioLibre();
-    $('resolver')?.addEventListener('click',()=>setTimeout(syncUi,0));
+    restoreCoverageContext();
+    updateCopy();
+
+    $('comunidadMunicipal')?.addEventListener('change',()=>{
+      fillMunicipalities();
+      setTimeout(syncUi,0);
+    });
     $('municipio')?.addEventListener('change',()=>setTimeout(syncUi,0));
-    $('municipioLibre')?.addEventListener('input',()=>setTimeout(enhanceGenericResult,0));
-    const wait=()=>{
-      bindUniversalReview();
-      if($('pb-review-run')) syncUi(); else setTimeout(wait,80);
+    $('municipioLibre')?.addEventListener('input',()=>setTimeout(syncUi,0));
+    $('resolver')?.addEventListener('click',()=>setTimeout(syncUi,0));
+
+    const wait = () => {
+      if ($('pb-review-v6')) syncUi();
+      else setTimeout(wait,80);
     };
     wait();
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
 })();
