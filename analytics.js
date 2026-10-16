@@ -50,7 +50,7 @@
   if (!window.__papelesBebeQaHotfixLoaded) {
     window.__papelesBebeQaHotfixLoaded = true;
     const qaHotfix = document.createElement('script');
-    qaHotfix.src = '/qa-hotfix.js?v=20261016-1';
+    qaHotfix.src = '/qa-hotfix.js?v=20261016-2';
     qaHotfix.defer = true;
     document.head.appendChild(qaHotfix);
   }
