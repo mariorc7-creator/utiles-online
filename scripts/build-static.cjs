@@ -10,7 +10,7 @@ function applyPageFixes(html, relPath) {
   const rel = relPath.replace(/\\/g, '/');
   if (rel === 'pack-empadronamiento/index.html') {
     html = html.replace(/<script src="\/pack-empadronamiento\/(?:fix|review-v6|municipal-universal)\.js[^>]*><\/script>\s*/gi, '');
-    html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/review-v6.js?v=20261015-11" defer></script>\n<script src="/pack-empadronamiento/municipal-universal.js?v=20261016-1" defer></script>\n</body>');
+    html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/review-v6.js?v=20261015-11" defer></script>\n<script src="/pack-empadronamiento/municipal-universal.js?v=20261016-2" defer></script>\n</body>');
   }
   return html;
 }
@@ -56,7 +56,7 @@ function audit(dir) {
       if (rel === 'pack-empadronamiento/index.html') {
         if (!html.includes('https://sede.madrid.es/UnidadesDescentralizadas/UDCEstadistica/TramitesMunicipales/Ficheros/Hoja_padronal.pdf')) failures.push(`${rel}: falta enlace al PDF oficial`);
         if (!html.includes('/pack-empadronamiento/review-v6.js?v=20261015-11')) failures.push(`${rel}: sin verificador PDF v11`);
-        if (!html.includes('/pack-empadronamiento/municipal-universal.js?v=20261016-1')) failures.push(`${rel}: sin motor municipal universal v20261016-1`);
+        if (!html.includes('/pack-empadronamiento/municipal-universal.js?v=20261016-2')) failures.push(`${rel}: sin motor municipal universal v20261016-2`);
         if (html.includes('/pack-empadronamiento/fix.js')) failures.push(`${rel}: sigue cargando verificador antiguo`);
       }
     }
