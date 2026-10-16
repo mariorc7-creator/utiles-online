@@ -26,7 +26,7 @@
   if (!window.__papelesBebePersistentStateLoaded) {
     window.__papelesBebePersistentStateLoaded = true;
     const persistentState = document.createElement('script');
-    persistentState.src = '/herramientas/persistent-state.js?v=20261016-1';
+    persistentState.src = '/herramientas/persistent-state.js?v=20261016-2';
     persistentState.defer = true;
     document.head.appendChild(persistentState);
   }
