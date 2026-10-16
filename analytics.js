@@ -23,6 +23,14 @@
     document.head.appendChild(toolEnhancements);
   }
 
+  if (!window.__papelesBebePersistentStateLoaded) {
+    window.__papelesBebePersistentStateLoaded = true;
+    const persistentState = document.createElement('script');
+    persistentState.src = '/herramientas/persistent-state.js?v=20261016-1';
+    persistentState.defer = true;
+    document.head.appendChild(persistentState);
+  }
+
   if (window.location.pathname.startsWith('/api/preparar-tarjeta-sanitaria')) {
     const resultActions = document.createElement('script');
     resultActions.src = '/preparador-tarjeta-sanitaria/resultado-actions.js?v=20261016-1';
