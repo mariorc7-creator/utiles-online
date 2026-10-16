@@ -4,9 +4,12 @@
 
   const KEY = 'papelesbebe_workspace_v1';
   const PROGRESS_KEY = 'papelesbebe_que_me_falta_v1';
+  const DOCS_KEY = 'papelesbebe_documentos_v1';
+  const LEGACY_PROGRESS_KEY = 'tramitesFacilesCompletados';
+  const CONTEXT_KEY = 'papelesbebe_shared_context_v1';
   const ALLOWED = new Set([
     'tipo','fecha','objetivo','multiple','discapacidad','hospitalizacion',
-    'comunidad','laboral','familia','cobertura','registro','inss','padron','digital','canal','urgente',
+    'comunidad','laboral','familia','cobertura','registro','inss','padron','digital','canal','urgente','situacion',
     'nacimiento_fuera','cambio_ccaa','doc_extranjera','municipio'
   ]);
   const TOOL_LABELS = {
@@ -43,8 +46,9 @@
     root.querySelectorAll('input,select').forEach(el => {
       const key = el.name || el.id;
       if (!ALLOWED.has(key)) return;
-      if ((el.type === 'checkbox' || el.type === 'radio')) {
-        if (el.type === 'radio' && !el.checked) return;
+      if (el.type === 'radio') {
+        if (el.checked) data[key] = el.value;
+      } else if (el.type === 'checkbox') {
         data[key] = !!el.checked;
       } else if (el.value !== '') {
         data[key] = el.value;
@@ -59,9 +63,19 @@
       if (!ALLOWED.has(key)) return;
       const nodes = [...document.querySelectorAll(`[name="${CSS.escape(key)}"],#${CSS.escape(key)}`)];
       nodes.forEach(el => {
-        if (el.type === 'checkbox') el.checked = !!value;
-        else if (el.type === 'radio') el.checked = String(el.value) === String(value);
-        else if (value != null && el.value === '') el.value = String(value);
+        if (el.type === 'checkbox') {
+          el.checked = !!value;
+        } else if (el.type === 'radio') {
+          el.checked = String(el.value) === String(value);
+        } else if (value != null) {
+          const next = String(value);
+          if (el.tagName === 'SELECT') {
+            const exists = [...el.options].some(o => o.value === next);
+            if (exists) el.value = next;
+          } else {
+            el.value = next;
+          }
+        }
       });
     });
   }
@@ -70,6 +84,17 @@
     try {
       const p = JSON.parse(localStorage.getItem(PROGRESS_KEY) || '{}') || {};
       if (Object.keys(p).length) state.progress = p;
+      else if (state.progress) delete state.progress;
+    } catch (_) {}
+  }
+
+  function clearJourney() {
+    try {
+      localStorage.removeItem(KEY);
+      localStorage.removeItem(PROGRESS_KEY);
+      localStorage.removeItem(DOCS_KEY);
+      localStorage.removeItem(LEGACY_PROGRESS_KEY);
+      sessionStorage.removeItem(CONTEXT_KEY);
     } catch (_) {}
   }
 
@@ -142,8 +167,10 @@
     if (hero && hero.parentNode) hero.insertAdjacentElement('afterend', card);
     else document.querySelector('main')?.prepend(card);
     card.querySelector('#pb-clear-workspace')?.addEventListener('click', () => {
-      try { localStorage.removeItem(KEY); localStorage.removeItem(PROGRESS_KEY); } catch (_) {}
+      if (!window.confirm('¿Quieres borrar el progreso, respuestas y documentos guardados en este navegador?')) return;
+      clearJourney();
       card.remove();
+      location.reload();
     });
   }
 
@@ -168,7 +195,7 @@
       if (TOOL_LABELS[path]) saveCurrent('visit');
     }, 0);
 
-    window.PapelesBebeWorkspace = { read, save: saveCurrent, clear(){ try{localStorage.removeItem(KEY);}catch(_){} } };
+    window.PapelesBebeWorkspace = { read, save: saveCurrent, clear: clearJourney };
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot, {once:true});
