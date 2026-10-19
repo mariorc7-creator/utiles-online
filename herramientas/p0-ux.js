@@ -53,6 +53,37 @@
     message.innerHTML = '<strong>Cómo usar el resultado:</strong> abre primero las ayudas marcadas como relevantes. Después comprueba renta, residencia, plazos y organismo oficial: aparecer en el simulador no equivale a cumplir los requisitos.';
     results.querySelector('.tool-panel')?.appendChild(message);
     addActions(results.querySelector('.tool-panel'), 'Resultado', true);
+    // Filtro visual: no altera las reglas ni descarta ayudas del resultado.
+    const list = document.getElementById('listaResultados');
+    if (list) {
+      const toolbar=document.createElement('div');
+      toolbar.className='pb-p0-actions';
+      toolbar.setAttribute('aria-label','Filtrar las ayudas del resultado');
+      toolbar.innerHTML='<button type="button" class="pb-p0-btn" data-pb-filter="all" aria-pressed="true">Mostrar todas</button><button type="button" class="pb-p0-btn" data-pb-filter="high" aria-pressed="false">Solo las más relevantes</button><span id="pbAidFilterCount" role="status" style="align-self:center;color:#616879;font-size:.9rem"></span>';
+      list.insertAdjacentElement('beforebegin',toolbar);
+      let active='all';
+      const renderFilter=()=>{
+        const cards=[...list.querySelectorAll('.sim-result-card')];
+        let shown=0;
+        cards.forEach(card=>{
+          const high=!!card.querySelector('.sim-tag.alta');
+          const visible=active==='all'||high;
+          card.hidden=!visible;
+          card.style.display=visible?'':'none';
+          if(visible) shown++;
+        });
+        toolbar.querySelectorAll('[data-pb-filter]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.pbFilter===active)));
+        const count=toolbar.querySelector('#pbAidFilterCount');
+        if(count) count.textContent=cards.length?(shown+' de '+cards.length+' vías visibles'):'';
+      };
+      toolbar.addEventListener('click',e=>{
+        const button=e.target.closest('[data-pb-filter]');
+        if(!button)return;
+        active=button.dataset.pbFilter;
+        renderFilter();
+      });
+      new MutationObserver(renderFilter).observe(list,{childList:true});
+    }
     form.addEventListener('submit', e => {
       const missing=[select,work,family].filter(el => !el?.value);
       if (missing.length) {
