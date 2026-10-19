@@ -1,0 +1,3 @@
+Despliegue solicitado manualmente el 19/10/2026.
+Objetivo: activar el autodeploy de la rama main en Vercel sin modificar funcionalidad.
+Commit base esperado: f6eee42d111be972e95f9d2569473329cf373b59
