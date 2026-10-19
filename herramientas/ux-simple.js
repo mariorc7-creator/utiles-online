@@ -39,7 +39,7 @@
     const side=document.querySelector('.sim-grid > aside');
     if(side)details('¿Cómo funciona el simulador?', [side],document.querySelector('.sim-grid'));
     const special=form.querySelector('.sim-fieldset');
-    if(special)details('¿Hay alguna circunstancia especial? (opcional)',[special],form.querySelector('#familia'));
+    if(special){const anchor=form.querySelector('#familia');details('¿Hay alguna circunstancia especial? (opcional)',[special],anchor);const box=anchor?.nextElementSibling;if(box?.classList.contains('pb-simple-details')){const submit=form.querySelector('button[type=submit]');if(submit)form.insertBefore(box,submit);}}
     const privacy=form.querySelector('.sim-privacy');
     if(privacy)privacy.textContent='El cálculo es orientativo y se realiza en este navegador.';
     const secondary=document.querySelector('main > section.tool-panel');
@@ -59,7 +59,7 @@
     const aside=document.querySelector('.perm-grid > aside');
     if(aside)details('Qué incluye el resultado',[aside],document.querySelector('.perm-grid'));
     const options=document.querySelector('.perm-options');
-    if(options)details('Situaciones especiales (opcional)',[options],document.querySelector('#objetivo')?.closest('form'));
+    if(options){const form=document.querySelector('form[action="/api/calcular-permiso"]');const fieldset=options.closest('fieldset');if(form&&fieldset)details('Situaciones especiales (opcional)',[fieldset],form.querySelector('#objetivo'));}
     const form=document.querySelector('form[action="/api/calcular-permiso"]');
     const p0=form?.parentElement?.querySelector('.pb-p0-info');
     if(p0)p0.textContent='Resultado orientativo. Confirma el calendario definitivo con Seguridad Social.';
