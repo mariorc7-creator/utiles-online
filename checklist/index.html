@@ -22,7 +22,8 @@
         <a href="/ayudas-nacimiento/">Ayudas</a>
         <a href="/tramites-bebe/">Trámites</a>
         <a href="/herramientas/">Herramientas</a>
-        <a href="/premium/" class="nav-premium">Premium</a>
+
+
       </nav>
       <a href="/" class="boton-inicio enlace-inicio">← Inicio</a>
     </div>
@@ -49,10 +50,12 @@
 <script src="../app.js"></script>
 <script src="../qa-fixes.js?v=20261013-1"></script>
 <script src="../papelesia.js?v=20261013-1"></script>
-<script src="../premium/premium-flow.js?v=20261013-2"></script>
+
+
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  if (window.PapelesPremiumFlow) window.PapelesPremiumFlow.markReturnFromPremium();
+
+
   setTimeout(function () {
     if (typeof cargarProgresoGuardado === "function") cargarProgresoGuardado();
     const params = new URLSearchParams(window.location.search);
