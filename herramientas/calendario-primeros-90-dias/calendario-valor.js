@@ -37,6 +37,19 @@
     root.querySelector('#pbNext').innerHTML=next?'<span class="pb-cal-kicker">TU SIGUIENTE ACCIÓN</span><strong>'+next.title+'</strong><p>'+next.short+'</p><a href="'+next.href+'">Ver cómo hacerlo →</a>':'<span class="pb-cal-kicker">RUTA REVISADA</span><strong>Los 7 bloques están marcados</strong><p>Comprueba resoluciones, posibles requerimientos y novedades de ayudas territoriales.</p><a href="/observatorio/">Revisar oportunidades →</a>';
     const visible=tasks.filter(t=>filter==='all'||(filter==='done'?!!state[t.key]:!state[t.key]));
     root.querySelector('#pbTasks').innerHTML=visible.length?visible.map(t=>'<label class="pb-cal-card '+(state[t.key]?'is-done':'')+'"><input type="checkbox" data-key="'+t.key+'" '+(state[t.key]?'checked':'')+' aria-label="Marcar como revisado: '+t.title+'"><div><span class="pb-cal-kicker">'+t.category+' · Revisión sugerida desde '+when(t.day)+'</span><h3>'+t.title+'</h3><p>'+t.short+'</p><a href="'+t.href+'">Ver guía y requisitos →</a></div></label>').join(''):'<p class="pb-cal-hint">No hay pasos en esta vista. Cambia el filtro para ver el resto.</p>';
+    // Recordatorios para cada revisión sugerida; no representan plazos legales.
+    if(window.PBReminder){
+      root.querySelectorAll('.pb-cal-card').forEach(card=>{
+        const check=card.querySelector('input[data-key]');
+        const task=tasks.find(t=>t.key===check?.dataset.key);
+        if(!task)return;
+        const date=new Date(birth);date.setDate(date.getDate()+task.day);
+        // Evitar recordatorios en el pasado: sugerir revisión dentro de siete días.
+        const today=new Date();today.setHours(12,0,0,0);
+        if(date<today){date.setTime(today.getTime());date.setDate(date.getDate()+7);}
+        card.querySelector('div')?.append(window.PBReminder.button({key:task.key,title:task.title,href:task.href},date));
+      });
+    }
     root.querySelectorAll('button[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===filter)));
   }
   root.addEventListener('change',e=>{if(!e.target.matches('input[data-key]'))return;const state=read();state[e.target.dataset.key]=e.target.checked;save(state);render();});
