@@ -17,15 +17,9 @@ module.exports=function handler(req,res){
   var body='';
   if(error){body='<div class="tool-result show tool-result-error"><strong>'+esc(error)+'</strong></div>';}
   else {
-    body='<div class="tool-result show"><div class="timeline">'+
-      item('Primeros días',addDays(fecha,2),'Revisa inscripción/Registro Civil, alta del bebé en Seguridad Social y tarjeta sanitaria según tu situación.')+
-      item('Primera semana',addDays(fecha,7),'Comprueba qué trámites siguen pendientes y guarda justificantes y resoluciones.')+
-      item('Primer mes',addDays(fecha,30),'Revisa ayudas estatales, autonómicas y municipales y comprueba si alguna convocatoria tiene plazo propio.')+
-      item('Dos meses',addDays(fecha,60),'Comprueba el estado de solicitudes, posibles requerimientos y deducciones fiscales aplicables.')+
-      item('90 días',addDays(fecha,90),'Haz una revisión final de expedientes abiertos y actualiza tus ayudas y trámites pendientes.')+
-      '</div></div>';
+    body='<div id="pbCalendarApp" data-birth="'+fecha.getTime()+'"><p>Preparando tu hoja de ruta…</p></div>';
   }
   res.setHeader('Content-Type','text/html; charset=utf-8');
   res.setHeader('Cache-Control','no-store');
-  res.status(200).send('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tu calendario de 90 días | Papeles del Bebé</title><meta name="robots" content="noindex"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/herramientas/tools.css"></head><body class="tools-page"><header><div class="header-contenido"><a href="/" class="logo logo-enlace">Papeles del <span>Bebé</span></a></div></header><main class="tools-main"><section class="tools-hero"><span class="tool-kicker">HOJA DE RUTA</span><h1>Tu calendario de los primeros 90 días</h1></section><section class="tool-panel">'+body+'<div class="tool-actions"><a class="tool-cta" href="/herramientas/calendario-primeros-90-dias/">Cambiar fecha</a><a class="tool-cta" href="/checklist/">Ver mis ayudas y trámites</a></div><div class="tool-note">Este calendario organiza tareas; no fija plazos legales.</div></section></main></body></html>');
+  res.status(200).send('<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tu calendario de 90 días | Papeles del Bebé</title><meta name="robots" content="noindex"><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/herramientas/tools.css"></head><body class="tools-page"><header><div class="header-contenido"><a href="/" class="logo logo-enlace">Papeles del <span>Bebé</span></a></div></header><main class="tools-main"><section class="tools-hero"><span class="tool-kicker">HOJA DE RUTA</span><h1>Tu calendario de los primeros 90 días</h1></section><section class="tool-panel">'+body+'<div class="tool-actions"><a class="tool-cta secondary" href="/herramientas/calendario-primeros-90-dias/">Cambiar fecha</a></div></section></main><script src="/herramientas/calendario-primeros-90-dias/calendario-valor.js?v=20261019-1" defer></script><script src="/analytics.js" defer></script></body></html>');
 };
