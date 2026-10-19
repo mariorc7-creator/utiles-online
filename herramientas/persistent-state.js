@@ -7,9 +7,11 @@
   const DOCS_KEY = 'papelesbebe_documentos_v1';
   const LEGACY_PROGRESS_KEY = 'tramitesFacilesCompletados';
   const CONTEXT_KEY = 'papelesbebe_shared_context_v1';
+  // No guardamos condiciones médicas o circunstancias especiales del nacimiento.
+  const PRIVATE_FIELDS = new Set(['multiple','discapacidad','hospitalizacion','situacion']);
   const ALLOWED = new Set([
-    'tipo','fecha','objetivo','multiple','discapacidad','hospitalizacion',
-    'comunidad','laboral','familia','cobertura','registro','inss','padron','digital','canal','urgente','situacion',
+    'tipo','fecha','objetivo',
+    'comunidad','laboral','familia','cobertura','registro','inss','padron','digital','canal','urgente',
     'nacimiento_fuera','cambio_ccaa','doc_extranjera','municipio'
   ]);
   const TOOL_LABELS = {
@@ -29,8 +31,16 @@
     return path;
   };
 
+  let journeyCleared = false;
   function read() {
-    try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (_) { return {}; }
+    try {
+      const value = JSON.parse(localStorage.getItem(KEY) || '{}') || {};
+      // Saneamos también estados de versiones anteriores sin perder progreso general.
+      if (value.tools) Object.values(value.tools).forEach(tool => {
+        if (tool && tool.fields) PRIVATE_FIELDS.forEach(k => delete tool.fields[k]);
+      });
+      return value;
+    } catch (_) { return {}; }
   }
   function write(data) {
     try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (_) {}
@@ -89,6 +99,7 @@
   }
 
   function clearJourney() {
+    journeyCleared = true;
     try {
       localStorage.removeItem(KEY);
       localStorage.removeItem(PROGRESS_KEY);
@@ -99,13 +110,17 @@
   }
 
   function saveCurrent(reason='change') {
+    if (journeyCleared) return;
     const path = canonicalPath(location.pathname);
     const label = TOOL_LABELS[path];
     if (!label) return;
     const state = read();
     state.version = 1;
     state.updatedAt = now();
-    state.last = { path, label, updatedAt: state.updatedAt, reason };
+    // Consultar Mi panel no debe sobrescribir la última herramienta útil.
+    if (path !== '/mi-panel/' && path !== '/herramientas/que-me-falta/') {
+      state.last = { path, label, updatedAt: state.updatedAt, reason };
+    }
     state.tools = state.tools || {};
     const previous = state.tools[path] || {};
     state.tools[path] = {
@@ -144,7 +159,7 @@
     if (!form || document.querySelector('.pb-autosave-note')) return;
     const note = document.createElement('div');
     note.className = 'pb-autosave-note';
-    note.innerHTML = '<span aria-hidden="true">✓</span><div><strong>Puedes continuar mañana</strong><small>Guardamos automáticamente estas respuestas en este navegador. Sin cuenta y sin enviar este progreso a nuestros servidores.</small></div>';
+    note.innerHTML = '<span aria-hidden="true">✓</span><div><strong>Puedes continuar mañana</strong><small>Guardamos en este navegador las opciones administrativas básicas. Los datos de circunstancias especiales no se conservan. Al generar un resultado, las respuestas del formulario se envían para calcularlo.</small></div>';
     note.style.cssText = 'display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;padding:11px 13px;border:1px solid #cfe7d8;background:#f7fcf9;border-radius:13px;color:#25563a';
     note.querySelector('small').style.cssText='display:block;margin-top:2px;color:#5d6f64;line-height:1.4';
     form.appendChild(note);
@@ -153,10 +168,13 @@
   function addResumeCard() {
     const path = canonicalPath(location.pathname);
     if (!['/','/herramientas/','/mi-panel/'].includes(path)) return;
+    // En portada, el hero de regreso ya ofrece continuar y reiniciar.
+    if (path === '/' && document.body.classList.contains('pb-returning')) return;
     const state = read();
     if (!state.last || !state.last.path || state.last.path === '/mi-panel/') return;
     if (document.getElementById('pb-resume-card')) return;
     const target = state.last.path;
+    if (!TOOL_LABELS[target] || target === '/mi-panel/') return;
     const label = state.last.label || 'tu proceso';
     const card = document.createElement('section');
     card.id = 'pb-resume-card';
@@ -180,6 +198,8 @@
     const state = read();
     if (TOOL_LABELS[path] && state.tools && state.tools[path]) restoreAllowedFields(state.tools[path]);
 
+    // Limpieza progresiva de versiones previas que conservaron opciones sensibles.
+    if (state.tools) write(state);
     document.addEventListener('change', (e) => {
       const el = e.target;
       if (!(el instanceof HTMLInputElement) && !(el instanceof HTMLSelectElement)) return;
@@ -187,7 +207,7 @@
       if (ALLOWED.has(key) || el.matches('[data-key]')) saveCurrent('change');
     }, true);
     document.addEventListener('submit', () => saveCurrent('submit'), true);
-    window.addEventListener('pagehide', () => saveCurrent('leave'));
+    window.addEventListener('pagehide', () => { if (!journeyCleared) saveCurrent('leave'); });
 
     setTimeout(() => {
       addAutosaveNotice();
