@@ -1,0 +1,39 @@
+name: Revision integral de contenido 2026-10-19
+on:
+  push:
+    paths:
+      - '.github/workflows/revision-integral-2026-10-19.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  revision:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Revision HTML y reporte
+        run: |
+          git config user.name "Papeles del Bebé - revisión"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            python3 scripts/revision-integral-2026-10-19.py
+            git add -- '*.html' auditorias/revision-2026-10-19.json auditorias/revision-2026-10-19.md
+            if git diff --staged --quiet; then
+              echo "Sin cambios pendientes"
+              exit 0
+            fi
+            git commit -m "Contenido: revision tecnica 162 paginas, fecha 19-10-2026 e informe de incidencias"
+            if git push origin HEAD:main; then
+              echo "Publicacion completada"
+              exit 0
+            fi
+            echo "Main actualizado en paralelo; nuevo intento"
+          done
+          echo "ERROR: No se pudo publicar tras tres intentos"
+          exit 1
