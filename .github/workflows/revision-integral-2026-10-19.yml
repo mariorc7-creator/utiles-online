@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - '.github/workflows/revision-integral-2026-10-19.yml'
+      - 'scripts/revision-integral-2026-10-19.py'
   workflow_dispatch:
 permissions:
   contents: write
