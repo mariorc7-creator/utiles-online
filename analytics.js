@@ -93,6 +93,13 @@
     document.head.appendChild(aidValueV2);
   }
 
+  if (window.location.pathname.startsWith('/herramientas/')) {
+    const p0ux = document.createElement('script');
+    p0ux.src = '/herramientas/p0-ux.js?v=20261019-1';
+    p0ux.defer = true;
+    document.head.appendChild(p0ux);
+  }
+
   const GA_ID = 'G-YQ7QHVVWZV';
   const STORAGE_KEY = 'papelesbebe_analytics_consent';
 
