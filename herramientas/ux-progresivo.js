@@ -32,12 +32,17 @@
       let first=steps.findIndex(s=>!s.field.value);
       if(first===-1)first=steps.length-1;
       steps.forEach((s,i)=>{
-        const isLast=steps.slice(i+1).every(x=>x.field.value);
         s.wrap.hidden=i>first&&(!s.field.value);
         // En el planificador el tipo tiene selección por defecto: permitir edición siempre.
         if(path.includes('calculadora-permiso'))s.wrap.hidden=false;
       });
       if(special)special.hidden=!steps.every(s=>s.field.value);
+      const submit=form.querySelector('button[type=submit]');
+      if(submit && path.includes('buscador-ayudas')){
+        const complete=steps.every(s=>!!s.field.value);
+        submit.disabled=!complete;
+        submit.title=complete?'':'Completa las tres preguntas para continuar';
+      }
     }
     steps.forEach(({field})=>field.addEventListener('change',refresh));
     refresh();
