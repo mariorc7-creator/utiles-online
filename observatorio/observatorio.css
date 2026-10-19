@@ -1,3 +1,89 @@
 .obs-shell{max-width:1120px;margin:0 auto;padding:34px 20px 64px}.obs-hero{background:linear-gradient(135deg,#f4f7ff,#ffffff);border:1px solid #dfe5ff;border-radius:26px;padding:30px;box-shadow:0 14px 42px rgba(55,65,130,.08)}.obs-hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.06;margin:12px 0}.obs-hero p{max-width:820px;color:#60677a;line-height:1.65;font-size:1.08rem}.obs-badge,.obs-kicker{display:inline-flex;border-radius:999px;padding:7px 10px;background:#eef0ff;color:#535bc5;font-weight:900;font-size:.76rem;letter-spacing:.06em}.obs-trust{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}.obs-trust span{background:#fff;border:1px solid #e4e7ef;border-radius:999px;padding:8px 11px;font-weight:800;color:#495066}.obs-section{margin-top:26px;background:#fff;border:1px solid #e5e7ef;border-radius:22px;padding:24px}.obs-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:16px}.obs-heading h2{margin:8px 0 0}.obs-intro{color:#687083;line-height:1.6;max-width:850px}.obs-filter{display:grid;gap:6px;font-size:.82rem;font-weight:800;color:#565d72}.obs-filter select{min-width:210px;border:1px solid #d8dce8;border-radius:12px;padding:10px 12px;background:#fff}.obs-alertas{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.obs-alert{border:1px solid #e3e6ef;border-radius:18px;padding:18px;background:#fbfcff}.obs-alert.urgente{border-color:#f0c0b9;background:#fff8f6}.obs-alert.pronto{border-color:#f3dda0;background:#fffdf5}.obs-alert-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.obs-alert h3{margin:0 0 8px;font-size:1.05rem}.obs-alert p{color:#687083;line-height:1.5}.obs-pill{display:inline-flex;border-radius:999px;padding:5px 8px;background:#eef0ff;color:#525ac5;font-size:.72rem;font-weight:900}.obs-pill.urgente{background:#ffe7e2;color:#9b3f32}.obs-pill.pronto{background:#fff2c8;color:#8a6a14}.obs-meta{display:grid;gap:5px;margin:12px 0;font-size:.86rem;color:#5d6476}.obs-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.obs-btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;padding:10px 13px;background:#6d73f6;color:#fff;text-decoration:none;font-weight:900;border:0;cursor:pointer}.obs-btn.ghost{background:#f5f6fb;color:#4f5870;border:1px solid #e0e4ee}.obs-table-wrap{overflow-x:auto;margin-top:16px}.obs-table{width:100%;border-collapse:collapse;min-width:780px}.obs-table th,.obs-table td{text-align:left;padding:12px;border-bottom:1px solid #eceef4;vertical-align:top}.obs-table th{font-size:.78rem;color:#5c6374;background:#fafbfe}.obs-table td{font-size:.9rem;color:#4e5567}.obs-table a{font-weight:800}.obs-method{background:#f8f9ff}.obs-empty{padding:18px;border:1px dashed #cfd4e2;border-radius:16px;color:#667085;background:#fafbff}
 .obs-map-section{padding-bottom:20px}.obs-map-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);gap:16px;align-items:stretch;margin-top:18px}.obs-map-panel{border:1px solid #e2e6f0;border-radius:18px;background:linear-gradient(180deg,#f8faff,#fff);padding:14px;min-width:0;overflow:hidden}.obs-spain-map{width:100%;height:330px;display:flex;align-items:center;justify-content:center;overflow:hidden}.obs-map-loading,.obs-map-fallback{display:grid;gap:7px;text-align:center;color:#687083;padding:32px}.obs-map-svg{width:100%;height:100%;max-height:330px;display:block}.obs-map-svg g[data-comunidad]{cursor:pointer;outline:none}.obs-map-svg g[data-comunidad] path,.obs-map-svg g[data-comunidad] polygon{fill:#eef1f7!important;stroke:#fff!important;stroke-width:1.2!important;transition:fill .16s ease,filter .16s ease,opacity .16s ease}.obs-map-svg g[data-comunidad].has-opportunity path,.obs-map-svg g[data-comunidad].has-opportunity polygon{fill:#8f96ff!important}.obs-map-svg g[data-comunidad].hovered path,.obs-map-svg g[data-comunidad].hovered polygon,.obs-map-svg g[data-comunidad]:focus path,.obs-map-svg g[data-comunidad]:focus polygon{fill:#6d73f6!important;filter:drop-shadow(0 2px 3px rgba(50,55,130,.22))}.obs-map-svg g[data-comunidad].selected path,.obs-map-svg g[data-comunidad].selected polygon{fill:#4f56dd!important;filter:drop-shadow(0 2px 4px rgba(50,55,130,.28))}.obs-map-legend{display:flex;gap:18px;flex-wrap:wrap;border-top:1px solid #e5e8f1;padding-top:10px;color:#626a7c;font-size:.8rem}.obs-map-legend span{display:inline-flex;align-items:center;gap:7px}.obs-legend-dot{width:12px;height:12px;border-radius:4px;background:#eef1f7;border:1px solid #d8deea}.obs-legend-dot.activo{background:#8f96ff;border-color:#7d84ef}.obs-map-credit{font-size:.69rem;color:#8a91a1;line-height:1.35;margin:8px 0 0}.obs-map-detail{border:1px solid #e3e6ef;border-radius:18px;background:#fbfcff;padding:18px;display:flex;flex-direction:column;align-items:flex-start;min-height:0}.obs-map-detail h3{font-size:1.45rem;margin:12px 0 6px}.obs-map-detail p{color:#687083;line-height:1.55;margin:0 0 18px}.obs-map-detail>a{margin-top:auto}.obs-map-detail-actions{display:grid;gap:9px;width:100%;margin-top:auto}.obs-map-detail-actions .obs-btn{width:100%;box-sizing:border-box}
 @media(max-width:850px){.obs-alertas{grid-template-columns:1fr 1fr}.obs-map-layout{grid-template-columns:1fr}.obs-map-detail{min-height:auto}.obs-spain-map{height:310px}.obs-map-svg{max-height:310px}}@media(max-width:620px){.obs-shell{padding:20px 14px 48px}.obs-hero,.obs-section{padding:19px;border-radius:18px}.obs-alertas{grid-template-columns:1fr}.obs-heading{display:grid;align-items:start}.obs-filter select{width:100%;min-width:0}.obs-actions{display:grid}.obs-btn{width:100%;box-sizing:border-box}.obs-map-panel{padding:10px;border-radius:16px}.obs-spain-map{height:250px}.obs-map-svg{max-height:250px}.obs-map-legend{display:grid;gap:8px}.obs-map-detail{padding:16px;border-radius:16px}.obs-map-detail-actions{display:grid}.obs-map-detail-actions .obs-btn{width:100%;box-sizing:border-box}}
+
+
+/* Comparativas editoriales: jerarquía, legibilidad y tarjetas móviles */
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table{
+  width:100%;border-collapse:separate;border-spacing:0;table-layout:fixed;
+  font-size:.94rem;line-height:1.55;color:#26354d;
+}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table{min-width:620px}
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table{min-width:790px}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table caption,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table caption{
+  caption-side:top;text-align:left;color:#65718a;font-size:.85rem;
+  line-height:1.5;padding:4px 2px 14px;font-weight:500;
+}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table thead th,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table thead th{
+  background:#eef1ff;color:#293a78;font-size:.82rem;font-weight:800;
+  letter-spacing:.01em;border-top:1px solid #e0e5fc;border-bottom:1px solid #dce2f6;
+}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table th,
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table td,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table th,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table td{
+  text-align:left;vertical-align:top;padding:16px 14px;border-bottom:1px solid #e8ecf3;
+  overflow-wrap:anywhere;word-break:normal;
+}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody tr:nth-child(even),
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody tr:nth-child(even){background:#f8faff}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody tr:hover,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody tr:hover{background:#eef2ff}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody th,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody th{font-weight:800;color:#182a48}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table a,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table a{
+  color:#454ec0;font-weight:750;text-decoration:underline;text-underline-offset:3px;
+}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table a:focus-visible,
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table a:focus-visible{
+  outline:3px solid #6d73f6;outline-offset:3px;border-radius:3px;
+}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table th:nth-child(1){width:29%}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table th:nth-child(2){width:46%}
+.obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table th:nth-child(3){width:25%}
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table th:nth-child(1){width:16%}
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table th:nth-child(2){width:22%}
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table th:nth-child(3){width:29%}
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table th:nth-child(4){width:12%}
+.obs-section[aria-labelledby="obs-tabla-comparativa"] table th:nth-child(5){width:21%}
+@media(max-width:760px){
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table{min-width:0;display:block;font-size:.94rem}
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table caption,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table caption{display:block;padding:0 0 12px}
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table thead,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table thead{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody{display:grid;gap:14px}
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody tr,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody tr{
+  display:grid;grid-template-columns:minmax(0,1fr);gap:0;
+  background:#fff!important;border:1px solid #dfe5f2;border-radius:15px;
+  overflow:hidden;box-shadow:0 5px 15px rgba(35,49,88,.04);
+ }
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody th,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody th{
+  display:block;width:auto!important;padding:14px 16px;background:#f0f3ff;
+  border:0;font-size:1.02rem;
+ }
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody td,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody td{
+  display:block;width:auto!important;padding:11px 16px;
+  border-top:1px solid #eef0f6;border-bottom:0;
+ }
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody td::before,
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody td::before{
+  display:block;color:#68758e;font-size:.72rem;font-weight:850;letter-spacing:.05em;
+  text-transform:uppercase;margin-bottom:4px;
+ }
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody td:nth-child(2)::before{content:"Qué aporta"}
+ .obs-section[aria-labelledby="comparativa-apoyos-cataluna"] table tbody td:nth-child(3)::before{content:"Organismo"}
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody td:nth-child(2)::before{content:"Ayuda y ámbito"}
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody td:nth-child(3)::before{content:"Importe publicado"}
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody td:nth-child(4)::before{content:"Última revisión"}
+ .obs-section[aria-labelledby="obs-tabla-comparativa"] table tbody td:nth-child(5)::before{content:"Documentación"}
+}
