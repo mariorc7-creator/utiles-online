@@ -97,6 +97,11 @@
     const p0ux = document.createElement('script');
     p0ux.src = '/herramientas/p0-ux.js?v=20261019-1';
     p0ux.defer = true;
+    p0ux.addEventListener('load', () => {
+      const simple = document.createElement('script');
+      simple.src = '/herramientas/ux-simple.js?v=20261019-1';
+      document.head.appendChild(simple);
+    });
     document.head.appendChild(p0ux);
   }
 
