@@ -127,6 +127,23 @@
     document.getElementById('pb-reject-analytics').addEventListener('click', () => { saveChoice('rejected'); removeBanner(); });
   }
 
+  // Medición anónima por categoría: solo después de aceptar analítica.
+  // Nunca enviamos URL de Amazon, identificadores personales ni datos familiares.
+  document.addEventListener('click', function (event) {
+    const link = event.target.closest('a[data-affiliate-category]');
+    if (!link) return;
+    let choice = null;
+    try { choice = localStorage.getItem(STORAGE_KEY); } catch (_) {}
+    if (choice !== 'accepted' || typeof window.gtag !== 'function') return;
+    const category = String(link.dataset.affiliateCategory || '').slice(0, 70);
+    if (!/^[a-z0-9-]{1,70}$/.test(category)) return;
+    window.gtag('event', 'affiliate_click', {
+      affiliate_network: 'amazon',
+      affiliate_category: category,
+      page_location: window.location.origin + window.location.pathname
+    });
+  });
+
   let consent = null;
   try { consent = localStorage.getItem(STORAGE_KEY); } catch (_) {}
   if (consent === 'accepted') loadGa4();
