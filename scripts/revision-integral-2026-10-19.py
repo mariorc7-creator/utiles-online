@@ -76,11 +76,11 @@ def main():
   issues=[]
   if public and words<180:issues.append("contenido_muy_breve")
   elif public and words<300:issues.append("contenido_breve")
-  if not re.search(r'<meta\b[^>]*name=["\']description',original,re.I):issues.append("sin_meta_description")
-  if not re.search(r'<meta\b[^>]*name=["\']viewport',original,re.I):issues.append("sin_viewport")
+  if not re.search(r'<meta\b[^>]*name=["\x27]description',changed,re.I):issues.append("sin_meta_description")
+  if not re.search(r'<meta\b[^>]*name=["\x27]viewport',changed,re.I):issues.append("sin_viewport")
   if p.tags["h1"]!=1:issues.append("h1_no_unico")
   if public and official==0 and re.search(r'(ayuda|prestacion|deduccion|permiso|titulo-familia|tarjeta-sanitaria)',rel,re.I):issues.append("sin_fuente_oficial_enlazada")
-  if re.search(r'\b(?:650|750|1000|1\.000|1200|1\.200|2026|plazo|semanas|meses|irpf)\b',original,re.I):issues.append("verificar_normativa_por_fuente_oficial")
+  if re.search(r'\b(?:650|750|1000|1\.000|1200|1\.200|plazo|semanas|meses|irpf|cuant[ií]a|requisitos)\b',' '.join(p.wordparts),re.I):issues.append("verificar_normativa_por_fuente_oficial")
   if changed!=original:
    path.write_text(changed,encoding="utf-8")
    updated_count+=1
