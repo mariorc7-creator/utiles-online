@@ -32,7 +32,18 @@ class Audit(HTMLParser):
   if self.ignore==0:self.wordparts.append(data)
 
 def review_html(html):
- updated=SCHEMA_RX.sub(lambda m:m.group(1)+DAY+m.group(2),html)
+ updated=html
+ # Metadatos esenciales en páginas indexables: reparación mecánica sin inventar datos.
+ if not re.search(r'<meta\\b[^>]*name=["\\\']viewport',updated,re.I) and re.search(r'<head\\b[^>]*>',updated,re.I):
+  updated=re.sub(r'<head\\b[^>]*>',lambda m:m.group(0)+'<meta name="viewport" content="width=device-width,initial-scale=1">',updated,count=1,flags=re.I)
+ if not re.search(r'<meta\\b[^>]*name=["\\\']description',updated,re.I) and not re.search(r'\\bnoindex\\b',updated,re.I):
+  title=re.search(r'<h1\\b[^>]*>([\\s\\S]*?)</h1>',updated,re.I)
+  if title:
+   h=re.sub(r'<[^>]+>',' ',title.group(1))
+   h=re.sub(r'\\s+',' ',h).strip()
+   desc=(h+'. Guía informativa de Papeles del Bebé sobre requisitos, gestiones y fuentes oficiales.').replace('&','&amp;').replace('"','&quot;')[:155]
+   updated=re.sub(r'<head\\b[^>]*>',lambda m:m.group(0)+'<meta name="description" content="'+desc+'">',updated,count=1,flags=re.I)
+ updated=SCHEMA_RX.sub(lambda m:m.group(1)+DAY+m.group(2),updated)
  updated=re.sub(r'(<meta\b[^>]*(?:property|name)=["\'](?:article:modified_time|dateModified)["\'][^>]*content=["\'])[^"\']+',lambda m:m.group(1)+DAY,updated,flags=re.I)
  def fix(m):
   fragment=m.group(0)
