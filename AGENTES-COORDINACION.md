@@ -93,3 +93,11 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - SEO/GEO priorizan páginas y mejoras según Search Console, indexación, intención de búsqueda y oportunidades de citación.
 - Competencia alimenta oportunidades a los demás agentes.
 - Si un cambio afecta a más de un área, debe preservarse la compatibilidad entre agentes y evitar sobreescribir trabajo reciente de otro agente.
+
+## Directriz prioritaria de captación orgánica — 19/10/2026
+- A partir de ahora, las optimizaciones SEO se decidirán por datos de Google Search Console e intención de búsqueda, no por la cantidad de páginas modificadas.
+- Prioridad P0: identificar consultas con posición media entre 10 y 20 (inclusive) y al menos 20 impresiones en una ventana de 28 días, y trabajar para llevarlas al top 10 de Google.
+- Para cada oportunidad, estudiar la consulta, la URL que aparece, su intención, el contenido que actualmente ofrece respuesta, el título/snippet, enlazado interno y competidores en la SERP antes de cambiar nada.
+- Registrar línea base (consulta, URL, impresiones, clics, CTR y posición en 28 días), modificación e impacto posterior; no prometer resultados ni confundir oscilaciones de posición con mejora sostenida.
+- Si Search Console está temporalmente inaccesible, no inventar métricas ni hacer cambios masivos como sustituto: documentar el bloqueo y usar los últimos datos fechados claramente hasta recuperar acceso.
+- Evitar churn, cambios de fecha sin revisión real y creación de páginas nuevas cuando haya oportunidades verificadas más próximas al top 10.
