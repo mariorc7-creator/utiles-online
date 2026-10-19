@@ -27,11 +27,11 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 
 ## UX global obligatoria
 - Todas las páginas públicas deben mostrar la misma cabecera global. No crear variantes locales de navegación por sección.
-- La navegación maestra es: `Mi panel`, `Herramientas`, `Guías`, `Ayudas`, `Trámites`, `Observatorio`, `Premium`.
+- La navegación maestra es: `Mi panel`, `Herramientas`, `Guías`, `Ayudas`, `Trámites`, `Observatorio`, `🧸 Preparativos`.
 - No mostrar en la cabecera `Gestoría`, badges tipo `Guía independiente · España`, botones locales `← Inicio` ni menús históricos.
 - `global-ui.js` es la autoridad de navegación en cliente y debe cargarse mediante `analytics.js`; cualquier página nueva debe incluir `/analytics.js` salvo excepción técnica documentada.
 - Si una página existente usa markup de cabecera antiguo, no debe romper la experiencia: la capa global debe sustituirlo por la cabecera maestra.
-- El estado de progreso también debe sentirse único: Mi panel, checklist, guía imprimible y Premium no deben presentar progresos contradictorios para el mismo trámite.
+- El estado de progreso también debe sentirse único: Mi panel, checklist y guía imprimible no deben presentar progresos contradictorios para el mismo trámite.
 
 ## Responsabilidades por agente
 ### SEO / GEO / AEO / AIO
@@ -70,7 +70,7 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 
 ## Funciones pausadas
 - Gestoría permanece pausada. `leadEnabled` debe seguir en false y `/api/lead` debe permanecer bloqueado en servidor hasta autorización expresa.
-- Premium de pago permanece inactivo. `premiumLive` debe seguir en false.
+- Premium queda retirado de toda la experiencia pública. No volver a añadir enlaces, CTAs, navegación ni bloques promocionales de Premium; mantener `premiumLive=false` y redirigir antiguas URLs Premium a `/mi-panel/`.
 - Stripe permanece inactivo, incluido QA público, hasta autorización expresa.
 - No reactivar CTAs, checkout, captación de leads ni cobros sin autorización explícita del usuario.
 
