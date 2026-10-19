@@ -117,7 +117,10 @@
     const state = read();
     state.version = 1;
     state.updatedAt = now();
-    state.last = { path, label, updatedAt: state.updatedAt, reason };
+    // Consultar Mi panel no debe sobrescribir la última herramienta útil.
+    if (path !== '/mi-panel/' && path !== '/herramientas/que-me-falta/') {
+      state.last = { path, label, updatedAt: state.updatedAt, reason };
+    }
     state.tools = state.tools || {};
     const previous = state.tools[path] || {};
     state.tools[path] = {
@@ -165,10 +168,13 @@
   function addResumeCard() {
     const path = canonicalPath(location.pathname);
     if (!['/','/herramientas/','/mi-panel/'].includes(path)) return;
+    // En portada, el hero de regreso ya ofrece continuar y reiniciar.
+    if (path === '/' && document.body.classList.contains('pb-returning')) return;
     const state = read();
     if (!state.last || !state.last.path || state.last.path === '/mi-panel/') return;
     if (document.getElementById('pb-resume-card')) return;
     const target = state.last.path;
+    if (!TOOL_LABELS[target] || target === '/mi-panel/') return;
     const label = state.last.label || 'tu proceso';
     const card = document.createElement('section');
     card.id = 'pb-resume-card';
