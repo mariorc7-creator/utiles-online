@@ -39,10 +39,26 @@
       row.append(check,label,link);nodes.list.append(row);
     });
   }
+  const reminderHost=document.createElement('div');
+  reminderHost.style.marginTop='10px';
+  nodes.related.insertAdjacentElement('afterend',reminderHost);
+  function updateReminder(){
+    reminderHost.replaceChildren();
+    const pending=steps.find(x=>!state()[x.k]);
+    if(!pending||!window.PBReminder)return;
+    const hint=document.createElement('p');
+    hint.textContent='¿Quieres acordarte? Guarda un recordatorio de revisión para dentro de 7 días (no es un plazo legal).';
+    hint.style.cssText='color:#667083;font-size:.88rem;margin:7px 0';
+    const day=new Date();day.setDate(day.getDate()+7);
+    reminderHost.append(hint,window.PBReminder.button({key:pending.k,title:pending.title,href:pending.href},day));
+  }
+  const originalRender=render;
   nodes.done.addEventListener('click',()=>{
     const current=steps.find(x=>!state()[x.k]);if(!current)return;
     const updated=state();updated[current.k]=true;save(updated);render();
   });
-  window.addEventListener('storage',e=>{if(e.key===KEY)render()});
-  render();
+  window.addEventListener('storage',e=>{if(e.key===KEY){render();updateReminder();}});
+  nodes.done.addEventListener('click',()=>queueMicrotask(updateReminder));
+  nodes.list.addEventListener('change',()=>queueMicrotask(updateReminder));
+  render();updateReminder();
 })();
