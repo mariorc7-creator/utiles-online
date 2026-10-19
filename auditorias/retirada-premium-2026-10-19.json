@@ -1,0 +1,41 @@
+{
+  "removed_from": [
+    "ayuda-nacimiento-asturias/index.html",
+    "ayuda-natalidad-madrid/index.html",
+    "ayudas-hijos-pais-vasco/index.html",
+    "checklist/completada/index.html",
+    "comunidades/andalucia/index.html",
+    "comunidades/asturias/index.html",
+    "comunidades/canarias/index.html",
+    "comunidades/cantabria/index.html",
+    "comunidades/castilla-la-mancha/index.html",
+    "comunidades/castilla-y-leon/index.html",
+    "comunidades/comunidad-de-madrid/index.html",
+    "comunidades/comunidad-valenciana/index.html",
+    "comunidades/extremadura/index.html",
+    "comunidades/galicia/index.html",
+    "comunidades/islas-baleares/index.html",
+    "comunidades/la-rioja/index.html",
+    "comunidades/navarra/index.html",
+    "comunidades/pais-vasco/index.html",
+    "comunidades/region-de-murcia/index.html",
+    "metodologia/index.html",
+    "observatorio/index.html",
+    "pack-empadronamiento/index.html",
+    "premium/cancelado/index.html",
+    "premium/gracias/index.html",
+    "premium/index.html",
+    "premium/plan/index.html",
+    "premium/prueba-stripe/index.html"
+  ],
+  "remaining_premium_references_for_manual_review": [
+    "checklist/completada/index.html"
+  ],
+  "redirected_old_premium_pages": [
+    "/premium/",
+    "/premium/plan/",
+    "/premium/gracias/",
+    "/premium/cancelado/",
+    "/premium/prueba-stripe/"
+  ]
+}

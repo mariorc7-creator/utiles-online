@@ -1,37 +1,5 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QA Stripe Premium | Papeles del Bebé</title>
-  <meta name="robots" content="noindex, nofollow">
-  <link rel="stylesheet" href="../../style.css">
-  <link rel="stylesheet" href="../premium.css">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-</head>
-<body>
-<main class="premium-shell">
-  <section class="premium-hero">
-    <span class="premium-badge">QA INTERNO</span>
-    <h1>Prueba de checkout Premium</h1>
-    <p class="premium-subtitle">Esta ruta no se enlaza desde la web pública. Sirve únicamente para validar Stripe antes de activar cobros reales.</p>
-    <div class="premium-actions">
-      <button class="premium-btn" id="stripeQa" type="button">Abrir checkout de prueba</button>
-      <a class="premium-btn ghost" href="/premium/">Volver a Premium</a>
-    </div>
-  </section>
-<p class="revision revision-sitio" style="font-size:.88rem;color:#657184;margin:24px 0 12px">Última revisión: <time datetime="2026-10-19">19 de octubre de 2026</time></p></main>
-<script src="../../config.js"></script>
-<script>
-(function(){
-  var b=document.getElementById('stripeQa');
-  b.addEventListener('click',function(){
-    var cfg=window.PAPELES_BEBE_CONFIG||{};
-    var url=cfg.premiumTestCheckoutUrl||'';
-    if(!url){ alert('Checkout de QA no configurado.'); return; }
-    window.location.href=url;
-  });
-})();
-</script>
-</body>
-</html>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contenido disponible en Mi panel | Papeles del Bebé</title><meta name="robots" content="noindex,follow">
+<meta http-equiv="refresh" content="0;url=/mi-panel/"><link rel="canonical" href="https://www.papelesdelbebe.es/mi-panel/">
+</head><body><main><h1>El contenido se ha trasladado a Mi panel</h1><p>Para organizar tus trámites y ayudas de forma gratuita, abre <a href="/mi-panel/">Mi panel de Papeles del Bebé</a>.</p></main>
+<script>location.replace("/mi-panel/")</script></body></html>
