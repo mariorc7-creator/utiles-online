@@ -113,19 +113,12 @@
       community.parentNode.insertBefore(d,community); d.appendChild(community);
     }
     const ia=document.querySelector('.home-papelesia:not(.home-premium-destacado)');
-    const premium=document.querySelector('.home-premium-destacado');
-    if ((ia||premium) && !(ia&&ia.closest('.pb-home-more'))) {
+    if (ia && !ia.closest('.pb-home-more')) {
       const d=document.createElement('details'); d.className='pb-home-more';
       d.innerHTML='<summary>✨ Más ayuda si la necesitas</summary>';
-      const anchor=ia||premium; anchor.parentNode.insertBefore(d,anchor);
+      ia.parentNode.insertBefore(d,ia);
       if (ia) d.appendChild(ia);
-      if (premium) {
-        premium.querySelector('.contenido-etiqueta') && (premium.querySelector('.contenido-etiqueta').textContent='PLAN PREMIUM · GRATIS TEMPORALMENTE');
-        premium.querySelector('h2') && (premium.querySelector('h2').textContent='Todo ordenado en un único plan');
-        premium.querySelector('p') && (premium.querySelector('p').textContent='Fechas, prioridades, documentos y ayudas reunidos en un plan personalizado. Sin pago durante esta fase.');
-        const a=premium.querySelector('a'); if(a) a.textContent='Abrir Premium gratis →';
-        d.appendChild(premium);
-      }
+
     }
   }
 
