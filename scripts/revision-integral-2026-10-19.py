@@ -62,11 +62,13 @@ def main():
  pages=sorted(set(ROOT.rglob("index.html")))
  report=[]
  updated_count=0
+ verified_date_count=0
  for path in pages:
   rel=path.relative_to(ROOT).as_posix()
   original=path.read_text(encoding="utf-8")
+  changed=review_html(original)
   p=Audit()
-  try:p.feed(original)
+  try:p.feed(changed)
   except Exception:pass
   words=len(re.findall(r"\b[\wáéíóúñÁÉÍÓÚÑ]+\b"," ".join(p.wordparts)))
   official=sum(bool(re.search(r'(\.gob\.es|seg-social\.es|gencat\.cat|agenciatributaria\.gob\.es|aragon\.es|xunta\.gal|euskadi\.eus|navarra\.es|junta|sede\.)',u,re.I)) for u in p.links if u.startswith("http"))
@@ -79,15 +81,15 @@ def main():
   if p.tags["h1"]!=1:issues.append("h1_no_unico")
   if public and official==0 and re.search(r'(ayuda|prestacion|deduccion|permiso|titulo-familia|tarjeta-sanitaria)',rel,re.I):issues.append("sin_fuente_oficial_enlazada")
   if re.search(r'\b(?:650|750|1000|1\.000|1200|1\.200|2026|plazo|semanas|meses|irpf)\b',original,re.I):issues.append("verificar_normativa_por_fuente_oficial")
-  changed=review_html(original)
   if changed!=original:
    path.write_text(changed,encoding="utf-8")
    updated_count+=1
+  if STAMP in changed or re.search(r'(?:revisi[oó]n|revisad[oa]).{0,120}(?:19/10/2026|19 de octubre de 2026)',changed,re.I):verified_date_count+=1
   report.append(dict(path=rel,url="https://www.papelesdelbebe.es/"+rel.removesuffix("index.html"),palabras_visibles=words,fuentes_oficiales=official,incidencias=issues,revision_tecnica=DAY,revision_normativa_confirmada=False))
  audit_dir=ROOT/"auditorias";audit_dir.mkdir(exist_ok=True)
  (audit_dir/"revision-2026-10-19.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
  totals=Counter(y for x in report for y in x["incidencias"])
- md=["# Auditoría técnica integral — 19 de octubre de 2026","",f"- **HTML inspeccionados:** {len(report)}",f"- **HTML con fecha estandarizada:** {updated_count}","- **Importante:** La fecha de revisión refleja inspección técnica y editorial automática (estructura, enlaces, presencia de fuentes). No implica certificación normativa de importes, requisitos o plazos; las páginas que requieren cotejo oficial están listadas como pendientes.","","## Incidencias por tipo"]
+ md=["# Auditoría técnica integral — 19 de octubre de 2026","",f"- **HTML inspeccionados:** {len(report)}",f"- **HTML con fecha visible del 19/10/2026:** {verified_date_count}","- **Importante:** La fecha de revisión refleja inspección técnica y editorial automática (estructura, enlaces, presencia de fuentes). No implica certificación normativa de importes, requisitos o plazos; las páginas que requieren cotejo oficial están listadas como pendientes.","","## Incidencias por tipo"]
  md += [f"- {k}: **{v}**" for k,v in totals.most_common()]
  md += ["","## Páginas prioritarias"]
  for x in sorted(report,key=lambda x:(-len(x["incidencias"]),x["palabras_visibles"]))[:90]:
@@ -96,5 +98,5 @@ def main():
  (audit_dir/"revision-2026-10-19.md").write_text("\n".join(md),encoding="utf-8")
  if len(report)!=162:
   print(f"AVISO: páginas encontradas={len(report)}; se esperaban 162. Se ha generado informe, comprobar antes de publicar.")
- print(json.dumps(dict(pages=len(report),changed=updated_count,issues=dict(totals)),ensure_ascii=False))
+ print(json.dumps(dict(pages=len(report),changed=updated_count,dates=verified_date_count,issues=dict(totals)),ensure_ascii=False))
 if __name__=="__main__":main()
