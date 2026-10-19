@@ -1,7 +1,7 @@
 (() => {
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
-  const HEADER_VERSION = '20261019-9';
+  const HEADER_VERSION = '20261019-10';
   const FOOTER_VERSION = '20261015-1';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
@@ -11,8 +11,7 @@
     ['/ayudas-nacimiento/', 'Ayudas'],
     ['/tramites-bebe/', 'Trámites'],
     ['/observatorio/', 'Observatorio'],
-    ['/preparativos-bebe/', '🧸 Preparativos'],
-    ['/premium/', 'Premium']
+    ['/preparativos-bebe/', '🧸 Preparativos']
   ];
 
   function readLocal(key, fallback) {
@@ -47,9 +46,6 @@
     if (/^(ayuda|ayudas|pago-unico)/.test(id || '')) return 'ayudas';
     return '';
   }
-  function masterKeyForPremiumId(id) {
-    return { registro:'registro', ss:'seguridad-social', salud:'tarjeta-sanitaria', padron:'padron', prestacion:'prestacion', maternidad:'deduccion', ccaa:'ayudas', mono:'ayudas', multiple:'ayudas', discapacidad:'ayudas' }[id] || '';
-  }
 
   function migrateLegacyProgress() {
     let master = readMaster();
@@ -70,7 +66,6 @@
     if (href === '/herramientas/') return p.startsWith('/herramientas/');
     if (href === '/observatorio/') return p.startsWith('/observatorio/');
     if (href === '/preparativos-bebe/') return p.startsWith('/preparativos-bebe/');
-    if (href === '/premium/') return p.startsWith('/premium/');
     if (href === '/ayudas-nacimiento/') return p.startsWith('/ayuda') || p.startsWith('/familias-') || p.startsWith('/bono-') || p.startsWith('/tarxeta-') || p.startsWith('/deduccion-nacimiento-');
     if (href === '/tramites-bebe/') return /(registro|seguridad-social|tarjeta-sanitaria|empadron|certificado|dni-bebe|pasaporte-bebe)/.test(p);
     if (href === '/guias-familias/') return p.startsWith('/guias-') || p.startsWith('/permiso-') || p.startsWith('/deduccion-maternidad');
@@ -89,7 +84,6 @@
       header.pb-global-header .nav-principal a{display:inline-flex!important;align-items:center!important;gap:6px!important;min-height:42px!important;padding:9px 11px!important;border-radius:12px!important;border:1px solid transparent!important;background:transparent!important;color:#586176!important;text-decoration:none!important;font-weight:750!important;font-size:.94rem!important;line-height:1.2!important;white-space:nowrap!important;box-shadow:none!important}
       header.pb-global-header .nav-principal a:hover{background:#f6f7ff!important;color:#454bc0!important}
       header.pb-global-header .nav-principal a[aria-current="page"]{background:#f0efff!important;color:#555bd1!important;border-color:#dcddff!important}
-      header.pb-global-header .nav-principal a.nav-premium{background:#f3efff!important;color:#6751cf!important;border-color:#dfd5ff!important}
       .pb-progress-badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;padding:2px 7px;border-radius:999px;background:#eef9f2;color:#23724c;font-size:.75rem;font-weight:800;border:1px solid #d5ecdf}
       .pb-article-progress{max-width:1120px;margin:14px auto 20px;padding:14px 16px;border:1px solid #e4e6f2;border-radius:16px;background:#fbfbff;display:flex;align-items:center;justify-content:space-between;gap:14px;box-sizing:border-box}
       .pb-article-progress strong{display:block;color:#27334d;margin-bottom:3px}.pb-article-progress p{margin:0;color:#687087;font-size:.92rem}.pb-article-progress-actions{display:flex;gap:8px;flex-wrap:wrap}.pb-article-progress button,.pb-article-progress a{border:1px solid #d9dcf5;border-radius:10px;padding:8px 11px;background:#fff;color:#5057c8;font:inherit;font-weight:750;text-decoration:none;cursor:pointer;white-space:nowrap}.pb-article-progress.is-done{background:#f4fbf7;border-color:#d6ecdf}.pb-article-progress.is-done strong{color:#23724c}
@@ -104,7 +98,7 @@
   function navHtml() {
     return NAV_ITEMS.map(([href,text]) => {
       const current = activeSection(href) ? ' aria-current="page"' : '';
-      const classes = href === '/premium/' ? ' class="nav-premium"' : '';
+      const classes = '';
       const panelAttr = href === '/mi-panel/' ? ' data-pb-nav="panel"' : '';
       return `<a href="${href}"${classes}${current}${panelAttr}>${text}</a>`;
     }).join('');
@@ -195,7 +189,7 @@
     if (box.dataset.pbRenderSignature === signature) return;
     box.dataset.pbRenderSignature = signature;
     box.className = `pb-article-progress${done ? ' is-done' : ''}`;
-    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel, la checklist y Premium.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button><a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
+    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel y la checklist.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button><a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
@@ -249,28 +243,6 @@
     });
   }
 
-  function syncPremiumDom() {
-    const selects = Array.from(document.querySelectorAll('select[data-task-status]'));
-    if (!selects.length) return;
-    const master = readMaster();
-    selects.forEach((select) => {
-      const key = masterKeyForPremiumId(select.dataset.taskStatus); if (!key) return;
-      if (typeof master[key] === 'boolean') { const desired = master[key] ? 'done' : 'pending'; if (select.value !== desired) select.value = desired; }
-      if (!select.dataset.pbMasterBound) { select.dataset.pbMasterBound='1'; select.addEventListener('change',()=>{ const next=readMaster(); next[key]=select.value === 'done' || select.value === 'na'; writeMaster(next); }); }
-    });
-  }
-
-  function actualizarPremiumGratis() {
-    const home = document.querySelector('.home-premium-destacado');
-    if (!home) return;
-    const etiqueta = home.querySelector('.contenido-etiqueta');
-    const texto = home.querySelector('.home-papelesia-copy p');
-    const cta = home.querySelector('a[href="/premium/"]');
-    if (etiqueta && etiqueta.textContent !== 'PLAN PREMIUM · GRATIS TEMPORALMENTE') etiqueta.textContent = 'PLAN PREMIUM · GRATIS TEMPORALMENTE';
-    const copy = 'Fechas, prioridades, documentos y ayudas reunidos en un plan personalizado. Gratis temporalmente y sin tarjeta.';
-    if (texto && texto.textContent !== copy) texto.textContent = copy;
-    if (cta && cta.textContent !== 'Abrir Premium gratis →') cta.textContent = 'Abrir Premium gratis →';
-  }
 
   function aplicar() {
     normalizarCabecera();
@@ -279,9 +251,7 @@
     syncAppChecklist();
     syncPrintableChecklist();
     syncSimpleProgress();
-    syncPremiumDom();
     renderArticleProgress();
-    actualizarPremiumGratis();
     actualizarBadgePanel();
   }
 
