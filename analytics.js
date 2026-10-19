@@ -100,6 +100,11 @@
     p0ux.addEventListener('load', () => {
       const simple = document.createElement('script');
       simple.src = '/herramientas/ux-simple.js?v=20261019-1';
+      simple.addEventListener('load', () => {
+        const progressive=document.createElement('script');
+        progressive.src='/herramientas/ux-progresivo.js?v=20261019-1';
+        document.head.appendChild(progressive);
+      });
       document.head.appendChild(simple);
     });
     document.head.appendChild(p0ux);
