@@ -43,11 +43,6 @@
 </footer>
 
 
-<script>
-if (window.PapelesPremiumFlow && window.PapelesPremiumFlow.redirectCompletedToPremium()) {
-  // Redirección intencionada: el usuario venía de Premium.
-}
-</script>
 <script src="../../app.js"></script>
 <script src="../../qa-fixes.js"></script>
 <script src="../../ai-checklist.js"></script>
@@ -61,15 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelectorAll(".upsell-gestoria").forEach(function (el) {
         el.style.display = "none";
       });
-
-      const premium = document.querySelector(".upsell-premium");
-      if (premium) {
-        const texto = premium.querySelector("p");
-        if (texto) texto.textContent = "Convierte tus respuestas en un plan completo con fechas, prioridades, documentos y ayudas reunidos en un único sitio.";
-        const enlace = premium.querySelector("a.cta-enlace");
-        if (enlace) enlace.textContent = "Ver Plan Premium · 9,90 € →";
-      }
-
       if (typeof insertarChecklistIA === "function") insertarChecklistIA();
     } else {
       window.location.replace("/checklist/");
