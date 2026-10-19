@@ -1,0 +1,33 @@
+name: Retirar Premium de todas las paginas
+on:
+  push:
+    paths:
+      - '.github/workflows/retirar-premium.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  barrido:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          persist-credentials: true
+      - name: Barrido de HTML y rutas Premium antiguas
+        run: |
+          git config user.name "Papeles del Bebé"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3; do
+            git fetch origin main
+            git reset --hard origin/main
+            python3 scripts/retirar-premium.py
+            git add -- '*.html' auditorias/retirada-premium-2026-10-19.json
+            if git diff --staged --quiet; then
+              echo "Sin cambios"; exit 0
+            fi
+            git commit -m "Retirar Premium de todas las paginas y redirigir accesos antiguos a Mi panel"
+            if git push origin HEAD:main; then exit 0; fi
+          done
+          exit 1
