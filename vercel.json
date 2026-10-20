@@ -4,6 +4,46 @@
   "outputDirectory": "dist",
   "redirects": [
     {
+      "source": "/ayuda-nacimiento-cataluna-2026/",
+      "destination": "/ayuda-nacimiento-cataluna/",
+      "permanent": true
+    },
+    {
+      "source": "/ayuda-nacimiento-cataluna-2026",
+      "destination": "/ayuda-nacimiento-cataluna/",
+      "permanent": true
+    },
+    {
+      "source": "/permiso-nacimiento-cuidado-menor-2026/",
+      "destination": "/permiso-nacimiento-cuidado-menor/",
+      "permanent": true
+    },
+    {
+      "source": "/permiso-nacimiento-cuidado-menor-2026",
+      "destination": "/permiso-nacimiento-cuidado-menor/",
+      "permanent": true
+    },
+    {
+      "source": "/ayuda-nacimiento-valencia-2026/",
+      "destination": "/ayuda-nacimiento-valencia/",
+      "permanent": true
+    },
+    {
+      "source": "/ayuda-nacimiento-valencia-2026",
+      "destination": "/ayuda-nacimiento-valencia/",
+      "permanent": true
+    },
+    {
+      "source": "/tarxeta-benvida-2026/",
+      "destination": "/tarxeta-benvida/",
+      "permanent": true
+    },
+    {
+      "source": "/tarxeta-benvida-2026",
+      "destination": "/tarxeta-benvida/",
+      "permanent": true
+    },
+    {
       "source": "/mi-plan",
       "destination": "/mi-panel/",
       "permanent": true
