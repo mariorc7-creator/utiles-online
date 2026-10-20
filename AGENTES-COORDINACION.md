@@ -158,3 +158,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Primera integración transversal: `pb-territory.js` sincroniza únicamente comunidad autónoma entre `/mi-panel/` y `/herramientas/buscador-ayudas/`, usando `papelesbebe_comunidad_v1` en localStorage.
 - No crear otro «Mi Bebé», calendario ni buscador; mejorar herramientas existentes. Nunca almacenar nombre/fecha de nacimiento al implementar este paso. La selección se puede cambiar o vaciar y no se envía por este componente a servidores.
 - Mantener formularios de familia y trabajo separados; solo reutilizar datos que realmente son compartidos.
+
+## Integración progreso de trámites P1 — 20/10/2026
+- En `/mi-panel/`, botón «Ya lo he revisado» para el siguiente trámite existente (primero pendiente), persistido en `papelesbebe_que_me_falta_v1`. No crear otra base de datos o asistente.
+- El botón avanza al siguiente paso tras pulsación explícita; comprobar un trámite no implica resolución administrativa. Al terminar los siete, ocultar botón y recordatorio de pendiente.
+- Mantener sincronización del estado con los checkboxes, global-ui y panel de recordatorios. No inventar fechas límite legales.
