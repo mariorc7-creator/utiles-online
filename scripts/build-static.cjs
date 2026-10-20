@@ -8,6 +8,17 @@ const FOOTER = `<footer class="pb-global-footer" data-pb-global-footer="1"><div 
 
 function applyPageFixes(html, relPath) {
   const rel = relPath.replace(/\\/g, '/');
+  // Preserve enlaces internos directos tras la migración gradual a URLs perennes.
+  const permalinkMoves = {
+    '/tarxeta-benvida-2026/': '/tarxeta-benvida/',
+    '/ayuda-nacimiento-valencia-2026/': '/ayuda-nacimiento-valencia/',
+    '/permiso-nacimiento-cuidado-menor-2026/': '/permiso-nacimiento-cuidado-menor/',
+    '/ayuda-nacimiento-cataluna-2026/': '/ayuda-nacimiento-cataluna/'
+  };
+  for (const [oldPath,newPath] of Object.entries(permalinkMoves)) {
+    html=html.split('href="'+oldPath+'"').join('href="'+newPath+'"');
+  }
+
   if (rel === 'pack-empadronamiento/index.html') {
     html = html.replace(/<script src="\/pack-empadronamiento\/(?:fix|review-v6|municipal-universal|capitales-only)\.js[^>]*><\/script>\s*/gi, '');
     html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/review-v6.js?v=20261015-11" defer></script>\n<script src="/pack-empadronamiento/municipal-universal.js?v=20261016-2" defer></script>\n<script src="/pack-empadronamiento/capitales-only.js?v=20261016-1" defer></script>\n</body>');
