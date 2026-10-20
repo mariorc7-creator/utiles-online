@@ -131,3 +131,9 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - La portada Preparativos es un hub de cinco categorías visuales (cochecitos, sillas, sacaleches, tronas, cunas de viaje), sin lista de titulares largos ni ranking aparente.
 - Cada categoría muestra tres escenarios, dos modelos en tarjetas, pros/precauciones y detalles bajo demanda. Mantener acceso a fabricante y declaraciones de comparación documental.
 - No publicar fotos de producto sin derechos o licencias; no inventar precios, reviews ni ensayos. No convertir automáticamente URLs de fabricante en enlaces de afiliado.
+
+## Afiliados dentro de Preparativos (20/10/2026)
+- Identificador de afiliado Amazon.es: `mariorc7-21`.
+- Las cinco fichas visuales mantienen enlaces neutrales al fabricante y añaden búsquedas de modelos en Amazon identificadas como publicidad (`rel=sponsored nofollow`, `data-affiliate-category`). No llamar a enlaces de búsqueda 'comprar este producto' ni inferir disponibilidad, ASIN o precio.
+- El hub tiene sección opcional plegada de productos básicos con búsquedas de afiliado; no sobrecargar las tarjetas principales.
+- No retirar enlaces comerciales al rediseñar sin sustituirlos por opciones integradas en la UX y debidamente identificadas.
