@@ -126,3 +126,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - `RESEND_API_KEY` y `PACK_EMAIL_FROM` no están configurados en Vercel producción (solo se han comprobado nombres de variables, sin divulgar valores).
 - No reutilizar `/api/lead`, pausado por la gestoria. Nunca presentar un `mailto` o un envío inmediato como recordatorio programado.
 - Alternativa ya operativa sin registro: recordatorios .ics en `/mi-panel/`. La suscripción por correo será completamente optativa y separada de ese flujo.
+
+## Preparativos UX visual · 20/10/2026
+- La portada Preparativos es un hub de cinco categorías visuales (cochecitos, sillas, sacaleches, tronas, cunas de viaje), sin lista de titulares largos ni ranking aparente.
+- Cada categoría muestra tres escenarios, dos modelos en tarjetas, pros/precauciones y detalles bajo demanda. Mantener acceso a fabricante y declaraciones de comparación documental.
+- No publicar fotos de producto sin derechos o licencias; no inventar precios, reviews ni ensayos. No convertir automáticamente URLs de fabricante en enlaces de afiliado.
