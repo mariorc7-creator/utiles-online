@@ -138,3 +138,7 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - El hub tiene sección opcional plegada de productos básicos con búsquedas de afiliado; no sobrecargar las tarjetas principales.
 - No retirar enlaces comerciales al rediseñar sin sustituirlos por opciones integradas en la UX y debidamente identificadas.
 \n## Regalo de nacimiento (20/10/2026)\n- Herramienta pública `/lamina-nacimiento-gratis/` con tres temas y exportación de PNG 1200x1600 en canvas local. Sin registro, email, APIs, almacenamiento ni envío de datos.\n- Portada y catálogo de herramientas enlazan a ella con la estrella `⭐ ¡Obtén tu obsequio gratis!`. Mantener visible pero sin modal intrusivo.\n- Mantener la opción totalmente gratuita; no añadir formularios de leads ni cobros automáticos. Probar Safari móvil y descarga.\n
+## Correcciones UX portada/Observatorio — 20/10/2026
+- Eliminar secuencias literales de escape (\\n) del HTML: nunca inyectar JS escaped text en HTML final.
+- Estrella de regalo compacta y fuera del espacio del H1; en pantallas <=1280px va en flujo para no cubrir titular.
+- Observatorio `/observatorio/` es una pieza central del área Ayudas; mantener CTA visible arriba de `/ayudas-nacimiento/`, enlazado desde home y footer bajo nombre completo «Observatorio de ayudas».

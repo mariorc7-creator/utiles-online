@@ -2,7 +2,7 @@
   if (!window.__papelesBebeGlobalUiLoaded && !document.querySelector('script[src^="/global-ui.js"]')) {
     window.__papelesBebeGlobalUiLoaded = true;
     const ui = document.createElement('script');
-    ui.src = '/global-ui.js?v=20261020-13';
+    ui.src = '/global-ui.js?v=20261020-14';
     ui.defer = true;
     document.head.appendChild(ui);
   }
