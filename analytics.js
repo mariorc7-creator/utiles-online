@@ -18,7 +18,7 @@
   if (!window.__papelesBebeToolEnhancementsLoaded) {
     window.__papelesBebeToolEnhancementsLoaded = true;
     const toolEnhancements = document.createElement('script');
-    toolEnhancements.src = '/herramientas/tool-enhancements.js?v=20261015-1';
+    toolEnhancements.src = '/herramientas/tool-enhancements.js?v=20261020-2';
     toolEnhancements.defer = true;
     document.head.appendChild(toolEnhancements);
   }
