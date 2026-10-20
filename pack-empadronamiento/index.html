@@ -20,12 +20,12 @@
 <main class="pack">
 <section class="hero">
 <span class="badge">⚡ PREPARADOR INTELIGENTE · EMPADRONAMIENTO</span>
-<h1>Dime tu caso. Te digo qué tocar en el formulario.</h1>
+<h1>Empadrona a tu bebé sin perder tiempo.</h1>
 <p>No te pedimos nombre, DNI ni dirección. Solo las respuestas que cambian el trámite. El resultado se centra en lo útil: <strong>qué apartados revisar, cuáles puedes ignorar y una revisión final del PDF antes de presentarlo</strong>.</p>
 </section>
 
 <section class="panel" aria-labelledby="caso">
-<h2 id="caso">1. Cuéntanos solo lo que cambia el trámite</h2>
+<h2 id="caso">1. Cuéntanos tu caso</h2>
 <div class="grid">
 <div class="field"><label for="municipio">Municipio</label><select id="municipio"><option value="madrid">Madrid</option><option value="zaragoza">Zaragoza</option><option value="lleida">Lleida</option><option value="otro">Otro municipio</option></select></div>
 <div class="field"><label for="estado">¿El bebé ya aparece empadronado?</label><select id="estado"><option value="nose">No lo sé</option><option value="si">Sí</option><option value="no">No</option></select></div>
@@ -50,9 +50,9 @@
 </section>
 </section>
 
-<section id="nonMadrid" class="panel hidden">
-<h2>Estamos ampliando el motor municipal</h2>
-
+<section id="nonMadrid" class="panel hidden" aria-live="polite">
+<h2>2. Tu trámite en el ayuntamiento</h2>
+<div id="nonMadridText" class="notice">Elige una capital y pulsa «Preparar mi trámite» para ver qué hacer.</div>
 <div id="nonMadridActions" class="actions"></div>
 </section>
 
