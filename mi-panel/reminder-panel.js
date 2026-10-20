@@ -25,9 +25,9 @@
       const [year,month,day]=dateInput.value.split('-').map(Number);
       const date=new Date(year,month-1,day,10,0,0);
       if(!Number.isFinite(date.getTime())||date<new Date(new Date().setHours(0,0,0,0))){status.textContent='Selecciona una fecha de hoy en adelante.';return;}
-      if(!window.PBReminder?.create){status.textContent='No se ha podido preparar el archivo de calendario. Inténtalo de nuevo.';return;}
-      window.PBReminder.create({key:current[0],title:current[1],href:current[2]},date);
-      status.textContent='Se ha preparado el recordatorio para tu calendario. Ábrelo para guardarlo.';
-    }catch(_){status.textContent='No hemos podido preparar el recordatorio. Inténtalo de nuevo.';}
+      if(!window.PBReminder?.google){status.textContent='No se ha podido abrir Google Calendar. Inténtalo de nuevo.';return;}
+      const opened=window.PBReminder.google({key:current[0],title:current[1],href:current[2]},date);
+      status.textContent=opened?'Google Calendar se ha abierto. Revisa la fecha y pulsa «Guardar» allí para añadirlo.':'Tu navegador ha bloqueado la pestaña de Google Calendar. Permite las ventanas emergentes de esta web y vuelve a intentarlo.';
+    }catch(_){status.textContent='No se ha podido abrir Google Calendar. Inténtalo de nuevo.';}
   });
 })();

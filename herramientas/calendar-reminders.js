@@ -21,7 +21,7 @@
     const end=new Date(start.getTime()+30*60*1000);
     const description='Fecha de revisión orientativa; no es un plazo legal. Comprueba fuentes oficiales: '+base+task.href;
     const p=new URLSearchParams({action:'TEMPLATE',text:'Revisar: '+task.title,dates:stamp(start)+'/'+stamp(end),details:description});
-    window.open('https://calendar.google.com/calendar/render?'+p.toString(),'_blank','noopener,noreferrer');
+    return window.open('https://calendar.google.com/calendar/render?'+p.toString(),'_blank','noopener,noreferrer') !== null;
   }
   function button(task,date){
     const div=document.createElement('div');div.className='pb-reminder-actions';
@@ -31,5 +31,5 @@
     [g,ics].forEach(x=>{x.style.cssText='cursor:pointer;border:1px solid #cfd3ea;border-radius:11px;background:white;color:#4f56b8;padding:9px 12px;min-height:44px;font-weight:750';div.append(x)});
     return div;
   }
-  window.PBReminder={button,create};
+  window.PBReminder={button,create,google};
 })();

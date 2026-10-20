@@ -168,3 +168,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - `/checklist-imprimible/` tiene un contenedor exclusivo `#pb-print-sheet`. Con `@media print`, ocultar todo el resto de body (cabecera, navegación, botones, footer global, enlaces y contenido editorial).
 - Papel A4, únicamente título genérico, 8 trámites con casillas vacías y anotación orientativa: sin marca, URLs, enlaces ni contenido de la web en el documento.
 - Mantener la página web habitual accesible, pero `window.print()` imprime exclusivamente el contenedor; el navegador puede añadir cabeceras/pies automáticos si el usuario no los desactiva en ajustes de impresión.
+
+## Recordatorio de Mi panel: únicamente Google Calendar — 20/10/2026
+- En `/mi-panel/`, el botón «Abrir en Google Calendar» invoca `PBReminder.google` para preparar el evento del siguiente trámite pendiente; no descarga .ics ni usa Outlook/Apple en esta sección.
+- El enlace abre la plantilla oficial de Google Calendar; el usuario debe pulsar «Guardar» estando conectado a su cuenta. No afirmar que se ha guardado automáticamente; no solicitar acceso OAuth ni pedir correo.
+- Se mantiene intacta la utilidad compartida `PBReminder.create` para evitar romper herramientas ajenas al panel.
