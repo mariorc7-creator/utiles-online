@@ -69,22 +69,6 @@
     document.head.appendChild(valueV2);
   }
 
-  if (window.location.pathname === '/mi-panel/' || window.location.pathname === '/mi-panel') {
-    const panelValueV2 = document.createElement('script');
-    panelValueV2.src = '/mi-panel/value-v2.js?v=20261016-4';
-    panelValueV2.defer = true;
-    document.head.appendChild(panelValueV2);
-
-    const carpeta = document.createElement('script');
-    carpeta.src = '/mi-panel/carpeta-bebe.js?v=20261016-1';
-    carpeta.defer = true;
-    document.head.appendChild(carpeta);
-
-    const radar = document.createElement('script');
-    radar.src = '/mi-panel/radar-oportunidades.js?v=20261016-1';
-    radar.defer = true;
-    document.head.appendChild(radar);
-  }
 
   if (window.location.pathname === '/herramientas/buscador-ayudas/' || window.location.pathname === '/herramientas/buscador-ayudas') {
     const aidValueV2 = document.createElement('script');
