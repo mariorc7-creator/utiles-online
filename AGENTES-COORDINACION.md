@@ -142,3 +142,9 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Eliminar secuencias literales de escape (\\n) del HTML: nunca inyectar JS escaped text en HTML final.
 - Estrella de regalo compacta y fuera del espacio del H1; en pantallas <=1280px va en flujo para no cubrir titular.
 - Observatorio `/observatorio/` es una pieza central del área Ayudas; mantener CTA visible arriba de `/ayudas-nacimiento/`, enlazado desde home y footer bajo nombre completo «Observatorio de ayudas».
+
+## Preparativos, jerarquía comercial y checklist — 20/10/2026
+- Las cuatro compras grandes visibles al entrar son cochecito, silla de coche, cuna/minicuna y trona. Aclarar que trona suele comprarse más adelante; silla de coche es relevante si habrá transporte en automóvil.
+- Cuna doméstica tiene guía propia `/preparativos-bebe/elegir-cuna-bebe/`; no confundirla con cunas de viaje.
+- Checklist práctica de 16 elementos: `/preparativos-bebe/checklist-preparativos.js`, almacenamiento local únicamente. No recolectar datos de menores.
+- Mostrar tarjetas afiliadas Amazon directamente, pero con divulgación clara, `rel=sponsored nofollow`, sin prometer enlaces a productos concretos cuando llevan a búsqueda.
