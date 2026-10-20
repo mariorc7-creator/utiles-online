@@ -130,7 +130,7 @@
 
   function init(){
     styles();
-    const anchor=$('resultadoWrap')||document.querySelector('main'); if(!anchor||$('pb-review-v6'))return;
+    const anchor=$('nonMadrid')||$('resultadoWrap')||document.querySelector('main'); if(!anchor||$('pb-review-v6'))return;
     const sec=document.createElement('section');sec.id='pb-review-v6';sec.className='pb-review';sec.innerHTML=`<h2>3. Revisa tu PDF antes de presentarlo</h2><p class="pb-review-lead">Sube la Hoja Padronal que has rellenado y comprobaremos localmente algunos campos básicos. El archivo no se envía a nuestros servidores.</p><div class="pb-drop"><input id="pb-review-file" type="file" accept="application/pdf,.pdf"><div class="pb-review-actions"><button id="pb-review-run" class="pb-review-primary" type="button">Revisar PDF</button><button id="pb-review-clear" class="pb-review-secondary" type="button">Limpiar</button></div><div class="pb-privacy">🔒 La revisión se ejecuta en tu navegador.</div></div><div id="pb-review-results" class="pb-review-results"></div>`;
     anchor.insertAdjacentElement('afterend',sec);
     const file=$('pb-review-file'), run=$('pb-review-run'), clear=$('pb-review-clear'), out=$('pb-review-results');
