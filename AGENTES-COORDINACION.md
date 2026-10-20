@@ -148,3 +148,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Cuna doméstica tiene guía propia `/preparativos-bebe/elegir-cuna-bebe/`; no confundirla con cunas de viaje.
 - Checklist práctica de 16 elementos: `/preparativos-bebe/checklist-preparativos.js`, almacenamiento local únicamente. No recolectar datos de menores.
 - Mostrar tarjetas afiliadas Amazon directamente, pero con divulgación clara, `rel=sponsored nofollow`, sin prometer enlaces a productos concretos cuando llevan a búsqueda.
+
+## UX minimalista Preparativos (20/10/2026)
+- La primera pantalla debe priorizar cuatro decisiones: cochecito, silla de coche, cuna y trona, sin párrafos en cada tarjeta.
+- Mantener checklist de 16 ítems y los nueve enlaces afiliados; mostrar por defecto tres tarjetas Amazon, el resto bajo «Ver más», checklist plegada y progreso visible.
+- No eliminar herramientas útiles ni enlaces de afiliado al simplificar; usar revelación progresiva sin captación de datos.
