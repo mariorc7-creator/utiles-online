@@ -153,3 +153,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - La primera pantalla debe priorizar cuatro decisiones: cochecito, silla de coche, cuna y trona, sin párrafos en cada tarjeta.
 - Mantener checklist de 16 ítems y los nueve enlaces afiliados; mostrar por defecto tres tarjetas Amazon, el resto bajo «Ver más», checklist plegada y progreso visible.
 - No eliminar herramientas útiles ni enlaces de afiliado al simplificar; usar revelación progresiva sin captación de datos.
+
+## Inicio de estrategia web-primero, sin duplicados — 20/10/2026
+- Primera integración transversal: `pb-territory.js` sincroniza únicamente comunidad autónoma entre `/mi-panel/` y `/herramientas/buscador-ayudas/`, usando `papelesbebe_comunidad_v1` en localStorage.
+- No crear otro «Mi Bebé», calendario ni buscador; mejorar herramientas existentes. Nunca almacenar nombre/fecha de nacimiento al implementar este paso. La selección se puede cambiar o vaciar y no se envía por este componente a servidores.
+- Mantener formularios de familia y trabajo separados; solo reutilizar datos que realmente son compartidos.
