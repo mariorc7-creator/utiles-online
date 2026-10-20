@@ -1,25 +1,16 @@
 (() => {
   const path = window.location.pathname;
-  const eligible = path.startsWith('/herramientas/') || path === '/mi-panel/' || path.startsWith('/checklist/');
+  const eligible = path.startsWith('/herramientas/') || path.startsWith('/checklist/');
   if (!eligible) return;
 
   const CONTEXT_KEY = 'papelesbebe_shared_context_v1';
   const PROGRESS_KEY = 'papelesbebe_que_me_falta_v1';
 
   const configs = {
-    '/mi-panel/': {
-      title: 'Qué hacer ahora',
-      actions: [
-        ['Revisa tu primer bloque pendiente', '#panelTasks'],
-        ['Prepara la documentación del siguiente trámite', '/documentos-tramites-bebe/'],
-        ['Consulta oportunidades verificadas', '/observatorio/']
-      ],
-      ai: true
-    },
     '/herramientas/que-me-falta/': {
       title: 'Convierte la lista en acciones',
       actions: [
-        ['Empieza por el primer bloque pendiente', '#results'],
+        ['Mira qué trámite tienes pendiente y abre su guía', '#results'],
         ['Comprueba qué documentos preparar', '/documentos-tramites-bebe/'],
         ['Abre tu panel para seguir el progreso', '/mi-panel/']
       ],
