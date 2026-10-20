@@ -1,4 +1,12 @@
 (() => {
+  if (!window.__pbPanelBridgeScriptRequested) {
+    window.__pbPanelBridgeScriptRequested = true;
+    const bridge = document.createElement('script');
+    bridge.src = '/herramientas/panel-bridge.js?v=20261020-1';
+    bridge.defer = true;
+    document.head.appendChild(bridge);
+  }
+
   if (!window.__papelesBebeGlobalUiLoaded && !document.querySelector('script[src^="/global-ui.js"]')) {
     window.__papelesBebeGlobalUiLoaded = true;
     const ui = document.createElement('script');
