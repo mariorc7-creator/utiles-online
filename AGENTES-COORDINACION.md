@@ -163,3 +163,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - En `/mi-panel/`, botón «Ya lo he revisado» para el siguiente trámite existente (primero pendiente), persistido en `papelesbebe_que_me_falta_v1`. No crear otra base de datos o asistente.
 - El botón avanza al siguiente paso tras pulsación explícita; comprobar un trámite no implica resolución administrativa. Al terminar los siete, ocultar botón y recordatorio de pendiente.
 - Mantener sincronización del estado con los checkboxes, global-ui y panel de recordatorios. No inventar fechas límite legales.
+
+## Checklist PDF e impresión A4 — 20/10/2026
+- `/checklist-imprimible/` tiene un contenedor exclusivo `#pb-print-sheet`. Con `@media print`, ocultar todo el resto de body (cabecera, navegación, botones, footer global, enlaces y contenido editorial).
+- Papel A4, únicamente título genérico, 8 trámites con casillas vacías y anotación orientativa: sin marca, URLs, enlaces ni contenido de la web en el documento.
+- Mantener la página web habitual accesible, pero `window.print()` imprime exclusivamente el contenedor; el navegador puede añadir cabeceras/pies automáticos si el usuario no los desactiva en ajustes de impresión.
