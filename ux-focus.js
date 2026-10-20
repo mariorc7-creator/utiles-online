@@ -68,7 +68,7 @@
     const title = document.getElementById('home-necesidades-titulo');
     if (title) title.textContent = 'Elige cómo quieres empezar';
     if (cards.length >= 3) {
-      cards[0].href='/herramientas/que-me-falta/';
+      cards[0].href='/mi-panel/';
       cards[0].querySelector('span').textContent='🧭';
       cards[0].querySelector('strong').textContent='No sé por dónde empezar';
       cards[0].querySelector('small').textContent='Te decimos qué hacer ahora y qué puede esperar';
@@ -131,7 +131,7 @@
     if(oldCta) oldCta.textContent='Crear mi plan personalizado →';
     const box=document.createElement('section');
     box.className='pb-focus-box';
-    box.innerHTML='<span class="pb-kicker">QUÉ HACER AHORA</span><h2>No intentes resolver los 8 trámites a la vez</h2><p>Marca lo que ya tienes y te mostraremos una única siguiente acción. Si ya sabes qué necesitas, entra directamente en el preparador correspondiente.</p><div class="pb-focus-actions"><a href="/herramientas/que-me-falta/">Decirme qué hago ahora →</a><a class="secondary" href="/preparador-tarjeta-sanitaria/">Tarjeta sanitaria</a><a class="secondary" href="/pack-empadronamiento/">Empadronamiento</a></div>';
+    box.innerHTML='<span class="pb-kicker">QUÉ HACER AHORA</span><h2>No intentes resolver los 8 trámites a la vez</h2><p>Marca lo que ya tienes y te mostraremos una única siguiente acción. Si ya sabes qué necesitas, entra directamente en el preparador correspondiente.</p><div class="pb-focus-actions"><a href="/mi-panel/">Decirme qué hago ahora →</a><a class="secondary" href="/preparador-tarjeta-sanitaria/">Tarjeta sanitaria</a><a class="secondary" href="/pack-empadronamiento/">Empadronamiento</a></div>';
     firstContent.parentNode.insertBefore(box,firstContent);
 
     const articles=[...hero.querySelectorAll('article.seo-text-block')];
@@ -149,7 +149,7 @@
   }
 
   function addRouteContext(){
-    const excluded=['/','/mi-panel/','/herramientas/que-me-falta/'];
+    const excluded=['/','/mi-panel/'];
     let path=location.pathname;
     if(path.length>1&&!path.endsWith('/')) path+='/'
     if(excluded.includes(path) || document.getElementById('pb-route-context')) return;

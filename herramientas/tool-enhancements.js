@@ -7,15 +7,6 @@
   const PROGRESS_KEY = 'papelesbebe_que_me_falta_v1';
 
   const configs = {
-    '/herramientas/que-me-falta/': {
-      title: 'Convierte la lista en acciones',
-      actions: [
-        ['Mira qué trámite tienes pendiente y abre su guía', '#results'],
-        ['Comprueba qué documentos preparar', '/documentos-tramites-bebe/'],
-        ['Abre tu panel para seguir el progreso', '/mi-panel/']
-      ],
-      ai: true
-    },
     '/herramientas/buscador-ayudas/': {
       title: 'Después del resultado',
       actions: [
@@ -37,7 +28,7 @@
     '/herramientas/calendario-primeros-90-dias/': {
       title: 'Convierte el calendario en tareas',
       actions: [
-        ['Consulta qué te queda pendiente', '/herramientas/que-me-falta/'],
+        ['Consulta qué te queda pendiente', '/mi-panel/'],
         ['Prepara documentos por trámite', '/documentos-tramites-bebe/'],
         ['Sigue el avance desde tu panel', '/mi-panel/']
       ],
