@@ -55,6 +55,15 @@
 <p id="nextDescription">Comprueba la inscripción del nacimiento antes de continuar.</p>
 <a class="primary" id="nextAction" href="/registro-civil-bebe/">Ver cómo hacerlo →</a>
 </section>
+<details class="pb-remind" id="pbReminderChoice" style="margin:16px 0;border:1px solid #dfe4f0;border-radius:14px;background:#fff">
+<summary style="padding:14px 16px;font-size:.91rem;color:#4e58bd;font-weight:800;cursor:pointer">🔔 Recordarme revisar este trámite</summary>
+<div style="border-top:1px solid #ebedf4;padding:14px 16px">
+<p style="font-size:.88rem;line-height:1.55;color:#657086;margin:0 0 10px">Elige cuándo te gustaría revisarlo. Es un recordatorio personal, no un plazo legal. No pedimos tu email.</p>
+<label for="pbReminderDate" style="display:block;font-size:.85rem;font-weight:750;margin-bottom:6px">Fecha que prefieres</label>
+<input type="date" id="pbReminderDate" style="padding:10px;border-radius:9px;border:1px solid #cbd3e2;max-width:100%;font:inherit">
+<button type="button" id="pbReminderSave" style="display:inline-block;cursor:pointer;margin:10px 0;padding:12px 15px;border:0;border-radius:10px;background:#535bd6;color:#fff;font-weight:800;font:inherit">Guardar en mi calendario</button>
+<p id="pbReminderStatus" role="status" style="font-size:.82rem;color:#4c5972;margin:0"></p>
+</div></details>
 <div class="progress-line"><strong id="progressText">0 de 7 pasos revisados</strong><span id="remainingText">7 por revisar</span></div>
 <div class="track" role="progressbar" aria-label="Progreso de los trámites" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progressTrack"><span id="progressFill"></span></div>
 <section aria-labelledby="taskHeading"><h2 class="section-title" id="taskHeading">Tus próximos pasos</h2><p class="subtle" id="taskHint">Mostramos solo tres para que puedas avanzar sin agobios.</p>
@@ -114,4 +123,4 @@
   window.addEventListener('storage',e=>{if(e.key===KEY)render();});
   render();
 })();
-</script><script src="/analytics.js" defer></script></body></html>
+</script><script src="/herramientas/calendar-reminders.js?v=20261020-1" defer></script><script src="/mi-panel/reminder-panel.js?v=20261020-1" defer></script><script src="/analytics.js" defer></script></body></html>
