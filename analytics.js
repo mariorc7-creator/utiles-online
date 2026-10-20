@@ -2,7 +2,7 @@
   if (!window.__papelesBebeGlobalUiLoaded) {
     window.__papelesBebeGlobalUiLoaded = true;
     const ui = document.createElement('script');
-    ui.src = '/global-ui.js?v=20261019-10';
+    ui.src = '/global-ui.js?v=20261020-11';
     ui.defer = true;
     document.head.appendChild(ui);
   }
@@ -34,7 +34,7 @@
   if (!window.__papelesBebeUxFocusLoaded) {
     window.__papelesBebeUxFocusLoaded = true;
     const uxFocus = document.createElement('script');
-    uxFocus.src = '/ux-focus.js?v=20261016-1';
+    uxFocus.src = '/ux-focus.js?v=20261020-2';
     uxFocus.defer = true;
     document.head.appendChild(uxFocus);
   }

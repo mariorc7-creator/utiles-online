@@ -1,6 +1,6 @@
 # Papeles del Bebé — Coordinación común de agentes
 
-Última actualización: 15/10/2026
+Última actualización: 20/10/2026
 
 Este documento es de aplicación para todos los agentes que trabajen sobre Papeles del Bebé: SEO, GEO, Contenido, Mantenimiento, Competencia y cualquier agente auxiliar.
 
@@ -27,7 +27,7 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 
 ## UX global obligatoria
 - Todas las páginas públicas deben mostrar la misma cabecera global. No crear variantes locales de navegación por sección.
-- La navegación maestra es: `Mi panel`, `Herramientas`, `Guías`, `Ayudas`, `Trámites`, `Observatorio`, `🧸 Preparativos`.
+- La navegación maestra es: `Mis trámites`, `Ayudas`, `Herramientas`, `Guías`, `🧸 Preparativos`; el logo lleva a Inicio. Observatorio en recursos secundarios. En móvil inferior: Mis trámites, Ayudas, Herramientas, Preparativos.
 - No mostrar en la cabecera `Gestoría`, badges tipo `Guía independiente · España`, botones locales `← Inicio` ni menús históricos.
 - `global-ui.js` es la autoridad de navegación en cliente y debe cargarse mediante `analytics.js`; cualquier página nueva debe incluir `/analytics.js` salvo excepción técnica documentada.
 - Si una página existente usa markup de cabecera antiguo, no debe romper la experiencia: la capa global debe sustituirlo por la cabecera maestra.
@@ -101,3 +101,9 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Registrar línea base (consulta, URL, impresiones, clics, CTR y posición en 28 días), modificación e impacto posterior; no prometer resultados ni confundir oscilaciones de posición con mejora sostenida.
 - Si Search Console está temporalmente inaccesible, no inventar métricas ni hacer cambios masivos como sustituto: documentar el bloqueo y usar los últimos datos fechados claramente hasta recuperar acceso.
 - Evitar churn, cambios de fecha sin revisión real y creación de páginas nuevas cuando haya oportunidades verificadas más próximas al top 10.
+
+## Lenguaje simple y rutas (20/10/2026)
+- Una única ruta principal: Mis trámites (`/mi-panel/`), y dos rutas complementarias: Buscar ayudas y Herramientas.
+- Evitar en interfaz: 'bloques', 'oportunidades', 'preparadores inteligentes' y promesas de elegibilidad.
+- Mostrar requisitos excluyentes de ayudas en encabezados. Dar acceso antes del parto desde Inicio.
+- Recordatorios optativos descargables sin recogida de datos personales.

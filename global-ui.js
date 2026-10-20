@@ -1,16 +1,14 @@
 (() => {
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
-  const HEADER_VERSION = '20261019-10';
+  const HEADER_VERSION = '20261020-11';
   const FOOTER_VERSION = '20261015-1';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
-    ['/mi-panel/', 'Mi panel'],
+    ['/mi-panel/', 'Mis trámites'],
+    ['/ayudas-nacimiento/', 'Ayudas'],
     ['/herramientas/', 'Herramientas'],
     ['/guias-familias/', 'Guías'],
-    ['/ayudas-nacimiento/', 'Ayudas'],
-    ['/tramites-bebe/', 'Trámites'],
-    ['/observatorio/', 'Observatorio'],
     ['/preparativos-bebe/', '🧸 Preparativos']
   ];
 
@@ -144,7 +142,7 @@
     if (footer.dataset.pbFooterVersion === FOOTER_VERSION) return;
     footer.className = 'pb-global-footer';
     footer.dataset.pbFooterVersion = FOOTER_VERSION;
-    footer.innerHTML = `<div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mi panel</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/tramites-bebe/">Trámites</a><a href="/observatorio/">Observatorio</a><a href="/preparativos-bebe/">🧸 Preparativos</a><a href="/metodologia/">Metodología</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div>`;
+    footer.innerHTML = `<div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mis trámites</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/preparativos-bebe/">🧸 Preparativos</a><a href="/observatorio/">Datos y fuentes</a><a href="/metodologia/">Metodología</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div>`;
   }
 
   function renderMobileNav() {
@@ -152,7 +150,7 @@
     const nav = document.createElement('nav');
     nav.id = 'pb-mobile-nav';
     nav.setAttribute('aria-label','Navegación móvil');
-    const items = [['/mi-panel/','✓','Panel'],['/ayudas-nacimiento/','€','Ayudas'],['/tramites-bebe/','☑','Trámites'],['/herramientas/','◈','Herramientas']];
+    const items = [['/mi-panel/','✓','Mis trámites'],['/ayudas-nacimiento/','€','Ayudas'],['/herramientas/','◈','Herramientas'],['/preparativos-bebe/','🧸','Preparativos']];
     nav.innerHTML = items.map(([href,icon,label]) => `<a href="${href}"${activeSection(href) ? ' aria-current="page"' : ''}><span aria-hidden="true">${icon}</span>${label}</a>`).join('');
     document.body.appendChild(nav);
   }

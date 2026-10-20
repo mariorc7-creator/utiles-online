@@ -70,15 +70,15 @@
     if (cards.length >= 3) {
       cards[0].href='/mi-panel/';
       cards[0].querySelector('span').textContent='🧭';
-      cards[0].querySelector('strong').textContent='No sé por dónde empezar';
-      cards[0].querySelector('small').textContent='Te decimos qué hacer ahora y qué puede esperar';
+      cards[0].querySelector('strong').textContent='Mis trámites';
+      cards[0].querySelector('small').textContent='Tu siguiente paso, en un solo lugar';
       cards[1].href='/herramientas/';
       cards[1].querySelector('span').textContent='⚡';
-      cards[1].querySelector('strong').textContent='Quiero hacer un trámite';
-      cards[1].querySelector('small').textContent='Preparadores inteligentes y herramientas paso a paso';
+      cards[1].querySelector('strong').textContent='Ver otras herramientas';
+      cards[1].querySelector('small').textContent='Calculadoras, documentos y guías prácticas';
       cards[2].href='/ayudas-nacimiento/';
       cards[2].querySelector('span').textContent='💶';
-      cards[2].querySelector('strong').textContent='Busco ayudas o dinero';
+      cards[2].querySelector('strong').textContent='Buscar ayudas';
       cards[2].querySelector('small').textContent='Prestaciones, deducciones y ayudas de tu comunidad';
     }
 
