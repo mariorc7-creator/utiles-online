@@ -120,3 +120,9 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Política de cookies `/cookies/` enlazada, con consentimiento opcional, que debe auditarse periódicamente contra scripts externos reales.
 - Contacto `/contacto/` creado únicamente como página informativa, sin inventar dirección ni formulario operativo; pendiente de canal real.
 - PageSpeed móvil y WhatsApp deben validarse externamente; no declarar score ni vista previa real sin prueba.
+
+## Recordatorios por email — pendiente de infraestructura, 20/10/2026
+- No habilitar formularios públicos para recoger emails hasta disponer de remitente verificado, proveedor de envío, programación duradera, sistema de baja y consentimiento registrable.
+- `RESEND_API_KEY` y `PACK_EMAIL_FROM` no están configurados en Vercel producción (solo se han comprobado nombres de variables, sin divulgar valores).
+- No reutilizar `/api/lead`, pausado por la gestoria. Nunca presentar un `mailto` o un envío inmediato como recordatorio programado.
+- Alternativa ya operativa sin registro: recordatorios .ics en `/mi-panel/`. La suscripción por correo será completamente optativa y separada de ese flujo.

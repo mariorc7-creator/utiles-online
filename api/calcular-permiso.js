@@ -18,11 +18,12 @@ module.exports=function handler(req,res){
   var special={multiple:yes(q.multiple),discapacidad:yes(q.discapacidad),hospitalizacion:yes(q.hospitalizacion)};
   var error='';
   if(!fecha) error='Introduce una fecha válida.';
-  else {var hoy=new Date();hoy.setHours(23,59,59,999);if(fecha>hoy) error='La fecha no puede ser futura.';}
+  else {var hoy=new Date();hoy.setHours(23,59,59,999);var max=addYears(hoy,2);if(fecha>max) error='Elige una fecha prevista dentro de los próximos dos años.';}
 
   var body='';
   if(error){body='<div class="tool-result show tool-result-error"><strong>'+esc(error)+'</strong></div>';}
   else {
+    var provisional=fecha>new Date();
     var mono=tipo==='mono',total=mono?32:19,ob=6,h12=mono?22:11,h8=mono?4:2;
     var finInicial=addDays(fecha,42), limite12=addYears(fecha,1), limite8=addYears(fecha,8);
     var focus={
@@ -34,16 +35,17 @@ module.exports=function handler(req,res){
     if(special.multiple) alerts.push('Nacimiento múltiple');
     if(special.discapacidad) alerts.push('Discapacidad del menor');
     if(special.hospitalizacion) alerts.push('Hospitalización del recién nacido');
+    if(provisional) alerts.push('Nacimiento aún no ocurrido: fechas provisionales');
     var alertHtml=alerts.length?'<div class="perm-alert"><strong>⚠ Revisión prioritaria antes de cerrar fechas</strong><p>Has marcado: '+alerts.map(esc).join(', ')+'. Estas circunstancias pueden modificar la duración o la forma de disfrute. No hemos añadido semanas automáticamente: compruébalo en Seguridad Social antes de tomar este plan como definitivo.</p></div>':'';
     var share='Permiso por nacimiento: '+total+' semanas en el escenario general de esta herramienta. 6 semanas iniciales obligatorias hasta aprox. '+fmt(finInicial)+'. '+h12+' semanas distribuibles hasta '+fmt(limite12)+' y '+h8+' semanas hasta '+fmt(limite8)+'. Papeles del Bebé.';
-    body='<div class="perm-hero-result"><span>MAPA DE TU PERMISO</span><strong>'+total+' semanas</strong><p>'+esc(focus)+'</p></div>'+alertHtml+
+    body='<div class="perm-hero-result"><span>'+(provisional?'PREVISIÓN ANTES DEL PARTO':'MAPA DE TU PERMISO')+'</span><strong>'+total+' semanas</strong><p>'+esc(focus)+'</p></div>'+alertHtml+
     '<div class="perm-map">'+
-      '<div class="perm-stage now"><span>1 · AHORA</span><strong>'+ob+' semanas obligatorias</strong><p>Bloque inicial ininterrumpido desde el hecho causante.</p><b>Fin orientativo: '+fmt(finInicial)+'</b></div>'+
+      '<div class="perm-stage now"><span>1 · AL NACER</span><strong>'+ob+' semanas obligatorias</strong><p>Seis primeras semanas ininterrumpidas después del nacimiento, si se cumplen los requisitos de la prestación.</p><b>Fin orientativo: '+fmt(finInicial)+'</b></div>'+
       '<div class="perm-stage plan"><span>2 · PUEDES ORGANIZAR</span><strong>'+h12+' semanas</strong><p>Parte distribuible por semanas dentro del marco general aplicable.</p><b>Límite orientativo: '+fmt(limite12)+'</b></div>'+
       '<div class="perm-stage later"><span>3 · RESERVA A LARGO PLAZO</span><strong>'+h8+' semanas</strong><p>Parte adicional que puede disfrutarse por semanas más adelante.</p><b>Límite orientativo: '+fmt(limite8)+'</b></div>'+
     '</div>'+
     '<div class="perm-decisions"><h2>Tus 3 decisiones ahora</h2><ol><li><strong>Confirma tu duración definitiva</strong> si tienes alguna circunstancia especial.</li><li><strong>Decide qué semanas quieres concentrar</strong> durante el primer año y cuáles prefieres reservar.</li><li><strong>Coordínalo con empresa/Seguridad Social</strong> antes de convertir este mapa en un calendario cerrado.</li></ol></div>'+
-    '<div class="perm-actions"><a class="tool-cta" href="https://prestaciones.seg-social.es/servicio/prestacion-nacimiento-adopcion-cuidado-menor" target="_blank" rel="noopener noreferrer">Comprobar en Seguridad Social ↗</a><a class="tool-cta secondary" href="/permiso-nacimiento-cuidado-menor-2026/">Ver guía completa</a><button type="button" id="sharePermiso" data-share="'+esc(share)+'">Compartir mi mapa</button></div>';
+    '<div class="perm-actions"><a class="tool-cta" href="https://prestaciones.seg-social.es/servicio/prestacion-nacimiento-adopcion-cuidado-menor" target="_blank" rel="noopener noreferrer">Comprobar en Seguridad Social ↗</a><a class="tool-cta secondary" href="/permiso-nacimiento-cuidado-menor/">Ver guía completa</a><button type="button" id="sharePermiso" data-share="'+esc(share)+'">Compartir mi mapa</button></div>';
   }
   res.setHeader('Content-Type','text/html; charset=utf-8');
   res.setHeader('Cache-Control','no-store');
