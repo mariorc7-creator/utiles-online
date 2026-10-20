@@ -107,3 +107,10 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Evitar en interfaz: 'bloques', 'oportunidades', 'preparadores inteligentes' y promesas de elegibilidad.
 - Mostrar requisitos excluyentes de ayudas en encabezados. Dar acceso antes del parto desde Inicio.
 - Recordatorios optativos descargables sin recogida de datos personales.
+
+## Política editorial SEO 20/10/2026
+- No utilizar fechas globales como prueba de revisión documental individual. Mantener registro `/cambios/` con cambios reales y fuentes.
+- No publicar autorías, credenciales, domicilio, NIF ni correos inventados. Aviso legal pendiente de completar por datos reales del titular, cuando autorice su publicación.
+- `/mi-plan/` y `/herramientas/que-me-falta/` son rutas antiguas, con redirección HTTP hacia `/mi-panel/`; no crear nuevos contenidos indexables en ellas.
+- Preferir URLs estables en futuras guías, sin crear versiones anuales duplicadas. Las antiguas requieren mapeo, 301 y análisis Search Console antes de moverlas.
+- Auditar fichas por su aporte único, fuentes, requisitos excluyentes y casos reales; no producir fichas masivas cambiando nombres de comunidades.

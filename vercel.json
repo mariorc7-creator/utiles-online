@@ -4,6 +4,26 @@
   "outputDirectory": "dist",
   "redirects": [
     {
+      "source": "/mi-plan",
+      "destination": "/mi-panel/",
+      "permanent": true
+    },
+    {
+      "source": "/mi-plan/",
+      "destination": "/mi-panel/",
+      "permanent": true
+    },
+    {
+      "source": "/herramientas/que-me-falta",
+      "destination": "/mi-panel/",
+      "permanent": true
+    },
+    {
+      "source": "/herramientas/que-me-falta/",
+      "destination": "/mi-panel/",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         {
@@ -19,13 +39,19 @@
     {
       "source": "/analytics.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/global-ui.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     }
   ]
