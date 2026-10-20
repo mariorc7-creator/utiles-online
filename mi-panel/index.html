@@ -1,108 +1,117 @@
 <!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Mi panel de trámites y ayudas | Papeles del Bebé</title>
-  <meta name="description" content="Consulta tu progreso de trámites y ayudas del bebé en un panel privado, gratuito y sin registro. Todo se guarda en tu navegador.">
-  <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://www.papelesdelbebe.es/mi-panel/">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/style.css">
-  <link rel="stylesheet" href="/herramientas/tools.css">
-  <style>
-    .panel-shell{max-width:1080px;margin:0 auto;padding:34px 20px 64px}.panel-hero{padding:24px 0 16px}.panel-hero h1{font-size:clamp(2rem,5vw,3.3rem);margin:10px 0 12px}.panel-hero p{max-width:760px;color:#5f6274;font-size:1.05rem}.panel-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0}.panel-stat{background:#fff;border:1px solid #e3e5f3;border-radius:20px;padding:18px;box-shadow:0 8px 28px rgba(48,52,100,.05)}.panel-stat strong{display:block;font-size:1.8rem;color:#4d52c8}.panel-stat span{color:#666b7b}.panel-progress{height:11px;background:#eceefa;border-radius:999px;overflow:hidden;margin-top:10px}.panel-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#6d73f6,#9a67ea);transition:width .25s}.panel-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:18px;align-items:start}.panel-card{background:#fff;border:1px solid #e3e5f3;border-radius:22px;padding:20px;box-shadow:0 8px 28px rgba(48,52,100,.05)}.panel-card h2{margin:0 0 12px}.panel-tasks{display:grid;gap:10px}.panel-task{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:14px;border:1px solid #e5e7ef;border-radius:15px}.panel-task input{width:20px;height:20px;margin-top:3px}.panel-task h3{margin:0 0 4px;font-size:1rem}.panel-task p{margin:0;color:#6c7080;font-size:.92rem}.panel-task a{font-weight:800;white-space:nowrap}.panel-next{background:#f6f6ff;border:1px solid #dedfff;border-radius:16px;padding:15px;margin-bottom:14px}.panel-profile{display:grid;gap:10px}.panel-profile div{padding:11px 12px;border-radius:13px;background:#fafaff;border:1px solid #ececff}.panel-profile span{display:block;color:#737789;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;font-weight:800}.panel-profile strong{display:block;margin-top:3px}.panel-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.panel-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border-radius:12px;border:0;background:#6d73f6;color:#fff;text-decoration:none;font-weight:800;cursor:pointer}.panel-btn.secondary{background:#fff;color:#4e54c8;border:1px solid #cfd2f6}.panel-note{font-size:.87rem;color:#6c7080;margin-top:14px}.panel-empty{color:#686d7b}.panel-reco{display:grid;gap:10px;margin-top:12px}.panel-reco a{display:block;padding:13px;border:1px solid #e7e8f0;border-radius:14px;text-decoration:none;color:inherit}.panel-reco strong{display:block;margin-bottom:3px}.panel-reco span{color:#6b6f7d;font-size:.9rem}@media(max-width:820px){.panel-grid,.panel-summary{grid-template-columns:1fr}.panel-task{grid-template-columns:auto 1fr}.panel-task a{grid-column:2}.panel-shell{padding:22px 16px 48px}}
-  </style>
-  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Mi panel de trámites y ayudas","url":"https://www.papelesdelbebe.es/mi-panel/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"inLanguage":"es","description":"Panel privado sin registro para seguir el progreso de trámites y ayudas tras el nacimiento."},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://www.papelesdelbebe.es/"},{"@type":"ListItem","position":2,"name":"Mi panel","item":"https://www.papelesdelbebe.es/mi-panel/"}]}]}</script>
-</head>
-<body class="tools-page">
-<header><div class="header-contenido"><a href="/" class="logo logo-enlace" aria-label="Ir al inicio">Papeles del <span>Bebé</span></a><nav class="nav-principal" aria-label="Navegación principal"><a href="/mi-panel/" aria-current="page">Mi panel</a><a href="/herramientas/">Herramientas</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/tramites-bebe/">Trámites</a></nav></div></header>
-<main class="panel-shell">
-  <nav class="tool-breadcrumb" aria-label="Migas de pan"><a href="/">Inicio</a> › Mi panel</nav>
-  <section class="panel-hero">
-    <span class="tool-kicker">PRIVADO · SIN REGISTRO</span>
-    <h1>Mi panel de trámites y ayudas</h1>
-    <p>Un único lugar para ver qué has revisado, qué te queda y cuál es el siguiente paso recomendado. El progreso se guarda solo en este navegador.</p>
-  </section>
-
-  <section class="panel-summary" aria-label="Resumen de progreso">
-    <div class="panel-stat"><strong id="doneCount">0</strong><span>bloques revisados</span></div>
-    <div class="panel-stat"><strong id="pendingCount">7</strong><span>pendientes</span></div>
-    <div class="panel-stat"><strong id="percentCount">0%</strong><span>progreso total</span><div class="panel-progress"><span id="progressBar"></span></div></div>
-  </section>
-
-  <div class="panel-grid">
-    <section class="panel-card">
-      <h2>Mis trámites y ayudas</h2>
-      <p style="margin:0 0 14px"><a class="panel-btn" href="/mi-plan/">✨ Dime qué hago ahora →</a></p><div id="nextStep" class="panel-next">Marca lo que ya has revisado para ver tu siguiente paso.</div>
-      <div class="panel-tasks" id="panelTasks">
-        <label class="panel-task"><input type="checkbox" data-key="registro"><div><h3>Registro Civil</h3><p>Inscripción del nacimiento y documentación.</p></div><a href="/registro-civil-bebe/">Ver guía</a></label>
-        <label class="panel-task"><input type="checkbox" data-key="seguridad-social"><div><h3>Seguridad Social</h3><p>Alta del bebé como beneficiario.</p></div><a href="/alta-bebe-seguridad-social/">Ver guía</a></label>
-        <label class="panel-task"><input type="checkbox" data-key="tarjeta-sanitaria"><div><h3>Tarjeta sanitaria</h3><p>Tarjeta, centro de salud y pediatría.</p></div><a href="/tarjeta-sanitaria-bebe/">Ver guía</a></label>
-        <label class="panel-task"><input type="checkbox" data-key="padron"><div><h3>Empadronamiento</h3><p>Revisar alta en el padrón municipal.</p></div><a href="/empadronar-bebe/">Ver guía</a></label>
-        <label class="panel-task"><input type="checkbox" data-key="prestacion"><div><h3>Prestación y permiso</h3><p>Solicitud y situación del permiso por nacimiento.</p></div><a href="/permiso-nacimiento-cuidado-menor-2026/">Ver guía</a></label>
-        <label class="panel-task"><input type="checkbox" data-key="deduccion"><div><h3>Deducciones</h3><p>Deducción por maternidad y fiscalidad familiar.</p></div><a href="/deduccion-maternidad/">Ver guía</a></label>
-        <label class="panel-task"><input type="checkbox" data-key="ayudas"><div><h3>Ayudas</h3><p>Ayudas estatales, autonómicas y familiares.</p></div><a href="/herramientas/buscador-ayudas/">Simular</a></label>
-      </div>
-      <div class="panel-actions"><a class="panel-btn" href="/herramientas/que-me-falta/">Ver pasos pendientes</a><button class="panel-btn secondary" id="resetProgress" type="button">Reiniciar progreso</button></div>
-      <p class="panel-note">Las casillas se guardan en <strong>localStorage</strong> de este navegador. No necesitas cuenta y el estado no se envía al servidor.</p>
-    </section>
-
-    <aside class="panel-card">
-      <h2>Tu contexto</h2>
-      <div id="profile" class="panel-profile"><p class="panel-empty">Usa alguna herramienta y aquí reutilizaremos los datos de esta sesión.</p></div>
-      <div class="panel-actions"><a class="panel-btn secondary" href="/herramientas/buscador-ayudas/">Completar contexto</a></div>
-      <h2 style="margin-top:24px">Siguiente herramienta útil</h2>
-      <div class="panel-reco" id="recommendations"></div>
-      <p class="panel-note">El contexto temporal se guarda solo durante la sesión y se elimina al cerrarla. No mostramos ni compartimos datos sensibles.</p>
-    </aside>
-  </div>
-<p class="revision revision-sitio" style="font-size:.88rem;color:#657184;margin:24px 0 12px">Última revisión: <time datetime="2026-10-19">19 de octubre de 2026</time></p></main>
-<footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p><p class="footer-aviso">Información orientativa. Verifica siempre requisitos, plazos y resoluciones en el organismo oficial correspondiente.</p></div></footer>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi panel: qué hacer ahora | Papeles del Bebé</title>
+<meta name="description" content="Un panel sencillo para saber qué trámite del bebé revisar ahora, marcarlo como completado y encontrar tus ayudas. Gratis y sin registro.">
+<meta name="robots" content="index,follow"><link rel="canonical" href="https://www.papelesdelbebe.es/mi-panel/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css">
+<style>
+.pb-simple{max-width:760px;margin:0 auto;padding:30px 20px 72px;color:#263249;font-family:inherit}
+.pb-simple *{box-sizing:border-box}.pb-simple a{color:#4a51b7}.pb-simple .crumb{font-size:.84rem;color:#777f91;margin-bottom:24px}
+.pb-simple .intro-label{display:block;font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:#5c61ba;font-weight:800}
+.pb-simple h1{font-size:clamp(2rem,5vw,3rem);line-height:1.12;letter-spacing:-.04em;margin:10px 0}
+.pb-simple .intro{color:#647086;line-height:1.65;margin:0 0 26px}
+.pb-simple .main-action{background:#f7f8ff;border:1px solid #dfe3fa;border-radius:22px;padding:clamp(20px,5vw,34px)}
+.pb-simple .main-action .overline{display:inline-flex;font-weight:800;font-size:.75rem;letter-spacing:.07em;color:#525bc8;text-transform:uppercase}
+.pb-simple .main-action h2{font-size:clamp(1.35rem,3.5vw,1.85rem);line-height:1.2;margin:10px 0;letter-spacing:-.025em}
+.pb-simple .main-action p{color:#5d697e;line-height:1.6;margin:0 0 18px}
+.pb-simple .primary{background:#535bd6;color:#fff!important;padding:13px 21px;border-radius:12px;text-decoration:none;font-weight:800;display:inline-flex;align-items:center;justify-content:center;min-height:48px}
+.pb-simple .primary:hover{background:#4149bd}.pb-simple .primary:focus-visible,.pb-simple button:focus-visible,.pb-simple summary:focus-visible,.pb-simple a:focus-visible{outline:3px solid #9198ff;outline-offset:3px}
+.pb-simple .progress-line{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 0 10px;color:#56637c;font-size:.92rem}
+.pb-simple .track{width:100%;height:8px;background:#edf0f7;border-radius:30px;overflow:hidden}
+.pb-simple .track span{display:block;height:100%;background:#6269e8;width:0%;transition:width .2s}
+.pb-simple .section-title{font-size:1.27rem;margin:32px 0 8px;line-height:1.3}
+.pb-simple .subtle{color:#6b7588;font-size:.91rem;line-height:1.6;margin:0 0 14px}
+.pb-simple .tasks{display:grid;gap:10px}.pb-simple .task{display:flex;gap:13px;align-items:center;padding:14px 16px;background:#fff;border:1px solid #e2e6ef;border-radius:14px}
+.pb-simple .task input{flex:0 0 22px;width:22px;height:22px;accent-color:#5861da;cursor:pointer}
+.pb-simple .task label{font-weight:750;line-height:1.4;flex:1;cursor:pointer}
+.pb-simple .task a{font-size:.88rem;font-weight:750;white-space:nowrap;text-decoration:none}
+.pb-simple .task.is-done{background:#f6faf8;border-color:#d7eadd}.pb-simple .task.is-done label{color:#6b7780;text-decoration:line-through}
+.pb-simple .simple-link{display:inline-flex;padding:10px 0;font-weight:780;text-decoration:none}
+.pb-simple .aid{margin-top:26px;padding:19px 21px;border:1px solid #e2e6ef;border-radius:17px;background:#fff;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.pb-simple .aid strong{font-size:1.12rem}.pb-simple .aid p{font-size:.9rem;color:#647087;line-height:1.55;margin:5px 0 0}
+.pb-simple .aid a{white-space:nowrap;text-decoration:none;font-size:.88rem;font-weight:800}
+.pb-simple details{margin-top:23px;border:1px solid #e2e6ef;border-radius:16px;background:#fff;overflow:hidden}
+.pb-simple summary{padding:18px 20px;list-style:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:800}
+.pb-simple summary::-webkit-details-marker{display:none}.pb-simple summary::after{content:"+";font-size:1.35rem;color:#5660cb}
+.pb-simple details[open] summary::after{content:"−"}.pb-simple .detail-inner{border-top:1px solid #edf0f5;padding:6px 18px 19px}
+.pb-simple .detail-inner h3{font-size:1rem;margin:18px 0 8px}.pb-simple .detail-inner p{font-size:.9rem;color:#677287;line-height:1.6}
+.pb-simple .resources{display:flex;flex-direction:column;gap:8px}.pb-simple .resources a{padding:8px 0;text-decoration:none;font-weight:700}
+.pb-simple .reset{border:0;background:transparent;padding:10px 0;font:inherit;color:#68738c;text-decoration:underline;cursor:pointer}
+.pb-simple .footnote{margin-top:24px;font-size:.83rem;color:#798295;line-height:1.55}
+@media(max-width:550px){.pb-simple{padding:20px 15px 70px}.pb-simple .aid{align-items:flex-start;flex-direction:column;gap:9px}.pb-simple .task{padding:13px 12px}.pb-simple .task a{font-size:.8rem}.pb-simple .primary{width:100%}}
+@media(prefers-reduced-motion:reduce){.pb-simple .track span{transition:none}}
+</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mi panel de trámites y ayudas","url":"https://www.papelesdelbebe.es/mi-panel/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"inLanguage":"es"}</script>
+</head><body>
+<header><div class="header-contenido"><a class="logo logo-enlace" href="/">Papeles del <span>Bebé</span></a><nav class="nav-principal" aria-label="Navegación principal"><a href="/mi-panel/" aria-current="page">Mi panel</a><a href="/herramientas/">Herramientas</a><a href="/ayudas-nacimiento/">Ayudas</a></nav></div></header>
+<main class="pb-simple"><nav class="crumb" aria-label="Migas de pan"><a href="/">Inicio</a> › Mi panel</nav>
+<span class="intro-label">TU ESPACIO PERSONAL · GRATIS</span>
+<h1>Vamos paso a paso</h1>
+<p class="intro">Aquí solo verás lo importante. Marca lo que ya tengas hecho y te ayudaremos con lo siguiente.</p>
+<section class="main-action" aria-labelledby="nextTitle" aria-live="polite">
+<span class="overline" id="nextLabel">TU SIGUIENTE PASO</span>
+<h2 id="nextTitle">Revisar el Registro Civil</h2>
+<p id="nextDescription">Comprueba la inscripción del nacimiento antes de continuar.</p>
+<a class="primary" id="nextAction" href="/registro-civil-bebe/">Ver cómo hacerlo →</a>
+</section>
+<div class="progress-line"><strong id="progressText">0 de 7 pasos revisados</strong><span id="remainingText">7 por revisar</span></div>
+<div class="track" role="progressbar" aria-label="Progreso de los trámites" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progressTrack"><span id="progressFill"></span></div>
+<section aria-labelledby="taskHeading"><h2 class="section-title" id="taskHeading">Tus próximos pasos</h2><p class="subtle" id="taskHint">Mostramos solo tres para que puedas avanzar sin agobios.</p>
+<div id="quickTasks" class="tasks"></div></section>
+<section class="aid" aria-labelledby="aidHeading"><div><strong id="aidHeading">💶 ¿Hay ayudas para tu familia?</strong><p>Descubre qué prestaciones conviene comprobar según tu situación.</p></div><a href="/herramientas/buscador-ayudas/">Consultar ayudas →</a></section>
+<details id="moreSteps"><summary>Ver todos mis pasos y recursos</summary><div class="detail-inner">
+<h3>Los 7 pasos de tu lista</h3><div id="allTasks" class="tasks"></div>
+<h3>Documentos y otras herramientas</h3><div class="resources"><a href="/documentos-tramites-bebe/">📄 Qué documentos necesito →</a><a href="/herramientas/calendario-primeros-90-dias/">🗓️ Calendario de los primeros 90 días →</a><a href="/preparador-tarjeta-sanitaria/">🏥 Preparar la tarjeta sanitaria →</a><a href="/pack-empadronamiento/">🏠 Preparar el empadronamiento →</a><a href="/checklist-imprimible/">🖨️ Imprimir mi checklist →</a></div>
+<button class="reset" id="resetProgress" type="button">Reiniciar mis pasos</button></div></details>
+<p class="footnote">Tus marcas se guardan únicamente en este navegador, sin registro. «Revisado» significa que has comprobado ese trámite: no certifica su resolución administrativa. Comprueba siempre los requisitos y plazos oficiales.</p>
+</main><footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p></div></footer>
 <script>
-(function(){
-  var PROGRESS_KEY='papelesbebe_que_me_falta_v1';
-  var CONTEXT_KEY='papelesbebe_shared_context_v1';
-  var boxes=[].slice.call(document.querySelectorAll('#panelTasks input[type="checkbox"]'));
-  var labels={registro:'Registro Civil', 'seguridad-social':'Seguridad Social', 'tarjeta-sanitaria':'Tarjeta sanitaria', padron:'Empadronamiento', prestacion:'Prestación y permiso', deduccion:'Deducciones', ayudas:'Ayudas'};
-  function read(storage,key){try{return JSON.parse(storage.getItem(key)||'{}')||{};}catch(e){return {};}}
-  function write(storage,key,value){try{storage.setItem(key,JSON.stringify(value));}catch(e){}}
-  function renderProgress(){
-    var state={}; var done=0; var pending=[];
-    boxes.forEach(function(box){state[box.dataset.key]=box.checked;if(box.checked)done++;else pending.push(box.dataset.key);});
-    write(localStorage,PROGRESS_KEY,state);
-    var total=boxes.length, pct=Math.round(done/total*100);
-    document.getElementById('doneCount').textContent=done;
-    document.getElementById('pendingCount').textContent=total-done;
-    document.getElementById('percentCount').textContent=pct+'%';
-    document.getElementById('progressBar').style.width=pct+'%';
-    var next=document.getElementById('nextStep');
-    if(!pending.length) next.innerHTML='<strong>Has revisado los 7 bloques principales.</strong> Comprueba ahora que cada organismo ha resuelto correctamente tu caso y revisa posibles ayudas locales.';
-    else next.innerHTML='Siguiente paso recomendado: <strong>'+labels[pending[0]]+'</strong>.';
-    renderRecommendations(pending);
+(() => {
+  const KEY = 'papelesbebe_que_me_falta_v1';
+  const steps = [
+    {key:'registro',name:'Inscripción del nacimiento',desc:'Comprueba que el nacimiento está inscrito en el Registro Civil.',href:'/registro-civil-bebe/'},
+    {key:'seguridad-social',name:'Alta del bebé en Seguridad Social',desc:'Revisa el reconocimiento de asistencia sanitaria del bebé.',href:'/incluir-bebe-beneficiario-seguridad-social/'},
+    {key:'tarjeta-sanitaria',name:'Tarjeta sanitaria y pediatra',desc:'Solicita la tarjeta y comprueba la asignación del centro de salud.',href:'/preparador-tarjeta-sanitaria/'},
+    {key:'padron',name:'Empadronamiento',desc:'Comprueba si el padrón se ha gestionado o requiere solicitud.',href:'/pack-empadronamiento/'},
+    {key:'prestacion',name:'Permiso y prestación por nacimiento',desc:'Consulta el permiso y la solicitud de prestación cuando corresponda.',href:'/permiso-nacimiento-cuidado-menor-2026/'},
+    {key:'deduccion',name:'Deducciones familiares',desc:'Comprueba si puedes acceder a la deducción por maternidad.',href:'/deduccion-maternidad/'},
+    {key:'ayudas',name:'Ayudas por nacimiento',desc:'Revisa las ayudas y prestaciones que podrían encajar.',href:'/herramientas/buscador-ayudas/'}
+  ];
+  function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(_){return {};}}
+  function write(v){try{localStorage.setItem(KEY,JSON.stringify(v));}catch(_){}window.dispatchEvent(new CustomEvent('papelesbebe:progress',{detail:v}));}
+  let state=read();
+  const quick=document.getElementById('quickTasks'), all=document.getElementById('allTasks');
+  let serial=0;
+  function taskRow(step){
+    const row=document.createElement('div');row.className='task'+(state[step.key]?' is-done':'');
+    const box=document.createElement('input');box.type='checkbox';box.checked=!!state[step.key];box.dataset.key=step.key;box.id='panel-step-'+(++serial);
+    const label=document.createElement('label');label.htmlFor=box.id;label.textContent=step.name;
+    const link=document.createElement('a');link.href=step.href;link.textContent='Ver guía →';
+    box.addEventListener('change',()=>{state={...read(),[step.key]:box.checked};write(state);render();});
+    row.append(box,label,link);return row;
   }
-  function renderRecommendations(pending){
-    var el=document.getElementById('recommendations'); var html='';
-    if(pending.indexOf('ayudas')>=0) html+='<a href="/herramientas/buscador-ayudas/"><strong>💶 Simulador de ayudas</strong><span>Filtra por comunidad y situación familiar.</span></a>';
-    if(pending.indexOf('prestacion')>=0) html+='<a href="/herramientas/calculadora-permiso-nacimiento/"><strong>🗓️ Calculadora de permiso</strong><span>Orienta la distribución del permiso.</span></a>';
-    html+='<a href="/herramientas/calendario-primeros-90-dias/"><strong>⏱️ Calendario 90 días</strong><span>Ordena las próximas revisiones.</span></a>';
-    el.innerHTML=html;
+  function render(){
+    state=read();const pending=steps.filter(s=>!state[s.key]);const done=steps.length-pending.length;
+    document.getElementById('progressText').textContent=done+' de 7 pasos revisados';
+    document.getElementById('remainingText').textContent=pending.length?pending.length+' por revisar':'Todo revisado';
+    document.getElementById('progressTrack').setAttribute('aria-valuenow',String(done));
+    document.getElementById('progressFill').style.width=(done/steps.length*100)+'%';
+    const next=pending[0];
+    document.getElementById('nextLabel').textContent=next?'TU SIGUIENTE PASO':'¡BIEN HECHO!';
+    document.getElementById('nextTitle').textContent=next?next.name:'Has revisado los pasos principales';
+    document.getElementById('nextDescription').textContent=next?next.desc:'Comprueba ahora que tus solicitudes se han resuelto y revisa si hay ayudas locales pendientes.';
+    const action=document.getElementById('nextAction');action.href=next?next.href:'/herramientas/buscador-ayudas/';action.textContent=next?'Ver cómo hacerlo →':'Consultar ayudas →';
+    const toShow=pending.length?pending.slice(0,3):steps.slice(-3);
+    document.getElementById('taskHint').textContent=pending.length?'Mostramos solo tres para que puedas avanzar sin agobios.':'Puedes volver a consultar o desmarcar cualquier paso.';
+    quick.replaceChildren(...toShow.map(taskRow));
+    all.replaceChildren(...steps.map(taskRow));
   }
-  function renderProfile(){
-    var c=read(sessionStorage,CONTEXT_KEY); var items=[];
-    if(c.territory) items.push(['Comunidad',c.territory]);
-    if(c.employment){var e={asalariado:'Cuenta ajena',autonomo:'Autónomo/a',desempleado:'Desempleado/a',no_trabajo:'Actualmente no trabaja'};items.push(['Situación laboral',e[c.employment]||c.employment]);}
-    if(c.family){var f={general:'General',monoparental:'Monoparental',numerosa:'Familia numerosa'};items.push(['Familia',f[c.family]||c.family]);}
-    if(c.birthDate) items.push(['Fecha usada',c.birthDate]);
-    var el=document.getElementById('profile');
-    if(!items.length){el.innerHTML='<p class="panel-empty">Usa alguna herramienta y aquí reutilizaremos los datos de esta sesión.</p>';return;}
-    el.innerHTML=items.map(function(x){return '<div><span>'+x[0]+'</span><strong>'+x[1]+'</strong></div>';}).join('');
-  }
-  var saved=read(localStorage,PROGRESS_KEY); boxes.forEach(function(box){box.checked=!!saved[box.dataset.key];box.addEventListener('change',renderProgress);});
-  document.getElementById('resetProgress').addEventListener('click',function(){boxes.forEach(function(box){box.checked=false;});try{localStorage.removeItem(PROGRESS_KEY);}catch(e){}renderProgress();});
-  renderProgress(); renderProfile();
+  document.getElementById('resetProgress').addEventListener('click',()=>{
+    if(!window.confirm('¿Quieres desmarcar los siete pasos? No se borrarán tus documentos ni otros datos guardados.'))return;
+    state={...read()};steps.forEach(s=>{state[s.key]=false;});write(state);render();
+  });
+  window.addEventListener('storage',e=>{if(e.key===KEY)render();});
+  render();
 })();
-</script>
-<script src="/analytics.js" defer></script>
-</body>
-</html>
+</script><script src="/analytics.js" defer></script></body></html>
