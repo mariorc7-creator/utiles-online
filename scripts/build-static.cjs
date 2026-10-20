@@ -3,7 +3,7 @@ const path = require('path');
 
 const ROOT = process.cwd();
 const OUT = path.join(ROOT, 'dist');
-const GLOBAL_UI = '<script src="/global-ui.js?v=20261015-1" defer></script>';
+const GLOBAL_UI = '<script src="/global-ui.js?v=20261020-13" defer></script>';
 const FOOTER = `<footer class="pb-global-footer" data-pb-global-footer="1"><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p><p class="metodologia-footer"><a href="/metodologia/">Metodología</a> · <a href="/privacidad/">Privacidad</a></p><p class="footer-copy">© 2026 Papeles del Bebé</p></div></footer>`;
 
 function applyPageFixes(html, relPath) {
