@@ -47,6 +47,15 @@
     const tools=document.createElement('section');tools.className='ts-ux-tools';tools.id='ts-ux-actions';tools.setAttribute('aria-label','Guardar e imprimir preparación');
     tools.innerHTML='<p><strong>Sin estrés:</strong> marca los documentos que ya tienes, imprime una hoja rápida o elige un recordatorio personal. No nos envías datos.</p><div class="ts-actions"><button type="button" id="ts-print">Imprimir / Guardar PDF</button><button type="button" id="ts-reset-docs">Desmarcar documentos</button></div><p class="ts-ux-status" id="ts-doc-progress" aria-live="polite"></p><details><summary style="cursor:pointer;font-weight:800">📅 Recordarme comprobar la solicitud</summary><label for="ts-remind-date">Elige el día que prefieras (no es un plazo legal)</label><input id="ts-remind-date" type="date"><div style="margin-top:9px"><button type="button" id="ts-remind-calendar">Abrir en Google Calendar ↗</button></div><p style="font-size:.83rem;color:#66718a">Se abrirá un evento sin datos del bebé. Tendrás que pulsar «Guardar» en Google Calendar. No enviamos SMS ni correos.</p></details>';
     docs.insertAdjacentElement('beforebegin',tools);
+    const share=document.createElement('button');share.type='button';share.id='ts-share-result';share.textContent='Compartir guía por WhatsApp ↗';tools.querySelector('.ts-actions')?.appendChild(share);
+    const copy=document.createElement('button');copy.type='button';copy.id='ts-copy-result';copy.textContent='Copiar resumen';tools.querySelector('.ts-actions')?.appendChild(copy);
+    const label=main.querySelector('.ts-kicker')?.textContent.trim()||'Mi tarjeta sanitaria';
+    const title=main.querySelector('.ts-hero h1')?.textContent.trim()||'Preparación de tarjeta sanitaria';
+    const next=what.querySelector('.ts-step strong')?.textContent.trim()||'Consultar los requisitos oficiales';
+    // No incluimos respuestas ni parámetros GET: los enlaces a respuestas pueden contener datos familiares.
+    const shareText='Papeles del Bebé · '+label+'\\n'+title+'\\nSiguiente paso orientativo: '+next+'\\nComprueba la información en la web oficial.\\nhttps://www.papelesdelbebe.es/preparador-tarjeta-sanitaria/';
+    share.addEventListener('click',()=>{window.open('https://wa.me/?text='+encodeURIComponent(shareText),'_blank','noopener,noreferrer');});
+    copy.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(shareText);copy.textContent='Resumen copiado ✓';}catch(_){copy.textContent='No se pudo copiar';}});
     const docCards=[...docs.querySelectorAll('.ts-doc')];
     const key='papelesbebe_tsi_docs_v2_'+(new URLSearchParams(location.search).get('comunidad')||'general');
     let saved={};try{saved=JSON.parse(sessionStorage.getItem(key)||'{}')||{}}catch(_){}
