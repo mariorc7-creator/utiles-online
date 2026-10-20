@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Simulador de ayudas por nacimiento | Papeles del Bebé</title>
+  <title>Buscar ayudas por embarazo y nacimiento | Papeles del Bebé</title>
   <meta name="description" content="Simula gratis qué ayudas, prestaciones y deducciones conviene revisar tras el nacimiento según tu comunidad, situación familiar y laboral.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.papelesdelbebe.es/herramientas/buscador-ayudas/">
@@ -136,7 +136,7 @@
     </section>
 
     <aside class="tool-panel" aria-labelledby="sim-como-title">
-      <h2 id="sim-como-title">Qué hace esta primera versión</h2>
+      <h2 id="sim-como-title">Cómo funciona</h2>
       <div class="sim-side-list">
         <div class="sim-side-item"><strong>1. Filtra por territorio</strong><span>Te dirige a la ayuda autonómica o guía regional más útil.</span></div>
         <div class="sim-side-item"><strong>2. Cruza situación laboral</strong><span>Prioriza prestaciones relacionadas con nacimiento y cuidado cuando corresponde revisarlas.</span></div>
@@ -151,7 +151,7 @@
     <div class="tool-panel">
       <h2 id="resultadosTitulo">Ayudas y prestaciones que conviene revisar</h2>
       <div id="resumen" class="sim-summary"></div>
-      <div id="listaResultados" class="sim-list"></div>
+      <div id="listaResultados" class="sim-list"></div><details id="simMore" style="display:none;margin-top:16px;padding:13px 16px;background:#f1f2ff;border:2px solid #bec5fc;border-radius:14px"><summary style="cursor:pointer;font-weight:800;color:#3946a0">Ver otras ayudas que también conviene comprobar</summary><div id="simOther" class="sim-list" style="margin-top:12px"></div></details>
       <div id="simAI" class="sim-ai">
         <h3>¿Quieres entender mejor el resultado?</h3>
         <p>Puedes pasar este resumen a PapelesIA para que te lo explique. La IA no modifica qué ayudas aparecen en el simulador.</p>
@@ -258,15 +258,13 @@
   }
 
   function render(items, datos) {
-    resumen.innerHTML = `<strong>${items.length} ayudas, prestaciones o deducciones para revisar</strong><span>${datos.comunidad} · ${etiquetasLaborales[datos.laboral]} · ${etiquetasFamilia[datos.familia]}${datos.multiple ? ' · nacimiento múltiple' : ''}</span>`;
-    lista.innerHTML = items.map(x => `
-      <article class="sim-result-card">
-        <div class="sim-result-top">
-          <div><h3>${x.titulo}</h3><p>${x.descripcion}</p></div>
-          <span class="sim-tag ${x.alta ? 'alta' : ''}">${x.alta ? 'MUY RELEVANTE' : 'REVISAR'}</span>
-        </div>
-        <div class="sim-result-actions"><a href="${x.href}">Ver requisitos y detalles →</a></div>
-      </article>`).join('');
+    resumen.innerHTML = `<strong>${Math.min(3,items.length)} ayudas para empezar${items.length>3?` · ${items.length-3} más disponibles`:""}</strong><span>${datos.comunidad} · ${etiquetasLaborales[datos.laboral]} · ${etiquetasFamilia[datos.familia]}${datos.multiple ? ' · nacimiento múltiple' : ''}</span>`;
+    const sorted=[...items].sort((a,b)=>Number(b.alta)-Number(a.alta));
+    const card=x => `<article class="sim-result-card"><div class="sim-result-top"><div><h3>${x.titulo}</h3><p>${x.descripcion}</p></div><span class="sim-tag ${x.alta ? 'alta' : ''}">${x.alta?'PRIORITARIA':'COMPROBAR'}</span></div><div class="sim-result-actions"><a href="${x.href}">Ver requisitos y cómo solicitarla →</a></div></article>`;
+    lista.innerHTML=sorted.slice(0,3).map(card).join('');
+    const more=document.getElementById('simMore'),other=document.getElementById('simOther');
+    more.style.display=sorted.length>3?'block':'none';more.open=false;
+    other.innerHTML=sorted.slice(3).map(card).join('');
     resultados.classList.add('show');
     simAI.classList.add('show');
     resultados.scrollIntoView({behavior:'smooth',block:'start'});
