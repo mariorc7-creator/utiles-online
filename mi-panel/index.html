@@ -48,6 +48,12 @@
 .pb-simple .next-mark-reviewed[hidden]{display:none}
 .pb-simple #nextReviewHint{color:#697589;font-size:.75rem;line-height:1.35;max-width:300px}
 @media(max-width:550px){.pb-simple .next-review-controls{align-items:flex-start;flex-direction:column}.pb-simple .next-mark-reviewed{width:100%}}
+
+/* Cierre del recorrido al revisar los siete pasos. */
+.pb-finish{background:#f5f8ff;border:1px solid #dce5f5;border-radius:20px;padding:24px;margin:0 0 20px;text-align:center}
+.pb-finish[hidden]{display:none!important}.pb-finish h2{font-size:clamp(1.35rem,3.5vw,1.9rem);margin:8px 0}.pb-finish p{line-height:1.6;color:#5b677c;max-width:550px;margin:8px auto 16px}.pb-finish .finish-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.pb-finish .finish-actions a,.pb-finish .finish-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:11px;font:inherit;font-weight:750;text-decoration:none;cursor:pointer}.pb-finish .finish-actions button{background:#535bd6;border:1px solid #535bd6;color:#fff}.pb-finish .finish-actions a{background:#fff;border:1px solid #d3d9ef;color:#4a51b7}.pb-print-summary{display:none}
+@media(max-width:550px){.pb-finish{padding:19px 15px}.pb-finish .finish-actions{flex-direction:column}.pb-finish .finish-actions a,.pb-finish .finish-actions button{width:100%}}
+@media print{header,footer,#pb-mobile-nav,.pb-simple>:not(.pb-print-summary){display:none!important}.pb-simple{max-width:none;padding:0!important}.pb-print-summary{display:block!important;color:#222!important}.pb-print-summary li{padding:9px 0;border-bottom:1px solid #ddd}.pb-print-summary a{color:#222!important;text-decoration:none}.pb-print-summary h1{font-size:22pt}.pb-print-summary p{font-size:11pt}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mi panel de trámites y ayudas","url":"https://www.papelesdelbebe.es/mi-panel/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"inLanguage":"es"}</script>
 </head><body>
@@ -56,6 +62,7 @@
 <span class="intro-label">MIS TRÁMITES · GRATIS</span>
 <h1>Vamos paso a paso</h1>
 <p class="intro">Tu siguiente trámite, las ayudas y tu progreso están aquí. Marca lo que ya hayas revisado: no tienes que empezar de cero.</p>
+<section class="pb-finish" id="pbFinish" hidden aria-labelledby="pbFinishTitle" aria-live="polite"><div aria-hidden="true" style="font-size:2rem">🎉</div><h2 id="pbFinishTitle">¡Has revisado los 7 pasos!</h2><p>Has organizado las gestiones principales tras el nacimiento. Revisa las solicitudes y resoluciones pendientes: marcar un paso como revisado no significa que la Administración lo haya aprobado.</p><div class="finish-actions"><button id="pbFinishPrint" type="button">Descargar resumen en PDF ↗</button><a href="/herramientas/calendario-primeros-90-dias/">Próximos meses →</a><a href="/ayudas-nacimiento/">Revisar nuevas ayudas →</a></div><p style="font-size:.77rem;margin-top:12px">El resumen se guarda como PDF desde el diálogo de impresión del navegador. No se envían tus marcas a ningún servidor.</p></section>
 <section class="main-action" aria-labelledby="nextTitle" aria-live="polite">
 <span class="overline" id="nextLabel">TU SIGUIENTE PASO</span>
 <h2 id="nextTitle">Revisar el Registro Civil</h2>
@@ -82,7 +89,7 @@
 <h3>Documentos y otras herramientas</h3><div class="resources"><a href="/documentos-tramites-bebe/">📄 Qué documentos necesito →</a><a href="/herramientas/calendario-primeros-90-dias/">🗓️ Calendario de los primeros 90 días →</a><a href="/preparador-tarjeta-sanitaria/">🏥 Preparar la tarjeta sanitaria →</a><a href="/pack-empadronamiento/">🏠 Preparar el empadronamiento →</a><a href="/checklist-imprimible/">🖨️ Imprimir mi checklist →</a></div>
 <button class="reset" id="resetProgress" type="button">Reiniciar mis pasos</button></div></details>
 <p class="footnote">Tus marcas se guardan únicamente en este navegador, sin registro. «Revisado» significa que has comprobado ese trámite: no certifica su resolución administrativa. Comprueba siempre los requisitos y plazos oficiales.</p>
-</main><footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p></div></footer>
+<section class="pb-print-summary" id="pbPrintSummary"><h1>Papeles del Bebé · Mi resumen</h1><p>Los 7 apartados principales han sido revisados en este navegador. Este documento es orientativo, no un justificante oficial ni un certificado de aprobación de trámites.</p><ol id="pbPrintList"></ol><p>Consulta los organismos oficiales correspondientes para confirmar solicitudes, plazos y resoluciones. www.papelesdelbebe.es</p></section></main><footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p></div></footer>
 <script>
 (() => {
   const KEY = 'papelesbebe_que_me_falta_v1';
@@ -116,6 +123,16 @@
     document.getElementById('progressFill').style.width=(done/steps.length*100)+'%';
     // El orden de recomendaciones reutiliza exclusivamente los pasos existentes.
     // Nunca se considera completado un trámite sin una acción explícita del usuario.
+    const finished = done === steps.length;
+    document.getElementById('pbFinish').hidden = !finished;
+    document.querySelector('.main-action').hidden = finished;
+    document.getElementById('taskHeading').textContent = finished ? 'Resumen de tus pasos' : 'Tus próximos pasos';
+    document.getElementById('pbPrintList').replaceChildren(...steps.map(step=>{
+      const li=document.createElement('li');
+      const strong=document.createElement('strong'); strong.textContent=step.name+' — revisado';
+      const link=document.createElement('a');link.href=new URL(step.href,location.origin).href;link.textContent='Ver guía';
+      li.append(strong,document.createTextNode(' · '),link);return li;
+    }));
     const next=pending[0];
     document.getElementById('nextLabel').textContent=next?'TU SIGUIENTE PASO':'¡BIEN HECHO!';
     document.getElementById('nextTitle').textContent=next?next.name:'Has revisado los pasos principales';
@@ -135,6 +152,7 @@
     quick.replaceChildren(...toShow.map(taskRow));
     all.replaceChildren(...steps.map(taskRow));
   }
+  document.getElementById('pbFinishPrint').addEventListener('click',()=>window.print());
   document.getElementById('nextMarkReviewed').addEventListener('click',()=>{
     const key=document.getElementById('nextMarkReviewed').dataset.step;
     if(!steps.some(item=>item.key===key))return;
