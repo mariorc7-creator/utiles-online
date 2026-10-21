@@ -45,6 +45,12 @@
     /* Mobile-first: una acción a la vez, sin barra secundaria fija. */
     @media(max-width:700px){
       .pb-mobile-next{display:none!important}
+      .home-necesidades{display:none!important}
+      .pb-mobile-disclosure{margin:10px 0!important;border:1px solid #e3e6f3;border-radius:13px;background:#fff;overflow:hidden}
+      .pb-mobile-disclosure>summary{padding:13px 15px;cursor:pointer;color:#434b88;font-size:.94rem;font-weight:800;list-style-position:inside}
+      .pb-mobile-disclosure[open]>summary{border-bottom:1px solid #edf0f7}
+      .pb-mobile-disclosure>.pb-pregnancy,.pb-mobile-disclosure>.pb-top-tools{margin:0!important;border:0!important;border-radius:0!important;padding:13px!important;box-shadow:none!important}
+      .pb-mobile-disclosure .pb-top-tools h2{font-size:1rem!important}
       body:has(.pb-mobile-next){padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}
       .pb-route-context{margin:8px 12px 10px!important;padding:9px 11px!important;border-radius:11px!important;box-shadow:none!important;gap:8px!important}
       .pb-route-copy span{font-size:.63rem!important}
@@ -136,6 +142,25 @@
     }
   }
 
+  function simplifyMobileHome(){
+    if (location.pathname !== '/' || !window.matchMedia('(max-width:700px)').matches) return;
+    const groups = [
+      ['.pb-pregnancy','🤰 Antes del parto'],
+      ['.pb-top-tools','🧰 Más herramientas']
+    ];
+    groups.forEach(([selector,label]) => {
+      const section=document.querySelector(selector);
+      if (!section || section.closest('details.pb-mobile-disclosure')) return;
+      const details=document.createElement('details');
+      details.className='pb-mobile-disclosure';
+      const summary=document.createElement('summary');
+      summary.textContent=label;
+      section.parentNode.insertBefore(details,section);
+      details.appendChild(summary);
+      details.appendChild(section);
+    });
+  }
+
   function enhanceTramites(){
     if (!location.pathname.startsWith('/tramites-bebe')) return;
     const hero=document.querySelector('.hero.seo-page');
@@ -198,7 +223,7 @@
     document.body.appendChild(bar);
   }
 
-  function boot(){ enhanceHome(); enhanceTramites(); addRouteContext(); addMobileNext(); }
+  function boot(){ enhanceHome(); simplifyMobileHome(); enhanceTramites(); addRouteContext(); addMobileNext(); }
   window.addEventListener('papelesbebe:progress', () => { addRouteContext(); addMobileNext(); });
   window.addEventListener('storage', (event) => { if (!event.key || event.key===PROGRESS_KEY) { addRouteContext(); addMobileNext(); } });
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
