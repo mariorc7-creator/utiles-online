@@ -12,7 +12,7 @@
     {key:'padron',label:'Empadronamiento',href:'/empadronar-bebe/',icon:'🏠'},
     {key:'prestacion',label:'Prestación y permiso',href:'/permiso-nacimiento-cuidado-menor-2026/',icon:'🗓️'},
     {key:'deduccion',label:'Deducciones',href:'/deduccion-maternidad/',icon:'💳'},
-    {key:'ayudas',label:'Ayudas',href:'/herramientas/buscador-ayudas/',icon:'💶'}
+    {key:'ayudas',label:'Ayudas',href:'/ayudas-nacimiento/',icon:'💶'}
   ];
 
   const css = document.createElement('style');
