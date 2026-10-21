@@ -51,8 +51,8 @@
 
 /* Cierre del recorrido al revisar los siete pasos. */
 .pb-finish{background:#f5f8ff;border:1px solid #dce5f5;border-radius:20px;padding:24px;margin:0 0 20px;text-align:center}
-.pb-finish[hidden]{display:none!important}.pb-finish h2{font-size:clamp(1.35rem,3.5vw,1.9rem);margin:8px 0}.pb-finish p{line-height:1.6;color:#5b677c;max-width:550px;margin:8px auto 16px}.pb-finish .finish-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.pb-finish .finish-actions a,.pb-finish .finish-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:11px;font:inherit;font-weight:750;text-decoration:none;cursor:pointer}.pb-finish .finish-actions button{background:#535bd6;border:1px solid #535bd6;color:#fff}.pb-finish .finish-actions a{background:#fff;border:1px solid #d3d9ef;color:#4a51b7}.pb-print-summary{display:none}
-@media(max-width:550px){.pb-finish{padding:19px 15px}.pb-finish .finish-actions{flex-direction:column}.pb-finish .finish-actions a,.pb-finish .finish-actions button{width:100%}}
+.pb-finish[hidden]{display:none!important}.pb-simple .main-action[hidden]{display:none!important}.pb-finish h2{font-size:clamp(1.35rem,3.5vw,1.9rem);margin:8px 0}.pb-finish p{line-height:1.6;color:#5b677c;max-width:550px;margin:8px auto 16px}.pb-finish .finish-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.pb-finish .finish-actions a,.pb-finish .finish-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:11px;font:inherit;font-weight:750;text-decoration:none;cursor:pointer}.pb-finish .finish-actions button{background:#535bd6;border:1px solid #535bd6;color:#fff}.pb-finish .finish-actions a{background:#fff;border:1px solid #d3d9ef;color:#4a51b7}.pb-print-summary{display:none}
+@media(max-width:700px){.pb-simple.is-finished{padding-top:12px!important}.pb-simple.is-finished>.intro-label,.pb-simple.is-finished>h1,.pb-simple.is-finished>.intro{display:none!important}.pb-simple.is-finished .pb-finish{display:block;margin:8px 0 18px;padding:22px 16px;border-radius:16px;box-shadow:none}.pb-simple.is-finished .pb-finish h2{font-size:1.4rem;line-height:1.22}.pb-simple.is-finished .pb-finish p{font-size:.88rem;line-height:1.5}.pb-simple .finish-actions{flex-direction:column}.pb-simple .finish-actions a,.pb-simple .finish-actions button{width:100%!important;box-sizing:border-box}.pb-simple.is-finished .aid{margin-top:18px}.pb-simple.is-finished .section-title{margin-top:20px}}
 @media print{header,footer,#pb-mobile-nav,.pb-simple>:not(.pb-print-summary){display:none!important}.pb-simple{max-width:none;padding:0!important}.pb-print-summary{display:block!important;color:#222!important}.pb-print-summary li{padding:9px 0;border-bottom:1px solid #ddd}.pb-print-summary a{color:#222!important;text-decoration:none}.pb-print-summary h1{font-size:22pt}.pb-print-summary p{font-size:11pt}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mi panel de trámites y ayudas","url":"https://www.papelesdelbebe.es/mi-panel/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"inLanguage":"es"}</script>
@@ -125,6 +125,7 @@
     // Nunca se considera completado un trámite sin una acción explícita del usuario.
     const finished = done === steps.length;
     document.getElementById('pbFinish').hidden = !finished;
+    document.querySelector('.pb-simple').classList.toggle('is-finished', finished);
     document.querySelector('.main-action').hidden = finished;
     document.getElementById('taskHeading').textContent = finished ? 'Resumen de tus pasos' : 'Tus próximos pasos';
     document.getElementById('pbPrintList').replaceChildren(...steps.map(step=>{
@@ -165,6 +166,8 @@
     state={...read()};steps.forEach(s=>{state[s.key]=false;});write(state);render();
   });
   window.addEventListener('storage',e=>{if(e.key===KEY)render();});
+  window.addEventListener('pageshow',render);
+  window.addEventListener('papelesbebe:progress',render);
   render();
 })();
 </script><script src="/herramientas/calendar-reminders.js?v=20261020-2" defer></script><script src="/mi-panel/reminder-panel.js?v=20261020-2" defer></script><script src="/pb-territory.js?v=20261020-1" defer></script><script src="/analytics.js" defer></script></body></html>
