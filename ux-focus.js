@@ -37,9 +37,22 @@
     @media(max-width:760px){
       .pb-focus-actions a,.pb-focus-actions button{width:100%;box-sizing:border-box}.pb-focus-box{padding:16px}.pb-home-more>summary{padding:14px 15px}
       .pb-route-context{margin:10px 14px 16px;align-items:flex-start}.pb-route-track{width:62px}.pb-route-copy strong{font-size:.9rem}
-      .pb-mobile-next{position:fixed;display:flex;left:10px;right:10px;bottom:calc(75px + env(safe-area-inset-bottom,0px));z-index:9998;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px 10px 14px;border:1px solid #d9ddfb;border-radius:16px;background:rgba(255,255,255,.97);box-shadow:0 12px 34px rgba(38,43,92,.18);backdrop-filter:blur(10px)}
+      .pb-mobile-next{position:fixed;display:none!important;left:10px;right:10px;bottom:calc(75px + env(safe-area-inset-bottom,0px));z-index:9998;align-items:center;justify-content:space-between;gap:10px;padding:10px 11px 10px 14px;border:1px solid #d9ddfb;border-radius:16px;background:rgba(255,255,255,.97);box-shadow:0 12px 34px rgba(38,43,92,.18);backdrop-filter:blur(10px)}
       .pb-mobile-next div{min-width:0}.pb-mobile-next small{display:block;color:#73788b;font-size:.68rem;font-weight:800;text-transform:uppercase}.pb-mobile-next strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.88rem;color:#242b46}.pb-mobile-next a{flex:0 0 auto;padding:9px 12px;border-radius:11px;background:#6067e8;color:#fff!important;-webkit-text-fill-color:#fff!important;text-decoration:none;font-weight:850;font-size:.82rem}
       body:has(.pb-mobile-next){padding-bottom:78px}
+    }
+
+    /* Mobile-first: una acción a la vez, sin barra secundaria fija. */
+    @media(max-width:700px){
+      .pb-mobile-next{display:none!important}
+      body:has(.pb-mobile-next){padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}
+      .pb-route-context{margin:8px 12px 10px!important;padding:9px 11px!important;border-radius:11px!important;box-shadow:none!important;gap:8px!important}
+      .pb-route-copy span{font-size:.63rem!important}
+      .pb-route-copy strong{font-size:.82rem!important}
+      .pb-route-status{padding:2px 5px!important;margin-left:4px!important;font-size:.58rem!important}
+      .pb-route-progress{gap:4px!important}
+      .pb-route-track{width:38px!important}
+      .pb-focus-box{margin:12px 0!important;padding:13px!important}
     }
   `;
   document.head.appendChild(css);
