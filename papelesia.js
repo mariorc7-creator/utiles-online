@@ -40,6 +40,13 @@
       .papelesia-nota{padding:0 11px 9px;font-size:9.5px}
     }
 
+    /* Burbuja móvil compacta situada sobre la navegación inferior. */
+    @media(max-width:700px){
+      #papelesia-launcher{right:12px!important;bottom:calc(78px + env(safe-area-inset-bottom,0px))!important;width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;padding:0!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:0!important;border-radius:50%!important;font-size:0!important}
+      #papelesia-launcher span:first-child{display:block!important;font-size:21px!important;line-height:1!important}
+      #papelesia-launcher span:last-child{display:none!important}
+      #papelesia-panel{bottom:calc(76px + env(safe-area-inset-bottom,0px))!important;height:min(64dvh,500px)!important;max-height:calc(100dvh - 95px)!important}
+    }
     @media(max-width:380px){
       #papelesia-panel{left:7px;right:7px;bottom:10px;height:min(62dvh,470px);max-height:calc(100dvh - 20px)}
       #papelesia-launcher span:first-child{display:none}
