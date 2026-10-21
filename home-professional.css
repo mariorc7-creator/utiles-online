@@ -404,3 +404,31 @@ footer {
     font-size: 15px !important;
   }
 }
+
+
+/* 21/10/2026: corrección exclusivamente móvil de la portada.
+   Evita sobrescribir flujos, navegación y diseño de escritorio. */
+@media (max-width: 700px) {
+  .home-dashboard { padding: 8px 14px 18px !important; margin-top: 0 !important; }
+  .home-hero-principal { padding: 0 !important; margin: 0 auto !important; max-width: 100% !important; }
+  .home-dashboard .pb-gift-star {
+    position: relative !important; top: auto !important; right: auto !important;
+    width: 70px !important; height: 70px !important;
+    margin: 0 6px 4px auto !important; transform: rotate(5deg) !important;
+  }
+  .home-dashboard .pb-gift-star .pb-star-small { font-size: .8rem !important; margin-bottom: 2px !important; }
+  .home-dashboard .pb-gift-star .pb-star-copy { font-size: .58rem !important; max-width: 59px !important; }
+  .home-dashboard .pb-gift-star .pb-star-free { font-size: .49rem !important; margin-top: 3px !important; }
+  .home-hero-principal .badge { font-size: 10px !important; padding: 5px 9px !important; margin: 0 auto 10px !important; }
+  .home-hero-principal h1 { font-size: clamp(25px, 6.5vw, 31px) !important; line-height: 1.13 !important; letter-spacing: -.025em !important; margin: 0 0 10px !important; overflow-wrap: break-word; }
+  .home-hero-principal .subtitle { font-size: 14px !important; line-height: 1.42 !important; margin: 0 0 14px !important; }
+  .home-hero-cta { gap: 4px !important; margin: 0 !important; }
+  .home-hero-cta button { width: 100% !important; min-height: 48px !important; padding: 10px 13px !important; font-size: 14px !important; }
+  .home-hero-cta .cta-explicacion { margin: 3px 0 0 !important; font-size: 11px !important; }
+  .home-hero-cta p[style] { margin: 9px 0 0 !important; font-size: 12px !important; line-height: 1.4 !important; overflow-wrap: anywhere !important; }
+  .home-hero-cta p[style] a { overflow-wrap: anywhere !important; }
+  .home-dashboard .pb-pregnancy { margin: 14px 0 !important; padding: 14px !important; border-radius: 14px !important; }
+  .home-dashboard .pb-pregnancy h2 { font-size: 18px !important; line-height: 1.25 !important; }
+  .home-dashboard .pb-top-tools { margin: 18px 0 !important; }
+  .home-dashboard .pb-top-tools h2 { font-size: 20px !important; }
+}
