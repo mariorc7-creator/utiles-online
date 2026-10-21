@@ -42,7 +42,7 @@
   if (!window.__papelesBebeUxFocusLoaded) {
     window.__papelesBebeUxFocusLoaded = true;
     const uxFocus = document.createElement('script');
-    uxFocus.src = '/ux-focus.js?v=20261021-5';
+    uxFocus.src = '/ux-focus.js?v=20261021-6';
     uxFocus.defer = true;
     document.head.appendChild(uxFocus);
   }
