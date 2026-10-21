@@ -120,7 +120,7 @@
     document.getElementById('nextLabel').textContent=next?'TU SIGUIENTE PASO':'¡BIEN HECHO!';
     document.getElementById('nextTitle').textContent=next?next.name:'Has revisado los pasos principales';
     document.getElementById('nextDescription').textContent=next?next.desc:'Comprueba ahora que tus solicitudes se han resuelto y revisa si hay ayudas locales pendientes.';
-    const action=document.getElementById('nextAction');action.href=next?next.href:'/herramientas/buscador-ayudas/';action.textContent=next?'Ver guía paso a paso →':'Consultar ayudas →';
+    const action=document.getElementById('nextAction');action.href=next?next.href:'/mi-panel/#moreSteps';action.textContent=next?'Ver guía paso a paso →':'Finalizado ✓ Ver mi resumen';
     const review=document.getElementById('nextMarkReviewed');
     const reviewHint=document.getElementById('nextReviewHint');
     review.hidden=!next;
