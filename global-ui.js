@@ -192,7 +192,10 @@
       box = document.createElement('section');
       box.id = 'pb-article-progress';
       const breadcrumbs = main.querySelector('.breadcrumbs-visibles, .breadcrumbs');
-      if (breadcrumbs && breadcrumbs.nextSibling) main.insertBefore(box, breadcrumbs.nextSibling); else main.insertBefore(box, main.firstChild);
+      const route = main.querySelector('#pb-route-context');
+      if (route) route.insertAdjacentElement('afterend', box);
+      else if (breadcrumbs && breadcrumbs.nextSibling) main.insertBefore(box, breadcrumbs.nextSibling);
+      else main.insertBefore(box, main.firstChild);
     }
     const done = readMaster()[key] === true;
     const reviewOnly = key === 'ayudas' || key === 'deduccion';
