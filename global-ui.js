@@ -3,7 +3,7 @@
   window.__papelesBebeGlobalUiInitialized = true;
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
-  const HEADER_VERSION = '20261020-13';
+  const HEADER_VERSION = '20261021-mobile-nav';
   const FOOTER_VERSION = '20261020-3';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
@@ -90,6 +90,16 @@
       footer.pb-global-footer{margin-top:48px!important;background:#182035!important;color:#dfe4f0!important;border-top:0!important;padding:0!important}.pb-footer-inner{max-width:1180px;margin:0 auto;padding:34px 24px;display:grid;grid-template-columns:1.1fr 2fr auto;gap:28px;align-items:start;box-sizing:border-box}.pb-footer-brand{font-weight:850;font-size:1.15rem;color:#fff!important;text-decoration:none}.pb-footer-brand span{color:#8f94ff}.pb-global-footer p{color:#b8c0d2!important;margin:8px 0 0!important}.pb-global-footer nav{display:flex;gap:10px 18px;flex-wrap:wrap}.pb-global-footer nav a{color:#eef1f8!important;text-decoration:none;font-weight:650}.pb-global-footer nav a:hover{text-decoration:underline}.pb-footer-copy{white-space:nowrap;font-size:.88rem!important}
       #pb-mobile-nav{display:none}
       @media(max-width:900px){header.pb-global-header .header-contenido{align-items:flex-start!important;flex-direction:column!important;gap:8px!important;padding:10px 16px!important}header.pb-global-header .nav-principal{width:100%!important;justify-content:flex-start!important;overflow-x:auto!important;flex-wrap:nowrap!important;padding-bottom:2px!important}header.pb-global-header .nav-principal a{font-size:.88rem!important;padding:8px 10px!important}.pb-footer-inner{grid-template-columns:1fr;gap:18px}}
+      /* Mobile: one navigation at the bottom; top header is branding only. */
+      @media(max-width:700px){
+        header.pb-global-header .header-contenido{min-height:56px!important;height:auto!important;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:0!important;padding:8px 16px!important}
+        header.pb-global-header .nav-principal,header.pb-global-header .header-acciones{display:none!important}
+        header.pb-global-header .logo-enlace{margin:0!important}
+        body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}
+        #pb-mobile-nav{grid-template-columns:repeat(5,minmax(0,1fr))!important;padding-bottom:env(safe-area-inset-bottom,0px)!important}
+        #pb-mobile-nav a{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:62px!important;padding:7px 1px 5px!important;font-size:clamp(.59rem,2.35vw,.73rem)!important;line-height:1.12!important;white-space:normal!important}
+        #pb-mobile-nav a span{font-size:1.18rem!important;margin-bottom:5px!important}
+      }
       @media(max-width:700px){body{padding-bottom:64px!important}#pb-mobile-nav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#fff;border-top:1px solid #e1e4ee;box-shadow:0 -5px 20px rgba(29,35,58,.08)}#pb-mobile-nav a{padding:10px 4px 9px;text-align:center;text-decoration:none;color:#687087;font-size:.73rem;font-weight:750}#pb-mobile-nav a span{display:block;font-size:1.05rem;margin-bottom:2px}#pb-mobile-nav a[aria-current="page"]{color:#565bd6;background:#f6f5ff}.pb-article-progress{margin:12px 14px 18px;align-items:flex-start;flex-direction:column}.pb-footer-copy{white-space:normal}}
     `;
     document.head.appendChild(style);
@@ -152,7 +162,7 @@
     const nav = document.createElement('nav');
     nav.id = 'pb-mobile-nav';
     nav.setAttribute('aria-label','Navegación móvil');
-    const items = [['/mi-panel/','✓','Mis trámites'],['/ayudas-nacimiento/','€','Ayudas'],['/herramientas/','◈','Herramientas'],['/preparativos-bebe/','🧸','Preparativos']];
+    const items = [['/mi-panel/','✓','Trámites'],['/ayudas-nacimiento/','€','Ayudas'],['/herramientas/','◈','Herramientas'],['/guias-familias/','▤','Guías'],['/preparativos-bebe/','🧸','Preparativos']];
     nav.innerHTML = items.map(([href,icon,label]) => `<a href="${href}"${activeSection(href) ? ' aria-current="page"' : ''}><span aria-hidden="true">${icon}</span>${label}</a>`).join('');
     document.body.appendChild(nav);
   }
