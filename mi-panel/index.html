@@ -89,7 +89,7 @@
   const steps = [
     {key:'registro',name:'Inscripción del nacimiento',desc:'Comprueba que el nacimiento está inscrito en el Registro Civil.',href:'/registro-civil-bebe/'},
     {key:'seguridad-social',name:'Alta del bebé en Seguridad Social',desc:'Revisa el reconocimiento de asistencia sanitaria del bebé.',href:'/incluir-bebe-beneficiario-seguridad-social/'},
-    {key:'tarjeta-sanitaria',name:'Tarjeta sanitaria y pediatra',desc:'Solicita la tarjeta y comprueba la asignación del centro de salud.',href:'/preparador-tarjeta-sanitaria/'},
+    {key:'tarjeta-sanitaria',name:'Tarjeta sanitaria y pediatra',desc:'Solicita la tarjeta y comprueba la asignación del centro de salud.',href:'/tarjeta-sanitaria-bebe/'},
     {key:'padron',name:'Empadronamiento',desc:'Comprueba si el padrón se ha gestionado o requiere solicitud.',href:'/pack-empadronamiento/'},
     {key:'prestacion',name:'Permiso y prestación por nacimiento',desc:'Consulta el permiso y la solicitud de prestación cuando corresponda.',href:'/permiso-nacimiento-cuidado-menor-2026/'},
     {key:'deduccion',name:'Deducciones familiares',desc:'Comprueba si puedes acceder a la deducción por maternidad.',href:'/deduccion-maternidad/'},
@@ -120,13 +120,13 @@
     document.getElementById('nextLabel').textContent=next?'TU SIGUIENTE PASO':'¡BIEN HECHO!';
     document.getElementById('nextTitle').textContent=next?next.name:'Has revisado los pasos principales';
     document.getElementById('nextDescription').textContent=next?next.desc:'Comprueba ahora que tus solicitudes se han resuelto y revisa si hay ayudas locales pendientes.';
-    const action=document.getElementById('nextAction');action.href=next?next.href:'/herramientas/buscador-ayudas/';action.textContent=next?'Ver cómo hacerlo →':'Consultar ayudas →';
+    const action=document.getElementById('nextAction');action.href=next?next.href:'/herramientas/buscador-ayudas/';action.textContent=next?'Ver guía paso a paso →':'Consultar ayudas →';
     const review=document.getElementById('nextMarkReviewed');
     const reviewHint=document.getElementById('nextReviewHint');
     review.hidden=!next;
     review.dataset.step=next?.key||'';
     reviewHint.textContent=next
-      ? (done?'Ya has revisado '+done+' de '+steps.length+'. Continúa cuando quieras.':'Marca como revisado solo después de comprobarlo.')
+      ? 'Márcalo únicamente después de comprobar este trámite.'
       : 'Revisado no equivale a trámite resuelto por la Administración.';
     const reminder=document.getElementById('pbReminderChoice');
     if(reminder)reminder.hidden=!next;
