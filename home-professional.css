@@ -432,3 +432,13 @@ footer {
   .home-dashboard .pb-top-tools { margin: 18px 0 !important; }
   .home-dashboard .pb-top-tools h2 { font-size: 20px !important; }
 }
+
+/* El regalo no debe reservar una fila de altura completa antes del hero móvil. */
+@media(max-width:700px){
+  .home-dashboard{position:relative!important}
+  .home-dashboard .pb-gift-star{position:absolute!important;top:8px!important;right:12px!important;margin:0!important;width:58px!important;height:58px!important;z-index:2!important;transform:rotate(6deg)!important}
+  .home-dashboard .pb-gift-star .pb-star-copy{font-size:.49rem!important;max-width:51px!important}
+  .home-dashboard .pb-gift-star .pb-star-free{font-size:.42rem!important}
+  .home-hero-principal{padding-top:68px!important}
+  .home-hero-principal h1{font-size:clamp(25px,6vw,30px)!important;line-height:1.17!important}
+}
