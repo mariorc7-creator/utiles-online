@@ -173,3 +173,7 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - En `/mi-panel/`, el botón «Abrir en Google Calendar» invoca `PBReminder.google` para preparar el evento del siguiente trámite pendiente; no descarga .ics ni usa Outlook/Apple en esta sección.
 - El enlace abre la plantilla oficial de Google Calendar; el usuario debe pulsar «Guardar» estando conectado a su cuenta. No afirmar que se ha guardado automáticamente; no solicitar acceso OAuth ni pedir correo.
 - Se mantiene intacta la utilidad compartida `PBReminder.create` para evitar romper herramientas ajenas al panel.
+
+## Guía solicitud online — 21/10/2026
+- `/solicitar-permiso-nacimiento-online/` es una guía de acción, no otro simulador: distingue prestación INSS de permiso laboral, identificación con/sin certificado, documentación, certificado de empresa, pasos concretos, seguimiento y resolución de problemas.
+- Priorizar siempre enlace directo oficial; no recolectar datos personales ni duplicar Mi panel, la calculadora o la checklist. Contrastar plazos y documentos con el portal oficial antes de cambiarlos.
