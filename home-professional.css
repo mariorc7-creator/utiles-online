@@ -442,3 +442,10 @@ footer {
   .home-hero-principal{padding-top:68px!important}
   .home-hero-principal h1{font-size:clamp(25px,6vw,30px)!important;line-height:1.17!important}
 }
+
+/* Portada móvil: sin estrella ni altura reservada para ella. */
+@media(max-width:700px){
+  .home-dashboard .pb-gift-star{display:none!important}
+  .home-dashboard .home-hero-principal{padding-top:4px!important;margin-top:0!important}
+  .home-dashboard{padding-top:12px!important}
+}
