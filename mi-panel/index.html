@@ -93,7 +93,7 @@
     {key:'padron',name:'Empadronamiento',desc:'Comprueba si el padrón se ha gestionado o requiere solicitud.',href:'/empadronar-bebe/'},
     {key:'prestacion',name:'Permiso y prestación por nacimiento',desc:'Consulta el permiso y la solicitud de prestación cuando corresponda.',href:'/permiso-nacimiento-cuidado-menor-2026/'},
     {key:'deduccion',name:'Deducciones familiares',desc:'Comprueba si puedes acceder a la deducción por maternidad.',href:'/deduccion-maternidad/'},
-    {key:'ayudas',name:'Ayudas por nacimiento',desc:'Revisa las ayudas y prestaciones que podrían encajar.',href:'/herramientas/buscador-ayudas/'}
+    {key:'ayudas',name:'Ayudas por nacimiento',desc:'Revisa las ayudas y prestaciones que podrían encajar.',href:'/ayudas-nacimiento/'}
   ];
   function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(_){return {};}}
   function write(v){try{localStorage.setItem(KEY,JSON.stringify(v));}catch(_){}window.dispatchEvent(new CustomEvent('papelesbebe:progress',{detail:v}));}
