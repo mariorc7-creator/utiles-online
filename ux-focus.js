@@ -8,7 +8,7 @@
   const ROUTE = [
     {key:'registro',label:'Registro Civil',href:'/registro-civil-bebe/',icon:'🧾'},
     {key:'seguridad-social',label:'Seguridad Social',href:'/alta-bebe-seguridad-social/',icon:'👶'},
-    {key:'tarjeta-sanitaria',label:'Tarjeta sanitaria',href:'/preparador-tarjeta-sanitaria/',icon:'🏥'},
+    {key:'tarjeta-sanitaria',label:'Tarjeta sanitaria',href:'/tarjeta-sanitaria-bebe/',icon:'🏥'},
     {key:'padron',label:'Empadronamiento',href:'/pack-empadronamiento/',icon:'🏠'},
     {key:'prestacion',label:'Prestación y permiso',href:'/herramientas/calculadora-permiso-nacimiento/',icon:'🗓️'},
     {key:'deduccion',label:'Deducciones',href:'/deduccion-maternidad/',icon:'💳'},
