@@ -219,6 +219,15 @@
       const next = readMaster();
       next[key] = !done;
       writeMaster(next);
+      // Mantener a la vista la acción siguiente tras marcar el trámite.
+      requestAnimationFrame(() => {
+        const updated = document.getElementById('pb-article-progress');
+        const follow = updated && updated.querySelector('.pb-next-step-link');
+        if (follow && next[key]) {
+          updated.scrollIntoView({block:'start',behavior:'smooth'});
+          follow.focus({preventScroll:true});
+        }
+      });
     });
   }
 
