@@ -206,7 +206,7 @@
     box.id='pb-route-context'; box.className='pb-route-context';
     box.innerHTML=`<div class="pb-route-copy"><span>TU RUTA · ${done}/7</span><strong>${current?current.icon+' '+current.label:'Progreso guardado'}${status?`<em class="pb-route-status ${status}">${statusText}</em>`:''}</strong></div><div class="pb-route-progress"><b>${Math.round(done/7*100)}%</b><span class="pb-route-track"><i style="width:${Math.round(done/7*100)}%"></i></span></div>`;
     const main=document.querySelector('main');
-    if(main) main.prepend(box);
+    if(main) main.insertBefore(box, main.querySelector('#pb-article-progress') || main.firstChild);
   }
 
   function addMobileNext(){
