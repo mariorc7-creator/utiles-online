@@ -203,7 +203,7 @@
       ['padron','Empadronamiento','/empadronar-bebe/'],
       ['prestacion','Permiso y prestación','/permiso-nacimiento-cuidado-menor-2026/'],
       ['deduccion','Deducciones','/deduccion-maternidad/'],
-      ['ayudas','Ayudas','/herramientas/buscador-ayudas/']
+      ['ayudas','Ayudas','/ayudas-nacimiento/']
     ];
     const nextStep = steps.find(([stepKey]) => readMaster()[stepKey] !== true);
     const mobile = window.matchMedia('(max-width:700px)').matches;
@@ -213,7 +213,7 @@
     box.className = `pb-article-progress${done ? ' is-done' : ''}`;
     const forward = nextStep && (nextStep[0] !== key || done)
       ? `<a class="pb-next-step-link" href="${nextStep[2]}">Paso siguiente: ${nextStep[1]} →</a>`
-      : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Ver todos mis trámites ✓</a>' : '');
+      : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : '');
     box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel y la checklist.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button>${forward}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
