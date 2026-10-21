@@ -100,7 +100,7 @@
         #pb-mobile-nav a{display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;min-width:0!important;min-height:62px!important;padding:7px 1px 5px!important;font-size:clamp(.59rem,2.35vw,.73rem)!important;line-height:1.12!important;white-space:normal!important}
         #pb-mobile-nav a span{font-size:1.18rem!important;margin-bottom:5px!important}
       }
-      @media(max-width:700px){body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}#pb-mobile-nav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#fff;border-top:1px solid #e1e4ee;box-shadow:0 -5px 20px rgba(29,35,58,.08)}#pb-mobile-nav a{padding:10px 4px 9px;text-align:center;text-decoration:none;color:#687087;font-size:.73rem;font-weight:750}#pb-mobile-nav a span{display:block;font-size:1.05rem;margin-bottom:2px}#pb-mobile-nav a[aria-current="page"]{color:#565bd6;background:#f6f5ff}.pb-article-progress{margin:12px 14px 18px;align-items:flex-start;flex-direction:column}.pb-footer-copy{white-space:normal}}
+      @media(max-width:700px){#pb-article-progress{margin:8px 12px 12px!important;padding:10px 12px!important;gap:7px!important;border-radius:12px!important;box-shadow:none!important}#pb-article-progress strong{font-size:14px!important}#pb-article-progress p{display:none!important}#pb-article-progress .pb-article-progress-actions{width:100%;gap:7px!important}#pb-article-progress .pb-article-progress-actions button,#pb-article-progress .pb-article-progress-actions a{font-size:12px!important;min-height:38px!important;padding:8px 10px!important}#pb-article-progress .pb-article-progress-actions a[data-pb-open-panel]{display:none!important}#pb-article-progress .pb-next-step-link{background:#6067e8!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#6067e8!important}body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}#pb-mobile-nav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#fff;border-top:1px solid #e1e4ee;box-shadow:0 -5px 20px rgba(29,35,58,.08)}#pb-mobile-nav a{padding:10px 4px 9px;text-align:center;text-decoration:none;color:#687087;font-size:.73rem;font-weight:750}#pb-mobile-nav a span{display:block;font-size:1.05rem;margin-bottom:2px}#pb-mobile-nav a[aria-current="page"]{color:#565bd6;background:#f6f5ff}.pb-article-progress{margin:12px 14px 18px;align-items:flex-start;flex-direction:column}.pb-footer-copy{white-space:normal}}
     `;
     document.head.appendChild(style);
   }
@@ -195,11 +195,25 @@
     }
     const done = readMaster()[key] === true;
     const reviewOnly = key === 'ayudas' || key === 'deduccion';
-    const signature = `${key}:${done ? '1' : '0'}:${reviewOnly ? '1' : '0'}`;
+    const steps = [
+      ['registro','Registro Civil','/registro-civil-bebe/'],
+      ['seguridad-social','Seguridad Social','/incluir-bebe-beneficiario-seguridad-social/'],
+      ['tarjeta-sanitaria','Tarjeta sanitaria','/preparador-tarjeta-sanitaria/'],
+      ['padron','Empadronamiento','/pack-empadronamiento/'],
+      ['prestacion','Permiso y prestación','/permiso-nacimiento-cuidado-menor-2026/'],
+      ['deduccion','Deducciones','/deduccion-maternidad/'],
+      ['ayudas','Ayudas','/herramientas/buscador-ayudas/']
+    ];
+    const nextStep = steps.find(([stepKey]) => readMaster()[stepKey] !== true);
+    const mobile = window.matchMedia('(max-width:700px)').matches;
+    const signature = `${key}:${done ? '1' : '0'}:${reviewOnly ? '1' : '0'}:${nextStep ? nextStep[0] : 'all'}`;
     if (box.dataset.pbRenderSignature === signature) return;
     box.dataset.pbRenderSignature = signature;
     box.className = `pb-article-progress${done ? ' is-done' : ''}`;
-    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel y la checklist.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button><a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
+    const forward = nextStep && (nextStep[0] !== key || done)
+      ? `<a class="pb-next-step-link" href="${nextStep[2]}">Paso siguiente: ${nextStep[1]} →</a>`
+      : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Ver todos mis trámites ✓</a>' : '');
+    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel y la checklist.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button>${forward}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
