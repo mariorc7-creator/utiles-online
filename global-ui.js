@@ -173,7 +173,7 @@
     if (/alta-bebe-seguridad-social|incluir-bebe-beneficiario-seguridad-social/.test(pathname)) return 'seguridad-social';
     if (/tarjeta-sanitaria-bebe/.test(pathname)) return 'tarjeta-sanitaria';
     if (/empadron/.test(pathname)) return 'padron';
-    if (/prestacion-nacimiento|solicitar-permiso-nacimiento-online|como-saber-prestacion|cuando-paga-seguridad-social/.test(pathname)) return 'prestacion';
+    if (/prestacion-nacimiento|permiso-nacimiento-cuidado-menor|solicitar-permiso-nacimiento-online|como-saber-prestacion|cuando-paga-seguridad-social/.test(pathname)) return 'prestacion';
     if (/deduccion-maternidad/.test(pathname)) return 'deduccion';
     if (/^\/(ayuda|ayudas|bono-|tarxeta-|familias-|deduccion-nacimiento-)/.test(pathname)) return 'ayudas';
     return '';
@@ -200,7 +200,7 @@
       ['registro','Registro Civil','/registro-civil-bebe/'],
       ['seguridad-social','Seguridad Social','/incluir-bebe-beneficiario-seguridad-social/'],
       ['tarjeta-sanitaria','Tarjeta sanitaria','/tarjeta-sanitaria-bebe/'],
-      ['padron','Empadronamiento','/pack-empadronamiento/'],
+      ['padron','Empadronamiento','/empadronar-bebe/'],
       ['prestacion','Permiso y prestación','/permiso-nacimiento-cuidado-menor-2026/'],
       ['deduccion','Deducciones','/deduccion-maternidad/'],
       ['ayudas','Ayudas','/herramientas/buscador-ayudas/']
