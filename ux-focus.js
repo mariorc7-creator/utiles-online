@@ -104,6 +104,8 @@
 
     const workspace = readJson(WORKSPACE_KEY);
     const progress = progressState();
+    const primaryButton=document.querySelector('.home-hero-cta button');
+    if(primaryButton && !ROUTE.some(x=>progress[x.key]===true)) primaryButton.textContent='Ver mi primer paso →';
     const done=ROUTE.filter(x=>progress[x.key]).length;
     if (done > 0 || (workspace.last && workspace.last.path)) {
       document.body.classList.add('pb-returning');
