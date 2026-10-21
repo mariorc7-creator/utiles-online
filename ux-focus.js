@@ -9,8 +9,8 @@
     {key:'registro',label:'Registro Civil',href:'/registro-civil-bebe/',icon:'🧾'},
     {key:'seguridad-social',label:'Seguridad Social',href:'/alta-bebe-seguridad-social/',icon:'👶'},
     {key:'tarjeta-sanitaria',label:'Tarjeta sanitaria',href:'/tarjeta-sanitaria-bebe/',icon:'🏥'},
-    {key:'padron',label:'Empadronamiento',href:'/pack-empadronamiento/',icon:'🏠'},
-    {key:'prestacion',label:'Prestación y permiso',href:'/herramientas/calculadora-permiso-nacimiento/',icon:'🗓️'},
+    {key:'padron',label:'Empadronamiento',href:'/empadronar-bebe/',icon:'🏠'},
+    {key:'prestacion',label:'Prestación y permiso',href:'/permiso-nacimiento-cuidado-menor-2026/',icon:'🗓️'},
     {key:'deduccion',label:'Deducciones',href:'/deduccion-maternidad/',icon:'💳'},
     {key:'ayudas',label:'Ayudas',href:'/herramientas/buscador-ayudas/',icon:'💶'}
   ];
