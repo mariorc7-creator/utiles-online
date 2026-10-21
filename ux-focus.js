@@ -118,8 +118,7 @@
       if (h1) h1.textContent='Continúa donde lo dejaste';
       if (sub) sub.innerHTML=done ? `<strong>${done} de 7 bloques revisados.</strong> Te enseñamos solo el siguiente paso para que no tengas que volver a empezar.` : 'Tienes un proceso guardado en este navegador. Continúa desde tu panel.';
       if (cta) {
-        const lastPath=workspace.last?.path && workspace.last.path!=='/mi-panel/' ? workspace.last.path : '/mi-panel/';
-        cta.innerHTML=`<div class="pb-focus-actions" style="justify-content:center"><a class="cta-enlace" href="/mi-panel/">Continuar desde mi panel →</a><a class="secondary" href="${lastPath}">Volver a mi última herramienta</a></div><p class="pb-restart-note">¿Este progreso ya no te sirve? <button type="button" id="pb-start-over">Empezar de nuevo</button></p>`;
+        cta.innerHTML=`<div class="pb-focus-actions" style="justify-content:center"><a class="cta-enlace" href="/mi-panel/">Continuar desde mi panel →</a></div><p class="pb-restart-note">¿Este progreso ya no te sirve? <button type="button" id="pb-start-over">Empezar de nuevo</button></p>`;
         cta.querySelector('#pb-start-over')?.addEventListener('click',()=>{
           if (!window.confirm('¿Quieres borrar el progreso guardado en este navegador y empezar desde cero?')) return;
           clearSavedJourney();
