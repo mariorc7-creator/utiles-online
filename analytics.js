@@ -10,7 +10,7 @@
   if (!window.__papelesBebeGlobalUiLoaded && !document.querySelector('script[src^="/global-ui.js"]')) {
     window.__papelesBebeGlobalUiLoaded = true;
     const ui = document.createElement('script');
-    ui.src = '/global-ui.js?v=20261021-5';
+    ui.src = '/global-ui.js?v=20261021-7';
     ui.defer = true;
     document.head.appendChild(ui);
   }
@@ -42,7 +42,7 @@
   if (!window.__papelesBebeUxFocusLoaded) {
     window.__papelesBebeUxFocusLoaded = true;
     const uxFocus = document.createElement('script');
-    uxFocus.src = '/ux-focus.js?v=20261021-6';
+    uxFocus.src = '/ux-focus.js?v=20261021-7';
     uxFocus.defer = true;
     document.head.appendChild(uxFocus);
   }
