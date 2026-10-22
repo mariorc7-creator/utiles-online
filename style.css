@@ -30,7 +30,7 @@ body:has(#portada)>main:not([class])::before{content:none;display:none}
   flex:0 0 226px;
   font-size:0!important;
   line-height:0;
-  background:url('/brand-header.svg?v=20261014') left center/contain no-repeat;
+  background:url('/brand-header.svg?v=20261022') left center/contain no-repeat;
   text-decoration:none;
 }
 .logo-enlace::before{display:none!important;content:none!important}
