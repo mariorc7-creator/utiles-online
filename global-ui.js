@@ -568,7 +568,7 @@
     const forward = nextStep && (nextStep[0] !== key || done)
       ? `<a class="pb-next-step-link" href="${nextStep[2]}">Paso siguiente: ${nextStep[1]} →</a>`
       : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : '');
-    box.innerHTML = `<div class="pb-progress-status-label"><strong>${done ? '✓ ' : ''}${done ? 'Hecho' : 'Pendiente'}</strong></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? 'Marcar como pendiente' : 'Marcar como hecho'}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Ver resumen final →</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
+    box.innerHTML = `<div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? 'Marcar como pendiente' : 'Marcar como hecho'}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Ver resumen final →</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
@@ -667,6 +667,7 @@
       const existingControl = route.querySelector(':scope > #pb-ayudas-final-control, :scope > #pb-article-progress');
       if (existingControl) existingControl.remove();
       route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${prev}${next}${summary}</nav></div><span class="pb-route-state ${done ? 'is-done' : ''}" role="status">${done ? '✓ Hecho' : 'Pendiente'}</span><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
+      if (existingControl) route.appendChild(existingControl);
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
     const status = document.getElementById('pb-article-progress') || document.getElementById('pb-ayudas-final-control');
