@@ -309,6 +309,16 @@
     style.textContent = `
       .pb-journey body { background:#fafbff; }
       .pb-journey main { width:min(100% - 40px,1100px)!important; max-width:1100px!important; margin:0 auto!important; padding:26px 0 70px!important; box-sizing:border-box; }
+      /* Evitar que las secciones queden pegadas al borde del main. */
+      .pb-journey main { padding-left:clamp(16px,3vw,32px)!important;padding-right:clamp(16px,3vw,32px)!important; }
+      .pb-journey main > .badge, .pb-journey main > .breadcrumbs-visibles, .pb-journey main > .crumbs,
+      .pb-journey main > .tool-breadcrumb { position:relative; }
+      .pb-journey main > #pb-route-context, .pb-journey main > #pb-article-progress,
+      .pb-journey main > #pb-aid-step-final { border:1px solid #dbe2f1!important;background:#f8faff!important; }
+      .pb-journey main > .hero, .pb-journey main > .hero-guide,
+      .pb-journey main > .tools-hero { border:1px solid #dce3f2!important;box-shadow:0 8px 28px rgba(32,46,90,.035)!important; }
+      .pb-journey main > .badge { margin-bottom:20px!important; }
+      .pb-journey main > .hero, .pb-journey main > .hero-guide, .pb-journey main > .tools-hero { margin-top:12px!important; }
       .pb-journey main > #pb-route-context, .pb-journey main > #pb-article-progress,
       .pb-journey main > #pb-aid-step-final { width:100%!important;max-width:none!important;box-sizing:border-box!important;border-radius:16px!important;box-shadow:none!important; }
       .pb-journey main > #pb-route-context { margin:0 0 14px!important;padding:17px 20px!important; }
@@ -328,7 +338,7 @@
       .pb-journey main .pb-observatorio-feature { margin:24px 0!important; }
       .pb-journey main #pb-aid-step-final button {min-height:44px!important}
       @media(max-width:700px){
-        .pb-journey main {width:calc(100% - 24px)!important;padding:14px 0 86px!important}
+        .pb-journey main {width:calc(100% - 16px)!important;padding:14px 12px 86px!important}
         .pb-journey main > #pb-route-context {margin-bottom:10px!important;padding:13px 14px!important}
         .pb-journey main > #pb-article-progress,.pb-journey main > #pb-aid-step-final {margin-bottom:17px!important;padding:14px!important}
         .pb-journey main > .hero,.pb-journey main > .hero-guide,.pb-journey main > .tools-hero {padding:22px 17px!important;border-radius:16px!important;margin-bottom:18px!important}
