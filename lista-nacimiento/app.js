@@ -5,9 +5,26 @@ const recommended=[["Cuna o minicuna","Descanso","Elige una superficie de descan
 const recommendedNames=new Set([...starter.map(x=>x[0]),...recommended.map(x=>x[0])]);
 // Solo enlaces a fichas de producto verificadas, nunca resultados genéricos de búsqueda.
 const catalog={
- 'Cuna o minicuna':{name:'IKEA SNIGLAR · cuna 60×120 cm',url:'https://www.ikea.com/es/es/p/sniglar-cuna-haya-30248537/'},
- 'Colchón compatible con la cuna':{name:'IKEA KRUMMELUR · colchón 60×120 cm',url:'https://www.ikea.com/es/es/p/krummelur-colchon-espuma-cuna-20593406/'}
+ "Cuna o minicuna":{name:"IKEA SNIGLAR · cuna de haya 60 × 120 cm",url:"https://www.ikea.com/es/es/p/sniglar-cuna-haya-30248537/"},
+ "Colchón compatible con la cuna":{name:"IKEA KRUMMELUR · colchón de cuna 60 × 120 cm",url:"https://www.ikea.com/es/es/p/krummelur-colchon-espuma-cuna-20593406/"},
+ "Sábanas bajeras ajustables":{name:"IKEA LEN · sábana bajera 60 × 120 cm"},
+ "Silla de coche para recién nacido":{name:"CYBEX Aton B2 i-Size · portabebés"},
+ "Cochecito o sistema de paseo":{name:"Kinderkraft MOOV 2 · cochecito"},
+ "Portabebés ergonómico":{name:"Ergobaby Omni Breeze · mochila portabebés"},
+ "Bodies de algodón":{name:"Petit Bateau · bodies de algodón"},
+ "Pijamas o peleles":{name:"Petit Bateau · pijama para recién nacido"},
+ "Muselinas o paños":{name:"aden + anais · muselinas de algodón"},
+ "Pañales de talla inicial":{name:"Dodot Sensitive · talla 1"},
+ "Toallitas o material de limpieza":{name:"WaterWipes Original · toallitas sin perfume"},
+ "Bañera infantil":{name:"Stokke Flexi Bath · bañera plegable"},
+ "Termómetro digital":{name:"Braun PRT1000 · termómetro digital"},
+ "Cambiador o superficie estable":{name:"IKEA VÄDRA · cambiador"},
+ "Biberones":{name:"Philips Avent Natural Response · biberón 125 ml"},
+ "Baberos o paños de lactancia":{name:"LÄSSIG · babero infantil"},
+ "Mochila o bolso para pañales":{name:"Skip Hop Forma · mochila cambiador"},
+ "Luz nocturna suave":{name:"Tommee Tippee Groegg2 · luz nocturna"},
 };
+
 function printList(){
   if(!data.items.length){note.textContent='Añade algún regalo antes de crear el PDF.';return;}
   const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -30,7 +47,7 @@ function el(tag,cls,txt){const n=document.createElement(tag);if(cls)n.className=
 function btn(label,fn){const b=el('button','',label);b.type='button';b.addEventListener('click',fn);return b}
 function render(){nameEl.value=data.title;document.getElementById('listHeading').textContent=data.title;document.getElementById('counter').textContent=data.items.length+' regalos · '+data.items.filter(x=>x.status==='Reservado').length+' reservados · '+data.items.filter(x=>x.status==='Recibido').length+' recibidos';list.replaceChildren();
 if(!data.items.length)list.appendChild(el('p','empty','Aún no hay regalos. Añade el primero para empezar.'));
-data.items.forEach(item=>{const a=el('article','gift-item'),content=el('div'),act=el('div','item-actions');const tag=el('span','tag',item.category);content.append(tag,el('h3','',item.name));if(item.price)content.appendChild(el('p','','Precio orientativo: '+item.price+' €'));if(item.note)content.appendChild(el('p','',item.note));content.appendChild(el('span','status',item.status));if(item.url){const link=el('a','action','Ver producto ↗');link.href=item.url;link.target='_blank';link.rel='nofollow noopener noreferrer';content.appendChild(document.createElement('br'));content.appendChild(link)}else if(catalog[item.name]){const product=catalog[item.name];const link=el('a','action','Ver recomendado: '+product.name+' ↗');link.href=product.url;link.target='_blank';link.rel='nofollow noopener noreferrer';content.appendChild(link)}
+data.items.forEach(item=>{const a=el('article','gift-item'),content=el('div'),act=el('div','item-actions');const tag=el('span','tag',item.category);content.append(tag,el('h3','',item.name));if(item.price)content.appendChild(el('p','','Precio orientativo: '+item.price+' €'));if(item.note)content.appendChild(el('p','',item.note));content.appendChild(el('span','status',item.status));if(item.url){const link=el('a','action','Ver producto ↗');link.href=item.url;link.target='_blank';link.rel='nofollow noopener noreferrer';content.appendChild(document.createElement('br'));content.appendChild(link)}else if(catalog[item.name]){const product=catalog[item.name];const p=el('p','gift-model','Modelo sugerido: '+product.name);content.appendChild(p);if(product.url){const link=el('a','action','Ver modelo concreto ↗');link.href=product.url;link.target='_blank';link.rel='nofollow noopener noreferrer';content.appendChild(link)}}
 if(guest){act.appendChild(btn('Quiero regalarlo ↗',()=>{const msg='Hola, me gustaría regalar «'+item.name+'» de vuestra lista de nacimiento. ¿Sigue disponible?';window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener') }));}
 else {const select=el('select');select.setAttribute('aria-label','Estado de '+item.name);['Disponible','Reservado','Recibido'].forEach(st=>{const o=el('option','',st);o.value=st;o.selected=item.status===st;select.appendChild(o)});select.addEventListener('change',()=>{item.status=select.value;store();render()});act.appendChild(select);act.appendChild(btn('Editar',()=>edit(item)));act.appendChild(btn('Quitar',()=>{if(!confirm('¿Quitar «'+item.name+'» de la lista?'))return;data.items=data.items.filter(x=>x!==item);store();render()}))}
 a.append(content,act);list.appendChild(a)});
