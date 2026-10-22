@@ -362,6 +362,51 @@
         html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:100%!important;box-sizing:border-box!important}
       }
     `;
+    // Corregir navegación y controles del recorrido en móvil y escritorio.
+    style.textContent += `
+      html.pb-journey #pb-journey-chrome #pb-route-context{
+        display:flex!important;flex-direction:column!important;align-items:stretch!important;
+        gap:10px!important;padding:16px 20px!important;height:auto!important}
+      html.pb-journey #pb-route-context > .pb-route-copy{display:block!important;width:100%!important;flex:none!important;text-align:left!important}
+      html.pb-journey #pb-route-context .pb-route-step-nav{
+        display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;
+        justify-content:flex-start!important;align-items:center!important;
+        column-gap:16px!important;row-gap:2px!important;margin:6px 0 0!important}
+      html.pb-journey #pb-route-context .pb-route-step-nav a{
+        display:inline-flex!important;width:auto!important;min-height:0!important;
+        padding:2px 0!important;margin:0!important;line-height:1.35!important}
+      html.pb-journey #pb-route-context > .pb-route-progress{
+        display:flex!important;width:100%!important;max-width:none!important;grid-column:auto!important;grid-row:auto!important}
+      html.pb-journey #pb-route-context > #pb-article-progress,
+      html.pb-journey #pb-route-context > #pb-ayudas-final-control{
+        display:flex!important;position:static!important;visibility:visible!important;opacity:1!important;
+        flex-direction:row!important;align-items:center!important;justify-content:space-between!important;
+        gap:12px!important;flex-wrap:wrap!important;width:100%!important;max-width:none!important;
+        margin:0!important;padding:12px 0 0!important;border:0!important;
+        border-top:1px solid #dce3f2!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+      html.pb-journey #pb-route-context .pb-progress-status-label,
+      html.pb-journey #pb-route-context .pb-ayudas-final-copy{
+        display:block!important;visibility:visible!important;text-align:left!important;min-width:0!important;
+        grid-column:auto!important;grid-row:auto!important}
+      html.pb-journey #pb-route-context .pb-article-progress-actions,
+      html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+        display:flex!important;visibility:visible!important;flex-wrap:wrap!important;
+        flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
+        gap:8px!important;grid-column:auto!important;grid-row:auto!important}
+      html.pb-journey #pb-route-context #pb-ayudas-final-done:not([hidden]){display:inline-flex!important;visibility:visible!important}
+      html.pb-journey #pb-route-context #pb-ayudas-final-done[hidden]{display:none!important}
+      @media(max-width:700px){
+        html.pb-journey #pb-journey-chrome #pb-route-context{padding:14px 16px!important;gap:10px!important}
+        html.pb-journey #pb-route-context .pb-route-step-nav{column-gap:13px!important;row-gap:2px!important}
+        html.pb-journey #pb-route-context > #pb-article-progress,
+        html.pb-journey #pb-route-context > #pb-ayudas-final-control{flex-direction:column!important;align-items:stretch!important;gap:8px!important}
+        html.pb-journey #pb-route-context .pb-article-progress-actions,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+          flex-direction:column!important;align-items:stretch!important;width:100%!important}
+        html.pb-journey #pb-route-context .pb-article-progress-actions > *,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:100%!important;box-sizing:border-box!important;text-align:center!important}
+      }
+    `;
     document.head.appendChild(style);
   }
 
@@ -523,7 +568,7 @@
     const forward = nextStep && (nextStep[0] !== key || done)
       ? `<a class="pb-next-step-link" href="${nextStep[2]}">Paso siguiente: ${nextStep[1]} →</a>`
       : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : '');
-    box.innerHTML = `<div class="pb-progress-status-label"><strong>${done ? '✓ ' : ''}${done ? (reviewOnly ? 'Revisado' : 'Hecho') : 'Pendiente'}</strong></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
+    box.innerHTML = `<div class="pb-progress-status-label"><strong>${done ? '✓ ' : ''}${done ? 'Hecho' : 'Pendiente'}</strong></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? 'Marcar como pendiente' : 'Marcar como hecho'}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
