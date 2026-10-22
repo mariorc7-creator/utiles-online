@@ -661,6 +661,10 @@
       route.dataset.step = signature;
       const prev = i > 0 ? `<a class="pb-route-prev" href="${steps[i-1][0]}">← Anterior: ${steps[i-1][1]}</a>` : '';
       const next = i < 6 ? `<a class="pb-route-next" href="${steps[i+1][0]}">Siguiente: ${steps[i+1][1]} →</a>` : '';
+      // Conservar los controles interactivos antes de reconstruir la ruta.
+      // Si no, innerHTML los destruye al cambiar de pendiente a hecho.
+      const existingControl = route.querySelector(':scope > #pb-ayudas-final-control, :scope > #pb-article-progress');
+      if (existingControl) existingControl.remove();
       route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${prev}${next}</nav></div><span class="pb-route-state ${done ? 'is-done' : ''}" role="status">${done ? '✓ Hecho' : 'Pendiente'}</span><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
