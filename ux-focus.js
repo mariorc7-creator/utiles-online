@@ -68,6 +68,7 @@
     try {
       localStorage.removeItem(WORKSPACE_KEY);
       localStorage.removeItem(PROGRESS_KEY);
+      localStorage.removeItem('papelesbebe_recorrido_iniciado_v1');
       sessionStorage.removeItem(CONTEXT_KEY);
     } catch (_) {}
   }
