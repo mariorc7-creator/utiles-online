@@ -77,6 +77,14 @@
     const style = document.createElement('style');
     style.id = 'pb-global-ui-style';
     style.textContent = `
+      .pb-journey main > .badge{display:none!important}
+      .pb-journey main > .breadcrumbs-visibles,.pb-journey main > .crumbs,.pb-journey main > .tool-breadcrumb{order:3!important}
+      .pb-journey main > #pb-article-progress{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important}
+      .pb-journey main > #pb-article-progress .pb-article-progress-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+      .pb-journey main > #pb-article-progress button,.pb-journey main > #pb-article-progress a{min-height:42px;box-sizing:border-box}
+      .pb-journey main > .hero,.pb-journey main > .hero-guide,.pb-journey main > .tools-hero{padding:30px!important;margin-top:0!important}
+      @media(max-width:700px){.pb-journey main > #pb-article-progress{flex-direction:column!important;align-items:stretch!important}.pb-journey main > #pb-article-progress .pb-article-progress-actions{display:grid!important;grid-template-columns:1fr!important}.pb-journey main > #pb-article-progress .pb-article-progress-actions>*{width:100%;text-align:center}.pb-journey main > .hero,.pb-journey main > .hero-guide,.pb-journey main > .tools-hero{padding:20px!important}}
+
       header.pb-global-header{background:#fff!important;border-bottom:1px solid #e7e8ef!important;box-shadow:0 1px 0 rgba(24,31,54,.02)!important;position:relative!important;z-index:1000!important}
       header.pb-global-header .header-contenido{max-width:1280px!important;margin:0 auto!important;min-height:74px!important;padding:10px 24px!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:24px!important;box-sizing:border-box!important}
       header.pb-global-header .logo-enlace{flex:0 0 auto!important;text-decoration:none!important}
@@ -103,6 +111,17 @@
       }
       @media(max-width:700px){#pb-article-progress{margin:8px 12px 12px!important;padding:10px 12px!important;gap:7px!important;border-radius:12px!important;box-shadow:none!important}#pb-article-progress strong{font-size:14px!important}#pb-article-progress p{display:none!important}#pb-article-progress .pb-article-progress-actions{width:100%;gap:7px!important}#pb-article-progress .pb-article-progress-actions button,#pb-article-progress .pb-article-progress-actions a{font-size:12px!important;min-height:38px!important;padding:8px 10px!important}#pb-article-progress .pb-article-progress-actions a[data-pb-open-panel]{display:none!important}#pb-article-progress .pb-next-step-link{background:#6067e8!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#6067e8!important}body{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}#pb-mobile-nav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#fff;border-top:1px solid #e1e4ee;box-shadow:0 -5px 20px rgba(29,35,58,.08)}#pb-mobile-nav a{padding:10px 4px 9px;text-align:center;text-decoration:none;color:#687087;font-size:.73rem;font-weight:750}#pb-mobile-nav a span{display:block;font-size:1.05rem;margin-bottom:2px}#pb-mobile-nav a[aria-current="page"]{color:#565bd6;background:#f6f5ff}.pb-article-progress{margin:12px 14px 18px;align-items:flex-start;flex-direction:column}.pb-footer-copy{white-space:normal}}
     `;
+    // Orden uniforme: ruta > estado > migas > guía; eliminar el badge decorativo heredado.
+    const normalizeJourney = () => {
+      const main = document.querySelector('main');
+      if (!main) return;
+      const route = main.querySelector('#pb-route-context');
+      const status = main.querySelector('#pb-article-progress');
+      if (route && main.firstElementChild !== route) main.prepend(route);
+      if (route && status && route.nextElementSibling !== status) route.insertAdjacentElement('afterend',status);
+    };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',normalizeJourney,{once:true});
+    else normalizeJourney();
     document.head.appendChild(style);
   }
 
@@ -186,7 +205,7 @@
   function renderArticleProgress() {
     const key = keyForPath(location.pathname);
     const main = document.querySelector('main');
-    if (!key || !main || location.pathname.startsWith('/herramientas/') || location.pathname.startsWith('/mi-panel/') || location.pathname === '/ayudas-nacimiento/') return;
+    if (!key || !main || location.pathname.startsWith('/herramientas/') || location.pathname.startsWith('/mi-panel/')) return;
     let box = document.getElementById('pb-article-progress');
     if (!box) {
       box = document.createElement('section');
@@ -194,9 +213,11 @@
       const breadcrumbs = main.querySelector('.breadcrumbs-visibles, .breadcrumbs');
       const route = main.querySelector('#pb-route-context');
       if (route) route.insertAdjacentElement('afterend', box);
-      else if (breadcrumbs && breadcrumbs.nextSibling) main.insertBefore(box, breadcrumbs.nextSibling);
+      else if (breadcrumbs) breadcrumbs.insertAdjacentElement('afterend', box);
       else main.insertBefore(box, main.firstChild);
     }
+    const route = main.querySelector('#pb-route-context');
+    if (route && box.previousElementSibling !== route) route.insertAdjacentElement('afterend', box);
     const done = readMaster()[key] === true;
     const reviewOnly = key === 'ayudas' || key === 'deduccion';
     const steps = [
