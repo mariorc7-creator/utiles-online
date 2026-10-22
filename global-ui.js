@@ -77,6 +77,13 @@
     const style = document.createElement('style');
     style.id = 'pb-global-ui-style';
     style.textContent = `
+      /* Consistent warm backdrop and white cards across all seven route templates. */
+      html.pb-journey, html.pb-journey body { background:linear-gradient(115deg,#fff4f0 0%,#fcfafb 48%,#f4f2ff 100%) fixed!important; }
+      html.pb-journey main { background:transparent!important; }
+      html.pb-journey main > .hero,html.pb-journey main > .hero-guide,html.pb-journey main > .tools-hero { background:#fff!important;border:1px solid #dfe4f0!important; }
+      html.pb-journey main > #pb-route-context,html.pb-journey main > #pb-article-progress { background:#f8f9ff!important;border:1px solid #dce3f2!important; }
+      @media(max-width:700px){html.pb-journey,html.pb-journey body{background:#faf9fd!important}}
+
       .pb-journey main > .badge{display:none!important}
       .pb-journey main > .breadcrumbs-visibles,.pb-journey main > .crumbs,.pb-journey main > .tool-breadcrumb{order:3!important}
       .pb-journey main > #pb-article-progress{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:16px!important}
