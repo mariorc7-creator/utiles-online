@@ -10,7 +10,7 @@
   if (!window.__papelesBebeGlobalUiLoaded && !document.querySelector('script[src^="/global-ui.js"]')) {
     window.__papelesBebeGlobalUiLoaded = true;
     const ui = document.createElement('script');
-    ui.src = '/global-ui.js?v=20261022-stable4';
+    ui.src = '/global-ui.js?v=20261022-ayudas-final5';
     ui.defer = true;
     document.head.appendChild(ui);
   }
