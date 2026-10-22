@@ -189,7 +189,7 @@
   }
 
   function addRouteContext(){
-    if (['/registro-civil-bebe/','/incluir-bebe-beneficiario-seguridad-social/','/tarjeta-sanitaria-bebe/','/empadronar-bebe/','/permiso-nacimiento-cuidado-menor-2026/','/deduccion-maternidad/','/ayudas-nacimiento/'].includes(location.pathname)) return;
+    if (['/registro-civil-bebe/','/incluir-bebe-beneficiario-seguridad-social/','/tarjeta-sanitaria-bebe/','/empadronar-bebe/','/permiso-nacimiento-cuidado-menor-2026/','/permiso-nacimiento-cuidado-menor/','/deduccion-maternidad/','/ayudas-nacimiento/'].includes(location.pathname)) return;
     const steps=[
       ['/registro-civil-bebe/','Registro Civil','🧾'],
       ['/incluir-bebe-beneficiario-seguridad-social/','Seguridad Social','👶'],
