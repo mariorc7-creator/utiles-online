@@ -182,3 +182,7 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 - Compartir desde una única franja discreta del footer global: WhatsApp, Facebook, X y «Copiar enlace».
 - Compartir URL canónica de la página visitada, sin parámetros; enlaces directos sin widgets externos ni cookies ni formularios. No añadir botones en cada artículo ni en el hero.
 - `global-ui.js` configura enlaces y copia; `analytics.js` usa la nueva versión para evitar caché.
+
+## Compartir en X con texto contextual — 22/10/2026
+- El footer comparte la URL canónica y propone texto breve diferente por portada, calculadora de permisos, ayudas, Mi panel, checklist y preparativos; fallback para guías.
+- X abre un borrador editable que decide publicar el visitante; WhatsApp, Facebook y copiar enlace conservan su comportamiento.

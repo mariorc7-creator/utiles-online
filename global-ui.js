@@ -4,7 +4,7 @@
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
   const HEADER_VERSION = '20261021-mobile-nav';
-  const FOOTER_VERSION = '20261022-share2';
+  const FOOTER_VERSION = '20261022-share3';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
     ['/mi-panel/', 'Mis trámites'],
@@ -238,10 +238,25 @@
     }
     const title = (document.title || 'Papeles del Bebé').trim();
     const message = 'Te comparto esta página de Papeles del Bebé: ' + title;
+    // Textos editables antes de publicar en X, según la sección visitada.
+    function shareMessageForX(path) {
+      if (path === '/') return '👶 ¿Vas a tener un bebé? Entre el Registro Civil, la Seguridad Social y las ayudas es fácil perderse 😅 Aquí puedes organizar los trámites gratis, paso a paso.';
+      if (path.startsWith('/herramientas/calculadora-permiso-nacimiento/')) return '📅 ¿Cuándo terminará tu permiso por nacimiento? Calcula las fechas y revisa cómo organizarlo. Una herramienta gratuita para futuras familias 👶';
+      if (path.startsWith('/herramientas/buscador-ayudas/')) return '💶 ¿Has comprobado qué ayudas por nacimiento podrías solicitar? Este buscador gratuito te orienta según tu comunidad y situación familiar 👶';
+      if (path.startsWith('/checklist-imprimible/')) return '✅ Registro Civil, Seguridad Social, tarjeta sanitaria… ¡cuántos papeles cuando nace un bebé! Esta checklist gratuita e imprimible ayuda a organizarse 👶';
+      if (path.startsWith('/mi-panel/')) return '👶 ¿Qué trámite toca después de tener un bebé? Organiza los pendientes y marca lo que ya has revisado, gratis y sin registrarte ✅';
+      if (path.startsWith('/herramientas/')) return '👶 ¿Preparando el nacimiento? Estas herramientas gratuitas te ayudan con los permisos, las ayudas y los primeros trámites.';
+      if (path.startsWith('/ayudas-nacimiento/') || path.startsWith('/comunidades/')) return '💶 ¿Qué ayudas existen cuando nace un bebé? Aquí tienes información por comunidad y enlaces para revisar los requisitos 👶';
+      if (path.startsWith('/preparativos-bebe/')) return '🧸 ¿Preparando la llegada de un bebé? Esta lista te ayuda a distinguir lo esencial de lo que puede esperar, sin complicarte.';
+      if (/permiso|prestacion-nacimiento|solicitar-permiso/.test(path)) return '📅 ¿Dudas con el permiso por nacimiento? Esta guía gratuita explica los pasos y enlaza con los trámites oficiales 👶';
+      if (/registro-civil|empadron|tarjeta-sanitaria|seguridad-social/.test(path)) return '✅ Uno de los trámites después del nacimiento que conviene tener claro. Aquí tienes una guía sencilla con los pasos que debes revisar 👶';
+      return '👶 Entre trámites, ayudas y fechas importantes, tener un bebé trae mucho papeleo. Esta guía gratuita puede ponértelo más fácil: ' + title.replace(/\s*\|\s*Papeles del Bebé.*$/i,'').slice(0,75);
+    }
+    const messageX = shareMessageForX(location.pathname);
     const destinations = {
       whatsapp:'https://api.whatsapp.com/send?text='+encodeURIComponent(message+' '+url),
       facebook:'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),
-      x:'https://twitter.com/intent/tweet?text='+encodeURIComponent(message)+'&url='+encodeURIComponent(url)
+      x:'https://twitter.com/intent/tweet?text='+encodeURIComponent(messageX)+'&url='+encodeURIComponent(url)
     };
     footer.querySelectorAll('[data-pb-share]').forEach(control => {
       const platform=control.dataset.pbShare;
