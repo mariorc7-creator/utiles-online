@@ -424,7 +424,7 @@
     const signature = String(number);
     if (route.dataset.step !== signature) {
       route.dataset.step = signature;
-      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${number>1?`<a href="${steps[number===5?3:number===6?4:i-1][0]}">← Paso anterior</a>`:""}${number<7?`<a href="${steps[number===5?6:i+1][0]}">Paso siguiente →</a>`:""}</nav></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
+      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${number>1?`<a href="${steps[number===5?3:number===6?4:i-1][0]}">← Anterior: ${steps[number===5?3:number===6?4:i-1][1]}</a>`:""}${number<7?`<a href="${steps[number===5?6:i+1][0]}">Siguiente: ${steps[number===5?6:i+1][1]} →</a>`:""}</nav></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
     const status = document.getElementById('pb-article-progress');
