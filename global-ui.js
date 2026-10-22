@@ -77,6 +77,12 @@
     const style = document.createElement('style');
     style.id = 'pb-global-ui-style';
     style.textContent = `
+      /* Mantener las dos tarjetas en un flujo estable al cambiar de estado. */
+      html.pb-journey #pb-journey-chrome{display:flex!important;flex-direction:column!important;gap:14px!important}
+      html.pb-journey #pb-journey-chrome #pb-route-context,
+      html.pb-journey #pb-journey-chrome #pb-article-progress{margin:0!important;flex-shrink:0}
+      html.pb-journey main > .badge,html.pb-journey main > .hero + .badge{display:none!important}
+
       /* Shell único por encima de la guía: nunca dentro del recuadro del artículo. */
       html.pb-journey #pb-journey-chrome{width:min(100% - 40px,1100px);max-width:1100px;margin:26px auto 0;padding:0;box-sizing:border-box}
       html.pb-journey #pb-journey-chrome #pb-route-context,
@@ -241,8 +247,10 @@
       else if (breadcrumbs) breadcrumbs.insertAdjacentElement('afterend', box);
       else main.insertBefore(box, main.firstChild);
     }
-    const route = main.querySelector('#pb-route-context');
-    if (route && box.previousElementSibling !== route) route.insertAdjacentElement('afterend', box);
+    const route = document.getElementById('pb-route-context');
+    const shell = document.getElementById('pb-journey-chrome');
+    if (shell && box.parentNode !== shell) shell.appendChild(box);
+    else if (!shell && route && box.previousElementSibling !== route) route.insertAdjacentElement('afterend', box);
     const done = readMaster()[key] === true;
     const reviewOnly = key === 'ayudas' || key === 'deduccion';
     const steps = [
@@ -334,6 +342,7 @@
       ['/tarjeta-sanitaria-bebe/','Tarjeta sanitaria','🏥'],
       ['/empadronar-bebe/','Empadronamiento','🏠'],
       ['/permiso-nacimiento-cuidado-menor-2026/','Prestación y permiso','🗓️'],
+      ['/permiso-nacimiento-cuidado-menor/','Prestación y permiso','🗓️'],
       ['/deduccion-maternidad/','Deducciones','💳'],
       ['/ayudas-nacimiento/','Ayudas','💶']
     ];
@@ -353,15 +362,15 @@
       route.id = 'pb-route-context';
       route.className = 'pb-route-context';
     }
-    const number = i + 1;
-    const percent = Math.round(number * 100 / steps.length);
+    const number = i > 4 ? i : i + 1;
+    const percent = Math.round(number * 100 / 7);
     const current = steps[i];
     const signature = String(number);
     if (route.dataset.step !== signature) {
       route.dataset.step = signature;
       route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
-    shell.appendChild(route);
+    if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
     const status = document.getElementById('pb-article-progress');
     if (status && status.parentNode !== shell) shell.appendChild(status);
     // Estas dos tarjetas son hermanas del main y no quedan dentro de la caja del artículo.
@@ -386,6 +395,7 @@
     '/tarjeta-sanitaria-bebe/',
     '/empadronar-bebe/',
     '/permiso-nacimiento-cuidado-menor-2026/',
+    '/permiso-nacimiento-cuidado-menor/',
     '/deduccion-maternidad/',
     '/ayudas-nacimiento/'
   ]);
