@@ -568,7 +568,7 @@
     const forward = nextStep && (nextStep[0] !== key || done)
       ? `<a class="pb-next-step-link" href="${nextStep[2]}">Paso siguiente: ${nextStep[1]} →</a>`
       : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : '');
-    box.innerHTML = `<div class="pb-progress-status-label"><strong>${done ? '✓ ' : ''}${done ? 'Hecho' : 'Pendiente'}</strong></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? 'Marcar como pendiente' : 'Marcar como hecho'}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
+    box.innerHTML = `<div class="pb-progress-status-label"><strong>${done ? '✓ ' : ''}${done ? 'Hecho' : 'Pendiente'}</strong></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? 'Marcar como pendiente' : 'Marcar como hecho'}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Ver resumen final →</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
@@ -776,6 +776,45 @@
         html.pb-journey #pb-route-context .pb-route-step-nav a{width:auto!important;max-width:50%!important;min-width:0!important;white-space:normal!important;overflow-wrap:break-word!important;font-size:.8rem!important;line-height:1.3!important}
         html.pb-journey #pb-route-context .pb-article-progress-actions,html.pb-journey #pb-route-context .pb-ayudas-final-actions{grid-column:1/-1!important;grid-row:3!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;width:100%!important;gap:8px!important}
         html.pb-journey #pb-route-context .pb-article-progress-actions > *,html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:auto!important;flex:1 1 140px!important;min-height:44px!important;white-space:normal!important}
+      }
+    `;
+
+    /* v1.1.0: navegación móvil compacta y controles de finalización. */
+    style.textContent += `
+      @media(max-width:700px){
+        html.pb-journey #pb-route-context .pb-route-step-nav{
+          display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;
+          gap:8px!important;width:100%!important;margin-top:10px!important;
+        }
+        html.pb-journey #pb-route-context .pb-route-step-nav a{
+          display:flex!important;flex-direction:column!important;justify-content:center!important;
+          width:100%!important;max-width:none!important;min-width:0!important;
+          box-sizing:border-box!important;padding:9px 7px!important;
+          min-height:54px!important;border:1px solid #dce3f2!important;
+          border-radius:10px!important;background:#f7f8ff!important;
+          font-size:.78rem!important;line-height:1.25!important;text-align:center!important;
+          overflow-wrap:anywhere!important;white-space:normal!important;
+        }
+        html.pb-journey #pb-route-context .pb-route-step-nav a.pb-route-next:last-child{
+          grid-column:2!important;
+        }
+        html.pb-journey #pb-route-context .pb-article-progress-actions,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+          flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;
+          gap:8px!important;width:100%!important;
+        }
+        html.pb-journey #pb-route-context .pb-article-progress-actions > *,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{
+          width:auto!important;flex:0 1 auto!important;min-height:40px!important;
+          padding:9px 12px!important;font-size:.82rem!important;line-height:1.25!important;
+          border-radius:9px!important;white-space:normal!important;
+        }
+        html.pb-journey #pb-route-context button[data-pb-toggle-progress]{
+          flex:1 1 100%!important;width:100%!important;
+        }
+        html.pb-journey #pb-route-context #pb-ayudas-final-done:not([hidden]){
+          display:inline-flex!important;max-width:100%!important;
+        }
       }
     `;
     document.head.appendChild(style);
