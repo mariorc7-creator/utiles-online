@@ -300,6 +300,15 @@
         }
       }
     `;
+    style.textContent += `
+      html.pb-journey.pb-guide-only #pb-journey-chrome,
+      html.pb-journey.pb-guide-only #pb-article-progress,
+      html.pb-journey.pb-guide-only #pb-ayudas-final-control{display:none!important}
+      html.pb-journey #pb-guide-start{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;padding:13px 18px;margin:0 0 20px;background:#f7f8ff;border:1px solid #e0e4f7;border-radius:13px;font-size:.9rem;color:#485573}
+      html.pb-journey #pb-guide-start a{font-weight:750;color:#5058cc;text-decoration:none}
+      html.pb-journey #pb-guide-start a:hover{text-decoration:underline}
+      @media(max-width:700px){html.pb-journey #pb-guide-start{padding:12px 14px;align-items:flex-start}}
+    `;
     document.head.appendChild(style);
   }
 
@@ -567,6 +576,26 @@
     // La navegación y el estado forman una sola tarjeta, también en Ayudas.
   }
 
+  const JOURNEY_STARTED_KEY='papelesbebe_recorrido_iniciado_v1';
+  function hasStartedJourney(){
+    try{
+      if(localStorage.getItem(JOURNEY_STARTED_KEY)==='1') return true;
+      // Usuarios que ya marcaron pasos antes de introducir este indicador.
+      return progressCount()>0;
+    }catch(_){return progressCount()>0;}
+  }
+  function showGuideEntry(){
+    if(!document.documentElement.classList.contains('pb-journey'))return;
+    const active=hasStartedJourney();
+    document.documentElement.classList.toggle('pb-guide-only',!active);
+    if(active){document.getElementById('pb-guide-start')?.remove();return;}
+    const main=document.querySelector('main');
+    if(!main || document.getElementById('pb-guide-start'))return;
+    const box=document.createElement('div');
+    box.id='pb-guide-start';
+    box.innerHTML='<span>¿Quieres organizar todos los trámites?</span><a href="/mi-panel/">Organizar mis 7 trámites →</a>';
+    main.prepend(box);
+  }
   function aplicar() {
     normalizarCabecera();
     normalizarFooter();
@@ -574,8 +603,8 @@
     syncAppChecklist();
     syncPrintableChecklist();
     syncSimpleProgress();
-    renderArticleProgress();
-    ensureJourneyShell();
+    if(hasStartedJourney()){renderArticleProgress();ensureJourneyShell();}
+    showGuideEntry();
     actualizarBadgePanel();
   }
 
