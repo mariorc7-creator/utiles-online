@@ -304,20 +304,6 @@
     window.location.assign('/mi-panel/');
   });
 
-  let pendiente = false;
-  const iniciarObserver = () => {
-    if (!document.body) return;
-    const observer = new MutationObserver((mutations) => {
-      const relevant = mutations.some((mutation) => {
-        const target = mutation.target;
-        if (!(target instanceof Element)) return true;
-        return !target.closest('#pb-article-progress, .pb-global-header, .pb-global-footer, #pb-mobile-nav');
-      });
-      if (!relevant || pendiente) return;
-      pendiente = true;
-      requestAnimationFrame(() => { pendiente = false; aplicar(); });
-    });
-    observer.observe(document.body, { childList:true, subtree:true });
-  };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', iniciarObserver, { once:true }); else iniciarObserver();
+  // Páginas estáticas: aplicar al cargar y cuando cambie el progreso.
+  // Evitar reescaneos y mutaciones en cascada del DOM en dispositivos móviles.
 })();
