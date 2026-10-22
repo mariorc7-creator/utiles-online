@@ -292,6 +292,53 @@
     actualizarBadgePanel();
   }
 
+  // Plantilla visual única para el recorrido principal, independiente del tipo de página.
+  const journeyPaths = new Set([
+    '/registro-civil-bebe/',
+    '/incluir-bebe-beneficiario-seguridad-social/',
+    '/tarjeta-sanitaria-bebe/',
+    '/empadronar-bebe/',
+    '/permiso-nacimiento-cuidado-menor-2026/',
+    '/deduccion-maternidad/',
+    '/ayudas-nacimiento/'
+  ]);
+  if (journeyPaths.has(location.pathname)) {
+    document.documentElement.classList.add('pb-journey');
+    const style = document.createElement('style');
+    style.id = 'pb-journey-design';
+    style.textContent = `
+      .pb-journey body { background:#fafbff; }
+      .pb-journey main { width:min(100% - 40px,1100px)!important; max-width:1100px!important; margin:0 auto!important; padding:26px 0 70px!important; box-sizing:border-box; }
+      .pb-journey main > #pb-route-context, .pb-journey main > #pb-article-progress,
+      .pb-journey main > #pb-aid-step-final { width:100%!important;max-width:none!important;box-sizing:border-box!important;border-radius:16px!important;box-shadow:none!important; }
+      .pb-journey main > #pb-route-context { margin:0 0 14px!important;padding:17px 20px!important; }
+      .pb-journey main > #pb-article-progress, .pb-journey main > #pb-aid-step-final { margin:0 0 24px!important;padding:16px 20px!important; }
+      .pb-journey main > .breadcrumbs-visibles, .pb-journey main > .crumbs,
+      .pb-journey main > .tool-breadcrumb { margin:0 0 19px!important;padding:0!important;font-size:.86rem!important; }
+      .pb-journey main > .hero, .pb-journey main > .hero-guide,
+      .pb-journey main > .tools-hero { width:100%!important;max-width:none!important;box-sizing:border-box!important;margin:0 0 26px!important;padding:34px clamp(20px,4vw,42px)!important;border-radius:22px!important;background:#fff!important;border:1px solid #e5e9f4!important;text-align:left!important;box-shadow:none!important; }
+      .pb-journey main > .hero h1, .pb-journey main > .hero-guide h1,
+      .pb-journey main > .tools-hero h1 { font-size:clamp(2rem,4.2vw,3.2rem)!important;line-height:1.12!important;letter-spacing:-.035em!important;max-width:900px!important;margin:18px 0 18px!important;text-align:left!important; }
+      .pb-journey main > .hero .subtitle, .pb-journey main > .hero-guide .lead,
+      .pb-journey main > .tools-hero > p { font-size:clamp(1rem,1.7vw,1.12rem)!important;line-height:1.65!important;max-width:850px!important;margin:0 0 20px!important;text-align:left!important; }
+      .pb-journey main > .hero .badge,.pb-journey main > .hero-guide .eyebrow,
+      .pb-journey main > .tools-hero .tool-kicker { margin:0!important;display:inline-flex!important;font-size:.79rem!important; }
+      .pb-journey main .contenido-informativo { text-align:left!important; }
+      .pb-journey main .pb-hub-panel { margin:24px 0!important; }
+      .pb-journey main .pb-observatorio-feature { margin:24px 0!important; }
+      .pb-journey main #pb-aid-step-final button {min-height:44px!important}
+      @media(max-width:700px){
+        .pb-journey main {width:calc(100% - 24px)!important;padding:14px 0 86px!important}
+        .pb-journey main > #pb-route-context {margin-bottom:10px!important;padding:13px 14px!important}
+        .pb-journey main > #pb-article-progress,.pb-journey main > #pb-aid-step-final {margin-bottom:17px!important;padding:14px!important}
+        .pb-journey main > .hero,.pb-journey main > .hero-guide,.pb-journey main > .tools-hero {padding:22px 17px!important;border-radius:16px!important;margin-bottom:18px!important}
+        .pb-journey main > .hero h1,.pb-journey main > .hero-guide h1,.pb-journey main > .tools-hero h1 {font-size:clamp(1.75rem,7vw,2.25rem)!important;margin:14px 0!important}
+        .pb-journey main > .hero .subtitle,.pb-journey main > .hero-guide .lead,.pb-journey main > .tools-hero > p {font-size:.96rem!important;line-height:1.55!important}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   migrateLegacyProgress();
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', aplicar, { once:true }); else aplicar();
   window.addEventListener('storage', aplicar);
