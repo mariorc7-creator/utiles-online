@@ -337,7 +337,7 @@
       ['/deduccion-maternidad/','Deducciones','💳'],
       ['/ayudas-nacimiento/','Ayudas','💶']
     ];
-    const i = steps.findIndex(step => step[0] === location.pathname.replace(/\\/?$/, '/'));
+    const i = steps.findIndex(step => step[0] === location.pathname.replace(/\/?$/, '/'));
     if (i === -1) return;
     const main = document.querySelector('main');
     if (!main || !main.parentNode) return;
