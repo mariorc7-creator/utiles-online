@@ -4,7 +4,7 @@
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
   const HEADER_VERSION = '20261021-mobile-nav';
-  const FOOTER_VERSION = '20261020-3';
+  const FOOTER_VERSION = '20261022-share1';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
     ['/mi-panel/', 'Mis trámites'],
@@ -128,6 +128,15 @@
       .pb-article-progress strong{display:block;color:#27334d;margin-bottom:3px}.pb-article-progress p{margin:0;color:#687087;font-size:.92rem}.pb-article-progress-actions{display:flex;gap:8px;flex-wrap:wrap}.pb-article-progress button,.pb-article-progress a{border:1px solid #d9dcf5;border-radius:10px;padding:8px 11px;background:#fff;color:#5057c8;font:inherit;font-weight:750;text-decoration:none;cursor:pointer;white-space:nowrap}.pb-article-progress.is-done{background:#f4fbf7;border-color:#d6ecdf}.pb-article-progress.is-done strong{color:#23724c}
       @media(min-width:701px){#pb-article-progress{max-width:940px!important;padding:12px 16px!important;gap:10px!important;box-shadow:none!important}#pb-article-progress p{font-size:.79rem!important;margin:3px 0 0!important}#pb-article-progress .pb-article-progress-actions{gap:7px!important}#pb-article-progress .pb-article-progress-actions a,#pb-article-progress .pb-article-progress-actions button{font-size:.82rem!important;padding:8px 10px!important;min-height:38px!important}#pb-article-progress .pb-next-step-link{background:#6067e8!important;color:#fff!important;-webkit-text-fill-color:#fff!important}}
       footer.pb-global-footer{margin-top:48px!important;background:#182035!important;color:#dfe4f0!important;border-top:0!important;padding:0!important}.pb-footer-inner{max-width:1180px;margin:0 auto;padding:34px 24px;display:grid;grid-template-columns:1.1fr 2fr auto;gap:28px;align-items:start;box-sizing:border-box}.pb-footer-brand{font-weight:850;font-size:1.15rem;color:#fff!important;text-decoration:none}.pb-footer-brand span{color:#8f94ff}.pb-global-footer p{color:#b8c0d2!important;margin:8px 0 0!important}.pb-global-footer nav{display:flex;gap:10px 18px;flex-wrap:wrap}.pb-global-footer nav a{color:#eef1f8!important;text-decoration:none;font-weight:650}.pb-global-footer nav a:hover{text-decoration:underline}.pb-footer-copy{white-space:nowrap;font-size:.88rem!important}
+      .pb-global-footer .pb-share{max-width:1180px;margin:0 auto;padding:15px 24px 26px;border-top:1px solid rgba(255,255,255,.14);display:flex;gap:10px 16px;align-items:center;flex-wrap:wrap;box-sizing:border-box}
+      .pb-global-footer .pb-share-label{font-weight:750;color:#f5f6fc;font-size:.91rem}
+      .pb-global-footer .pb-share-links{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+      .pb-global-footer .pb-share-links a,.pb-global-footer .pb-share-links button{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid rgba(229,233,248,.23);background:rgba(255,255,255,.06);color:#f3f5fc!important;-webkit-text-fill-color:#f3f5fc!important;border-radius:11px;text-decoration:none;font:inherit;font-weight:750;font-size:.83rem;cursor:pointer}
+      .pb-global-footer .pb-share-links a:hover,.pb-global-footer .pb-share-links button:hover{background:rgba(255,255,255,.15);text-decoration:none}
+      .pb-global-footer .pb-share-links a:focus-visible,.pb-global-footer .pb-share-links button:focus-visible{outline:3px solid #a5a9ff;outline-offset:2px}
+      .pb-global-footer .pb-share-status{font-size:.77rem;color:#cdd4e4;min-height:1em}
+      @media(max-width:700px){.pb-global-footer .pb-share{padding:16px 16px 26px;gap:9px}.pb-global-footer .pb-share-label{flex-basis:100%}}
+      @media print{.pb-global-footer .pb-share{display:none!important}}
       #pb-mobile-nav{display:none}
       @media(max-width:900px){header.pb-global-header .header-contenido{align-items:flex-start!important;flex-direction:column!important;gap:8px!important;padding:10px 16px!important}header.pb-global-header .nav-principal{width:100%!important;justify-content:flex-start!important;overflow-x:auto!important;flex-wrap:nowrap!important;padding-bottom:2px!important}header.pb-global-header .nav-principal a{font-size:.88rem!important;padding:8px 10px!important}.pb-footer-inner{grid-template-columns:1fr;gap:18px}}
       /* Mobile: one navigation at the bottom; top header is branding only. */
@@ -208,13 +217,41 @@
     if (badge.getAttribute('aria-label') !== aria) badge.setAttribute('aria-label', aria);
   }
 
+  function setupFooterSharing(footer) {
+    const canonical = document.querySelector('link[rel="canonical"]');
+    let url = location.origin + location.pathname;
+    if (canonical?.href) {
+      try {
+        const candidate = new URL(canonical.href, location.origin);
+        if (candidate.origin === location.origin) url = candidate.href;
+      } catch (_) {}
+    }
+    const title = (document.title || 'Papeles del Bebé').trim();
+    const message = 'Te comparto esta página de Papeles del Bebé: ' + title;
+    const destinations = {
+      whatsapp:'https://api.whatsapp.com/send?text='+encodeURIComponent(message+' '+url),
+      facebook:'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),
+      x:'https://twitter.com/intent/tweet?text='+encodeURIComponent(message)+'&url='+encodeURIComponent(url)
+    };
+    footer.querySelectorAll('[data-pb-share]').forEach(control => {
+      const platform=control.dataset.pbShare;
+      if(platform!=='copy') { control.href=destinations[platform];return; }
+      control.addEventListener('click',async()=>{
+        const status=footer.querySelector('.pb-share-status');
+        try { await navigator.clipboard.writeText(url);if(status)status.textContent='Enlace copiado'; }
+        catch (_) { if(status)status.textContent='No se pudo copiar. Utiliza la dirección del navegador.'; }
+      });
+    });
+  }
+
   function normalizarFooter() {
     let footer = document.querySelector('footer');
     if (!footer) { footer = document.createElement('footer'); document.body.appendChild(footer); }
     if (footer.dataset.pbFooterVersion === FOOTER_VERSION) return;
     footer.className = 'pb-global-footer';
     footer.dataset.pbFooterVersion = FOOTER_VERSION;
-    footer.innerHTML = `<div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mis trámites</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/preparativos-bebe/">🧸 Preparativos</a><a href="/observatorio/">📊 Observatorio de ayudas</a><a href="/metodologia/">Cómo revisamos</a><a href="/quienes-somos/">Quiénes somos</a><a href="/aviso-legal/">Aviso legal</a><a href="/cookies/">Cookies</a><a href="/contacto/">Contacto</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div>`;
+    footer.innerHTML = `<div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mis trámites</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/preparativos-bebe/">🧸 Preparativos</a><a href="/observatorio/">📊 Observatorio de ayudas</a><a href="/metodologia/">Cómo revisamos</a><a href="/quienes-somos/">Quiénes somos</a><a href="/aviso-legal/">Aviso legal</a><a href="/cookies/">Cookies</a><a href="/contacto/">Contacto</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div><div class="pb-share" aria-label="Compartir esta página"><span class="pb-share-label">¿Te ha sido útil? Compártela</span><div class="pb-share-links"><a data-pb-share="whatsapp" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página por WhatsApp">WhatsApp</a><a data-pb-share="facebook" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página en Facebook">Facebook</a><a data-pb-share="x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página en X">X</a><button type="button" data-pb-share="copy">Copiar enlace</button></div><span class="pb-share-status" role="status" aria-live="polite"></span></div>`;
+    setupFooterSharing(footer);
   }
 
   function renderMobileNav() {

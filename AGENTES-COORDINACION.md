@@ -177,3 +177,8 @@ Regla general: primero consultar contexto compartido, repositorio y estado actua
 ## Guía solicitud online — 21/10/2026
 - `/solicitar-permiso-nacimiento-online/` es una guía de acción, no otro simulador: distingue prestación INSS de permiso laboral, identificación con/sin certificado, documentación, certificado de empresa, pasos concretos, seguimiento y resolución de problemas.
 - Priorizar siempre enlace directo oficial; no recolectar datos personales ni duplicar Mi panel, la calculadora o la checklist. Contrastar plazos y documentos con el portal oficial antes de cambiarlos.
+
+## Compartir páginas — 22/10/2026
+- Compartir desde una única franja discreta del footer global: WhatsApp, Facebook, X y «Copiar enlace».
+- Compartir URL canónica de la página visitada, sin parámetros; enlaces directos sin widgets externos ni cookies ni formularios. No añadir botones en cada artículo ni en el hero.
+- `global-ui.js` configura enlaces y copia; `analytics.js` usa la nueva versión para evitar caché.
