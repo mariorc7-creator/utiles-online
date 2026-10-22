@@ -77,6 +77,21 @@
     const style = document.createElement('style');
     style.id = 'pb-global-ui-style';
     style.textContent = `
+
+      /* Una única tarjeta visual para ruta, progreso y acciones de revisión. */
+      html.pb-journey #pb-journey-chrome #pb-route-context{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;align-items:start!important;column-gap:18px!important;row-gap:12px!important;}
+      html.pb-journey #pb-route-context > #pb-article-progress,
+      html.pb-journey #pb-route-context > #pb-ayudas-final-control{grid-column:1/-1!important;width:100%!important;max-width:none!important;margin:0!important;padding:15px 0 0!important;border:0!important;border-top:1px solid #dce3f2!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;box-sizing:border-box!important}
+      html.pb-journey #pb-route-context > #pb-article-progress{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important}
+      html.pb-journey #pb-route-context > #pb-ayudas-final-control{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important}
+      html.pb-journey #pb-route-context .pb-route-progress{grid-column:2!important;grid-row:1!important}
+      @media(max-width:700px){
+        html.pb-journey #pb-journey-chrome #pb-route-context{grid-template-columns:1fr!important}
+        html.pb-journey #pb-route-context .pb-route-progress{grid-column:1!important;grid-row:2!important}
+        html.pb-journey #pb-route-context > #pb-article-progress,
+        html.pb-journey #pb-route-context > #pb-ayudas-final-control{grid-column:1!important;flex-direction:column!important;align-items:stretch!important;padding-top:12px!important}
+      }
+
       html.pb-journey .pb-route-step-nav{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px}
       html.pb-journey .pb-route-step-nav a{font-size:.84rem;line-height:1.35;font-weight:750;color:#5058c9;text-decoration:none}
       html.pb-journey .pb-route-step-nav a:hover{text-decoration:underline}
@@ -320,7 +335,7 @@
     }
     const route = document.getElementById('pb-route-context');
     const shell = document.getElementById('pb-journey-chrome');
-    if (shell && box.parentNode !== shell) shell.appendChild(box);
+    if (shell && box.parentNode !== route && box.parentNode !== shell) shell.appendChild(box);
     else if (!shell && route && box.previousElementSibling !== route) route.insertAdjacentElement('afterend', box);
     const done = readMaster()[key] === true;
     const reviewOnly = key === 'ayudas' || key === 'deduccion';
@@ -442,9 +457,9 @@
       route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${number>1?`<a href="${steps[number===5?3:number===6?4:i-1][0]}">← Anterior: ${steps[number===5?3:number===6?4:i-1][1]}</a>`:""}${number<7?`<a href="${steps[number===5?6:i+1][0]}">Siguiente: ${steps[number===5?6:i+1][1]} →</a>`:""}</nav></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
-    const status = document.getElementById('pb-article-progress');
-    if (status && status.parentNode !== shell) shell.appendChild(status);
-    // Estas dos tarjetas son hermanas del main y no quedan dentro de la caja del artículo.
+    const status = document.getElementById('pb-article-progress') || document.getElementById('pb-ayudas-final-control');
+    if (status && status.parentNode !== route) route.appendChild(status);
+    // La navegación y el estado forman una sola tarjeta, también en Ayudas.
   }
 
   function aplicar() {
