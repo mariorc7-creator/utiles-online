@@ -661,11 +661,12 @@
       route.dataset.step = signature;
       const prev = i > 0 ? `<a class="pb-route-prev" href="${steps[i-1][0]}">← Anterior: ${steps[i-1][1]}</a>` : '';
       const next = i < 6 ? `<a class="pb-route-next" href="${steps[i+1][0]}">Siguiente: ${steps[i+1][1]} →</a>` : '';
+      const summary = completed === steps.length ? '<a class="pb-route-summary" href="/mi-panel/">✓ Finalizado · Ver resumen →</a>' : '';
       // Conservar los controles interactivos antes de reconstruir la ruta.
       // Si no, innerHTML los destruye al cambiar de pendiente a hecho.
       const existingControl = route.querySelector(':scope > #pb-ayudas-final-control, :scope > #pb-article-progress');
       if (existingControl) existingControl.remove();
-      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${prev}${next}</nav></div><span class="pb-route-state ${done ? 'is-done' : ''}" role="status">${done ? '✓ Hecho' : 'Pendiente'}</span><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
+      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${prev}${next}${summary}</nav></div><span class="pb-route-state ${done ? 'is-done' : ''}" role="status">${done ? '✓ Hecho' : 'Pendiente'}</span><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
     const status = document.getElementById('pb-article-progress') || document.getElementById('pb-ayudas-final-control');
@@ -820,6 +821,14 @@
           display:inline-flex!important;max-width:100%!important;
         }
       }
+    `;
+    /* Una única etiqueta de estado; el resumen se muestra desde la ruta sin F5. */
+    style.textContent += `
+      html.pb-journey #pb-route-context .pb-progress-status-label,
+      html.pb-journey #pb-route-context .pb-ayudas-final-copy{display:none!important}
+      html.pb-journey #pb-route-context .pb-route-summary{display:inline-flex!important;align-items:center!important;justify-content:center!important;background:#5863df!important;color:#fff!important;padding:9px 14px!important;border-radius:10px!important;text-decoration:none!important;font-weight:800!important;min-height:40px!important}
+      html.pb-journey #pb-route-context #pb-ayudas-final-done{display:none!important}
+      @media(max-width:700px){html.pb-journey #pb-route-context .pb-route-summary{grid-column:1/-1!important;width:100%!important;box-sizing:border-box!important}}
     `;
     document.head.appendChild(style);
   }
