@@ -189,24 +189,25 @@
   }
 
   function addRouteContext(){
-    const excluded=['/','/mi-panel/'];
-    let path=location.pathname;
-    if(path.length>1&&!path.endsWith('/')) path+='/'
-    if(excluded.includes(path)) return;
+    const steps=[
+      ['/registro-civil-bebe/','Registro Civil','🧾'],
+      ['/incluir-bebe-beneficiario-seguridad-social/','Seguridad Social','👶'],
+      ['/tarjeta-sanitaria-bebe/','Tarjeta sanitaria','🏥'],
+      ['/empadronar-bebe/','Empadronamiento','🏠'],
+      ['/permiso-nacimiento-cuidado-menor-2026/','Prestación y permiso','🗓️'],
+      ['/deduccion-maternidad/','Deducciones','💳'],
+      ['/ayudas-nacimiento/','Ayudas','💶']
+    ];
+    const path=location.pathname.replace(/\/?$/, '/');
+    const index=steps.findIndex(step=>step[0]===path);
     document.getElementById('pb-route-context')?.remove();
-    const progress=progressState();
-    const hasProgress=ROUTE.some(x=>Object.prototype.hasOwnProperty.call(progress,x.key));
-    if(!hasProgress) return;
-    const done=ROUTE.filter(x=>progress[x.key]).length;
-    const next=nextRoute();
-    const current=ROUTE.find(x=>path===x.href || (x.key==='tarjeta-sanitaria'&&path.startsWith('/tarjeta-sanitaria-bebe/')) || (x.key==='padron'&&path.startsWith('/empadronar-bebe/')) || (x.key==='prestacion'&&path.startsWith('/permiso-nacimiento-cuidado-menor')));
-    const status=current ? (progress[current.key]?'done':(next&&next.key===current.key?'next':'later')) : null;
-    const statusText=status==='done'?'REVISADO':status==='next'?'SIGUIENTE':'MÁS ADELANTE';
+    if(index<0)return;
+    const number=index+1,percent=Math.round(number/steps.length*100),current=steps[index];
     const box=document.createElement('div');
-    box.id='pb-route-context'; box.className='pb-route-context';
-    box.innerHTML=`<div class="pb-route-copy"><span>TU RUTA · ${done}/7</span><strong>${current?current.icon+' '+current.label:'Progreso guardado'}${status?`<em class="pb-route-status ${status}">${statusText}</em>`:''}</strong></div><div class="pb-route-progress"><b>${Math.round(done/7*100)}%</b><span class="pb-route-track"><i style="width:${Math.round(done/7*100)}%"></i></span></div>`;
+    box.id='pb-route-context';box.className='pb-route-context';
+    box.innerHTML=`<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     const main=document.querySelector('main');
-    if(main) main.insertBefore(box, main.querySelector('#pb-article-progress') || main.firstChild);
+    if(main) main.prepend(box);
   }
 
   function addMobileNext(){
