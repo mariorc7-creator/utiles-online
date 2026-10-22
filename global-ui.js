@@ -153,6 +153,15 @@
     };
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',normalizeJourney,{once:true});
     else normalizeJourney();
+    // Ayudas: el padding heredado de tools-main estrechaba estado y guía 40 px por lado.
+    style.textContent += `
+      html.pb-journey body main.tools-main {width:min(calc(100% - 40px),1100px)!important;max-width:1100px!important;padding-left:0!important;padding-right:0!important;box-sizing:border-box!important;}
+      html.pb-journey main.tools-main #pb-ayudas-final-control,
+      html.pb-journey main.tools-main > .tools-hero {width:100%!important;max-width:none!important;box-sizing:border-box!important;}
+      @media(max-width:700px){
+        html.pb-journey body main.tools-main {width:calc(100% - 24px)!important;padding-left:0!important;padding-right:0!important;}
+      }
+    `;
     document.head.appendChild(style);
   }
 
