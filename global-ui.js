@@ -309,6 +309,59 @@
       html.pb-journey #pb-guide-start a:hover{text-decoration:underline}
       @media(max-width:700px){html.pb-journey #pb-guide-start{padding:12px 14px;align-items:flex-start}}
     `;
+    /* UX recorrido: enlaces compactos y control de estado siempre visible. */
+    style.textContent += `
+      html.pb-journey #pb-journey-chrome > #pb-route-context{
+        display:flex!important;flex-direction:column!important;align-items:stretch!important;
+        justify-content:flex-start!important;gap:10px!important;height:auto!important;
+      }
+      html.pb-journey #pb-route-context > .pb-route-copy,
+      html.pb-journey #pb-route-context > .pb-route-progress{width:100%!important;flex:none!important}
+      html.pb-journey #pb-route-context .pb-route-step-nav{
+        display:flex!important;flex-flow:row wrap!important;justify-content:flex-start!important;
+        align-items:center!important;column-gap:18px!important;row-gap:4px!important;
+        margin:8px 0 0!important;padding:0!important;min-height:0!important;
+      }
+      html.pb-journey #pb-route-context .pb-route-step-nav a{
+        display:inline-flex!important;align-items:center!important;width:auto!important;
+        min-height:32px!important;margin:0!important;padding:2px 0!important;
+        font-size:.86rem!important;line-height:1.35!important;
+      }
+      html.pb-journey #pb-route-context > #pb-article-progress,
+      html.pb-journey #pb-route-context > #pb-ayudas-final-control{
+        display:flex!important;flex-direction:row!important;align-items:center!important;
+        justify-content:space-between!important;flex-wrap:wrap!important;
+        position:static!important;visibility:visible!important;opacity:1!important;
+        padding:13px 0 0!important;margin:0!important;width:100%!important;
+        border:0!important;border-top:1px solid #dce3f2!important;
+        background:transparent!important;gap:10px!important;
+      }
+      html.pb-journey #pb-route-context .pb-progress-status-label,
+      html.pb-journey #pb-route-context .pb-ayudas-final-copy{
+        display:block!important;text-align:left!important;flex:0 0 auto!important;
+      }
+      html.pb-journey #pb-route-context .pb-article-progress-actions,
+      html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+        display:flex!important;flex-flow:row wrap!important;justify-content:flex-start!important;
+        align-items:center!important;gap:8px!important;
+      }
+      html.pb-journey #pb-route-context #pb-ayudas-final-done:not([hidden]){
+        display:inline-flex!important;visibility:visible!important;
+      }
+      @media(max-width:700px){
+        html.pb-journey #pb-route-context .pb-route-step-nav{column-gap:14px!important;row-gap:2px!important}
+        html.pb-journey #pb-route-context > #pb-article-progress,
+        html.pb-journey #pb-route-context > #pb-ayudas-final-control{
+          flex-direction:column!important;align-items:stretch!important;
+        }
+        html.pb-journey #pb-route-context .pb-article-progress-actions,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+          display:flex!important;flex-direction:column!important;align-items:stretch!important;
+        }
+        html.pb-journey #pb-route-context .pb-article-progress-actions > *,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:100%!important;box-sizing:border-box!important}
+      }
+    `;
     document.head.appendChild(style);
   }
 
@@ -565,7 +618,7 @@
     const completed = progressCount();
     const percent = Math.round(completed * 100 / 7);
     const current = steps[i];
-    const signature = `${number}:${completed}`;
+    const signature = `${number}:${completed}:${readMaster()[MASTER_KEYS[number-1]] === true ? 'hecho' : 'pendiente'}`;
     if (route.dataset.step !== signature) {
       route.dataset.step = signature;
       route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${number>1?`<a href="${steps[number===5?3:number===6?4:i-1][0]}">← Anterior: ${steps[number===5?3:number===6?4:i-1][1]}</a>`:""}${number<7?`<a href="${steps[number===5?6:i+1][0]}">Siguiente: ${steps[number===5?6:i+1][1]} →</a>`:""}</nav></div><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b title="${completed} de 7 revisados">${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
@@ -588,7 +641,7 @@
     if(!document.documentElement.classList.contains('pb-journey'))return;
     const active=hasStartedJourney();
     document.documentElement.classList.toggle('pb-guide-only',!active);
-    if(active){document.getElementById('pb-guide-start')?.remove();return;}
+    if(active || document.getElementById('pb-journey-chrome')){document.documentElement.classList.remove('pb-guide-only');document.getElementById('pb-guide-start')?.remove();return;}
     const main=document.querySelector('main');
     if(!main || document.getElementById('pb-guide-start'))return;
     const box=document.createElement('div');
@@ -603,7 +656,7 @@
     syncAppChecklist();
     syncPrintableChecklist();
     syncSimpleProgress();
-    if(hasStartedJourney()){renderArticleProgress();ensureJourneyShell();}
+    if(hasStartedJourney() || ['registro-civil-bebe','incluir-bebe-beneficiario-seguridad-social','tarjeta-sanitaria-bebe','empadronar-bebe','permiso-nacimiento-cuidado-menor-2026','permiso-nacimiento-cuidado-menor','deduccion-maternidad','ayudas-nacimiento'].includes(location.pathname.replace(/^\/+|\/+$/g,''))){renderArticleProgress();ensureJourneyShell();}
     showGuideEntry();
     actualizarBadgePanel();
   }
