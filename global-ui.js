@@ -196,6 +196,51 @@
         html.pb-journey body main.tools-main {width:calc(100% - 24px)!important;padding-left:0!important;padding-right:0!important;}
       }
     `;
+    // Layout estable: una columna real, sin grid heredado ni desbordamientos.
+    style.textContent += `
+      html.pb-journey #pb-journey-chrome > #pb-route-context{
+        display:flex!important;flex-direction:column!important;align-items:stretch!important;
+        justify-content:flex-start!important;gap:12px!important;min-width:0!important;
+        height:auto!important;overflow:visible!important;padding:20px 24px!important;
+      }
+      html.pb-journey #pb-route-context > .pb-route-copy{
+        display:block!important;flex:none!important;width:100%!important;min-width:0!important;
+        max-width:100%!important;white-space:normal!important;
+      }
+      html.pb-journey #pb-route-context > .pb-route-progress{
+        display:flex!important;align-items:center!important;gap:10px!important;
+        width:100%!important;min-width:0!important;max-width:100%!important;
+        grid-row:auto!important;grid-column:auto!important;flex:none!important;
+      }
+      html.pb-journey #pb-route-context > .pb-route-progress .pb-route-track{flex:1!important;max-width:none!important}
+      html.pb-journey #pb-route-context > #pb-article-progress,
+      html.pb-journey #pb-route-context > #pb-ayudas-final-control{
+        display:flex!important;position:static!important;flex-direction:row!important;
+        align-items:center!important;justify-content:space-between!important;flex-wrap:wrap!important;
+        width:100%!important;min-width:0!important;max-width:100%!important;
+        margin:0!important;padding:15px 0 0!important;border:0!important;
+        border-top:1px solid #dce3f2!important;border-radius:0!important;
+        box-shadow:none!important;background:transparent!important;gap:12px!important;
+        grid-row:auto!important;grid-column:auto!important;
+      }
+      html.pb-journey #pb-route-context .pb-article-progress-actions,
+      html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+        display:flex!important;flex-wrap:wrap!important;gap:8px!important;max-width:100%!important;min-width:0!important;
+      }
+      @media(max-width:700px){
+        html.pb-journey #pb-journey-chrome > #pb-route-context{padding:16px!important;gap:10px!important}
+        html.pb-journey #pb-route-context > #pb-article-progress,
+        html.pb-journey #pb-route-context > #pb-ayudas-final-control{
+          flex-direction:column!important;align-items:stretch!important;
+        }
+        html.pb-journey #pb-route-context .pb-article-progress-actions,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+          display:flex!important;flex-direction:column!important;align-items:stretch!important;
+        }
+        html.pb-journey #pb-route-context .pb-article-progress-actions > *,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:100%!important;box-sizing:border-box!important}
+      }
+    `;
     document.head.appendChild(style);
   }
 
