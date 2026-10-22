@@ -241,6 +241,65 @@
         html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:100%!important;box-sizing:border-box!important}
       }
     `;
+    // Disposición definitiva: título a la izquierda; estado y acciones alineados a la derecha.
+    style.textContent += `
+      html.pb-journey #pb-journey-chrome > #pb-route-context{
+        display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;
+        align-items:center!important;gap:12px 18px!important;
+      }
+      html.pb-journey #pb-route-context > .pb-route-copy{
+        grid-column:1!important;grid-row:1!important;width:auto!important;
+      }
+      html.pb-journey #pb-route-context > .pb-route-progress{
+        grid-column:1/-1!important;grid-row:2!important;
+      }
+      html.pb-journey #pb-route-context > #pb-article-progress,
+      html.pb-journey #pb-route-context > #pb-ayudas-final-control{
+        display:contents!important;
+      }
+      html.pb-journey #pb-route-context .pb-progress-status-label,
+      html.pb-journey #pb-route-context .pb-ayudas-final-copy{
+        grid-column:2!important;grid-row:1!important;
+        min-width:0!important;text-align:right!important;
+      }
+      html.pb-journey #pb-route-context .pb-progress-status-label strong,
+      html.pb-journey #pb-route-context .pb-ayudas-final-copy strong{
+        white-space:nowrap!important;color:#27724a!important;font-size:.94rem!important;
+      }
+      html.pb-journey #pb-route-context #pb-article-progress:not(.is-done) .pb-progress-status-label strong{
+        color:#6f7891!important;
+      }
+      html.pb-journey #pb-route-context .pb-progress-status-label p,
+      html.pb-journey #pb-route-context .pb-ayudas-final-copy p{display:none!important}
+      html.pb-journey #pb-route-context .pb-article-progress-actions,
+      html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+        grid-column:3!important;grid-row:1!important;
+        display:flex!important;flex-direction:row!important;align-items:center!important;
+        flex-wrap:wrap!important;justify-content:flex-end!important;gap:8px!important;
+      }
+      @media(max-width:1050px){
+        html.pb-journey #pb-journey-chrome > #pb-route-context{
+          grid-template-columns:minmax(0,1fr) auto!important;
+        }
+        html.pb-journey #pb-route-context .pb-progress-status-label,
+        html.pb-journey #pb-route-context .pb-ayudas-final-copy{grid-column:2!important;grid-row:1!important}
+        html.pb-journey #pb-route-context .pb-article-progress-actions,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+          grid-column:1/-1!important;grid-row:3!important;justify-content:flex-start!important;
+        }
+      }
+      @media(max-width:700px){
+        html.pb-journey #pb-journey-chrome > #pb-route-context{
+          grid-template-columns:minmax(0,1fr) auto!important;gap:12px!important;
+        }
+        html.pb-journey #pb-route-context .pb-route-progress{grid-column:1/-1!important;grid-row:2!important}
+        html.pb-journey #pb-route-context .pb-article-progress-actions,
+        html.pb-journey #pb-route-context .pb-ayudas-final-actions{
+          grid-column:1/-1!important;grid-row:3!important;
+          flex-direction:column!important;align-items:stretch!important;
+        }
+      }
+    `;
     document.head.appendChild(style);
   }
 
@@ -447,7 +506,7 @@
     const forward = nextStep && (nextStep[0] !== key || done)
       ? `<a class="pb-next-step-link" href="${nextStep[2]}">Paso siguiente: ${nextStep[1]} →</a>`
       : (!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : '');
-    box.innerHTML = `<div><strong>${done ? '✓ ' : ''}${etiquetaKey(key)} · ${done ? (reviewOnly ? 'revisado' : 'hecho') : 'pendiente'}</strong><p>Este estado se comparte con Mi panel y la checklist.</p></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button>${forward}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
+    box.innerHTML = `<div class="pb-progress-status-label"><strong>${done ? '✓ ' : ''}${done ? (reviewOnly ? 'Revisado' : 'Hecho') : 'Pendiente'}</strong></div><div class="pb-article-progress-actions"><button type="button" data-pb-toggle-progress="${key}">${done ? (reviewOnly ? 'Marcar como pendiente' : 'Desmarcar') : (reviewOnly ? 'Marcar como revisado' : 'Marcar como hecho')}</button>${!nextStep ? '<a class="pb-next-step-link" href="/mi-panel/">Finalizado ✓ Ver mi resumen</a>' : ''}<a href="/mi-panel/" data-pb-open-panel>Abrir Mi panel →</a></div>`;
     box.querySelector('button').addEventListener('click', () => {
       const next = readMaster();
       next[key] = !done;
