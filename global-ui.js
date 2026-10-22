@@ -77,6 +77,24 @@
     const style = document.createElement('style');
     style.id = 'pb-global-ui-style';
     style.textContent = `
+      /* Shell único por encima de la guía: nunca dentro del recuadro del artículo. */
+      html.pb-journey #pb-journey-chrome{width:min(100% - 40px,1100px);max-width:1100px;margin:26px auto 0;padding:0;box-sizing:border-box}
+      html.pb-journey #pb-journey-chrome #pb-route-context,
+      html.pb-journey #pb-journey-chrome #pb-article-progress{display:flex!important;align-items:center;justify-content:space-between;gap:18px;box-sizing:border-box;width:100%!important;max-width:none!important;margin:0 0 18px!important;padding:18px 22px!important;background:#f8f9ff!important;border:1px solid #dce3f2!important;border-radius:17px!important;box-shadow:none!important}
+      html.pb-journey #pb-journey-chrome .pb-article-progress-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+      html.pb-journey #pb-journey-chrome .pb-article-progress-actions button,
+      html.pb-journey #pb-journey-chrome .pb-article-progress-actions a{min-height:43px;box-sizing:border-box}
+      html.pb-journey main{padding-top:0!important}
+      html.pb-journey main>.badge{display:none!important}
+      @media(max-width:700px){
+        html.pb-journey #pb-journey-chrome{width:calc(100% - 24px);margin-top:14px}
+        html.pb-journey #pb-journey-chrome #pb-route-context,
+        html.pb-journey #pb-journey-chrome #pb-article-progress{padding:14px!important;margin-bottom:12px!important}
+        html.pb-journey #pb-journey-chrome #pb-article-progress{flex-direction:column;align-items:stretch}
+        html.pb-journey #pb-journey-chrome .pb-article-progress-actions{display:grid;grid-template-columns:1fr}
+        html.pb-journey #pb-journey-chrome .pb-article-progress-actions>*{width:100%;text-align:center}
+      }
+
       /* Consistent warm backdrop and white cards across all seven route templates. */
       html.pb-journey, html.pb-journey body { background:linear-gradient(115deg,#fff4f0 0%,#fcfafb 48%,#f4f2ff 100%) fixed!important; }
       html.pb-journey main { background:transparent!important; }
@@ -309,6 +327,46 @@
   }
 
 
+  function ensureJourneyShell() {
+    const steps = [
+      ['/registro-civil-bebe/','Registro Civil','🧾'],
+      ['/incluir-bebe-beneficiario-seguridad-social/','Seguridad Social','👶'],
+      ['/tarjeta-sanitaria-bebe/','Tarjeta sanitaria','🏥'],
+      ['/empadronar-bebe/','Empadronamiento','🏠'],
+      ['/permiso-nacimiento-cuidado-menor-2026/','Prestación y permiso','🗓️'],
+      ['/deduccion-maternidad/','Deducciones','💳'],
+      ['/ayudas-nacimiento/','Ayudas','💶']
+    ];
+    const i = steps.findIndex(step => step[0] === location.pathname.replace(/\\/?$/, '/'));
+    if (i === -1) return;
+    const main = document.querySelector('main');
+    if (!main || !main.parentNode) return;
+    let shell = document.getElementById('pb-journey-chrome');
+    if (!shell) {
+      shell = document.createElement('div');
+      shell.id = 'pb-journey-chrome';
+      main.parentNode.insertBefore(shell, main);
+    }
+    let route = document.getElementById('pb-route-context');
+    if (!route) {
+      route = document.createElement('div');
+      route.id = 'pb-route-context';
+      route.className = 'pb-route-context';
+    }
+    const number = i + 1;
+    const percent = Math.round(number * 100 / steps.length);
+    const current = steps[i];
+    const signature = String(number);
+    if (route.dataset.step !== signature) {
+      route.dataset.step = signature;
+      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
+    }
+    shell.appendChild(route);
+    const status = document.getElementById('pb-article-progress');
+    if (status && status.parentNode !== shell) shell.appendChild(status);
+    // Estas dos tarjetas son hermanas del main y no quedan dentro de la caja del artículo.
+  }
+
   function aplicar() {
     normalizarCabecera();
     normalizarFooter();
@@ -317,6 +375,7 @@
     syncPrintableChecklist();
     syncSimpleProgress();
     renderArticleProgress();
+    ensureJourneyShell();
     actualizarBadgePanel();
   }
 
