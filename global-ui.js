@@ -186,7 +186,7 @@
   function renderArticleProgress() {
     const key = keyForPath(location.pathname);
     const main = document.querySelector('main');
-    if (!key || !main || location.pathname.startsWith('/herramientas/') || location.pathname.startsWith('/mi-panel/')) return;
+    if (!key || !main || location.pathname.startsWith('/herramientas/') || location.pathname.startsWith('/mi-panel/') || location.pathname === '/ayudas-nacimiento/') return;
     let box = document.getElementById('pb-article-progress');
     if (!box) {
       box = document.createElement('section');
