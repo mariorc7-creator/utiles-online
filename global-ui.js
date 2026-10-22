@@ -4,7 +4,7 @@
   const MASTER_KEY = 'papelesbebe_que_me_falta_v1';
   const APP_COMPLETED_KEY = 'tramitesFacilesCompletados';
   const HEADER_VERSION = '20261021-mobile-nav';
-  const FOOTER_VERSION = '20261022-share4';
+  const FOOTER_VERSION = '20261022-share5';
   const MASTER_KEYS = ['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
   const NAV_ITEMS = [
     ['/mi-panel/', 'Mis trámites'],
@@ -372,39 +372,6 @@
       return '👶 Entre trámites, ayudas y fechas importantes, tener un bebé trae mucho papeleo. Esta guía gratuita puede ponértelo más fácil: ' + title.replace(/\s*\|\s*Papeles del Bebé.*$/i,'').slice(0,75);
     }
     const messageX = shareMessageForX(location.pathname);
-    function makeThread(path) {
-      const segments = path === '/' ? [
-        '👶 ¿Acabas de tener un bebé? Además de pañales llegan muchos trámites. Aquí tienes varias cosas que conviene revisar. 🧵👇',
-        '📋 Comprueba la inscripción en el Registro Civil. En muchos casos el hospital comunica el nacimiento; confirma que se haya realizado.',
-        '💶 Revisa la prestación por nacimiento, la asistencia sanitaria del bebé y las ayudas que puedan corresponderte.'
-      ] : /calculadora-permiso|permiso|prestacion/.test(path) ? [
-        '📅 ¿Cuándo termina tu permiso por nacimiento? Las fechas, los periodos y tu situación laboral importan. 🧵👇',
-        '✅ Comprueba qué condiciones te corresponden y cómo se distribuyen los periodos de descanso.',
-        '📋 Confirma los datos comunicados por tu empresa, cuando proceda, y conserva los justificantes del INSS.'
-      ] : /ayudas|comunidades/.test(path) ? [
-        '💶 ¿Qué ayudas podrías solicitar por el nacimiento de un bebé? Depende de tu situación y del lugar donde vives. 🧵👇',
-        '📍 Revisa las ayudas estatales, autonómicas y de tu ayuntamiento. No hay una lista idéntica para todas las familias.',
-        '✅ Consulta plazos y requisitos en las fuentes oficiales antes de solicitar.'
-      ] : /checklist/.test(path) ? [
-        '👶 ¿Un bebé en camino? Esta checklist puede ayudarte a no olvidar los trámites. 🧵👇',
-        '📋 Revisa la inscripción del nacimiento y la asistencia sanitaria del bebé.',
-        '💶 Comprueba la prestación por nacimiento, las ayudas disponibles y qué justificantes debes guardar.'
-      ] : /mi-panel/.test(path) ? [
-        '✅ ¿Cómo organizar los trámites después del nacimiento y evitar olvidos? 🧵👇',
-        '📋 Anota lo pendiente: Registro Civil, Seguridad Social, tarjeta sanitaria y otros pasos según tu caso.',
-        '🗓️ Revisa cada paso, conserva justificantes y lleva el progreso en un solo lugar.'
-      ] : /preparativos-bebe/.test(path) ? [
-        '🧸 ¿Preparando la llegada de un bebé? No necesitas comprarlo todo de golpe. 🧵👇',
-        '🚗 Si vas a viajar en coche, revisa con tiempo una silla infantil adecuada y su instalación.',
-        '✅ Distingue lo necesario desde el principio de lo que puede esperar, como una trona.'
-      ] : [
-        '👶 Los primeros meses con un bebé traen muchas gestiones. Aquí tienes tres ideas para organizarlas. 🧵👇',
-        '📋 Consulta los requisitos oficiales y prepara los documentos de cada trámite.',
-        '✅ Guarda justificantes, revisa el estado de las solicitudes y anota lo pendiente.'
-      ];
-      return segments.map((part,index)=>(index+1)+'/4 '+part).concat('4/4 📌 Puedes ampliar la información con una guía gratuita y sus fuentes oficiales: '+url).join('\n\n');
-    }
-    const threadText=makeThread(location.pathname);
     const destinations = {
       whatsapp:'https://api.whatsapp.com/send?text='+encodeURIComponent(message+' '+url),
       facebook:'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(url),
@@ -412,19 +379,7 @@
     };
     footer.querySelectorAll('[data-pb-share]').forEach(control => {
       const platform=control.dataset.pbShare;
-      if(platform!=='copy' && platform!=='thread') { control.href=destinations[platform];return; }
-      if(platform==='thread') {
-        control.addEventListener('click', async () => {
-          const status=footer.querySelector('.pb-share-status');
-          try {
-            await navigator.clipboard.writeText(threadText);
-            if(status) status.textContent='Hilo copiado: publica el primer tuit y responde con los siguientes.';
-          } catch (_) {
-            if(status) status.textContent='No se pudo copiar. Comprueba los permisos del navegador.';
-          }
-        });
-        return;
-      }
+      if(platform!=='copy') { control.href=destinations[platform];return; }
       control.addEventListener('click',async()=>{
         const status=footer.querySelector('.pb-share-status');
         try { await navigator.clipboard.writeText(url);if(status)status.textContent='Enlace copiado'; }
@@ -439,7 +394,7 @@
     if (footer.dataset.pbFooterVersion === FOOTER_VERSION) return;
     footer.className = 'pb-global-footer';
     footer.dataset.pbFooterVersion = FOOTER_VERSION;
-    footer.innerHTML = `<div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mis trámites</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/preparativos-bebe/">🧸 Preparativos</a><a href="/observatorio/">📊 Observatorio de ayudas</a><a href="/metodologia/">Cómo revisamos</a><a href="/quienes-somos/">Quiénes somos</a><a href="/aviso-legal/">Aviso legal</a><a href="/cookies/">Cookies</a><a href="/contacto/">Contacto</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div><div class="pb-share" aria-label="Compartir esta página"><span class="pb-share-label">¿Te ha sido útil? Compártela</span><div class="pb-share-links"><a data-pb-share="whatsapp" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página por WhatsApp"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.55 0 .25 5.3.25 11.85c0 2.1.55 4.1 1.6 5.95L.15 24l6.35-1.66c1.7.93 3.62 1.42 5.58 1.42 6.53 0 11.85-5.3 11.85-11.84 0-3.15-1.22-6.13-3.43-8.42ZM12.08 21.75a9.9 9.9 0 0 1-5.05-1.38l-.36-.22-3.77.99 1-3.67-.25-.38a9.73 9.73 0 0 1-1.49-5.25c0-5.48 4.46-9.94 9.94-9.94s9.94 4.46 9.94 9.94-4.46 9.91-9.96 9.91Zm5.46-7.45c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.47-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.91-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.52.08-.79.37s-1.04 1.02-1.04 2.49c0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg><span>WhatsApp</span></a><a data-pb-share="facebook" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página en Facebook"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.04H7.9v-2.9h2.54V9.84c0-2.52 1.5-3.91 3.79-3.91 1.1 0 2.26.2 2.26.2v2.5h-1.27c-1.25 0-1.64.78-1.64 1.58v1.85h2.8l-.45 2.9h-2.35V22c4.78-.76 8.42-4.92 8.42-9.94Z"/></svg><span>Facebook</span></a><a data-pb-share="x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página en X"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.41L5.56 22H2.43l7.25-8.29L1.8 2h6.41l4.43 6.76L18.9 2Zm-1.1 18h1.73L7.27 3.89H5.41L17.8 20Z"/></svg><span>X</span></a><button type="button" data-pb-share="thread" aria-label="Copiar hilo de cuatro publicaciones para X">🧵 <span>Copiar hilo para X</span></button><button type="button" data-pb-share="copy" aria-label="Copiar enlace de esta página"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copiar enlace</span></button></div><span class="pb-share-status" role="status" aria-live="polite"></span></div>`;
+    footer.innerHTML = `<div class="pb-footer-inner"><div><a class="pb-footer-brand" href="/">Papeles del <span>Bebé</span></a><p>Menos papeleo. Más tiempo para tu bebé.</p></div><nav aria-label="Navegación del pie"><a href="/mi-panel/">Mis trámites</a><a href="/ayudas-nacimiento/">Ayudas</a><a href="/herramientas/">Herramientas</a><a href="/guias-familias/">Guías</a><a href="/preparativos-bebe/">🧸 Preparativos</a><a href="/observatorio/">📊 Observatorio de ayudas</a><a href="/metodologia/">Cómo revisamos</a><a href="/quienes-somos/">Quiénes somos</a><a href="/aviso-legal/">Aviso legal</a><a href="/cookies/">Cookies</a><a href="/contacto/">Contacto</a><a href="/privacidad/">Privacidad</a></nav><p class="pb-footer-copy">© 2026 Papeles del Bebé</p></div><div class="pb-share" aria-label="Compartir esta página"><span class="pb-share-label">¿Te ha sido útil? Compártela</span><div class="pb-share-links"><a data-pb-share="whatsapp" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página por WhatsApp"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.55 0 .25 5.3.25 11.85c0 2.1.55 4.1 1.6 5.95L.15 24l6.35-1.66c1.7.93 3.62 1.42 5.58 1.42 6.53 0 11.85-5.3 11.85-11.84 0-3.15-1.22-6.13-3.43-8.42ZM12.08 21.75a9.9 9.9 0 0 1-5.05-1.38l-.36-.22-3.77.99 1-3.67-.25-.38a9.73 9.73 0 0 1-1.49-5.25c0-5.48 4.46-9.94 9.94-9.94s9.94 4.46 9.94 9.94-4.46 9.91-9.96 9.91Zm5.46-7.45c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.47-2.4-1.48-.89-.79-1.49-1.77-1.67-2.07-.17-.3-.02-.46.13-.61.14-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.62-.91-2.22-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.52.08-.79.37s-1.04 1.02-1.04 2.49c0 1.47 1.07 2.89 1.22 3.09.15.2 2.1 3.21 5.08 4.5.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/></svg><span>WhatsApp</span></a><a data-pb-share="facebook" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página en Facebook"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.04H7.9v-2.9h2.54V9.84c0-2.52 1.5-3.91 3.79-3.91 1.1 0 2.26.2 2.26.2v2.5h-1.27c-1.25 0-1.64.78-1.64 1.58v1.85h2.8l-.45 2.9h-2.35V22c4.78-.76 8.42-4.92 8.42-9.94Z"/></svg><span>Facebook</span></a><a data-pb-share="x" href="#" target="_blank" rel="noopener noreferrer" aria-label="Compartir esta página en X"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-6.78 7.75L23.2 22h-6.25l-4.9-7.41L5.56 22H2.43l7.25-8.29L1.8 2h6.41l4.43 6.76L18.9 2Zm-1.1 18h1.73L7.27 3.89H5.41L17.8 20Z"/></svg><span>X</span></a><button type="button" data-pb-share="copy" aria-label="Copiar enlace de esta página"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copiar enlace</span></button></div><span class="pb-share-status" role="status" aria-live="polite"></span></div>`;
     setupFooterSharing(footer);
   }
 
