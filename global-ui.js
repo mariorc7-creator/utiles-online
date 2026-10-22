@@ -639,34 +639,29 @@
       ['/tarjeta-sanitaria-bebe/','Tarjeta sanitaria','🏥'],
       ['/empadronar-bebe/','Empadronamiento','🏠'],
       ['/permiso-nacimiento-cuidado-menor-2026/','Prestación y permiso','🗓️'],
-      ['/permiso-nacimiento-cuidado-menor/','Prestación y permiso','🗓️'],
       ['/deduccion-maternidad/','Deducciones','💳'],
       ['/ayudas-nacimiento/','Ayudas','💶']
     ];
-    const i = steps.findIndex(step => step[0] === location.pathname.replace(/\/?$/, '/'));
+    const active = location.pathname === '/permiso-nacimiento-cuidado-menor/' ? steps[4][0] : location.pathname;
+    const i = steps.findIndex(step => step[0] === active);
     if (i === -1) return;
     const main = document.querySelector('main');
     if (!main || !main.parentNode) return;
     let shell = document.getElementById('pb-journey-chrome');
-    if (!shell) {
-      shell = document.createElement('div');
-      shell.id = 'pb-journey-chrome';
-      main.parentNode.insertBefore(shell, main);
-    }
+    if (!shell) { shell = document.createElement('div'); shell.id = 'pb-journey-chrome'; main.parentNode.insertBefore(shell, main); }
     let route = document.getElementById('pb-route-context');
-    if (!route) {
-      route = document.createElement('div');
-      route.id = 'pb-route-context';
-      route.className = 'pb-route-context';
-    }
-    const number = i > 4 ? i : i + 1;
+    if (!route) { route = document.createElement('div'); route.id = 'pb-route-context'; route.className = 'pb-route-context'; }
+    const number = i + 1;
     const completed = progressCount();
     const percent = Math.round(completed * 100 / 7);
     const current = steps[i];
-    const signature = `${number}:${completed}:${readMaster()[MASTER_KEYS[number-1]] === true ? 'hecho' : 'pendiente'}`;
+    const done = readMaster()[MASTER_KEYS[i]] === true;
+    const signature = `${number}:${completed}:${done ? 'hecho' : 'pendiente'}`;
     if (route.dataset.step !== signature) {
       route.dataset.step = signature;
-      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${number>1?`<a href="${steps[number===5?3:number===6?4:i-1][0]}">← Anterior: ${steps[number===5?3:number===6?4:i-1][1]}</a>`:""}${number<7?`<a href="${steps[number===5?6:i+1][0]}">Siguiente: ${steps[number===5?6:i+1][1]} →</a>`:""}</nav></div><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b title="${completed} de 7 revisados">${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
+      const prev = i > 0 ? `<a class="pb-route-prev" href="${steps[i-1][0]}">← Anterior: ${steps[i-1][1]}</a>` : '';
+      const next = i < 6 ? `<a class="pb-route-next" href="${steps[i+1][0]}">Siguiente: ${steps[i+1][1]} →</a>` : '';
+      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${prev}${next}</nav></div><span class="pb-route-state ${done ? 'is-done' : ''}" role="status">${done ? '✓ Hecho' : 'Pendiente'}</span><div class="pb-route-progress" aria-label="${completed} de 7 trámites revisados"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
     const status = document.getElementById('pb-article-progress') || document.getElementById('pb-ayudas-final-control');
@@ -759,6 +754,28 @@
         .pb-journey main > .hero,.pb-journey main > .hero-guide,.pb-journey main > .tools-hero {padding:22px 17px!important;border-radius:16px!important;margin-bottom:18px!important}
         .pb-journey main > .hero h1,.pb-journey main > .hero-guide h1,.pb-journey main > .tools-hero h1 {font-size:clamp(1.75rem,7vw,2.25rem)!important;margin:14px 0!important}
         .pb-journey main > .hero .subtitle,.pb-journey main > .hero-guide .lead,.pb-journey main > .tools-hero > p {font-size:.96rem!important;line-height:1.55!important}
+      }
+    `;
+    style.textContent += `
+      html.pb-journey #pb-journey-chrome > #pb-route-context{display:grid!important;grid-template-columns:minmax(0,1fr) auto auto!important;gap:12px!important;align-items:center!important;padding:16px 20px!important}
+      html.pb-journey #pb-route-context > .pb-route-copy{grid-column:1!important;grid-row:1!important;min-width:0!important;width:auto!important}
+      html.pb-journey #pb-route-context > .pb-route-state{grid-column:2!important;grid-row:1!important;display:inline-flex!important;align-items:center!important;white-space:nowrap!important;padding:6px 11px!important;border-radius:99px!important;background:#eef0f7!important;color:#5c667b!important;font-weight:800!important;font-size:.82rem!important}
+      html.pb-journey #pb-route-context > .pb-route-state.is-done{background:#e8f7ee!important;color:#23734b!important}
+      html.pb-journey #pb-route-context > .pb-route-progress{grid-column:1/-1!important;grid-row:2!important;width:100%!important;display:flex!important}
+      html.pb-journey #pb-route-context > #pb-article-progress,html.pb-journey #pb-route-context > #pb-ayudas-final-control{display:contents!important}
+      html.pb-journey #pb-route-context .pb-progress-status-label,html.pb-journey #pb-route-context .pb-ayudas-final-copy{display:none!important}
+      html.pb-journey #pb-route-context .pb-article-progress-actions,html.pb-journey #pb-route-context .pb-ayudas-final-actions{grid-column:3!important;grid-row:1!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;gap:8px!important;justify-content:flex-end!important;align-items:center!important;width:auto!important}
+      html.pb-journey #pb-route-context .pb-route-step-nav{display:flex!important;flex-flow:row wrap!important;gap:4px 14px!important;justify-content:flex-start!important;margin:5px 0 0!important}
+      html.pb-journey #pb-route-context .pb-route-step-nav a{display:inline-flex!important;width:auto!important;min-height:32px!important;padding:3px 0!important;margin:0!important}
+      html.pb-journey #pb-route-context .pb-route-next{margin-left:auto!important}
+      html.pb-journey #pb-route-context #pb-ayudas-final-done[hidden]{display:none!important}
+      @media(max-width:1100px){html.pb-journey #pb-journey-chrome > #pb-route-context{grid-template-columns:minmax(0,1fr) auto!important}html.pb-journey #pb-route-context .pb-article-progress-actions,html.pb-journey #pb-route-context .pb-ayudas-final-actions{grid-column:1/-1!important;grid-row:3!important;justify-content:flex-start!important}}
+      @media(max-width:700px){
+        html.pb-journey #pb-journey-chrome > #pb-route-context{padding:14px 16px!important;gap:10px!important}
+        html.pb-journey #pb-route-context .pb-route-step-nav{display:flex!important;flex-flow:row nowrap!important;justify-content:space-between!important;gap:12px!important}
+        html.pb-journey #pb-route-context .pb-route-step-nav a{width:auto!important;max-width:50%!important;min-width:0!important;white-space:normal!important;overflow-wrap:break-word!important;font-size:.8rem!important;line-height:1.3!important}
+        html.pb-journey #pb-route-context .pb-article-progress-actions,html.pb-journey #pb-route-context .pb-ayudas-final-actions{grid-column:1/-1!important;grid-row:3!important;display:flex!important;flex-direction:row!important;flex-wrap:wrap!important;width:100%!important;gap:8px!important}
+        html.pb-journey #pb-route-context .pb-article-progress-actions > *,html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:auto!important;flex:1 1 140px!important;min-height:44px!important;white-space:normal!important}
       }
     `;
     document.head.appendChild(style);
