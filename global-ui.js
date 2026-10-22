@@ -77,6 +77,12 @@
     const style = document.createElement('style');
     style.id = 'pb-global-ui-style';
     style.textContent = `
+      html.pb-journey .pb-route-step-nav{display:flex;gap:14px;flex-wrap:wrap;margin-top:9px}
+      html.pb-journey .pb-route-step-nav a{font-size:.84rem;line-height:1.35;font-weight:750;color:#5058c9;text-decoration:none}
+      html.pb-journey .pb-route-step-nav a:hover{text-decoration:underline}
+      html.pb-journey .pb-route-step-nav a:focus-visible{outline:2px solid #5058c9;outline-offset:3px;border-radius:3px}
+      @media(max-width:700px){html.pb-journey .pb-route-step-nav{gap:12px;margin-top:8px}html.pb-journey .pb-route-step-nav a{min-height:35px;display:inline-flex;align-items:center}}
+
       /* Mantener las dos tarjetas en un flujo estable al cambiar de estado. */
       html.pb-journey #pb-journey-chrome{display:flex!important;flex-direction:column!important;gap:14px!important}
       html.pb-journey #pb-journey-chrome #pb-route-context,
@@ -414,7 +420,7 @@
     const signature = String(number);
     if (route.dataset.step !== signature) {
       route.dataset.step = signature;
-      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
+      route.innerHTML = `<div class="pb-route-copy"><span>TU RUTA · ${number}/7</span><strong>${current[2]} ${current[1]}</strong><nav class="pb-route-step-nav" aria-label="Navegar entre los siete pasos">${number>1?`<a href="${steps[i-1][0]}">← Paso anterior</a>`:""}${number<7?`<a href="${steps[i+1][0]}">Paso siguiente →</a>`:""}</nav></div><div class="pb-route-progress"><b>${percent}%</b><span class="pb-route-track"><i style="width:${percent}%"></i></span></div>`;
     }
     if (route.parentNode !== shell || shell.firstElementChild !== route) shell.prepend(route);
     const status = document.getElementById('pb-article-progress');
