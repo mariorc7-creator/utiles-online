@@ -54,6 +54,25 @@
 .pb-finish[hidden]{display:none!important}.pb-simple .main-action[hidden]{display:none!important}.pb-finish h2{font-size:clamp(1.35rem,3.5vw,1.9rem);margin:8px 0}.pb-finish p{line-height:1.6;color:#5b677c;max-width:550px;margin:8px auto 16px}.pb-finish .finish-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.pb-finish .finish-actions a,.pb-finish .finish-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 14px;border-radius:11px;font:inherit;font-weight:750;text-decoration:none;cursor:pointer}.pb-finish .finish-actions button{background:#535bd6;border:1px solid #535bd6;color:#fff}.pb-finish .finish-actions a{background:#fff;border:1px solid #d3d9ef;color:#4a51b7}.pb-print-summary{display:none}
 @media(max-width:700px){.pb-simple.is-finished{padding-top:12px!important}.pb-simple.is-finished>.intro-label,.pb-simple.is-finished>h1,.pb-simple.is-finished>.intro{display:none!important}.pb-simple.is-finished .pb-finish{display:block;margin:8px 0 18px;padding:22px 16px;border-radius:16px;box-shadow:none}.pb-simple.is-finished .pb-finish h2{font-size:1.4rem;line-height:1.22}.pb-simple.is-finished .pb-finish p{font-size:.88rem;line-height:1.5}.pb-simple .finish-actions{flex-direction:column}.pb-simple .finish-actions a,.pb-simple .finish-actions button{width:100%!important;box-sizing:border-box}.pb-simple.is-finished .aid{margin-top:18px}.pb-simple.is-finished .section-title{margin-top:20px}}
 @media print{header,footer,#pb-mobile-nav,.pb-simple>:not(.pb-print-summary){display:none!important}.pb-simple{max-width:none;padding:0!important}.pb-print-summary{display:block!important;color:#222!important}.pb-print-summary li{padding:9px 0;border-bottom:1px solid #ddd}.pb-print-summary a{color:#222!important;text-decoration:none}.pb-print-summary h1{font-size:22pt}.pb-print-summary p{font-size:11pt}}
+
+@page{size:A4;margin:17mm}
+@media print{
+ html,body{background:#fff!important;color:#152438!important;height:auto!important;overflow:visible!important}
+ body>header,body>footer,body>#pb-mobile-nav,body>#papelesia-launcher,body>#papelesia-panel{display:none!important}
+ main.pb-simple{display:block!important;max-width:none!important;margin:0!important;padding:0!important}
+ main.pb-simple>*:not(.pb-print-summary){display:none!important}
+ main.pb-simple>.pb-print-summary{display:block!important;visibility:visible!important;font-family:Arial,sans-serif!important;font-size:10pt;line-height:1.43;color:#263249!important}
+ .pb-print-summary .pb-print-brand{font-weight:800;letter-spacing:.12em;color:#505ab0;font-size:9pt;border-bottom:2px solid #545dcc;padding-bottom:10px}
+ .pb-print-summary h1{font-size:23pt;line-height:1.15;margin:20px 0 5px;color:#1d2a45!important}
+ .pb-print-summary h2{font-size:13pt;margin:20px 0 10px;color:#2d3a69!important}
+ .pb-print-summary .pb-print-meta{color:#6c7484;font-size:9pt}
+ .pb-print-summary .pb-print-intro{padding:10px 12px;background:#f0f3ff!important;border-left:3px solid #6870e7}
+ .pb-print-summary .pb-print-item{break-inside:avoid;padding:8px 0;border-bottom:1px solid #e1e5ee}
+ .pb-print-summary .pb-print-item strong{font-size:10pt;color:#182a47}
+ .pb-print-summary .pb-print-item p{margin:3px 0;font-size:9pt;color:#4d586b;overflow-wrap:anywhere}
+ .pb-print-summary li{padding:0;margin:5px 0;border:0!important}
+ .pb-print-summary .pb-print-footer{margin-top:20px;border-top:1px solid #d7dce8;padding-top:8px;font-size:8pt;color:#697386}
+}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mi panel de trámites y ayudas","url":"https://www.papelesdelbebe.es/mi-panel/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"inLanguage":"es"}</script>
 </head><body>
@@ -89,7 +108,18 @@
 <h3>Documentos y otras herramientas</h3><div class="resources"><a href="/documentos-tramites-bebe/">📄 Qué documentos necesito →</a><a href="/herramientas/calendario-primeros-90-dias/">🗓️ Calendario de los primeros 90 días →</a><a href="/preparador-tarjeta-sanitaria/">🏥 Preparar la tarjeta sanitaria →</a><a href="/pack-empadronamiento/">🏠 Preparar el empadronamiento →</a><a href="/checklist-imprimible/">🖨️ Imprimir mi checklist →</a></div>
 <button class="reset" id="resetProgress" type="button">Reiniciar mis pasos</button></div></details>
 <p class="footnote">Tus marcas se guardan únicamente en este navegador, sin registro. «Revisado» significa que has comprobado ese trámite: no certifica su resolución administrativa. Comprueba siempre los requisitos y plazos oficiales.</p>
-<section class="pb-print-summary" id="pbPrintSummary"><h1>Papeles del Bebé · Mi resumen</h1><p>Los 7 apartados principales han sido revisados en este navegador. Este documento es orientativo, no un justificante oficial ni un certificado de aprobación de trámites.</p><ol id="pbPrintList"></ol><p>Consulta los organismos oficiales correspondientes para confirmar solicitudes, plazos y resoluciones. www.papelesdelbebe.es</p></section></main><footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p></div></footer>
+<section class="pb-print-summary" id="pbPrintSummary">
+<div class="pb-print-brand">PAPELES DEL BEBÉ · RESUMEN PERSONAL</div>
+<h1>Mis trámites del nacimiento</h1>
+<p class="pb-print-meta" id="pbPrintDate"></p>
+<p class="pb-print-intro">Una hoja de seguimiento para conservar tus gestiones y localizar las guías de cada paso. Las marcas significan «revisado»; no acreditan presentación ni aprobación administrativa.</p>
+<h2>Estado de tus 7 pasos</h2><div id="pbPrintList"></div>
+<h2>Qué comprobar después</h2>
+<ul><li>Guardar los justificantes y números de expediente de cada solicitud presentada.</li><li>Consultar las resoluciones pendientes en la sede oficial correspondiente.</li><li>Comprobar fechas y requisitos específicos de ayudas y deducciones en tu territorio.</li><li>Revisar asignación de pediatra, tarjeta sanitaria y documentación municipal cuando proceda.</li></ul>
+<h2>Próximos recursos</h2><p>Calendario de los primeros 90 días: www.papelesdelbebe.es/herramientas/calendario-primeros-90-dias/</p>
+<p>Ayudas actualizadas: www.papelesdelbebe.es/ayudas-nacimiento/</p>
+<div class="pb-print-footer">Guía independiente · www.papelesdelbebe.es · Este documento no sustituye certificados ni justificantes oficiales.</div>
+</section></main><footer><div class="footer-contenido"><div class="logo">Papeles del <span>Bebé</span></div><p>Menos papeleo. Más tiempo para tu bebé.</p></div></footer>
 <script>
 (() => {
   const KEY = 'papelesbebe_que_me_falta_v1';
@@ -128,11 +158,13 @@
     document.querySelector('.pb-simple').classList.toggle('is-finished', finished);
     document.querySelector('.main-action').hidden = finished;
     document.getElementById('taskHeading').textContent = finished ? 'Resumen de tus pasos' : 'Tus próximos pasos';
-    document.getElementById('pbPrintList').replaceChildren(...steps.map(step=>{
-      const li=document.createElement('li');
-      const strong=document.createElement('strong'); strong.textContent=step.name+' — revisado';
-      const link=document.createElement('a');link.href=new URL(step.href,location.origin).href;link.textContent='Ver guía';
-      li.append(strong,document.createTextNode(' · '),link);return li;
+    document.getElementById('pbPrintDate').textContent = 'Generado el '+new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'})+' · '+done+' de 7 apartados revisados';
+    document.getElementById('pbPrintList').replaceChildren(...steps.map((step,index)=>{
+      const row=document.createElement('div');row.className='pb-print-item';
+      const heading=document.createElement('strong');heading.textContent=(index+1)+'. '+step.name+' — '+(state[step.key]?'Revisado':'Pendiente');
+      const note=document.createElement('p');note.textContent=step.desc;
+      const link=document.createElement('p');link.textContent='Guía: www.papelesdelbebe.es'+step.href;
+      row.append(heading,note,link);return row;
     }));
     const next=pending[0];
     document.getElementById('nextLabel').textContent=next?'TU SIGUIENTE PASO':'¡BIEN HECHO!';
