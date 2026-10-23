@@ -26,6 +26,10 @@ const catalog={
 };
 
 
+const exactAmazonProducts={
+ 'Cochecito o sistema de paseo':{asin:'B0D453BJCG',name:'Kinderkraft MOOV 2 · carrito 3 en 1'},
+ 'Portabebés ergonómico':{asin:'B09NNLVLZL',name:'Ergobaby Adapt SoftFlex · Slate Blue'}
+};
 const ASSOCIATE_ID='mariorc7-21';
 const amazonAffiliateUrl=name=>'https://www.amazon.es/s?k='+encodeURIComponent(name)+'&tag='+encodeURIComponent(ASSOCIATE_ID);
 
@@ -73,7 +77,7 @@ function render(){
    select.addEventListener('change',()=>{item.status=select.value;store();render()});act.appendChild(select);
   }
   if(product){
-   const link=el('a','action gift-product-link','Ver en Amazon ↗');link.href=amazonAffiliateUrl(product.name);link.target='_blank';link.rel='sponsored nofollow noopener noreferrer';link.title='Buscar este modelo en Amazon · Enlace de afiliado';act.appendChild(link);
+   const link=el('a','action gift-product-link','Ver en Amazon ↗');const exact=exactAmazonProducts[item.name];link.href=exact?'https://www.amazon.es/dp/'+exact.asin+'?tag='+encodeURIComponent(ASSOCIATE_ID):amazonAffiliateUrl(product.name);link.target='_blank';link.rel='sponsored nofollow noopener noreferrer';link.textContent=exact?'Ver producto en Amazon ↗':'Buscar modelo en Amazon ↗';link.title=exact?'Abrir ficha específica en Amazon · Enlace de afiliado':'Buscar modelo en Amazon · Enlace de afiliado';act.appendChild(link);
   }
   if(!guest){
    const editButton=btn('Editar',()=>edit(item));editButton.className='gift-text-action';
