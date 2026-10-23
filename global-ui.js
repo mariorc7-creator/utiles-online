@@ -860,8 +860,19 @@
           font-size:.78rem!important;line-height:1.25!important;text-align:center!important;
           overflow-wrap:anywhere!important;white-space:normal!important;
         }
-        html.pb-journey #pb-route-context .pb-route-step-nav a.pb-route-next:last-child{
-          grid-column:2!important;
+        html.pb-journey #pb-route-context .pb-route-step-nav a:only-child{
+          grid-column:1/-1!important;
+          width:100%!important;
+          max-width:none!important;
+          min-height:48px!important;
+          padding:9px 12px!important;
+          text-align:center!important;
+          align-items:center!important;
+        }
+        html.pb-journey #pb-route-context .pb-route-step-nav a.pb-route-next{
+          background:#555bb6!important;
+          border-color:#555bb6!important;
+          color:#fff!important;
         }
         html.pb-journey #pb-route-context .pb-article-progress-actions,
         html.pb-journey #pb-route-context .pb-ayudas-final-actions{
