@@ -25,6 +25,10 @@ const catalog={
  "Luz nocturna suave":{name:"Tommee Tippee Groegg2 · luz nocturna"},
 };
 
+
+const ASSOCIATE_ID='mariorc7-21';
+const amazonAffiliateUrl=name=>'https://www.amazon.es/s?k='+encodeURIComponent(name)+'&tag='+encodeURIComponent(ASSOCIATE_ID);
+
 function printList(){
   if(!data.items.length){note.textContent='Añade algún regalo antes de crear el PDF.';return;}
   const escape=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -60,7 +64,7 @@ function render(){
   if(item.note)content.appendChild(el('p','gift-note',item.note));
   if(item.price)content.appendChild(el('p','gift-price','Precio orientativo: '+item.price+' €'));
   const product=item.url?{url:item.url,name:'Producto elegido por la familia'}:catalog[item.name];
-  if(product){const model=el('p','gift-model','Recomendado: '+product.name);content.appendChild(model)}
+  if(product){const model=el('p','gift-model',product.name);content.appendChild(model)}
   if(guest){
    act.appendChild(btn('Quiero regalarlo ↗',()=>{const msg='Hola, me gustaría regalar «'+item.name+'» de vuestra lista de nacimiento. ¿Sigue disponible?';window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank','noopener')}));
   } else {
@@ -68,8 +72,8 @@ function render(){
    ['Disponible','Reservado','Recibido'].forEach(st=>{const o=el('option','',st);o.value=st;o.selected=item.status===st;select.appendChild(o)});
    select.addEventListener('change',()=>{item.status=select.value;store();render()});act.appendChild(select);
   }
-  if(product&&product.url){
-   const link=el('a','action gift-product-link','Ver producto ↗');link.href=product.url;link.target='_blank';link.rel='nofollow noopener noreferrer';act.appendChild(link);
+  if(product){
+   const link=el('a','action gift-product-link','Ver en Amazon ↗');link.href=amazonAffiliateUrl(product.name);link.target='_blank';link.rel='sponsored nofollow noopener noreferrer';link.title='Buscar este modelo en Amazon · Enlace de afiliado';act.appendChild(link);
   }
   if(!guest){
    const editButton=btn('Editar',()=>edit(item));editButton.className='gift-text-action';
