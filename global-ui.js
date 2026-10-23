@@ -407,14 +407,14 @@
         html.pb-journey #pb-route-context .pb-ayudas-final-actions > *{width:100%!important;box-sizing:border-box!important;text-align:center!important}
       }
 
-      /* Mobile-only: large, thumb-friendly route navigation cards. Desktop unchanged. */
+      /* Compact, consistent mobile navigation. Desktop unchanged. */
       @media (max-width:767px) {
         html.pb-journey #pb-route-context .pb-route-step-nav {
           display:grid!important;
-          grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+          grid-template-columns:repeat(2,minmax(0,1fr))!important;
           gap:10px!important;
           width:100%!important;
-          margin:12px 0 0!important;
+          margin:10px 0 0!important;
           align-items:stretch!important;
         }
         html.pb-journey #pb-route-context .pb-route-step-nav a {
@@ -425,16 +425,16 @@
           box-sizing:border-box!important;
           width:100%!important;
           min-width:0!important;
-          min-height:76px!important;
-          padding:13px 12px!important;
+          min-height:56px!important;
+          padding:9px 11px!important;
           margin:0!important;
           border:1px solid #dce0ee!important;
-          border-radius:14px!important;
+          border-radius:12px!important;
           background:#f2f3fa!important;
           color:#343c60!important;
-          font-size:clamp(.76rem,3.3vw,.9rem)!important;
-          font-weight:750!important;
-          line-height:1.35!important;
+          font-size:clamp(.76rem,3.15vw,.86rem)!important;
+          font-weight:700!important;
+          line-height:1.3!important;
           text-decoration:none!important;
           white-space:normal!important;
           overflow-wrap:anywhere!important;
@@ -448,16 +448,18 @@
           align-items:flex-end!important;
           text-align:right!important;
         }
+        html.pb-journey #pb-route-context .pb-route-step-nav a:only-child {
+          grid-column:1/-1!important;
+          width:100%!important;
+          min-height:52px!important;
+          align-items:center!important;
+          text-align:center!important;
+        }
         html.pb-journey #pb-route-context .pb-route-step-nav a:focus-visible {
           outline:3px solid #818cf8!important;
           outline-offset:3px!important;
         }
-        html.pb-journey #pb-route-context .pb-route-step-nav a:active {
-          transform:scale(.98);
-        }
-        html.pb-journey #pb-route-context .pb-route-step-nav a:only-child {
-          grid-column:1/-1!important;
-        }
+        html.pb-journey #pb-route-context .pb-route-step-nav a:active {transform:scale(.98)}
       }
     `;
     document.head.appendChild(style);
