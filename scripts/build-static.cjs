@@ -78,5 +78,39 @@ function audit(dir) {
   console.log(`Build OK: ${dir}`);
 }
 
+
+function generateSitemap() {
+  const host = 'https://www.papelesdelbebe.es';
+  const excluded = new Set([
+    'ayuda-nacimiento-cataluna-2026','ayuda-nacimiento-valencia-2026',
+    'permiso-nacimiento-cuidado-menor-2026','tarxeta-benvida-2026',
+    'mi-plan','herramientas/que-me-falta'
+  ]);
+  const urls = [];
+  walk(OUT, full => {
+    const rel = path.relative(OUT, full).replace(/\\/g, '/');
+    if (rel !== 'index.html' && !rel.endsWith('/index.html')) return;
+    const slug = rel === 'index.html' ? '' : rel.slice(0, -'/index.html'.length);
+    if (excluded.has(slug) || /^(premium|gestoria|checklist\/completada)(\/|$)/.test(slug)) return;
+    const html = fs.readFileSync(full, 'utf8');
+    if (/<meta[^>]+name=["']robots["'][^>]+content=["'][^"']*noindex/i.test(html) ||
+        /<meta[^>]+content=["'][^"']*noindex[^"']*["'][^>]+name=["']robots/i.test(html)) return;
+    const canonical = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)/i) ||
+                      html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["']canonical/i);
+    const url = host + (slug ? '/' + slug + '/' : '/');
+    if (canonical && canonical[1].replace(/\/$/, '') !== url.replace(/\/$/, '')) return;
+    urls.push(url);
+  });
+  urls.sort();
+  const escapeXml = value => value.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const xml = '<?xml version="1.0" encoding="UTF-8"?>\\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\\n' +
+    urls.map(url => '  <url><loc>' + escapeXml(url) + '</loc></url>').join('\\n') +
+    '\\n</urlset>\\n';
+  fs.writeFileSync(path.join(OUT, 'sitemap.xml'), xml);
+  console.log('Sitemap generado: ' + urls.length + ' URLs canonicas.');
+}
+
 copyAll();
+generateSitemap();
 audit(OUT);
