@@ -84,19 +84,37 @@
 .pb-panel-extras a{color:#4856b7;font-weight:750}
 .pb-steps-visible .reset{margin-top:8px}
 @media(max-width:650px){.pb-steps-visible{padding:14px}.pb-steps-visible .task{min-height:50px}.pb-steps-visible .task a{white-space:nowrap}}
+</style><style id="pb-ux261-final">
+.pb-simple .main-action{padding:20px 22px!important;border-radius:16px!important;box-shadow:none!important}
+.pb-simple .main-action h2{font-size:clamp(1.25rem,2.8vw,1.5rem)!important;margin:8px 0!important;line-height:1.23!important}
+.pb-simple .main-action p{font-size:.9rem!important;line-height:1.5!important;margin:0 0 14px!important}
+.pb-simple .main-action .overline{font-size:.69rem!important;letter-spacing:.045em!important}
+.pb-simple .main-action .primary,.pb-simple .main-action .next-mark-reviewed{min-height:44px!important;width:auto!important;max-width:max-content!important;font-size:.85rem!important;padding:10px 14px!important;border-radius:10px!important;box-shadow:none!important}
+.pb-simple .main-action .primary{font-weight:750!important}
+.pb-simple .main-action .next-review-controls{display:inline-flex!important;vertical-align:middle!important;margin:0 0 0 8px!important;gap:0!important}
+.pb-simple #nextReviewHint{position:absolute!important;width:1px!important;height:1px!important;clip-path:inset(50%)!important;overflow:hidden!important}
+.pb-simple .pb-steps-visible{padding:18px 20px!important;border-radius:16px!important}
+.pb-simple .pb-steps-visible .task{padding:10px 12px!important;min-height:47px!important;border-radius:10px!important;gap:10px!important}
+.pb-simple .pb-steps-visible .task input{width:19px!important;height:19px!important;flex-basis:19px!important}
+.pb-simple .pb-steps-visible .task label{font-size:.9rem!important}
+.pb-simple .pb-steps-visible .reset{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;width:auto!important;max-width:max-content!important;float:none!important;margin:10px 0 0!important;padding:9px 11px!important;border:1px solid #dce1ed!important;background:#fff!important;color:#657089!important;border-radius:9px!important;font-size:.81rem!important;font-weight:600!important;text-decoration:none!important;box-shadow:none!important}
+.pb-simple .pb-steps-visible .reset:hover{background:#f7f8fb!important}
+.pb-simple .pb-panel-extras{border-top:1px solid #edf0f5!important;padding-top:14px!important;margin:15px 0 0!important}
+.pb-simple .progress-line{margin:20px 0 7px!important;font-size:.84rem!important}.pb-simple .track{height:6px!important}
+@media(max-width:550px){.pb-simple .main-action{padding:17px!important}.pb-simple .main-action .primary,.pb-simple .main-action .next-mark-reviewed{min-height:44px!important;width:auto!important}.pb-simple .main-action .next-review-controls{margin:8px 0 0!important;display:flex!important}.pb-simple .pb-steps-visible{padding:12px!important}.pb-simple .pb-steps-visible .task{gap:8px!important}.pb-simple .pb-steps-visible .task a{font-size:.77rem!important}}
 </style></head><body>
 <header><div class="header-contenido"><a class="logo logo-enlace" href="/">Papeles del <span>Bebé</span></a><nav class="nav-principal" aria-label="Navegación principal"><a href="/mi-panel/" aria-current="page">Mis trámites</a><a href="/herramientas/">Herramientas</a><a href="/ayudas-nacimiento/">Ayudas</a></nav></div></header>
 <main class="pb-simple"><nav class="crumb" aria-label="Migas de pan"><a href="/">Inicio</a> › Mi panel</nav>
 <span class="intro-label">MIS TRÁMITES · GRATIS</span>
-<h1>Tu plan de trámites</h1>
-<p class="intro">Empieza por la siguiente gestión recomendada. Puedes marcarla como revisada y consultar el resto cuando lo necesites.</p>
+<h1>Tus trámites del bebé, paso a paso</h1>
+<p class="intro">Revisa tu próximo trámite y sigue tu progreso sin perderte.</p>
 <section class="pb-finish" id="pbFinish" hidden aria-labelledby="pbFinishTitle" aria-live="polite"><div aria-hidden="true" style="font-size:2rem">🎉</div><h2 id="pbFinishTitle">¡Has revisado los 7 pasos!</h2><p>Has organizado las gestiones principales tras el nacimiento. Revisa las solicitudes y resoluciones pendientes: marcar un paso como revisado no significa que la Administración lo haya aprobado.</p><div class="finish-actions"><button id="pbFinishPrint" type="button">Descargar resumen en PDF ↗</button><a href="/herramientas/calendario-primeros-90-dias/">Próximos meses →</a><a href="/ayudas-nacimiento/">Revisar nuevas ayudas →</a></div><p style="font-size:.77rem;margin-top:12px">El resumen se guarda como PDF desde el diálogo de impresión del navegador. No se envían tus marcas a ningún servidor.</p></section>
 <section class="main-action" aria-labelledby="nextTitle" aria-live="polite">
 <span class="overline" id="nextLabel">TU SIGUIENTE PASO</span>
 <h2 id="nextTitle">Revisar el Registro Civil</h2>
 <p id="nextDescription">Comprueba la inscripción del nacimiento antes de continuar.</p>
-<a class="primary" id="nextAction" href="/registro-civil-bebe/">Ver cómo hacerlo →</a>
-<div class="next-review-controls"><button type="button" id="nextMarkReviewed" class="next-mark-reviewed">✓ Ya lo he revisado</button><span id="nextReviewHint">Marca este paso solo cuando lo hayas comprobado.</span></div>
+<a class="primary" id="nextAction" href="/registro-civil-bebe/">Ver guía →</a>
+<div class="next-review-controls"><button type="button" id="nextMarkReviewed" class="next-mark-reviewed">✓ Marcar revisado</button><span id="nextReviewHint" class="sr-only">Marca este paso solo cuando lo hayas comprobado.</span></div>
 </section>
 <details class="pb-remind" id="pbReminderChoice" style="margin:16px 0;border:1px solid #dfe4f0;border-radius:14px;background:#fff">
 <summary style="padding:14px 16px;font-size:.91rem;color:#4e58bd;font-weight:800;cursor:pointer">📅 Añadir a Google Calendar</summary>
@@ -142,7 +160,7 @@
   function read(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{};}catch(_){return {};}}
   function write(v){try{localStorage.setItem(KEY,JSON.stringify(v));}catch(_){}window.dispatchEvent(new CustomEvent('papelesbebe:progress',{detail:v}));}
   let state=read();
-  const quick=document.getElementById('quickTasks'), all=document.getElementById('allTasks');
+  const all=document.getElementById('allTasks');
   let serial=0;
   function taskRow(step){
     const row=document.createElement('div');row.className='task'+(state[step.key]?' is-done':'');
@@ -185,14 +203,9 @@
     const reviewHint=document.getElementById('nextReviewHint');
     review.hidden=!next;
     review.dataset.step=next?.key||'';
-    reviewHint.textContent=next
-      ? 'Márcalo únicamente después de comprobar este trámite.'
-      : 'Revisado no equivale a trámite resuelto por la Administración.';
+    reviewHint.textContent=next ? 'Marca este paso tras comprobarlo.' : 'La revisión no certifica la resolución.';
     const reminder=document.getElementById('pbReminderChoice');
     if(reminder)reminder.hidden=!next;
-    const toShow=pending.length?pending.slice(0,3):steps.slice(-3);
-    
-    if(quick)quick.replaceChildren(...toShow.map(taskRow));
     all.replaceChildren(...steps.map(taskRow));
   }
   document.getElementById('pbFinishPrint').addEventListener('click',()=>window.print());
