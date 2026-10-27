@@ -27,6 +27,14 @@
     .pb-focus-box .pb-kicker{display:block;font-size:.72rem;font-weight:900;letter-spacing:.06em;color:#5960cf;margin-bottom:5px}.pb-focus-box h2{margin:0 0 6px;font-size:1.3rem}.pb-focus-box p{margin:0;color:#62677a;line-height:1.5}.pb-focus-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.pb-focus-actions a,.pb-focus-actions button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 13px;border-radius:11px;text-decoration:none;font-weight:850;background:#6067e8;color:#fff;border:0;cursor:pointer;font:inherit}.pb-focus-actions a.secondary,.pb-focus-actions button.secondary{background:#fff;color:#4e54c8;border:1px solid #d4d7f3}
     .pb-home-more{margin:14px 0;border:1px solid #e4e6ef;border-radius:18px;background:#fff;overflow:hidden}.pb-home-more>summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:850;color:#353b67;display:flex;align-items:center;justify-content:space-between}.pb-home-more>summary::-webkit-details-marker{display:none}.pb-home-more>summary:after{content:'+';font-size:1.25rem;color:#666}.pb-home-more[open]>summary:after{content:'–'}.pb-home-more[open]>summary{border-bottom:1px solid #ececf3}.pb-home-more>section{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
     .pb-returning .home-necesidades{margin-top:14px}.pb-returning .hero-beneficios{display:none}.pb-returning .home-hero-cta .cta-explicacion{display:none}
+    .pb-returning .home-hero-principal>h1{font-size:clamp(1.8rem,4vw,2.7rem)!important;line-height:1.12!important;margin:12px 0!important}
+    .pb-returning .home-hero-principal>.subtitle{font-size:1rem!important;margin:0 0 12px!important}
+    .pb-returning-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:14px 0 20px}
+    .pb-returning-actions a{font-weight:800;color:#3846aa;text-decoration:underline;text-underline-offset:3px}
+    .pb-returning-actions .pb-returning-main{display:inline-flex;padding:12px 18px;background:#4c56c5;color:white;border-radius:11px;text-decoration:none}
+    .pb-returning .pb-start-choice{margin:10px 0!important}
+    .pb-returning .pb-start-choice h2{font-size:1rem!important}
+    @media(max-width:700px){.pb-returning-actions{flex-direction:column;align-items:stretch}.pb-returning-actions a{text-align:center}}
     .pb-restart-note{margin:10px 0 0;font-size:.84rem;color:#777c8d}.pb-restart-note button{appearance:none;border:0;background:transparent;color:#5c63cf;text-decoration:underline;text-underline-offset:3px;font-weight:800;cursor:pointer;padding:0}
     .pb-tramites-hidden{display:none!important}.pb-more-steps{display:inline-flex;margin:12px 0 4px;padding:10px 14px;border-radius:11px;border:1px solid #d4d7f3;background:#fff;color:#4e54c8;font-weight:850;cursor:pointer}
 
@@ -116,8 +124,25 @@
       const badge=hero?.querySelector('.badge');
       const cta=hero?.querySelector('.home-hero-cta');
       if (badge) badge.textContent='TU PROGRESO GUARDADO';
-      if (h1) h1.textContent='Continúa donde lo dejaste';
-      if (sub) sub.innerHTML=done ? `<strong>${done} de 7 bloques revisados.</strong> Te enseñamos solo el siguiente paso para que no tengas que volver a empezar.` : 'Tienes un proceso guardado en este navegador. Continúa desde tu panel.';
+      if (h1) h1.textContent='Bienvenido de nuevo';
+      const next=nextRoute();
+      if (sub) sub.textContent=done ? `${done} de 7 pasos revisados. ${next ? 'Siguiente: '+next.label+'.' : 'Has revisado los siete pasos.'}` : 'Tu recorrido sigue guardado en este navegador.';
+      const choice=hero?.querySelector('.pb-start-choice');
+      if (choice) {
+        choice.classList.add('pb-returning-choices');
+        const heading=choice.querySelector('#pb-start-heading');
+        if (heading) heading.textContent='¿Quieres explorar otra opción?';
+        const current=choice.querySelector('.pb-start-primary');
+        if (current) current.classList.remove('pb-start-primary');
+      }
+      let returnActions=hero?.querySelector('#pb-returning-actions');
+      if (!returnActions && hero) {
+        returnActions=document.createElement('div');
+        returnActions.id='pb-returning-actions';
+        returnActions.className='pb-returning-actions';
+        returnActions.innerHTML='<a class="pb-returning-main" href="/mi-panel/">Continuar mis trámites →</a><a href="/mi-panel/#moreSteps">Ver mis 7 pasos</a>';
+        choice?.insertAdjacentElement('beforebegin',returnActions);
+      }
       if (cta) {
         cta.innerHTML=`<div class="pb-focus-actions" style="justify-content:center"><a class="cta-enlace" href="/mi-panel/">Continuar desde mi panel →</a></div><p class="pb-restart-note">¿Este progreso ya no te sirve? <button type="button" id="pb-start-over">Empezar de nuevo</button></p>`;
         cta.querySelector('#pb-start-over')?.addEventListener('click',()=>{
