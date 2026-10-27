@@ -33,18 +33,6 @@
     style.textContent='.pb-bridge{margin:22px 0;padding:18px;border:1px solid #dfe3f6;border-radius:19px;background:#fafaff;color:#263249}.pb-bridge h2{font-size:1.32rem;margin:0 0 7px}.pb-bridge>p{font-size:.93rem;line-height:1.55;margin:0 0 14px;color:#616b7e}.pb-bridge-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.pb-bridge-card{padding:14px;border:1px solid #e0e4f2;border-radius:14px;background:white;min-width:0}.pb-bridge-card>div{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:7px}.pb-bridge-card strong{font-size:.95rem}.pb-bridge-card p{font-size:.84rem;line-height:1.48;margin:9px 0;color:#657085}.pb-bridge-card a{font-size:.9rem;font-weight:800;color:#464dc0}.pb-bridge-status{font-size:.7rem;padding:4px 7px;background:#eff0ff;color:#474eaf;border-radius:999px}.pb-bridge-foot{font-size:.78rem;color:#747d8e;margin-top:12px}.pb-bridge-return{display:inline-flex;margin:15px 0;padding:11px 15px;border-radius:12px;border:1px solid #dfe3f6;background:#f8f8ff;color:#414ab2;font-weight:800;text-decoration:none}@media(max-width:700px){.pb-bridge-grid{grid-template-columns:1fr}.pb-bridge{padding:15px}}';
     document.head.appendChild(style);
   }
-  function panel(){
-    if(current!=='/mi-panel/')return;
-    const anchor=document.querySelector('.pb-simple #moreSteps')||document.querySelector('.pb-simple .footnote');
-    if(!anchor)return;
-    css();const workspace=safeRead(WORKSPACE),progress=safeRead(PROGRESS);
-    const count=['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'].filter(k=>progress[k]===true).length;
-    const box=document.createElement('section');box.className='pb-bridge';box.id='pb-panel-herramientas';
-    box.setAttribute('aria-labelledby','pb-bridge-title');
-    box.innerHTML='<h2 id="pb-bridge-title">Tus herramientas, en un solo lugar</h2><p>'+count+' de 7 pasos revisados. Recupera las herramientas que empezaste desde este navegador, sin repetir lo que ya has hecho.</p><div class="pb-bridge-grid"></div><div class="pb-bridge-foot">Los datos administrativos básicos se guardan en este navegador. No se guardan diagnósticos ni circunstancias médicas. Las simulaciones son orientativas: no confirman concesiones ni solicitudes presentadas.</div>';
-    TOOLS.forEach(t=>box.querySelector('.pb-bridge-grid').appendChild(buildCard(t,workspace)));
-    anchor.parentNode.insertBefore(box,anchor);
-  }
   function linkBack(){
     if(!TOOLS.some(t=>t.url===current) || document.getElementById('pb-tool-panel-link'))return;
     css();
@@ -55,6 +43,6 @@
     if(footer)footer.insertAdjacentElement('beforebegin',link);
     else main.appendChild(link);
   }
-  function init(){panel();linkBack();}
+  function init(){linkBack();}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
