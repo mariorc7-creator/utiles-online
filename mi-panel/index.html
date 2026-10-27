@@ -75,7 +75,16 @@
 }
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Mi panel de trámites y ayudas","url":"https://www.papelesdelbebe.es/mi-panel/","applicationCategory":"UtilitiesApplication","operatingSystem":"Web","isAccessibleForFree":true,"inLanguage":"es"}</script>
-</head><body>
+<style id="pb-panel-ux26">
+.pb-steps-visible{margin:22px 0 12px;background:#fff;border:1px solid #dde4f0;border-radius:17px;padding:20px}
+.pb-steps-visible .detail-inner{padding:0!important}
+.pb-steps-visible .tasks{display:grid;gap:8px}
+.pb-steps-visible .task{min-height:48px}
+.pb-panel-extras{font-size:.86rem;color:#60708a;margin:19px 0}
+.pb-panel-extras a{color:#4856b7;font-weight:750}
+.pb-steps-visible .reset{margin-top:8px}
+@media(max-width:650px){.pb-steps-visible{padding:14px}.pb-steps-visible .task{min-height:50px}.pb-steps-visible .task a{white-space:nowrap}}
+</style></head><body>
 <header><div class="header-contenido"><a class="logo logo-enlace" href="/">Papeles del <span>Bebé</span></a><nav class="nav-principal" aria-label="Navegación principal"><a href="/mi-panel/" aria-current="page">Mis trámites</a><a href="/herramientas/">Herramientas</a><a href="/ayudas-nacimiento/">Ayudas</a></nav></div></header>
 <main class="pb-simple"><nav class="crumb" aria-label="Migas de pan"><a href="/">Inicio</a> › Mi panel</nav>
 <span class="intro-label">MIS TRÁMITES · GRATIS</span>
@@ -100,13 +109,10 @@
 </div></details>
 <div class="progress-line"><strong id="progressText">0 de 7 pasos revisados</strong><span id="remainingText">7 por revisar</span></div>
 <div class="track" role="progressbar" aria-label="Progreso de los trámites" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progressTrack"><span id="progressFill"></span></div>
-<section aria-labelledby="taskHeading"><h2 class="section-title" id="taskHeading">Tus próximos pasos</h2><p class="subtle" id="taskHint">Mostramos solo tres para que puedas avanzar sin agobios.</p>
-<div id="quickTasks" class="tasks"></div></section>
-<section class="aid pb-territory-aid" aria-labelledby="aidHeading"><div><strong id="aidHeading">💶 ¿Hay ayudas para tu familia?</strong><p>Consulta las ayudas según tu comunidad.</p><label for="pb-territory-panel" style="font-size:.82rem;display:block;margin:11px 0 5px;font-weight:750;color:#506075">Tu comunidad (opcional)</label><select id="pb-territory-panel" style="font:inherit;font-size:.92rem;max-width:100%;min-height:43px;padding:9px;border:1px solid #c8cfdf;border-radius:10px;background:white;color:#35425c"><option value="">Elige tu comunidad</option><option value="Andalucía">Andalucía</option><option value="Aragón">Aragón</option><option value="Asturias">Asturias</option><option value="Islas Baleares">Islas Baleares</option><option value="Canarias">Canarias</option><option value="Cantabria">Cantabria</option><option value="Castilla-La Mancha">Castilla-La Mancha</option><option value="Castilla y León">Castilla y León</option><option value="Cataluña">Cataluña</option><option value="Comunidad Valenciana">Comunidad Valenciana</option><option value="Extremadura">Extremadura</option><option value="Galicia">Galicia</option><option value="Comunidad de Madrid">Comunidad de Madrid</option><option value="Región de Murcia">Región de Murcia</option><option value="Navarra">Navarra</option><option value="País Vasco">País Vasco</option><option value="La Rioja">La Rioja</option><option value="Ceuta">Ceuta</option><option value="Melilla">Melilla</option></select><p style="font-size:.75rem;margin:6px 0 0">La guardamos solo en este navegador para no volver a preguntártela.</p></div><a href="/herramientas/buscador-ayudas/">Consultar ayudas →</a></section>
-<details id="moreSteps"><summary>Ver todos mis pasos y recursos</summary><div class="detail-inner">
-<h3>Los 7 pasos de tu lista</h3><div id="allTasks" class="tasks"></div>
-<h3>Documentos y otras herramientas</h3><div class="resources"><a href="/documentos-tramites-bebe/">📄 Qué documentos necesito →</a><a href="/herramientas/calendario-primeros-90-dias/">🗓️ Calendario de los primeros 90 días →</a><a href="/preparador-tarjeta-sanitaria/">🏥 Preparar la tarjeta sanitaria →</a><a href="/pack-empadronamiento/">🏠 Preparar el empadronamiento →</a><a href="/checklist-imprimible/">🖨️ Imprimir mi checklist →</a></div>
-<button class="reset" id="resetProgress" type="button">Reiniciar mis pasos</button></div></details>
+
+<section class="pb-steps-visible" id="moreSteps" aria-labelledby="allStepsHeading"><div class="detail-inner">
+<h2 class="section-title" id="allStepsHeading">Tus 7 trámites</h2><p class="subtle">Marca cada paso cuando lo hayas revisado. Puedes abrir su guía cuando lo necesites.</p><div id="allTasks" class="tasks"></div>
+<p class="pb-panel-extras"><a href="/herramientas/">Ver herramientas adicionales →</a> · <a href="/ayudas-nacimiento/">Buscar ayudas →</a></p><button class="reset" id="resetProgress" type="button">Reiniciar mis pasos</button></div></section>
 <p class="footnote">Tus marcas se guardan únicamente en este navegador, sin registro. «Revisado» significa que has comprobado ese trámite: no certifica su resolución administrativa. Comprueba siempre los requisitos y plazos oficiales.</p>
 <section class="pb-print-summary" id="pbPrintSummary">
 <div class="pb-print-brand">PAPELES DEL BEBÉ · RESUMEN PERSONAL</div>
@@ -161,7 +167,7 @@
     document.getElementById('pbFinish').hidden = !finished;
     document.querySelector('.pb-simple').classList.toggle('is-finished', finished);
     document.querySelector('.main-action').hidden = finished;
-    document.getElementById('taskHeading').textContent = finished ? 'Resumen de tus pasos' : 'Tus próximos pasos';
+    
     document.getElementById('pbPrintDate').textContent = 'Generado el '+new Date().toLocaleDateString('es-ES',{day:'2-digit',month:'long',year:'numeric'})+' · '+done+' de 7 apartados revisados';
     document.getElementById('pbPrintList').replaceChildren(...steps.map((step,index)=>{
       const row=document.createElement('div');row.className='pb-print-item';
@@ -185,8 +191,8 @@
     const reminder=document.getElementById('pbReminderChoice');
     if(reminder)reminder.hidden=!next;
     const toShow=pending.length?pending.slice(0,3):steps.slice(-3);
-    document.getElementById('taskHint').textContent=pending.length?'Mostramos solo tres para que puedas avanzar sin agobios.':'Puedes volver a consultar o desmarcar cualquier paso.';
-    quick.replaceChildren(...toShow.map(taskRow));
+    
+    if(quick)quick.replaceChildren(...toShow.map(taskRow));
     all.replaceChildren(...steps.map(taskRow));
   }
   document.getElementById('pbFinishPrint').addEventListener('click',()=>window.print());
@@ -206,7 +212,6 @@
     if(location.hash!=='#moreSteps')return;
     const details=document.getElementById('moreSteps');
     if(!details)return;
-    details.open=true;
     requestAnimationFrame(()=>details.scrollIntoView({block:'start',behavior:'auto'}));
   }
   window.addEventListener('hashchange',openAllStepsFromLink);
