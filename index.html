@@ -87,7 +87,7 @@
     .pb-start-option strong{font-size:.91rem;color:#3946b3}
     .pb-start-option:hover,.pb-start-option:focus-visible{border-color:#5965d9;box-shadow:0 0 0 2px rgba(89,101,217,.11)}
     .pb-start-primary{background:#f1f3ff;border:2px solid #5861d5}
-    .pb-start-note,.pb-start-trust{font-size:.84rem;line-height:1.5;color:#536179;margin:12px 0 0}
+    .pb-start-reset:not([hidden]){display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:16px 0 8px;padding:13px 16px;border:1px solid #dbe2f4;border-radius:12px;background:#f8f9ff;color:#304164;font-size:.92rem}\n    .pb-start-reset button{border:1px solid #5965d9;background:#fff;color:#3846ac;border-radius:10px;padding:10px 14px;min-height:44px;font:inherit;font-weight:800;cursor:pointer}\n    .pb-start-reset button:focus-visible{outline:3px solid #5965d9;outline-offset:2px}\n    .pb-start-note,.pb-start-trust{font-size:.84rem;line-height:1.5;color:#536179;margin:12px 0 0}
     .pb-start-trust{font-weight:650;color:#3d5a54}
     @media(max-width:760px){.pb-start-grid{grid-template-columns:1fr}.pb-start-option{padding:15px 16px;gap:6px}.pb-start-choice{margin-top:18px}}
   </style>
@@ -150,6 +150,10 @@
             <a class="pb-start-option" href="/antes-del-parto/"><span class="pb-start-label">Estoy embarazada</span><span>Qué preparar antes del nacimiento</span><strong>Empezar →</strong></a>
             <a class="pb-start-option pb-start-primary" href="/mi-panel/"><span class="pb-start-label">Mi bebé ya ha nacido</span><span>Trámites y seguimiento de los siete pasos</span><strong>Ver mi plan →</strong></a>
             <a class="pb-start-option" href="/herramientas/buscador-ayudas/"><span class="pb-start-label">Quiero consultar ayudas</span><span>Buscar prestaciones según mi situación</span><strong>Buscar ayudas →</strong></a>
+          </div>
+          <div class="pb-start-reset" id="pbStartReset" hidden>
+            <span>¿Quieres iniciar un recorrido distinto?</span>
+            <button type="button" id="pbStartOver">Empezar de cero</button>
           </div>
           <p class="pb-start-note">Gratis y sin registro. Tus pasos revisados se guardan en este navegador; se pierden si borras sus datos o cambias de dispositivo.</p>
           <p class="pb-start-trust">Fuentes oficiales enlazadas · Información orientativa, no sustituye los requisitos de cada administración</p>
@@ -309,6 +313,30 @@
   <script src="config.js"></script>
   <script src="papelesia.js"></script>
   <script>
+  (function configurarReinicioPortada(){
+    const block=document.getElementById('pbStartReset');
+    const button=document.getElementById('pbStartOver');
+    if(!block||!button)return;
+    const keys=['papelesbebe_que_me_falta_v1','papelesbebe_workspace_v1','papelesbebe_recorrido_iniciado_v1','tramitesFacilesRespuestas','tramitesFacilesCompletados'];
+    function hasProgress(){
+      try {
+        return keys.some(key => {
+          const value=localStorage.getItem(key);
+          return value!==null && value!=='' && value!=='{}' && value!=='[]';
+        });
+      } catch(_){return false;}
+    }
+    block.hidden=!hasProgress();
+    button.addEventListener('click',()=>{
+      if(!window.confirm('¿Quieres empezar de cero? Se borrarán los trámites marcados y el progreso de este navegador. No se eliminarán tus documentos.'))return;
+      try{
+        keys.forEach(key=>localStorage.removeItem(key));
+        sessionStorage.removeItem('papelesbebe_shared_context_v1');
+      }catch(_){}
+      window.location.reload();
+    });
+  })();
+
   function abrirComunidadSeleccionada() {
     const sel = document.getElementById("selectorComunidadHome");
     if (sel && sel.value) window.location.href = sel.value;
