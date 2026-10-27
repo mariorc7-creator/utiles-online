@@ -612,7 +612,7 @@
       ['padron','Empadronamiento','/empadronar-bebe/'],
       ['prestacion','Permiso y prestación','/permiso-nacimiento-cuidado-menor-2026/'],
       ['deduccion','Deducciones','/deduccion-maternidad/'],
-      ['ayudas','Ayudas','/ayudas-nacimiento/']
+      ['ayudas','Ayudas','/ayudas-nacimiento/?ruta=1']
     ];
     const nextStep = steps.find(([stepKey]) => readMaster()[stepKey] !== true);
     const mobile = window.matchMedia('(max-width:700px)').matches;
@@ -695,11 +695,11 @@
       ['/empadronar-bebe/','Empadronamiento','🏠'],
       ['/permiso-nacimiento-cuidado-menor-2026/','Prestación y permiso','🗓️'],
       ['/deduccion-maternidad/','Deducciones','💳'],
-      ['/ayudas-nacimiento/','Ayudas','💶']
+      ['/ayudas-nacimiento/?ruta=1','Ayudas','💶']
     ];
     const active = location.pathname === '/permiso-nacimiento-cuidado-menor/' ? steps[4][0] : location.pathname;
     const i = steps.findIndex(step => step[0] === active);
-    if (i === -1) return;
+    if (i === -1 || (i === 6 && !new URLSearchParams(location.search).has('ruta'))) return;
     const main = document.querySelector('main');
     if (!main || !main.parentNode) return;
     let shell = document.getElementById('pb-journey-chrome');
@@ -777,7 +777,7 @@
     '/deduccion-maternidad/',
     '/ayudas-nacimiento/'
   ]);
-  if (journeyPaths.has(location.pathname)) {
+  if (journeyPaths.has(location.pathname) && (location.pathname !== '/ayudas-nacimiento/' || new URLSearchParams(location.search).has('ruta'))) {
     document.documentElement.classList.add('pb-journey');
     const style = document.createElement('style');
     style.id = 'pb-journey-design';
