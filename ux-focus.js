@@ -28,6 +28,14 @@
     .pb-home-more{margin:14px 0;border:1px solid #e4e6ef;border-radius:18px;background:#fff;overflow:hidden}.pb-home-more>summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:850;color:#353b67;display:flex;align-items:center;justify-content:space-between}.pb-home-more>summary::-webkit-details-marker{display:none}.pb-home-more>summary:after{content:'+';font-size:1.25rem;color:#666}.pb-home-more[open]>summary:after{content:'–'}.pb-home-more[open]>summary{border-bottom:1px solid #ececf3}.pb-home-more>section{margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
     .pb-returning .home-necesidades{margin-top:14px}.pb-returning .hero-beneficios{display:none}.pb-returning .home-hero-cta .cta-explicacion{display:none}
     .pb-returning .home-hero-principal{max-width:1050px!important;width:100%!important;margin-inline:auto!important;text-align:center!important}
+    .pb-returning .home-hero-principal>h1{display:block!important;width:100%!important;margin:16px auto 12px!important;text-align:center!important;max-width:1000px!important;letter-spacing:-.025em!important}
+    .pb-returning .home-hero-principal>.subtitle{display:block!important;width:100%!important;max-width:800px!important;text-align:center!important;margin:0 auto 16px!important;line-height:1.55!important}
+    .pb-returning .home-hero-principal>.badge{display:table!important;margin-inline:auto!important}
+    .pb-returning .pb-start-note{max-width:670px!important;margin:20px auto 7px!important;font-size:.82rem!important;line-height:1.5!important}
+    .pb-returning .pb-start-trust{max-width:760px!important;margin:0 auto 12px!important;font-size:.8rem!important;line-height:1.5!important;font-weight:650!important}
+    .pb-returning .pb-start-reset:not([hidden]){max-width:640px!important;margin:15px auto 10px!important}
+    .pb-returning .pb-start-grid{width:100%!important}
+
     .pb-returning .home-hero-principal>.badge{margin-inline:auto!important}
     .pb-returning .home-hero-principal>h1,.pb-returning .home-hero-principal>.subtitle{text-align:center!important;max-width:860px!important;margin-left:auto!important;margin-right:auto!important}
     .pb-returning .home-hero-principal>h1{font-size:clamp(1.8rem,4vw,2.7rem)!important;line-height:1.12!important;margin:12px 0!important}
