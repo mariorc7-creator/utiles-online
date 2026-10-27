@@ -71,7 +71,14 @@
     .sim-side-item strong{display:block;margin-bottom:3px}
     @media(max-width:820px){.sim-grid{grid-template-columns:1fr}.sim-options{grid-template-columns:1fr}}
   </style>
-</head>
+<style id="pb-ux22-wizard-style">
+.pb-wizard-progress{display:inline-flex;background:#edf0ff;color:#4553b5;border-radius:100px;padding:8px 13px;font-weight:800;font-size:.85rem;margin:6px 0 17px}
+.pb-wizard-step[hidden],.pb-wizard-nav button[hidden],#simuladorForm>button[hidden]{display:none!important}
+.pb-wizard-step{padding:12px 0;min-height:150px}.pb-wizard-step>label{font-size:1.1rem!important;font-weight:800!important;margin-bottom:13px!important;display:block}
+.pb-wizard-step select{min-height:50px;font-size:1rem}.pb-wizard-step select[aria-invalid="true"]{border:2px solid #b84f4f}
+.pb-wizard-nav{display:flex;gap:12px;justify-content:space-between;margin:13px 0}.pb-wizard-nav button{min-height:44px;border-radius:10px;padding:10px 17px;cursor:pointer;font:inherit;font-weight:750}.pb-wizard-back{background:#fff;color:#505b9c;border:1px solid #c9d0e7}.pb-wizard-next{background:#505bd2;color:#fff;border:0;margin-left:auto}
+@media(max-width:650px){.pb-wizard-nav button{flex:1}}
+</style></head>
 <body class="tools-page">
 <header>
   <div class="header-contenido">
@@ -98,6 +105,7 @@
     <section class="tool-panel" aria-labelledby="sim-form-title">
       <h2 id="sim-form-title">Tu situación</h2>
       <form id="simuladorForm" class="tool-form" novalidate>
+<p class="pb-wizard-progress" id="pbWizardProgress" aria-live="polite"></p>
         <label for="comunidad">Comunidad autónoma o ciudad autónoma</label>
         <select id="comunidad" required>
           <option value="">Selecciona tu territorio</option>
@@ -302,5 +310,42 @@
 </script>
 <script src="/papelesia.js"></script>
 <script src="/pb-territory.js?v=20261020-1" defer></script><script src="/herramientas/buscador-ayudas/exportar-lista.js?v=20261020-1" defer></script><script src="/analytics.js" defer></script>
-</body>
+<script id="pb-ux22-wizard">
+(() => {
+const form=document.getElementById('simuladorForm');
+if(!form)return;
+const ids=['comunidad','laboral','familia'];
+const steps=[];
+ids.forEach(id=>{
+ const field=form.querySelector('#'+id),label=form.querySelector('label[for="'+id+'"]');
+ if(!field||!label)return;
+ const wrap=document.createElement('div');wrap.className='pb-wizard-step';
+ label.parentNode.insertBefore(wrap,label);wrap.append(label,field);steps.push(wrap);
+});
+const fieldset=form.querySelector('fieldset.sim-fieldset');
+if(fieldset){fieldset.classList.add('pb-wizard-step');steps.push(fieldset);}
+if(steps.length!==4)return;
+const submit=form.querySelector('button[type="submit"]'),status=document.getElementById('pbWizardProgress');
+const nav=document.createElement('div');nav.className='pb-wizard-nav';
+const back=document.createElement('button');back.type='button';back.textContent='← Anterior';back.className='pb-wizard-back';
+const next=document.createElement('button');next.type='button';next.textContent='Siguiente →';next.className='pb-wizard-next';
+nav.append(back,next);submit.parentNode.insertBefore(nav,submit);
+let current=0;
+function render(){
+ steps.forEach((el,i)=>el.hidden=i!==current);
+ back.hidden=current===0;next.hidden=current===steps.length-1;submit.hidden=current!==steps.length-1;
+ status.textContent='Pregunta '+(current+1)+' de '+steps.length;
+ const err=document.getElementById('formError');if(err)err.style.display='none';
+}
+function valid(){
+ const select=steps[current].querySelector('select');
+ if(select&&!select.value){select.focus();select.setAttribute('aria-invalid','true');return false;}
+ if(select)select.removeAttribute('aria-invalid');return true;
+}
+next.addEventListener('click',()=>{if(!valid())return;current=Math.min(current+1,steps.length-1);render();steps[current].querySelector('select, input')?.focus({preventScroll:true});});
+back.addEventListener('click',()=>{current=Math.max(current-1,0);render();});
+form.addEventListener('submit',e=>{for(let i=0;i<3;i++){if(!steps[i].querySelector('select')?.value){e.preventDefault();e.stopImmediatePropagation();current=i;render();steps[i].querySelector('select').focus();return;}}},true);
+render();
+})();
+</script></body>
 </html>
