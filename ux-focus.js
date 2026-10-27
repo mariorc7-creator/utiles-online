@@ -38,7 +38,7 @@
 
     .pb-returning .home-hero-principal>.badge{margin-inline:auto!important}
     .pb-returning .home-hero-principal>h1,.pb-returning .home-hero-principal>.subtitle{text-align:center!important;max-width:860px!important;margin-left:auto!important;margin-right:auto!important}
-    .pb-returning .home-hero-principal>h1{font-size:clamp(1.8rem,4vw,2.7rem)!important;line-height:1.12!important;margin:12px 0!important}
+    .pb-returning .home-hero-principal>h1{font-size:clamp(1.8rem,4vw,2.7rem)!important;line-height:1.12!important;margin:12px auto!important;max-width:1000px!important;text-align:center!important}
     .pb-returning .home-hero-principal>.subtitle{font-size:1rem!important;margin:0 0 12px!important}
     .pb-returning-actions{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;margin:20px auto 32px;width:100%;text-align:center}
     .pb-returning-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font-weight:750;color:#3846aa;text-decoration:none;border:1px solid #cfd5ee;padding:11px 18px;border-radius:11px;box-sizing:border-box;background:#fff}
