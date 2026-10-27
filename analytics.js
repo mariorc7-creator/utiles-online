@@ -1,4 +1,18 @@
 (() => {
+  // Vercel Web Analytics para esta web HTML estática (sin Next.js ni npm).
+  // Se carga una sola vez en todas las páginas que incluyen /analytics.js.
+  if (!window.__pbVercelAnalyticsLoaded) {
+    window.__pbVercelAnalyticsLoaded = true;
+    window.va = window.va || function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+    if (!document.querySelector('script[src="/_vercel/insights/script.js"]')) {
+      const insights = document.createElement('script');
+      insights.defer = true;
+      insights.src = '/_vercel/insights/script.js';
+      document.head.appendChild(insights);
+    }
+  }
   if (!window.__pbPanelBridgeScriptRequested) {
     window.__pbPanelBridgeScriptRequested = true;
     const bridge = document.createElement('script');
