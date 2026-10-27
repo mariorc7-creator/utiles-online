@@ -202,8 +202,18 @@
     state={...read()};steps.forEach(s=>{state[s.key]=false;});write(state);render();
   });
   window.addEventListener('storage',e=>{if(e.key===KEY)render();});
-  window.addEventListener('pageshow',render);
+  function openAllStepsFromLink(){
+    if(location.hash!=='#moreSteps')return;
+    const details=document.getElementById('moreSteps');
+    if(!details)return;
+    details.open=true;
+    requestAnimationFrame(()=>details.scrollIntoView({block:'start',behavior:'auto'}));
+  }
+  window.addEventListener('hashchange',openAllStepsFromLink);
+  window.addEventListener('pageshow',openAllStepsFromLink);
+    window.addEventListener('pageshow',render);
   window.addEventListener('papelesbebe:progress',render);
   render();
+  openAllStepsFromLink();
 })();
 </script><script src="/herramientas/calendar-reminders.js?v=20261020-2" defer></script><script src="/mi-panel/reminder-panel.js?v=20261020-2" defer></script><script src="/pb-territory.js?v=20261020-1" defer></script><script src="/analytics.js" defer></script></body></html>
