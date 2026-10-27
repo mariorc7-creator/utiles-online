@@ -588,7 +588,7 @@
   function renderArticleProgress() {
     const key = keyForPath(location.pathname);
     const main = document.querySelector('main');
-    if (!key || !main || location.pathname.startsWith('/herramientas/') || location.pathname.startsWith('/mi-panel/') || location.pathname === '/ayudas-nacimiento/') return;
+    if (!key || !main || (location.pathname === '/deduccion-maternidad/' && !new URLSearchParams(location.search).has('ruta')) || location.pathname.startsWith('/herramientas/') || location.pathname.startsWith('/mi-panel/') || location.pathname === '/ayudas-nacimiento/') return;
     let box = document.getElementById('pb-article-progress');
     if (!box) {
       box = document.createElement('section');
@@ -611,7 +611,7 @@
       ['tarjeta-sanitaria','Tarjeta sanitaria','/tarjeta-sanitaria-bebe/'],
       ['padron','Empadronamiento','/empadronar-bebe/'],
       ['prestacion','Permiso y prestación','/permiso-nacimiento-cuidado-menor-2026/'],
-      ['deduccion','Deducciones','/deduccion-maternidad/'],
+      ['deduccion','Deducciones','/deduccion-maternidad/?ruta=1'],
       ['ayudas','Ayudas','/ayudas-nacimiento/?ruta=1']
     ];
     const nextStep = steps.find(([stepKey]) => readMaster()[stepKey] !== true);
@@ -694,12 +694,12 @@
       ['/tarjeta-sanitaria-bebe/','Tarjeta sanitaria','🏥'],
       ['/empadronar-bebe/','Empadronamiento','🏠'],
       ['/permiso-nacimiento-cuidado-menor-2026/','Prestación y permiso','🗓️'],
-      ['/deduccion-maternidad/','Deducciones','💳'],
+      ['/deduccion-maternidad/?ruta=1','Deducciones','💳'],
       ['/ayudas-nacimiento/?ruta=1','Ayudas','💶']
     ];
     const active = location.pathname === '/permiso-nacimiento-cuidado-menor/' ? steps[4][0] : location.pathname;
-    const i = steps.findIndex(step => step[0] === active);
-    if (i === -1 || (i === 6 && !new URLSearchParams(location.search).has('ruta'))) return;
+    const i = steps.findIndex(step => step[0].split('?')[0] === active);
+    if (i === -1 || ((i === 5 || i === 6) && !new URLSearchParams(location.search).has('ruta'))) return;
     const main = document.querySelector('main');
     if (!main || !main.parentNode) return;
     let shell = document.getElementById('pb-journey-chrome');
@@ -777,7 +777,7 @@
     '/deduccion-maternidad/',
     '/ayudas-nacimiento/'
   ]);
-  if (journeyPaths.has(location.pathname) && (location.pathname !== '/ayudas-nacimiento/' || new URLSearchParams(location.search).has('ruta'))) {
+  if (journeyPaths.has(location.pathname) && (!['/ayudas-nacimiento/','/deduccion-maternidad/'].includes(location.pathname) || new URLSearchParams(location.search).has('ruta'))) {
     document.documentElement.classList.add('pb-journey');
     const style = document.createElement('style');
     style.id = 'pb-journey-design';
