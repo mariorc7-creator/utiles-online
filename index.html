@@ -77,6 +77,21 @@
     @media(prefers-reduced-motion:reduce){.pb-gift-star{transition:none}}
   </style>
 
+  <style id="pb-home-v2-entry">
+    .pb-start-choice{margin:24px 0 10px;text-align:left}
+    .pb-start-choice h2{font-size:clamp(1.2rem,2vw,1.55rem);margin:0 0 14px;color:#243454}
+    .pb-start-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+    .pb-start-option{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;min-width:0;padding:19px 17px;border:1px solid #dbe2f4;border-radius:16px;background:#fff;color:#283854!important;text-decoration:none!important;box-shadow:0 4px 15px rgba(37,50,99,.04)}
+    .pb-start-label{display:block;font-size:1.08rem;font-weight:850;line-height:1.35}
+    .pb-start-option>span:nth-child(2){font-size:.9rem;line-height:1.45;color:#59677e}
+    .pb-start-option strong{font-size:.91rem;color:#3946b3}
+    .pb-start-option:hover,.pb-start-option:focus-visible{border-color:#5965d9;box-shadow:0 0 0 2px rgba(89,101,217,.11)}
+    .pb-start-primary{background:#f1f3ff;border:2px solid #5861d5}
+    .pb-start-note,.pb-start-trust{font-size:.84rem;line-height:1.5;color:#536179;margin:12px 0 0}
+    .pb-start-trust{font-weight:650;color:#3d5a54}
+    @media(max-width:760px){.pb-start-grid{grid-template-columns:1fr}.pb-start-option{padding:15px 16px;gap:6px}.pb-start-choice{margin-top:18px}}
+  </style>
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -125,27 +140,23 @@
 
   <main>
     <section class="hero home-dashboard" id="portada">
-      <a href="/lamina-nacimiento-gratis/" class="pb-gift-star" aria-label="Obtén tu obsequio gratis: crea una lámina de nacimiento"><span aria-hidden="true" class="pb-star-small">✦</span><span class="pb-star-copy">Obtén tu<br>obsequio</span><span class="pb-star-free">GRATIS ✨</span></a>
       <div class="home-hero-principal">
-        <div class="badge">Guía práctica para familias en España</div>
-
+        <div class="badge">Guía independiente para familias en España</div>
         <h1>Papeles del Bebé: embarazo, trámites y ayudas paso a paso</h1>
-
-        <p class="subtitle">
-          Te ayudamos a preparar el nacimiento y a saber qué trámites y ayudas revisar, paso a paso.
-        </p>
-
-        <div class="home-hero-cta">
-          <button onclick="location.href='/mi-panel/'">Ver mi primer paso →</button>
-          <p class="cta-explicacion">Gratis, sin registro y con tu progreso guardado</p>
-          <p style="margin:12px 0 0;font-size:.95rem"><a href="/checklist-imprimible/" style="color:#343ba7!important;-webkit-text-fill-color:#343ba7;font-weight:650;text-decoration:underline;text-underline-offset:3px">🖨️ ¿Prefieres papel? Descarga la checklist gratuita en PDF →</a></p>
-        </div>
-
+        <p class="subtitle">Te ayudamos a saber qué hacer ahora, qué comprobar después y qué ayudas pueden corresponderte.</p>
+        <section class="pb-start-choice" aria-labelledby="pb-start-heading">
+          <h2 id="pb-start-heading">¿En qué momento estás?</h2>
+          <div class="pb-start-grid">
+            <a class="pb-start-option" href="/antes-del-parto/"><span class="pb-start-label">Estoy embarazada</span><span>Qué preparar antes del nacimiento</span><strong>Empezar →</strong></a>
+            <a class="pb-start-option pb-start-primary" href="/mi-panel/"><span class="pb-start-label">Mi bebé ya ha nacido</span><span>Trámites y seguimiento de los siete pasos</span><strong>Ver mi plan →</strong></a>
+            <a class="pb-start-option" href="/herramientas/buscador-ayudas/"><span class="pb-start-label">Quiero consultar ayudas</span><span>Buscar prestaciones según mi situación</span><strong>Buscar ayudas →</strong></a>
+          </div>
+          <p class="pb-start-note">Gratis y sin registro. Tus pasos revisados se guardan en este navegador; se pierden si borras sus datos o cambias de dispositivo.</p>
+          <p class="pb-start-trust">Fuentes oficiales enlazadas · Información orientativa, no sustituye los requisitos de cada administración</p>
+        </section>
         <div id="reanudarProgreso"></div>
       </div>
 
-      <section class="pb-pregnancy" aria-labelledby="pb-pregnancy-title" style="margin:18px 0;padding:20px;border:2px solid #d8dcf4;border-radius:18px;background:#f7f8ff"><span style="font-weight:850;color:#5058bc;font-size:.8rem">🤰 ANTES DEL PARTO</span><h2 id="pb-pregnancy-title" style="margin:9px 0;font-size:1.3rem">¿Estás embarazada? Puedes empezar ya</h2><p style="margin:0 0 12px;color:#536079;line-height:1.6">Comprueba qué documentos preparar y qué ayudas puedes solicitar durante el embarazo.</p><a href="/antes-del-parto/" style="color:#414bb4;font-weight:850">Ver qué preparar antes del parto →</a></section>
-      <section class="pb-top-tools" aria-labelledby="pb-tools-home-heading" style="margin:22px 0 29px"><h2 id="pb-tools-home-heading" style="font-size:clamp(1.4rem,3vw,1.8rem);margin-bottom:12px">Dos herramientas que te ahorran tiempo</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px"><a href="/herramientas/buscador-ayudas/" style="display:block;text-decoration:none;padding:22px 20px;border:2px solid #c4ccff;border-radius:19px;background:#f0f3ff;color:#243979"><span style="font-size:1.7rem">💶</span><strong style="display:block;font-size:1.2rem;margin:8px 0">¿Qué ayudas puedo pedir?</strong><span style="display:block;line-height:1.55">Responde unas preguntas y descubre qué ayudas comprobar según tu situación.</span><span style="display:block;font-weight:850;margin-top:14px;color:#424cba">Buscar mis ayudas →</span></a><a href="/herramientas/calculadora-permiso-nacimiento/" style="display:block;text-decoration:none;padding:22px 20px;border:2px solid #c4ccff;border-radius:19px;background:#f0f3ff;color:#243979"><span style="font-size:1.7rem">🗓️</span><strong style="display:block;font-size:1.2rem;margin:8px 0">¿Cuándo termina mi permiso?</strong><span style="display:block;line-height:1.55">Calcula semanas y fechas orientativas y comprueba tus opciones.</span><span style="display:block;font-weight:850;margin-top:14px;color:#424cba">Calcular mi permiso →</span></a></div><p style="margin:12px 0;font-size:.9rem;color:#69738a">Gratis, sin registro. Los resultados son orientativos y enlazan a fuentes oficiales.</p></section>
       <section class="home-necesidades" aria-labelledby="home-necesidades-titulo">
         <div class="contenido-etiqueta">¿QUÉ NECESITAS?</div>
         <h2 id="home-necesidades-titulo">Elige qué necesitas</h2>
@@ -207,7 +218,7 @@
 
         <div class="home-ayudas-compactas-form">
           <label class="sr-only" for="selectorComunidadHome">Selecciona tu comunidad autónoma</label>
-          <select id="selectorComunidadHome" aria-label="Selecciona tu comunidad autónoma">
+          <select id="selectorComunidadHome" aria-label="Selecciona tu comunidad autónoma" onchange="abrirComunidadSeleccionada()">
             <option value="">¿En qué comunidad vives?</option>
             <option value="/comunidades/andalucia/">Andalucía</option>
             <option value="/comunidades/aragon/">Aragón</option>
@@ -230,7 +241,7 @@
             <option value="/comunidades/melilla/">Melilla</option>
           </select>
 
-          <button type="button" onclick="abrirComunidadSeleccionada()">Buscar ayudas</button>
+          <span class="sr-only">Al elegir una comunidad se abrirá su guía.</span>
         </div>
 
         <div class="home-comunidades-populares">
