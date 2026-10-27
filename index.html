@@ -320,11 +320,12 @@
     const keys=['papelesbebe_que_me_falta_v1','papelesbebe_workspace_v1','papelesbebe_recorrido_iniciado_v1','tramitesFacilesRespuestas','tramitesFacilesCompletados'];
     function hasProgress(){
       try {
-        return keys.some(key => {
-          const value=localStorage.getItem(key);
-          return value!==null && value!=='' && value!=='{}' && value!=='[]';
-        });
-      } catch(_){return false;}
+        const state=JSON.parse(localStorage.getItem('papelesbebe_que_me_falta_v1')||'{}');
+        const stepKeys=['registro','seguridad-social','tarjeta-sanitaria','padron','prestacion','deduccion','ayudas'];
+        const reviewed=state && typeof state==='object' && stepKeys.some(key=>state[key]===true);
+        const started=localStorage.getItem('papelesbebe_recorrido_iniciado_v1')==='1';
+        return reviewed || started;
+      } catch(_){return localStorage.getItem('papelesbebe_recorrido_iniciado_v1')==='1';}
     }
     block.hidden=!hasProgress();
     button.addEventListener('click',()=>{
