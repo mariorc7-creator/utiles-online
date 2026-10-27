@@ -79,8 +79,8 @@
 <header><div class="header-contenido"><a class="logo logo-enlace" href="/">Papeles del <span>Bebé</span></a><nav class="nav-principal" aria-label="Navegación principal"><a href="/mi-panel/" aria-current="page">Mis trámites</a><a href="/herramientas/">Herramientas</a><a href="/ayudas-nacimiento/">Ayudas</a></nav></div></header>
 <main class="pb-simple"><nav class="crumb" aria-label="Migas de pan"><a href="/">Inicio</a> › Mi panel</nav>
 <span class="intro-label">MIS TRÁMITES · GRATIS</span>
-<h1>Vamos paso a paso</h1>
-<p class="intro">Tu siguiente trámite, las ayudas y tu progreso están aquí. Marca lo que ya hayas revisado: no tienes que empezar de cero.</p>
+<h1>Tu plan de trámites</h1>
+<p class="intro">Empieza por la siguiente gestión recomendada. Puedes marcarla como revisada y consultar el resto cuando lo necesites.</p>
 <section class="pb-finish" id="pbFinish" hidden aria-labelledby="pbFinishTitle" aria-live="polite"><div aria-hidden="true" style="font-size:2rem">🎉</div><h2 id="pbFinishTitle">¡Has revisado los 7 pasos!</h2><p>Has organizado las gestiones principales tras el nacimiento. Revisa las solicitudes y resoluciones pendientes: marcar un paso como revisado no significa que la Administración lo haya aprobado.</p><div class="finish-actions"><button id="pbFinishPrint" type="button">Descargar resumen en PDF ↗</button><a href="/herramientas/calendario-primeros-90-dias/">Próximos meses →</a><a href="/ayudas-nacimiento/">Revisar nuevas ayudas →</a></div><p style="font-size:.77rem;margin-top:12px">El resumen se guarda como PDF desde el diálogo de impresión del navegador. No se envían tus marcas a ningún servidor.</p></section>
 <section class="main-action" aria-labelledby="nextTitle" aria-live="polite">
 <span class="overline" id="nextLabel">TU SIGUIENTE PASO</span>
@@ -155,6 +155,9 @@
     // El orden de recomendaciones reutiliza exclusivamente los pasos existentes.
     // Nunca se considera completado un trámite sin una acción explícita del usuario.
     const finished = done === steps.length;
+    const nextPending=pending[0];
+    const heading=document.getElementById('nextLabel');
+    if(heading) heading.textContent=nextPending ? 'PRÓXIMA GESTIÓN POR REVISAR · '+(done+1)+' DE 7' : 'RECORRIDO REVISADO';
     document.getElementById('pbFinish').hidden = !finished;
     document.querySelector('.pb-simple').classList.toggle('is-finished', finished);
     document.querySelector('.main-action').hidden = finished;
@@ -168,7 +171,7 @@
       row.append(heading,note,link);return row;
     }));
     const next=pending[0];
-    document.getElementById('nextLabel').textContent=next?'TU SIGUIENTE PASO':'¡BIEN HECHO!';
+    document.getElementById('nextLabel').textContent=next?'PRÓXIMA GESTIÓN POR REVISAR · '+(done+1)+' DE 7':'RECORRIDO REVISADO';
     document.getElementById('nextTitle').textContent=next?next.name:'Has revisado los pasos principales';
     document.getElementById('nextDescription').textContent=next?next.desc:'Comprueba ahora que tus solicitudes se han resuelto y revisa si hay ayudas locales pendientes.';
     const action=document.getElementById('nextAction');action.href=next?next.href:'/mi-panel/#moreSteps';action.textContent=next?'Ver guía paso a paso →':'Finalizado ✓ Ver mi resumen';
