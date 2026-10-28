@@ -64,9 +64,10 @@ def render(name):
  filters=''.join(f'[{i}:v]fps=15,format=yuv420p,setsar=1[v{i}];' for i in range(4))
  filters+='[v0][v1]xfade=transition=fade:duration=0.5:offset=4.0[x1];[x1][v2]xfade=transition=fade:duration=0.5:offset=8.0[x2];[x2][v3]xfade=transition=fade:duration=0.5:offset=12.0[out]'
  audio=Path('reels-input')/(name+'.mp3')
- cmd=['ffmpeg','-y','-loglevel','error',*inputs,'-filter_complex',filters,'-map','[out]']
- if audio.exists():
-  cmd+=['-i',str(audio),'-map',str(len(inputs)//6)+':a','-c:a','aac','-b:a','128k','-shortest']
+ cmd=['ffmpeg','-y','-loglevel','error',*inputs]
+ if audio.exists():cmd+=['-i',str(audio)]
+ cmd+=['-filter_complex',filters,'-map','[out]']
+ if audio.exists():cmd+=['-map','4:a','-c:a','aac','-b:a','128k','-shortest']
  else:cmd+=['-an']
  cmd+=['-c:v','libx264','-preset','veryfast','-crf','26','-pix_fmt','yuv420p','-movflags','+faststart',str(OUT/f'{name}.mp4')]
  subprocess.run(cmd,check=True)
