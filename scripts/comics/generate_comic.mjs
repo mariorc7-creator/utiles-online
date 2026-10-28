@@ -25,9 +25,13 @@ if(!Array.isArray(story.panels)||story.panels.length!==4||story.panels.some(p=>t
 story.id=item.id;
 await fs.mkdir('comics-input',{recursive:true});
 await fs.writeFile('comics-input/'+item.id+'.json',JSON.stringify(story,null,2));
-const panelInfo=story.panels.map((p,i)=>'Panel '+(i+1)+': '+p.action).join('\n');
-const prompt='ONE four-panel comic sheet in a precise two-by-two layout. Bright 2D TV comedy cartoon aesthetic: original yellow-skinned characters, dark bold outlines, clean cel shading, flat saturated colors, simple distinctive facial shapes, big expressive eyes, exaggerated comedic reactions. Recurring original family: short-bearded brown-haired father in turquoise, brunette mother in coral, toddler in yellow; teacher in pink as needed. Comedic situations in a colorful Spanish nursery or family home. Characters should be visually consistent across all four panels. No typography, no text, no letters, no numbers, no logos, no captions, no speech bubbles or watermarks. Four distinct narrative shots: '+panelInfo;
-const image=await call('images/generations',{model:process.env.OPENAI_IMAGE_MODEL||'gpt-image-1-mini',size:'1024x1536',quality:process.env.OPENAI_IMAGE_QUALITY||'medium',n:1,prompt});
-if(!image.data?.[0]?.b64_json)throw Error('No image delivered');
-await fs.writeFile('comics-input/'+item.id+'-sheet.png',Buffer.from(image.data[0].b64_json,'base64'));
-console.log('Generated storyboard and contact sheet: '+item.id);
+const style='Original 1990s television cartoon sitcom aesthetic, bold black ink outlines, completely flat saturated colors, warm golden yellow skin, round bulging expressive eyes, simple hand-drawn 2D cel animation feel, comedic exaggeration, clear staging. Original characters only, no existing TV characters: same short brown-haired dad with short beard in turquoise shirt, mother with dark hair in a bun and coral shirt, young toddler in yellow clothes. If necessary an educator in pink and a clerk in blue. Everyday Spanish home or nursery. Clean character acting with complete bodies or medium shots, no extreme close-ups, no cropping any faces. Absolutely no written letters, no words, no speech bubbles, no panels-within-panels, no logos, no watermark. Portrait 4:5 composition, center stage clear, keep top fifth visually calmer for later dialogue overlay.';
+for(let i=0;i<4;i++){
+ const panel=story.panels[i];
+ const prompt=style+' Panel scene '+(i+1)+' of four in continuous story: '+panel.action+'. Illustrate ONLY this ONE scene in one image, full composition, no comic grid.';
+ const image=await call('images/generations',{model:process.env.OPENAI_IMAGE_MODEL||'gpt-image-1-mini',size:'1024x1536',quality:process.env.OPENAI_IMAGE_QUALITY||'medium',n:1,prompt});
+ if(!image.data?.[0]?.b64_json)throw Error('No image delivered for scene '+(i+1));
+ await fs.writeFile('comics-input/'+item.id+'-'+(i+1)+'.png',Buffer.from(image.data[0].b64_json,'base64'));
+ console.log('Generated comic scene '+(i+1)+'/4');
+}
+console.log('Generated storyboard and four separate original panels: '+item.id);
