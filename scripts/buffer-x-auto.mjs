@@ -13,7 +13,7 @@ async function query(gql, variables) {
 const organizations = (await query('query { account { organizations { id name } } }')).account?.organizations || [];
 const matches=[];
 for(const org of organizations) {
- const channels=(await query('query ($id: OrganizationId!) { channels(input:{organizationId:$id}) { id name displayName service } }',{id:org.id})).channels || [];
+ const channels=(await query('query { channels(input:{organizationId:'+JSON.stringify(org.id)+'}) { id name displayName service } }')).channels || [];
  for(const c of channels) if(/twitter|^x$/i.test(c.service||'') && /papelesdelbebe/i.test([c.name,c.displayName].join(' ')))matches.push(c);
 }
 if(matches.length!==1) throw new Error('Se esperaba exactamente un canal X PapelesDelBebe; encontrados: '+matches.length+'. No se publicará nada.');
