@@ -41,3 +41,21 @@ body:has(#portada)>main:not([class])::before{content:none;display:none}
 @media(max-width:700px){
   .logo-enlace{width:168px;height:40px;flex-basis:168px}
 }
+
+/* UX 3.0 P0 — accesibilidad y estabilidad responsive comunes */
+html{overflow-x:clip}
+*,*::before,*::after{min-width:0}
+img,video,svg{max-width:100%}
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid #414ec5!important;outline-offset:3px}
+:where(button,input,select,textarea){font:inherit}
+:where(button,[type=button],[type=submit],select,summary){touch-action:manipulation}
+[hidden]{display:none!important}
+@media(max-width:600px){
+  body{overflow-wrap:anywhere}
+  :where(button,[role=button],summary){min-height:44px}
+  :where(input:not([type=checkbox]):not([type=radio]),select,textarea){max-width:100%;font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  html:focus-within{scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}
