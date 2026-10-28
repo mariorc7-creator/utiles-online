@@ -67,7 +67,7 @@ def render(name):
  cmd=['ffmpeg','-y','-loglevel','error',*inputs]
  if audio.exists():cmd+=['-i',str(audio)]
  cmd+=['-filter_complex',filters,'-map','[out]']
- if audio.exists():cmd+=['-map','4:a','-c:a','aac','-b:a','128k','-shortest']
+ if audio.exists():cmd+=['-map','4:a','-af','apad','-t','16.5','-c:a','aac','-b:a','128k']
  else:cmd+=['-an']
  cmd+=['-c:v','libx264','-preset','veryfast','-crf','26','-pix_fmt','yuv420p','-movflags','+faststart',str(OUT/f'{name}.mp4')]
  subprocess.run(cmd,check=True)
