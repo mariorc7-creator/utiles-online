@@ -12,6 +12,8 @@
     .pb-progressive-done{padding:9px 11px;margin:8px 0;border:1px solid #dce8df;border-radius:12px;background:#f7fbf8;color:#385f4a;font-size:.9rem}
   `;document.head.append(css);
   function prepare(){
+    // UX 3.1.2: ayudas y permisos tienen asistentes propios; evitar pasos duplicados.
+    if(path.includes('buscador-ayudas') || path.includes('calculadora-permiso-nacimiento')) return;
     const form=path.includes('buscador-ayudas')?document.getElementById('simuladorForm'):document.querySelector('form[action="/api/calcular-permiso"]');
     if(!form)return;
     const ids=path.includes('buscador-ayudas')?['comunidad','laboral','familia']:['tipo','fecha','objetivo'];
