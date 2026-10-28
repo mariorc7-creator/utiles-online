@@ -173,14 +173,14 @@
       d.innerHTML='<summary>📍 Buscar ayudas por comunidad</summary>';
       community.parentNode.insertBefore(d,community); d.appendChild(community);
     }
-    const ia=document.querySelector('.home-papelesia:not(.home-premium-destacado)');
-    if (ia && !ia.closest('.pb-home-more')) {
-      const d=document.createElement('details'); d.className='pb-home-more';
-      d.innerHTML='<summary>✨ Más ayuda si la necesitas</summary>';
-      ia.parentNode.insertBefore(d,ia);
-      if (ia) d.appendChild(ia);
-
-    }
+    // No volver a inyectar «Más ayuda si la necesitas»:
+    // PapelesIA ya dispone de acceso propio y la portada prioriza acciones claras.
+    document.querySelectorAll('details.pb-home-more').forEach(d => {
+      if (d.querySelector('.home-papelesia')) {
+        d.querySelector('.home-papelesia').remove();
+        d.remove();
+      }
+    });
   }
 
   function simplifyMobileHome(){
