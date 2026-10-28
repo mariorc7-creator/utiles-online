@@ -2,6 +2,12 @@ name: Papeles Bebé - Comics IA (Instagram y X)
 on:
   workflow_dispatch:
     inputs:
+      mode:
+        description: "Prueba sin publicar o programar en Buffer"
+        type: choice
+        required: true
+        options: [preview, publish]
+        default: preview
       comic:
         description: "Tema del comic"
         type: choice
@@ -34,6 +40,7 @@ jobs:
           python-version: '3.12'
       - name: Evitar segundas publicaciones el mismo dia
         id: guard
+        if: github.event_name == 'schedule' || inputs.mode == 'publish'
         shell: bash
         run: |
           DATE=$(TZ=Europe/Madrid date +%Y-%m-%d)
@@ -56,7 +63,7 @@ jobs:
             echo 'skip=false' >> "$GITHUB_OUTPUT"
           fi
       - name: Instalar Pillow
-        if: steps.guard.outputs.skip != 'true'
+        if: steps.guard.outputs.skip != 'true' || inputs.mode == 'preview'
         run: python -m pip install Pillow
       - name: Generar guion y cuatro ilustraciones
         if: steps.guard.outputs.skip != 'true'
@@ -73,7 +80,7 @@ jobs:
         if: steps.guard.outputs.skip != 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: papeles-del-bebe-comic
+          name: papeles-del-bebe-comic-${{ github.run_id }}
           path: |
             comics-output/*.jpg
             comics-output/*.txt
@@ -81,7 +88,7 @@ jobs:
           retention-days: 14
           if-no-files-found: error
       - name: Publish stable images to public GitHub URLs
-        if: steps.guard.outputs.skip != 'true'
+        if: inputs.mode != 'preview' && steps.guard.outputs.skip != 'true'
         id: hosting
         shell: bash
         run: |
@@ -105,7 +112,7 @@ jobs:
           echo "comic=$COMIC" >> "$GITHUB_OUTPUT"
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Check public URLs are reachable
-        if: steps.guard.outputs.skip != 'true'
+        if: inputs.mode != 'preview' && steps.guard.outputs.skip != 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -116,6 +123,7 @@ jobs:
           done
           echo "Media URL unavailable"; exit 1
       - name: Schedule comic in Buffer Instagram and X
+        if: inputs.mode != 'preview'
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
           COMIC_PUBLIC_DIR: ${{ steps.hosting.outputs.date || steps.guard.outputs.date }}
