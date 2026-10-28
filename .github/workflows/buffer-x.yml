@@ -6,7 +6,7 @@ on:
         description: "Prueba de conexión (safe) o publicar un tweet"
         required: true
         type: choice
-        options: [test, morning, evening]
+        options: [test, launch, morning, evening]
         default: test
   schedule:
     # Dos ventanas UTC para cubrir cambio de horario de España.
