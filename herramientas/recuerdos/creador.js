@@ -58,6 +58,52 @@ if(mode==='invitacion'){
  const style=document.createElement('style');style.textContent='.rec-template-picker{margin:0 0 22px;padding:19px;border:1px solid #dfe3f2;border-radius:20px;background:#fff}.rec-template-picker h2{margin:0 0 5px}.rec-template-filters{display:flex;flex-wrap:wrap;gap:7px;margin:15px 0}.rec-template-filters button{border:1px solid #d5daea;border-radius:999px;padding:8px 13px;background:#fff;color:#404e75;cursor:pointer}.rec-template-filters button[aria-pressed="true"]{background:#4d55bd;color:#fff}.rec-template-gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px}.rec-template-option{border:2px solid #e0e3ed;background:#fff;border-radius:13px;padding:5px;cursor:pointer;min-width:0;text-align:left}.rec-template-option[data-selected="true"]{border-color:#4b55c9;box-shadow:0 0 0 2px #e3e5ff}.rec-template-art{aspect-ratio:3/4;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}.rec-template-symbol{font-size:clamp(25px,3vw,38px)}.rec-template-lines{font-family:Georgia,serif;font-size:clamp(10px,1.5vw,15px)}.rec-template-title{display:block;font-size:.76rem;font-weight:700;padding:7px 2px}.rec-template-option:focus-visible{outline:3px solid #646bd8;outline-offset:2px}@media(max-width:850px){.rec-template-gallery{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:520px){.rec-template-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.rec-template-picker{padding:12px}}';document.head.append(style);
 }
 
+
+const extraTemplates={
+ hitos:[
+ ['dulce','Dulce infantil','Infantil','#fff0dc','#b77c59','🧸'],
+ ['nubes','Nubes y estrellas','Infantil','#e8f2ff','#779bd2','☁️'],
+ ['acuarela','Acuarela pastel','Infantil','#fcecf2','#cd86a6','🌸'],
+ ['scrapbook','Álbum scrapbook','Creativa','#f7e6c9','#bc825c','✂️'],
+ ['foto','Foto protagonista','Moderna','#f8f8f8','#30313b','📸'],
+ ['vintage','Vintage suave','Creativa','#eee5d4','#987d62','✦'],
+ ['boho','Boho neutra','Moderna','#f2e9db','#c28c61','☀️'],
+ ['minimal','Minimal clean','Moderna','#f9faf9','#626d78','◯']
+ ],
+ primerano:[
+ ['grid','Clásica 12 meses','Clásica','#f7efe5','#b88969','▦'],
+ ['polaroid','Collage Polaroid','Creativa','#f5ecdf','#af8164','📸'],
+ ['timeline','Línea temporal','Creativa','#e9f3f1','#62a095','↝'],
+ ['editorial','Editorial premium','Elegante','#f9f7f2','#8b8069','✧'],
+ ['infantil','Dulce infantil','Infantil','#fff1eb','#d08f9f','🧸'],
+ ['cuento','Álbum de cuento','Infantil','#ecf0ff','#8195c6','📖'],
+ ['boho','Boho cálido','Creativa','#f6e8d9','#c68d6c','☀️'],
+ ['minimal','Minimal elegante','Elegante','#f8f9fa','#404957','◯']
+ ]
+};
+if(extraTemplates[mode]){
+ const templates=extraTemplates[mode];activeTemplate=templates[0][0];
+ const section=document.createElement('section');section.className='rec-template-picker';
+ section.innerHTML='<h2>1. Elige una plantilla</h2><p class="rec-sub">Selecciona un diseño y personaliza tu recuerdo. Cada plantilla cambia la distribución de las fotos.</p><div class="rec-template-filters" role="group" aria-label="Filtrar plantillas"></div><div class="rec-template-gallery"></div>';
+ root.prepend(section);
+ const filters=section.querySelector('.rec-template-filters'),gallery=section.querySelector('.rec-template-gallery');
+ function renderGallery(category='Todas'){
+   gallery.replaceChildren();
+   templates.filter(t=>category==='Todas'||t[2]===category).forEach(t=>{
+     const b=document.createElement('button');b.type='button';b.className='rec-template-option';
+     b.setAttribute('aria-pressed',String(t[0]===activeTemplate));b.dataset.selected=String(t[0]===activeTemplate);
+     b.innerHTML='<span class="rec-template-art" aria-hidden="true" style="background:'+t[3]+';color:'+t[4]+'"><span class="rec-template-symbol">'+t[5]+'</span><span class="rec-template-lines">'+(mode==='hitos'?'Mi gran momento':'Mi primer año')+'</span></span><span class="rec-template-title">'+t[1]+'</span>';
+     b.addEventListener('click',()=>{activeTemplate=t[0];renderGallery(category);paint();document.getElementById('recStatus').textContent='Plantilla: '+t[1];});
+     gallery.append(b);
+   });
+ }
+ ['Todas',...new Set(templates.map(t=>t[2]))].forEach(category=>{let b=document.createElement('button');b.type='button';b.textContent=category;b.setAttribute('aria-pressed',String(category==='Todas'));b.addEventListener('click',()=>{filters.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));renderGallery(category);});filters.append(b);});
+ renderGallery();
+ const style=document.createElement('style');
+ style.textContent='.rec-template-picker{margin:0 0 22px;padding:19px;border:1px solid #dfe3f2;border-radius:20px;background:#fff}.rec-template-filters{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0}.rec-template-filters button{border:1px solid #d5daea;border-radius:999px;padding:8px 13px;background:white;color:#404e75;cursor:pointer}.rec-template-filters button[aria-pressed="true"]{background:#4d55bd;color:white}.rec-template-gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.rec-template-option{border:2px solid #e0e3ed;background:white;border-radius:13px;padding:5px;cursor:pointer;min-width:0;text-align:left}.rec-template-option[data-selected="true"]{border-color:#4b55c9;box-shadow:0 0 0 2px #e3e5ff}.rec-template-art{aspect-ratio:3/4;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}.rec-template-symbol{font-size:35px}.rec-template-lines{font-family:Georgia,serif;font-size:13px}.rec-template-title{display:block;font-size:.78rem;font-weight:700;padding:7px 2px}.rec-template-option:focus-visible{outline:3px solid #646bd8;outline-offset:2px}@media(max-width:520px){.rec-template-gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.rec-template-picker{padding:12px}}';
+ document.head.append(style);
+}
+
 const read=(key)=>form.elements.namedItem(key)?.value||'';
 function text(t,x,y,size=44,color='#412d38',max=740){ctx.fillStyle=color;ctx.font='700 '+size+'px system-ui, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(t||''),x,y,max);}
 function cover(img,x,y,w,h){const ratio=Math.max(w/img.width,h/img.height),rw=img.width*ratio,rh=img.height*ratio;ctx.drawImage(img,x+(w-rw)/2,y+(h-rh)/2,rw,rh);}
@@ -85,9 +131,44 @@ function drawInvitation(){
  else {for(let i=0;i<12;i++)glyph(['🌟','✨','🎉'][i%3],90+(i*139)%740,125+(i%4)*205,50);title(name,375,108);title(years+' añito(s)',510,66);if(photo)frame(photo,275,600,350,275,36);info(photo?965:740);}
 }
 
+
+function drawHito(){
+ const t=extraTemplates.hitos.find(x=>x[0]===activeTemplate)||extraTemplates.hitos[0],id=t[0],bg=t[3],accent=t[4];
+ const nombre=read('nombre')||'Tu bebé',hito=read('hito')||'1 mes',fecha=read('fecha')||'Un recuerdo inolvidable',img=photos.main;
+ ctx.fillStyle=bg;ctx.fillRect(0,0,900,1200);
+ function title(str,y,size=70,font='Georgia, serif'){ctx.fillStyle='#3f3a42';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='700 '+size+'px '+font;ctx.fillText(str,450,y,785);}
+ function decor(symbol,x,y,size=62){ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=size+'px system-ui';ctx.fillText(symbol,x,y);}
+ if(id==='foto'){if(img)frame(img,0,0,900,900,0);else frame(null,65,65,770,800,24);ctx.fillStyle='#fff';ctx.fillRect(0,900,900,300);title(hito,992,83,'system-ui');title(nombre,1085,49,'system-ui');}
+ else if(id==='scrapbook'){ctx.fillStyle='#e4ccb1';ctx.fillRect(70,130,760,890);ctx.save();ctx.translate(450,585);ctx.rotate(-0.065);frame(img,-300,-310,600,610,0);ctx.restore();decor('✂️',110,165);decor('✨',775,920);title(hito,98,69);title(nombre,1080,62);}
+ else if(id==='minimal'){ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.strokeRect(75,75,750,1050);title(hito,220,98);frame(img,155,345,590,580,0);title(nombre,1000,58);}
+ else if(id==='boho'){for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(450,395,280-i*36,Math.PI,2*Math.PI);ctx.strokeStyle=['#bd8875','#dfbd9b','#abbca2','#e1c9b7','#b6a79a'][i];ctx.lineWidth=17;ctx.stroke();}frame(img,170,460,560,485,65);title(hito,320,65);title(nombre,1022,60);}
+ else if(id==='acuarela'){for(let i=0;i<26;i++){ctx.fillStyle=i%2?'#f3c4d0':'#d9c7f1';ctx.globalAlpha=.42;ctx.beginPath();ctx.arc(80+(i*131)%750,95+(i%5)*220,35+(i%3)*15,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;title(hito,210,82);frame(img,145,345,610,590,120);title(nombre,1030,66);}
+ else if(id==='vintage'){ctx.strokeStyle=accent;ctx.lineWidth=5;ctx.strokeRect(55,55,790,1090);ctx.setLineDash([12,12]);ctx.strokeRect(75,75,750,1050);ctx.setLineDash([]);title('UN RECUERDO ESPECIAL',160,39);frame(img,170,280,560,610,8);title(hito,965,78);title(nombre,1062,52);}
+ else if(id==='nubes'){for(let i=0;i<9;i++){decor('☁️',110+(i*173)%690,125+(i%4)*260,64);}title(hito,270,82);frame(img,165,395,570,535,75);title(nombre,1045,62);}
+ else{decor('🧸',450,160,110);decor('✨',130,340,54);decor('✨',755,380,54);title(hito,322,88);frame(img,160,430,580,510,80);title(nombre,1030,65);}
+ text(fecha,450,1144,27,accent,800);
+}
+function drawYear(){
+ const t=extraTemplates.primerano.find(x=>x[0]===activeTemplate)||extraTemplates.primerano[0],id=t[0],bg=t[3],accent=t[4],nombre=read('nombre')||'Tu bebé';
+ ctx.fillStyle=bg;ctx.fillRect(0,0,900,1200);
+ function heading(str,y,size=64,font='Georgia, serif'){ctx.fillStyle='#343b4a';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='700 '+size+'px '+font;ctx.fillText(str,450,y,805);}
+ function tile(i,x,y,w,h,round=12,label=true){frame(photos['m'+(i+1)],x,y,w,h,round);if(label)text('Mes '+(i+1),x+w/2,y+h+23,19,accent,w);}
+ function grid(cols,x,y,w,h,gapX,gapY){for(let i=0;i<12;i++){let c=i%cols,r=Math.floor(i/cols);tile(i,x+c*(w+gapX),y+r*(h+gapY),w,h,12,true);}}
+ if(id==='grid'){heading('MI PRIMER AÑO',112,63);heading(nombre,206,74);grid(3,87,295,228,155,20,215);}
+ else if(id==='polaroid'){heading('12 MESES DE AMOR',105,59);heading(nombre,187,66);for(let i=0;i<12;i++){const c=i%3,r=Math.floor(i/3),x=90+c*247,y=275+r*213;ctx.save();ctx.translate(x+110,y+80);ctx.rotate(((i%3)-1)*.065);ctx.fillStyle='#fff';ctx.fillRect(-113,-86,226,186);frame(photos['m'+(i+1)],-101,-74,202,130,0);text('Mes '+(i+1),0,79,18,'#6b5b55',180);ctx.restore();}}
+ else if(id==='timeline'){heading('ASÍ CRECÍ',107,73);heading(nombre,205,64);ctx.strokeStyle=accent;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(450,284);ctx.lineTo(450,1100);ctx.stroke();for(let i=0;i<12;i++){let left=i%2===0,x=left?83:555,y=275+Math.floor(i/2)*141;tile(i,x,y,260,110,15,false);text(''+(i+1),450,y+50,27,accent);}}
+ else if(id==='editorial'){ctx.fillStyle='#343b4a';ctx.fillRect(0,0,900,215);text('A YEAR OF YOU',450,85,46,'#fff');text(nombre,450,165,68,'#fff');grid(3,94,280,220,165,26,218);}
+ else if(id==='infantil'){for(let i=0;i<18;i++){ctx.font='37px system-ui';ctx.fillText(i%2?'⭐':'☁️',65+(i*109)%790,65+(i%4)*288);}heading('MI PRIMER AÑITO',117,63);heading(nombre,219,72);grid(3,90,305,224,150,24,211);}
+ else if(id==='cuento'){heading('ÉRASE UNA VEZ…',107,54);heading(nombre,204,73);ctx.strokeStyle=accent;ctx.lineWidth=4;ctx.strokeRect(57,270,785,857);for(let i=0;i<12;i++){const c=i%2,r=Math.floor(i/2);tile(i,104+c*382,290+r*138,307,94,24,true);}}
+ else if(id==='boho'){for(let j=0;j<5;j++){ctx.beginPath();ctx.arc(450,222,220-j*27,Math.PI,2*Math.PI);ctx.strokeStyle=['#b98372','#ddb89f','#8fa897','#d4c4a8','#e2d6c5'][j];ctx.lineWidth=14;ctx.stroke();}heading(nombre,264,69);heading('12 meses de amor',345,45);grid(3,90,410,224,126,24,173);}
+ else {heading(nombre,108,82);heading('DOCE MESES',193,42);ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.strokeRect(64,62,772,1070);grid(3,95,286,218,152,27,208);}
+ text(read('fecha')||'Un año lleno de recuerdos',450,1155,27,accent,800);
+}
+
 function paint(){const [bg,accent,ink]=palette[read('tema')||'crema'];ctx.fillStyle=bg;ctx.fillRect(0,0,900,1200);ctx.strokeStyle=accent;ctx.lineWidth=8;ctx.strokeRect(35,35,830,1130);const nombre=read('nombre')||'Tu bebé';if(mode==='invitacion')drawInvitation();
-if(mode==='hitos'){text('MI GRAN MOMENTO',450,122,41,accent);text(read('hito')||'1 mes',450,250,82,ink);frame(photos.main,150,335,600,620,26);text(nombre,450,1010,52,ink);text(read('fecha'),450,1080,30,accent);}
-if(mode==='primerano'){text('MI PRIMER AÑO',450,125,60,accent);text(nombre,450,220,67,ink);for(let i=0;i<12;i++){const col=i%3,row=Math.floor(i/3),x=87+col*248,y=300+row*202;frame(photos['m'+(i+1)],x,y,228,163,12);text('Mes '+(i+1),x+114,y+181,20,ink,220);}text(read('fecha')||'Doce meses de recuerdos',450,1140,29,accent);}}
+if(mode==='hitos')drawHito();
+if(mode==='primerano')drawYear();
+}
 async function loadImage(file){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Imagen no válida'))};img.src=url;});}
 form.addEventListener('input',paint);form.addEventListener('change',async e=>{if(e.target.dataset.photo){try{const file=e.target.files?.[0];if(file&&file.size>12*1024*1024)throw Error('Máximo 12 MB por imagen');photos[e.target.dataset.photo]=file?await loadImage(file):null;document.getElementById('recStatus').textContent='Foto actualizada';}catch(err){document.getElementById('recStatus').textContent=err.message;}paint();}});
 document.getElementById('recPng').addEventListener('click',()=>{paint();canvas.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='papelesdelbebe-'+mode+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);},'image/png');});
