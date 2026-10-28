@@ -1,0 +1,17 @@
+name: Papeles Bebé - Comprobar Instagram Buffer
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verificar-instagram:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar cuenta de Instagram en Buffer (sin publicar)
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+        run: node scripts/reels/check-instagram-buffer.mjs
