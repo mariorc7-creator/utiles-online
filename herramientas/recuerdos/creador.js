@@ -149,20 +149,44 @@ function drawHito(){
  text(fecha,450,1144,27,accent,800);
 }
 function drawYear(){
- const t=extraTemplates.primerano.find(x=>x[0]===activeTemplate)||extraTemplates.primerano[0],id=t[0],bg=t[3],accent=t[4],nombre=read('nombre')||'Tu bebé';
- ctx.fillStyle=bg;ctx.fillRect(0,0,900,1200);
- function heading(str,y,size=64,font='Georgia, serif'){ctx.fillStyle='#343b4a';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='700 '+size+'px '+font;ctx.fillText(str,450,y,805);}
- function tile(i,x,y,w,h,round=12,label=true){frame(photos['m'+(i+1)],x,y,w,h,round);if(label)text('Mes '+(i+1),x+w/2,y+h+23,19,accent,w);}
- function grid(cols,x,y,w,h,gapX,gapY){for(let i=0;i<12;i++){let c=i%cols,r=Math.floor(i/cols);tile(i,x+c*(w+gapX),y+r*(h+gapY),w,h,12,true);}}
- if(id==='grid'){heading('MI PRIMER AÑO',112,63);heading(nombre,206,74);grid(3,87,295,228,155,20,215);}
- else if(id==='polaroid'){heading('12 MESES DE AMOR',105,59);heading(nombre,187,66);for(let i=0;i<12;i++){const c=i%3,r=Math.floor(i/3),x=90+c*247,y=275+r*213;ctx.save();ctx.translate(x+110,y+80);ctx.rotate(((i%3)-1)*.065);ctx.fillStyle='#fff';ctx.fillRect(-113,-86,226,186);frame(photos['m'+(i+1)],-101,-74,202,130,0);text('Mes '+(i+1),0,79,18,'#6b5b55',180);ctx.restore();}}
- else if(id==='timeline'){heading('ASÍ CRECÍ',107,73);heading(nombre,205,64);ctx.strokeStyle=accent;ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(450,284);ctx.lineTo(450,1100);ctx.stroke();for(let i=0;i<12;i++){let left=i%2===0,x=left?83:555,y=275+Math.floor(i/2)*141;tile(i,x,y,260,110,15,false);text(''+(i+1),450,y+50,27,accent);}}
- else if(id==='editorial'){ctx.fillStyle='#343b4a';ctx.fillRect(0,0,900,215);text('A YEAR OF YOU',450,85,46,'#fff');text(nombre,450,165,68,'#fff');grid(3,94,280,220,165,26,218);}
- else if(id==='infantil'){for(let i=0;i<18;i++){ctx.font='37px system-ui';ctx.fillText(i%2?'⭐':'☁️',65+(i*109)%790,65+(i%4)*288);}heading('MI PRIMER AÑITO',117,63);heading(nombre,219,72);grid(3,90,305,224,150,24,211);}
- else if(id==='cuento'){heading('ÉRASE UNA VEZ…',107,54);heading(nombre,204,73);ctx.strokeStyle=accent;ctx.lineWidth=4;ctx.strokeRect(57,270,785,857);for(let i=0;i<12;i++){const c=i%2,r=Math.floor(i/2);tile(i,104+c*382,290+r*138,307,94,24,true);}}
- else if(id==='boho'){for(let j=0;j<5;j++){ctx.beginPath();ctx.arc(450,222,220-j*27,Math.PI,2*Math.PI);ctx.strokeStyle=['#b98372','#ddb89f','#8fa897','#d4c4a8','#e2d6c5'][j];ctx.lineWidth=14;ctx.stroke();}heading(nombre,264,69);heading('12 meses de amor',345,45);grid(3,90,410,224,126,24,173);}
- else {heading(nombre,108,82);heading('DOCE MESES',193,42);ctx.strokeStyle=accent;ctx.lineWidth=2;ctx.strokeRect(64,62,772,1070);grid(3,95,286,218,152,27,208);}
- text(read('fecha')||'Un año lleno de recuerdos',450,1155,27,accent,800);
+ const t=extraTemplates.primerano.find(x=>x[0]===activeTemplate)||extraTemplates.primerano[0],id=t[0],accent=t[4],nombre=read('nombre')||'Tu bebé';
+ const backgrounds={grid:'#fbf8f4',polaroid:'#e9ded0',timeline:'#faf7f2',editorial:'#f6f5f2',infantil:'#f9eff0',cuento:'#f2f0e8',boho:'#eee5d9',minimal:'#ffffff'};
+ ctx.fillStyle=backgrounds[id]||'#fff';ctx.fillRect(0,0,900,1200);
+ const ink='#34343a',muted='#77727a';
+ const heading=(value,x,y,size=65,font='Georgia,serif',color=ink,max=800)=>{ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle=color;ctx.font='400 '+size+'px '+font;ctx.fillText(value,x,y,max);};
+ const rule=(x,y,w,color=accent)=>{ctx.fillStyle=color;ctx.fillRect(x,y,w,2);};
+ const photo=(i,x,y,w,h,round=0)=>{const img=photos['m'+(i+1)];if(img){frame(img,x,y,w,h,round);}else{ctx.fillStyle='#eeeae5';ctx.fillRect(x,y,w,h);ctx.textAlign='center';ctx.fillStyle='#a29e9b';ctx.font='26px system-ui';ctx.fillText(''+(i+1),x+w/2,y+h/2);}};
+ const small=(str,x,y,size=19,color=muted)=>heading(str,x,y,size,'system-ui',color);
+ const footer=()=>{small(read('fecha')||'DOCE MESES DE AMOR',450,1155,23,accent);};
+ if(id==='grid'){
+  small('UN AÑO DE RECUERDOS',450,91,24,accent);heading(nombre,450,170,82);rule(310,227,280);
+  for(let i=0;i<12;i++){let x=79+(i%3)*251,y=281+Math.floor(i/3)*203;photo(i,x,y,238,160,5);small(('0'+(i+1)).slice(-2)+'  /  12',x+119,y+183,17);}
+ }else if(id==='polaroid'){
+  heading('Un año contigo',450,104,72);small(nombre+' · 12 recuerdos',450,170,25);
+  for(let i=0;i<12;i++){let x=75+(i%3)*250,y=248+Math.floor(i/3)*217;ctx.save();ctx.translate(x+120,y+95);ctx.rotate(((i*7)%5-2)*.028);ctx.shadowColor='#8b756a30';ctx.shadowBlur=11;ctx.shadowOffsetY=6;ctx.fillStyle='#fff';ctx.fillRect(-120,-94,240,194);ctx.shadowColor='transparent';photo(i,-108,-82,216,145);small('MES '+(i+1),0,83,17,'#777');ctx.restore();}
+ }else if(id==='timeline'){
+  heading('Así fui creciendo',450,103,68);small(nombre+' · MI PRIMER AÑO',450,176,23);rule(100,225,700,'#d2c8bc');
+  for(let i=0;i<12;i++){let col=i%3,row=Math.floor(i/3),x=83+col*247,y=280+row*208;photo(i,x,y,229,172,12);small('MES '+('0'+(i+1)).slice(-2),x+114,y+194,18,accent);}
+ }else if(id==='editorial'){
+  ctx.fillStyle='#242a30';ctx.fillRect(0,0,900,240);
+  small('THE FIRST YEAR',450,65,26,'#e9d9c4');heading(nombre,450,144,92,'Georgia,serif','#fff');
+  for(let i=0;i<12;i++){let col=i%3,row=Math.floor(i/3),x=82+col*249,y=281+row*203;photo(i,x,y,234,165);small(''+(i+1),x+117,y+185,17);}
+ }else if(id==='infantil'){
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(450,112,225,0,Math.PI*2);ctx.fill();
+  heading(nombre,450,104,76);small('MI PRIMER AÑITO',450,177,24,accent);
+  for(let i=0;i<12;i++){let x=78+(i%3)*251,y=259+Math.floor(i/3)*209;ctx.fillStyle=i%2?'#fff9f4':'#f5e6e7';ctx.fillRect(x-5,y-5,244,198);photo(i,x,y,234,166,26);small('Mes '+(i+1),x+117,y+188,19,accent);}
+ }else if(id==='cuento'){
+  heading('Érase una vez…',450,99,68);heading(nombre,450,179,66);rule(250,224,400);
+  for(let i=0;i<12;i++){let col=i%2,row=Math.floor(i/2),x=85+col*377,y=255+row*144;photo(i,x,y,346,113,12);small('CAPÍTULO '+(i+1),x+173,y+130,16,accent);}
+ }else if(id==='boho'){
+  for(let j=0;j<4;j++){ctx.beginPath();ctx.arc(450,226,150-j*25,Math.PI,Math.PI*2);ctx.lineWidth=14;ctx.strokeStyle=['#b98372','#dfb99e','#9eaf9b','#cfc1a8'][j];ctx.stroke();}
+  heading(nombre,450,263,73);small('12 meses a tu lado',450,329,24);
+  for(let i=0;i<12;i++){let col=i%3,row=Math.floor(i/3),x=87+col*246,y=365+row*180;photo(i,x,y,226,143,6);small(('0'+(i+1)).slice(-2),x+113,y+166,16,accent);}
+ }else{
+  small('PRIMER AÑO',450,101,23,'#777');heading(nombre,450,175,95);rule(100,247,700,'#d7d7d7');
+  for(let i=0;i<12;i++){let col=i%3,row=Math.floor(i/3),x=86+col*247,y=285+row*196;photo(i,x,y,231,158);small(('0'+(i+1)).slice(-2),x+115,y+180,15,'#888');}
+ }
+ footer();
 }
 
 function paint(){const [bg,accent,ink]=palette[read('tema')||'crema'];ctx.fillStyle=bg;ctx.fillRect(0,0,900,1200);ctx.strokeStyle=accent;ctx.lineWidth=8;ctx.strokeRect(35,35,830,1130);const nombre=read('nombre')||'Tu bebé';if(mode==='invitacion')drawInvitation();
