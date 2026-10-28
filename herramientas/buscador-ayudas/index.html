@@ -81,6 +81,8 @@
 </style>
 <style id="pb-ux31-aid-results">
 /* UX 3.1: dos vistas, una decisión principal, diseño centrado */
+#pbAidQuestions .pb-special-hint{font-size:.9rem;color:#67728a;margin:8px 0 12px;line-height:1.45}
+
 #resultados .sim-summary{padding:0!important;margin:0 0 17px!important;background:transparent!important;border:0!important;border-radius:0!important;color:#66718a;font-size:.88rem}
 #resultados .pb-aid-result-actions{margin-bottom:4px!important}
 
@@ -378,7 +380,7 @@ ids.forEach(id=>{
  label.parentNode.insertBefore(wrap,label);wrap.append(label,field);steps.push(wrap);
 });
 const fieldset=form.querySelector('fieldset.sim-fieldset');
-if(fieldset){fieldset.classList.add('pb-wizard-step');steps.push(fieldset);}
+if(fieldset){fieldset.classList.add('pb-wizard-step');fieldset.querySelector('legend').textContent='¿Tienes alguna circunstancia especial? (opcional)';const info=document.createElement('p');info.className='pb-special-hint';info.textContent='Si ninguna se aplica a tu situación, continúa sin marcar nada.';fieldset.querySelector('legend').insertAdjacentElement('afterend',info);steps.push(fieldset);}
 if(steps.length!==4)return;
 const submit=form.querySelector('button[type="submit"]'),status=document.getElementById('pbWizardProgress');
 const nav=document.createElement('div');nav.className='pb-wizard-nav';
@@ -392,7 +394,7 @@ function render(){
  steps.forEach((el,i)=>el.hidden=i!==current);
  back.hidden=current===0;next.hidden=current===steps.length-1;submit.hidden=current!==steps.length-1;
  nav.classList.toggle('pb-wizard-last',current===steps.length-1);
- status.textContent='Pregunta '+(current+1)+' de '+steps.length;
+ status.textContent=current===steps.length-1?'Último paso · Opcional':'Pregunta '+(current+1)+' de 3';
  const err=document.getElementById('formError');if(err)err.style.display='none';
 }
 function valid(){
