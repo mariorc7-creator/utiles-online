@@ -81,6 +81,9 @@
 </style>
 <style id="pb-ux31-aid-results">
 /* UX 3.1: dos vistas, una decisión principal, diseño centrado */
+/* Nunca mostrar el mapa antiguo: duplicaba exactamente las mismas ayudas. */
+#resultados .sim-value,#resultados .pb-p0-actions,#resultados .pb-p0-info{display:none!important}
+
 #resultados .pb-aid-result-actions{display:flex;justify-content:flex-end;align-items:center;margin:0 0 14px}
 #resultados .pb-aid-edit{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid #dbe0f4;border-radius:10px;background:#fff;color:#4450b1;box-shadow:none;font-size:.88rem;line-height:1.25;text-decoration:none;white-space:normal}
 @media(max-width:430px){#resultados .pb-aid-result-actions{justify-content:stretch}#resultados .pb-aid-edit{width:100%}}
