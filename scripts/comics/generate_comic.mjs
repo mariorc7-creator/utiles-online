@@ -9,7 +9,8 @@ const topics=[
  {id:'tramites',topic:'paperwork after childbirth and an absurd pile of forms'},
  {id:'primerizos',topic:'parents searching for a pacifier that baby held the whole time'}
 ];
-const index=Number(process.env.COMIC_INDEX??new Date().getUTCDay())%3;
+const specified=process.env.COMIC_INDEX;
+const index=Number(specified!==undefined&&specified!==''?specified:new Date().getUTCDay())%3;
 const item=topics[(index+3)%3];
 async function call(endpoint,payload){
  const r=await fetch('https://api.openai.com/v1/'+endpoint,{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(payload)});
