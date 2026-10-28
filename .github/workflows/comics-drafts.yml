@@ -44,6 +44,7 @@ jobs:
         shell: bash
         run: |
           DATE=$(TZ=Europe/Madrid date +%Y-%m-%d)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "publish" ]; then DATE="${DATE}-manual-${{ github.run_id }}"; fi
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           if [ -d "public/comics/$DATE" ]; then
             echo 'skip=true' >> "$GITHUB_OUTPUT"
@@ -88,12 +89,13 @@ jobs:
           retention-days: 14
           if-no-files-found: error
       - name: Publish stable images to public GitHub URLs
-        if: github.event_name == 'schedule' || (inputs.mode == 'publish' && steps.guard.outputs.skip != 'true')
+        if: steps.guard.outputs.skip != 'true' && (github.event_name == 'schedule' || inputs.mode == 'publish')
         id: hosting
         shell: bash
         run: |
           set -euo pipefail
           DATE=$(TZ=Europe/Madrid date +%Y-%m-%d)
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.mode }}" = "publish" ]; then DATE="${DATE}-manual-${{ github.run_id }}"; fi
           COMIC=$(find comics-input -name '*.json' -printf '%f\n' | head -1)
           COMIC="${COMIC%.json}"
           DEST="public/comics/$DATE"
@@ -111,7 +113,7 @@ jobs:
           echo "comic=$COMIC" >> "$GITHUB_OUTPUT"
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
       - name: Check public URLs are reachable
-        if: inputs.mode != 'preview' && steps.guard.outputs.skip != 'true'
+        if: steps.guard.outputs.skip != 'true' && (github.event_name == 'schedule' || inputs.mode == 'publish')
         shell: bash
         run: |
           set -euo pipefail
