@@ -20,32 +20,37 @@ if(matches.length!==1) throw new Error('Se esperaba exactamente un canal X Papel
 console.log('Conexión Buffer correcta; canal X verificado: '+matches[0].name+'.');
 if(process.env.PUBLISH!=='true') {console.log('MODO PRUEBA: no se creó ninguna publicación.');process.exit(0);}
 if(process.env.AUTO_PUBLISH_ENABLED!=='true') throw new Error('Publicación desactivada: configurar variable AUTO_PUBLISH_ENABLED=true para activarla.');
+
 const slot=process.env.SLOT;
-if(!['morning','evening','launch'].includes(slot))throw new Error('SLOT inválido');
-const today=new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-const bank = {
- morning:[
- 'Ser adulto era decidir qué querías hacer. Ser padre es negociar con alguien que aún no sabe pronunciar «negociar». 😂',
- 'El verdadero lujo en 2026 no es un coche deportivo. Es encontrar un trámite público que funcione a la primera. 🏆',
- 'La vida te da dos opciones: madrugar o tener hijos. Con hijos te llevas las dos. 😂',
- 'Nos dijeron que internet nos ahorraría papeleo. Ahora imprimimos un PDF para escanearlo y volverlo a subir. 👏',
- 'Un bebé aprende a decir «no» antes que muchos adultos a poner límites. Menudo máster exprés. 😂',
- 'En España ya no preguntamos «¿cuántos hijos quieres?». Preguntamos «¿has mirado cuánto cuesta la guardería?».',
- 'Hay gente que busca adrenalina saltando en paracaídas. Otros intentamos conseguir una cita administrativa en plazo. 😂'
- ],
- evening:[
- 'Si vais a tener un bebé, comprobad las ayudas autonómicas y municipales: no todas se conceden automáticamente. 👶 papelesdelbebe.es',
- 'El bebé llega sin manual. Los trámites, con 14 ventanas abiertas y tres contraseñas distintas. 😂',
- 'La primera palabra del bebé suele emocionar. La primera notificación electrónica, bastante menos. 👶',
- 'Cuidado con los titulares «hasta 1.000 €»: ese «hasta» suele tener más trabajo detrás que la propia solicitud. 👀',
- 'El carrito se monta en una tarde. Entender qué ayuda corresponde a cada administración ya requiere otra ingeniería. 😂',
- 'Hoy recordatorio útil: una ayuda autonómica y otra municipal pueden tener requisitos diferentes. Mirad bien quién la concede.',
- 'Una de las grandes aventuras de la paternidad: descubrir que el calendario de vacunas es más claro que el de algunos trámites. 😂'
- ]};
-const d=Math.floor(Date.parse(today+'T00:00:00Z')/86400000);
-const posts=bank[slot];const message=slot==='launch' ? 'Antes, para tener un hijo necesitabas amor y paciencia.\n\nAhora necesitas dos nóminas, un Excel y que la guardería te conceda una entrevista. 😂👶' : posts[d%posts.length];
-if([...message].length>250)throw new Error('Texto demasiado largo');
+if (!['morning','evening'].includes(slot)) throw new Error('SLOT inválido');
+const key=process.env.OPENAI_API_KEY;
+if(!key) throw new Error('Falta OPENAI_API_KEY. No publicaremos textos repetidos.');
+const recent=(process.env.RECENT_TWEETS||'').slice(0,4000);
+const role=slot==='morning'
+ ? 'Humor de actualidad atemporal, vida adulta, trabajo, tecnología, fútbol o burocracia; no obligues el tema bebés.'
+ : 'Humor de crianza y familia, trámites y ayudas en España; puedes aportar un consejo general seguro sin dar cifras ni fechas inventadas.';
+const instructions=`Escribes para la cuenta de X @PapelesDelBebe, de España.
+Genera UN SOLO TWEET ORIGINAL en español, breve, natural, ingenioso, troll con una pullita inteligente y un remate sorprendente. Ideal 70-145 caracteres; máximo 230.
+Tema: ${role}
+No repitas chistes anteriores (sinónimos cuentan), no uses clichés tipo “más papeles que”, “hipotecar el salón”, “Hacienda”, ni fórmulas repetidas sobre dormir bebés.
+Nunca inventes noticias de última hora, ayudas, importes, permisos, políticos, ni hashtags en tendencia. No difames ni hagas humor sobre víctimas o tragedias. No hashtags salvo justificación factual proporcionada. Evita enlaces salvo valor claro.
+Devuelve solamente el texto del tweet, sin comillas, prefacios ni markdown.
+Últimas publicaciones que debes evitar: ${recent||'ninguna proporcionada'}`;
+async function generate(){
+ const r=await fetch('https://api.openai.com/v1/responses',{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify({model:process.env.OPENAI_MODEL||'gpt-4.1-mini',instructions,input:'Crea el tweet para el turno '+slot+'.',max_output_tokens:190,store:false})});
+ if(!r.ok)throw Error('OpenAI HTTP '+r.status+': '+(await r.text()).slice(0,350));
+ const j=await r.json();
+ return (j.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('').trim();
+}
+let message='';
+for(let n=0;n<3;n++){
+ const c=(await generate()).replace(/^["“]|["”]$/g,'').trim();
+ if(c && [...c].length<=230 && [...c].length>=35 && !/https?:\/\//i.test(c) && !/^#/m.test(c) && !/[\n]{3}/.test(c)){message=c;break;}
+}
+if(!message)throw Error('La IA no generó un tweet válido. Se omite publicación.');
+// Solo generar texto nuevo: nunca sustituir por contenido fijo.
+console.log('Tweet generado ('+[...message].length+' caracteres): '+message);
 const mutation='mutation ($input: CreatePostInput!) { createPost(input:$input) { ... on PostActionSuccess { post { id text dueAt } } ... on MutationError { message } } }';
 const out=await query(mutation,{input:{text:message,channelId:matches[0].id,schedulingType:'automatic',mode:'addToQueue'}});
 if(!out.createPost?.post?.id)throw new Error('Buffer no aceptó la publicación: '+JSON.stringify(out.createPost));
-console.log('Publicación añadida a la cola de Buffer: '+out.createPost.post.id+'; horario: '+out.createPost.post.dueAt);
+console.log('Publicación añadida a Buffer: '+out.createPost.post.id+'; horario: '+out.createPost.post.dueAt);
