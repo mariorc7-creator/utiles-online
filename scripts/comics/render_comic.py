@@ -1,55 +1,75 @@
 #!/usr/bin/env python3
-"""Turn AI 2x2 contact sheet into four branded 1080x1350 images and a combined comic."""
+"""Create one 4-panel comic image shared by Instagram and X."""
+import json
+import sys
 from pathlib import Path
-import sys,json,textwrap,zipfile
-from PIL import Image,ImageDraw,ImageFont,ImageOps
-I=Path("comics-input");O=Path("comics-output");O.mkdir(exist_ok=True)
-F="/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-B="/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-def font(sz,bold=False):return ImageFont.truetype(B if bold else F,sz)
-def wrap(draw,s,f,width):
-    result=[];line=""
-    for word in s.split():
-        candidate=(line+" "+word).strip()
-        if line and draw.textbbox((0,0),candidate,font=f)[2]>width:
-            result.append(line);line=word
-        else:line=candidate
-    if line:result.append(line)
-    return result
-def make(identifier):
-    story=json.loads((I/(identifier+".json")).read_text())
-    sheets=[]
-    for i,panel in enumerate(story["panels"]):
-        x=i%2;y=i//2
-        margin=12
-        crop=sheet.crop((x*w//2+margin,y*h//2+margin,(x+1)*w//2-margin,(y+1)*h//2-margin))
-        im=Image.new("RGB",(1080,1350),"#FFFFFF")
-        art=ImageOps.fit(crop,(1080,1350),method=Image.Resampling.LANCZOS)
-        im.paste(art,(0,0))
-        d=ImageDraw.Draw(im)
-        title=panel["text"].strip().replace("\\n"," ")
-        f=font(54,True)
-        lines=wrap(d,title,f,890)
-        while len(lines)>3 and f.size>35:
-            f=font(f.size-3,True);lines=wrap(d,title,f,890)
-        if len(lines)>4:raise ValueError("Text too long")
-        lineheight=f.size+14
-        h=max(155,len(lines)*lineheight+72)
-        d.rounded_rectangle((42,60,1038,60+h),radius=48,fill="white",outline="#151515",width=6)
-        ytext=95
+from PIL import Image, ImageDraw, ImageFont, ImageOps
+
+ROOT = Path("comics-input")
+OUT = Path("comics-output")
+OUT.mkdir(parents=True, exist_ok=True)
+FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+PANEL_SIZE = (1080, 1350)
+GUTTER = 14
+
+def wrap(draw, text, font, max_width):
+    words = text.split()
+    lines = []
+    line = ""
+    for word in words:
+        nxt = (line + " " + word).strip()
+        if line and draw.textbbox((0, 0), nxt, font=font)[2] > max_width:
+            lines.append(line)
+            line = word
+        else:
+            line = nxt
+    if line:
+        lines.append(line)
+    return lines
+
+def render(comic_id):
+    story = json.loads((ROOT / (comic_id + ".json")).read_text(encoding="utf-8"))
+    if len(story.get("panels", [])) != 4:
+        raise ValueError("Comic must have exactly four panels")
+    cells = []
+    for i, panel in enumerate(story["panels"], start=1):
+        pic = ROOT / (comic_id + "-" + str(i) + ".png")
+        image = Image.open(pic).convert("RGB")
+        # Preserve a full scene; avoid recropping a multi-panel contact sheet.
+        image = ImageOps.fit(image, PANEL_SIZE, Image.Resampling.LANCZOS, centering=(0.5, 0.5))
+        draw = ImageDraw.Draw(image)
+        dialogue = " ".join(panel["text"].split())
+        if len(dialogue) > 85:
+            raise ValueError("Dialogue too long")
+        size = 60
+        while size >= 35:
+            font = ImageFont.truetype(FONT, size)
+            lines = wrap(draw, dialogue, font, 940)
+            if len(lines) <= 3:
+                break
+            size -= 3
+        if len(lines) > 3:
+            raise ValueError("Dialogue does not fit in three lines")
+        spacing = size + 14
+        box_height = max(165, len(lines) * spacing + 80)
+        draw.rounded_rectangle((43, 52, 1037, 52 + box_height), radius=48, fill="white", outline="#191919", width=7)
+        y = 52 + (box_height - len(lines) * spacing) // 2 + 12
         for line in lines:
-            d.text((540,ytext),line,font=f,anchor="mt",fill="#151515")
-            ytext+=lineheight
-        dest=O/(identifier+f"-{i+1:02d}.jpg")
-        im.save(dest,quality=91,optimize=True)
-        sheets.append(dest)
-    # 2x2 preview for editorial review.
-    preview=Image.new("RGB",(1080,1350),"#FFFFFF")
-    for i,file in enumerate(sheets):
-        thumb=Image.open(file).resize((540,675))
-        preview.paste(thumb,((i%2)*540,(i//2)*675))
-    preview.save(O/(identifier+"-preview.jpg"),quality=86)
-    (O/(identifier+"-caption.txt")).write_text(story.get("caption","")+"\n",encoding="utf-8")
-    print("Comic draft ready:",identifier)
-if __name__=="__main__":
-    make(sys.argv[1])
+            draw.text((540, y), line, font=font, fill="#151515", anchor="mt")
+            y += spacing
+        cells.append(image)
+    # Source panels are full resolution; form ONE comic with clear panel borders.
+    w = 2 * PANEL_SIZE[0] + 3 * GUTTER
+    h = 2 * PANEL_SIZE[1] + 3 * GUTTER
+    comic = Image.new("RGB", (w, h), "#171717")
+    for i, cell in enumerate(cells):
+        comic.paste(cell, (GUTTER + (i % 2) * (PANEL_SIZE[0] + GUTTER), GUTTER + (i // 2) * (PANEL_SIZE[1] + GUTTER)))
+    # Fit the complete comic to the standard Instagram 4:5 photo aspect.
+    comic = comic.resize((1080, 1350), Image.Resampling.LANCZOS)
+    output = OUT / (comic_id + "-comic.jpg")
+    comic.save(output, quality=95, optimize=True, subsampling=0)
+    (OUT / (comic_id + "-caption.txt")).write_text(story.get("caption", "") + "\n", encoding="utf-8")
+    print("Single shared comic:", output)
+
+if __name__ == "__main__":
+    render(sys.argv[1])
