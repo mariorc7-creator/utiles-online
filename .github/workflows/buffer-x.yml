@@ -12,7 +12,7 @@ on:
     # Dos ventanas UTC para cubrir cambio de horario de España.
     - cron: '0 6,7,16,17 * * *'
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: papeles-bebe-buffer
   cancel-in-progress: false
@@ -27,6 +27,7 @@ jobs:
       - name: Verificar conexión o añadir tweet
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUTO_PUBLISH_ENABLED: ${{ vars.AUTO_PUBLISH_ENABLED }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
