@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Generate sample silent vertical Instagram reels; review before publishing."""
-import subprocess,sys
+import subprocess,sys,json
 from pathlib import Path
 from PIL import Image,ImageDraw,ImageFont
 W,H=720,1280
@@ -55,12 +55,20 @@ def scene(title,desc,i):
  d.text((W//2,1206),'@papelesdelbebe',font=ft(25,True),fill=bg,anchor='mm')
  return im
 def render(name):
- slides=REELS[name];work=OUT/name;work.mkdir(exist_ok=True)
+ manifest=Path('reels-input') / (name+'.json')
+ slides=[(x['title'],x['subtitle']) for x in json.loads(manifest.read_text())['scenes']] if manifest.exists() else REELS[name]
+ work=OUT/name;work.mkdir(exist_ok=True)
  for i,(t,desc) in enumerate(slides):scene(t,desc,i).save(work/f'{i}.png')
  inputs=[]
  for i in range(4):inputs+=['-loop','1','-t','4.5','-i',str(work/f'{i}.png')]
  filters=''.join(f'[{i}:v]fps=15,format=yuv420p,setsar=1[v{i}];' for i in range(4))
  filters+='[v0][v1]xfade=transition=fade:duration=0.5:offset=4.0[x1];[x1][v2]xfade=transition=fade:duration=0.5:offset=8.0[x2];[x2][v3]xfade=transition=fade:duration=0.5:offset=12.0[out]'
- subprocess.run(['ffmpeg','-y','-loglevel','error',*inputs,'-filter_complex',filters,'-map','[out]','-an','-c:v','libx264','-preset','veryfast','-crf','26','-pix_fmt','yuv420p','-movflags','+faststart',str(OUT/f'{name}.mp4')],check=True)
+ audio=Path('reels-input')/(name+'.mp3')
+ cmd=['ffmpeg','-y','-loglevel','error',*inputs,'-filter_complex',filters,'-map','[out]']
+ if audio.exists():
+  cmd+=['-i',str(audio),'-map',str(len(inputs)//6)+':a','-c:a','aac','-b:a','128k','-shortest']
+ else:cmd+=['-an']
+ cmd+=['-c:v','libx264','-preset','veryfast','-crf','26','-pix_fmt','yuv420p','-movflags','+faststart',str(OUT/f'{name}.mp4')]
+ subprocess.run(cmd,check=True)
 if __name__=='__main__':
  for name in sys.argv[1:] or REELS.keys():render(name)
