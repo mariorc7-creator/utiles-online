@@ -34,7 +34,7 @@ const ig=matches.filter(c=>/instagram/i.test(c.service));
 const x=matches.filter(c=>/twitter|^x$/i.test(c.service));
 if(ig.length!==1||x.length!==1)throw Error('Expected one IG and one X channel; IG='+ig.length+' X='+x.length);
 // No self-tagging. Relevant topic hashtags, not an indiscriminate hashtag cloud.
-const baseCaption=(story.caption||'').replace(/@papelesdelbebe/ig,'').replace(/#[\\p{L}\\p{N}_]+/gu,'').trim();
+const baseCaption=(story.caption||'').replace(/@papelesdelbebe/ig,'').replace(/#[\p{L}\p{N}_]+/gu,'').trim();
 if(!baseCaption||baseCaption.length>185)throw Error('Invalid caption');
 const hashtagsByTopic={
  guarderia:['#Crianza','#Guarderia','#HumorDePadres'],
@@ -42,8 +42,8 @@ const hashtagsByTopic={
  primerizos:['#PadresPrimerizos','#Crianza','#HumorDePadres']
 };
 const tags=hashtagsByTopic[comic]||['#Crianza','#Familias'];
-const instagramCaption=baseCaption+'\\n\\n'+tags.join(' ');
-const xCaption=baseCaption+'\\n\\n'+tags[0];
+const instagramCaption=baseCaption+'\n\n'+tags.join(' ');
+const xCaption=baseCaption+'\n\n'+tags[0];
 const createMutation='mutation ($input: CreatePostInput!) { createPost(input:$input) { ... on PostActionSuccess { post { id text dueAt } } ... on MutationError { message } } }';
 for(const channel of [ig[0],x[0]]){
  const current=await gql('query { posts(first:100,input:{organizationId:'+JSON.stringify(channel.organizationId)+',filter:{channelIds:['+JSON.stringify(channel.id)+']}}) { edges { node { id text dueAt } } } }');
