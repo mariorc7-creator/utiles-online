@@ -1,0 +1,55 @@
+name: Papeles Bebé - Comics IA (borradores)
+on:
+  workflow_dispatch:
+    inputs:
+      comic:
+        description: "Tema del comic"
+        type: choice
+        required: true
+        options: [guarderia, tramites, primerizos]
+        default: guarderia
+  schedule:
+    # Lunes, miercoles y viernes a las 10:00 UTC. Solo genera borradores.
+    - cron: '0 10 * * 1,3,5'
+permissions:
+  contents: read
+concurrency:
+  group: papeles-bebe-comics-drafts
+  cancel-in-progress: false
+jobs:
+  crear-comic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+      COMIC_INDEX: ${{ github.event.inputs.comic == 'guarderia' && '0' || github.event.inputs.comic == 'tramites' && '1' || github.event.inputs.comic == 'primerizos' && '2' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar Pillow
+        run: python -m pip install Pillow
+      - name: Generar guion y cuatro ilustraciones
+        run: node scripts/comics/generate_comic.mjs
+      - name: Montar carrusel y copy
+        shell: bash
+        run: |
+          COMIC=$(find comics-input -name '*.json' -printf '%f\n' | head -1)
+          COMIC="${COMIC%.json}"
+          test -n "$COMIC"
+          python scripts/comics/render_comic.py "$COMIC"
+      - name: Guardar borradores descargables (sin publicar)
+        uses: actions/upload-artifact@v4
+        with:
+          name: papeles-del-bebe-comic
+          path: |
+            comics-output/*.jpg
+            comics-output/*.txt
+            comics-input/*.json
+          retention-days: 14
+          if-no-files-found: error
