@@ -92,12 +92,7 @@
   }
 
 
-  if (window.location.pathname === '/herramientas/buscador-ayudas/' || window.location.pathname === '/herramientas/buscador-ayudas') {
-    const aidValueV2 = document.createElement('script');
-    aidValueV2.src = '/herramientas/buscador-ayudas/value-v2.js?v=20261016-2';
-    aidValueV2.defer = true;
-    document.head.appendChild(aidValueV2);
-  }
+  // El simulador UX 3.1 ya presenta los resultados; no inyectar el panel antiguo value-v2.
 
   if (window.location.pathname.startsWith('/herramientas/')) {
     const p0ux = document.createElement('script');
