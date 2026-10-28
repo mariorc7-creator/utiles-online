@@ -28,7 +28,7 @@
   const params=new URLSearchParams(location.search);
   if(params.get('plan')==='1'){
     if(params.get('tipo')==='mono'||params.get('tipo')==='general') tipo.value=params.get('tipo');
-    if(/^\\d{4}-\\d{2}-\\d{2}$/.test(params.get('fecha')||'')) input.value=params.get('fecha');
+    if(/^\d{4}-\d{2}-\d{2}$/.test(params.get('fecha')||'')) input.value=params.get('fecha');
     s.classList.add('pb-permit-open');
     const trigger=advanced.querySelector('button');
     trigger.setAttribute('aria-expanded','true');
