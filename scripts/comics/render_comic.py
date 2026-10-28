@@ -25,22 +25,23 @@ def make(identifier):
         x=i%2;y=i//2
         margin=12
         crop=sheet.crop((x*w//2+margin,y*h//2+margin,(x+1)*w//2-margin,(y+1)*h//2-margin))
-        im=Image.new("RGB",(1080,1350),"#F9F5EB")
-        art=ImageOps.fit(crop,(1012,945),method=Image.Resampling.LANCZOS,centering=(0.5,0.5))
-        im.paste(art,(34,94))
+        im=Image.new("RGB",(1080,1350),"#FFFFFF")
+        art=ImageOps.fit(crop,(1080,1350),method=Image.Resampling.LANCZOS)
+        im.paste(art,(0,0))
         d=ImageDraw.Draw(im)
-        d.rounded_rectangle((28,25,1052,83),radius=24,fill="#123E48")
-        d.text((540,54),"PAPELES DEL BEBÉ  •  MODO SUPERVIVENCIA",font=font(26,True),fill="#FFFFFF",anchor="mm")
-        d.rounded_rectangle((36,1042,1044,1250),radius=30,fill="#FFFFFF",outline="#123E48",width=4)
-        title=panel["text"].strip().replace("\n"," ")
-        f=font(53,True);lines=wrap(d,title,f,928)
-        while len(lines)>3 and f.size>36:
-            f=font(f.size-3,True);lines=wrap(d,title,f,928)
-        line_height=f.size+13
-        start=1144-(len(lines)*line_height)//2
-        for n,line in enumerate(lines):
-            d.text((540,start+n*line_height),line,font=f,anchor="mt",fill="#123E48")
-        d.text((540,1307),f"{i+1}/4  ·  @papelesdelbebe",font=font(23,True),anchor="mm",fill="#436F75")
+        title=panel["text"].strip().replace("\\n"," ")
+        f=font(54,True)
+        lines=wrap(d,title,f,890)
+        while len(lines)>3 and f.size>35:
+            f=font(f.size-3,True);lines=wrap(d,title,f,890)
+        if len(lines)>4:raise ValueError("Text too long")
+        lineheight=f.size+14
+        h=max(155,len(lines)*lineheight+72)
+        d.rounded_rectangle((42,60,1038,60+h),radius=48,fill="white",outline="#151515",width=6)
+        ytext=95
+        for line in lines:
+            d.text((540,ytext),line,font=f,anchor="mt",fill="#151515")
+            ytext+=lineheight
         dest=O/(identifier+f"-{i+1:02d}.jpg")
         im.save(dest,quality=91,optimize=True)
         sheets.append(dest)
