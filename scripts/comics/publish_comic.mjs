@@ -43,6 +43,7 @@ for(const channel of [ig[0],x[0]]){
  const duplicate=(current.posts?.edges||[]).some(edge=>edge.node?.text===caption);
  if(duplicate){console.log('Already present in Buffer '+channel.service+'; skipped');continue;}
  const input={text:caption,channelId:channel.id,schedulingType:'automatic',mode:'addToQueue',assets,aiAssisted:true};
+ if(/instagram/i.test(channel.service))input.metadata={instagram:{type:'post',shouldShareToFeed:true,isAiGenerated:true}};
  const result=await gql(createMutation,{input});
  if(!result.createPost?.post?.id)throw Error('Buffer '+channel.service+' rejected: '+JSON.stringify(result.createPost));
  console.log('✅ Queued comic for '+channel.service+' id='+result.createPost.post.id+' dueAt='+result.createPost.post.dueAt);
