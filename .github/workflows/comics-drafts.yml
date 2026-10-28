@@ -40,7 +40,7 @@ jobs:
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           if [ -d "public/comics/$DATE" ]; then
             echo 'skip=true' >> "$GITHUB_OUTPUT"
-            COMIC=$(find "public/comics/$DATE" -name '*-01.jpg' -printf '%f\\n' | head -1)
+            COMIC=$(find "public/comics/$DATE" -name '*-01.jpg' -printf '%f\n' | head -1)
             COMIC="${COMIC%-01.jpg}"
             test -n "$COMIC"
             echo "comic=$COMIC" >> "$GITHUB_OUTPUT"
@@ -49,7 +49,7 @@ jobs:
             if [ -f "public/comics/$DATE/$COMIC.json" ]; then
               cp "public/comics/$DATE/$COMIC.json" "comics-input/$COMIC.json"
             else
-              printf '{"caption":"La crianza está llena de sorpresas. ¿Te ha pasado algo parecido? 😂","panels":[]}\\n' > "comics-input/$COMIC.json"
+              printf '%s\n' '{"caption":"La crianza está llena de sorpresas. ¿Te ha pasado algo parecido? 😂","panels":[]}' > "comics-input/$COMIC.json"
             fi
             echo "Ya existe el cómic del $DATE: se reutiliza para reintentar Buffer sin generar imágenes nuevas."
           else
