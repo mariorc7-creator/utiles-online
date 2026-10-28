@@ -24,6 +24,17 @@
     advanced.querySelector('button').textContent=open?'Cerrar planificación avanzada':'Abrir planificación avanzada →';
     if(open)s.scrollIntoView({block:'start',behavior:'auto'});
   });
+  // Reabrir el planificador desde el resultado, reutilizando fecha y tipo de familia.
+  const params=new URLSearchParams(location.search);
+  if(params.get('plan')==='1'){
+    if(params.get('tipo')==='mono'||params.get('tipo')==='general') tipo.value=params.get('tipo');
+    if(/^\\d{4}-\\d{2}-\\d{2}$/.test(params.get('fecha')||'')) input.value=params.get('fecha');
+    s.classList.add('pb-permit-open');
+    const trigger=advanced.querySelector('button');
+    trigger.setAttribute('aria-expanded','true');
+    trigger.textContent='Cerrar planificación avanzada';
+    requestAnimationFrame(()=>s.scrollIntoView({block:'start',behavior:'auto'}));
+  }
   const second=document.getElementById('pb-second-parent');
   const update=()=>{let mono=tipo.value==='mono';second.hidden=mono;const max=mono?22:11;document.getElementById('pb-parent-a').max=max;document.getElementById('pb-parent-a').nextElementSibling.textContent='De 0 a '+max+' semanas voluntarias durante el primer año.';document.getElementById('pb-parent-a').value=Math.min(+document.getElementById('pb-parent-a').value,max);};
   tipo.addEventListener('change',update);update();
