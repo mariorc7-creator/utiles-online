@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "posts": [
+    {
+      "date": "2026-10-28",
+      "slot": "evening",
+      "text": "Pedir ayudas sin cifras claras es como llevar un saco de arena al parque: mucho esfuerzo, pocas risas y ninguna certeza, pero buena excusa para improvisar.",
+      "bufferId": "6ae2336d992232523c33b8cd",
+      "dueAt": "2026-10-30T08:15:00.000Z"
+    }
+  ]
+}
