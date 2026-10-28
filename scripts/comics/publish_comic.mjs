@@ -11,12 +11,10 @@ const comic=process.env.COMIC_ID;
 if(!directory||!sha||!comic||!/^\d{4}-\d{2}-\d{2}$/.test(directory)||!/^[0-9a-f]{40}$/.test(sha))throw Error('Invalid post parameters');
 const root='https://raw.githubusercontent.com/mariorc7-creator/utiles-online/'+sha+'/public/comics/'+directory;
 const story=JSON.parse(await fs.readFile('comics-input/'+comic+'.json','utf8'));
-const instagramAssets=Array.from({length:4},(_,i)=>({image:{url:root+'/'+comic+'-'+String(i+1).padStart(2,'0')+'.jpg'}}));
-const xAssets=[{image:{url:root+'/'+comic+'-preview.jpg'}}];
-for(const asset of [...instagramAssets,...xAssets]){
- const r=await fetch(asset.image.url,{method:'HEAD'});
- if(!r.ok||!r.headers.get('content-type')?.startsWith('image/'))throw Error('Media not public yet: HTTP '+r.status+' '+asset.image.url);
-}
+// Same single 4-panel image in both social channels.
+const assets=[{image:{url:root+'/'+comic+'-comic.jpg'}}];
+const mediaCheck=await fetch(assets[0].image.url,{method:'HEAD'});
+if(!mediaCheck.ok||!mediaCheck.headers.get('content-type')?.startsWith('image/'))throw Error('Comic image is not publicly accessible: '+mediaCheck.status);
 async function gql(query,variables){
  const r=await fetch(api,{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({query,variables})});
  if(!r.ok)throw Error('Buffer HTTP '+r.status);
@@ -53,7 +51,7 @@ for(const channel of [ig[0],x[0]]){
  const caption=instagram?instagramCaption:xCaption;
  const duplicate=(current.posts?.edges||[]).some(edge=>edge.node?.text===caption);
  if(duplicate){console.log('Already present in Buffer '+channel.service+'; skipped');continue;}
- const input={text:caption,channelId:channel.id,schedulingType:'automatic',mode:'addToQueue',assets:instagram?instagramAssets:xAssets,aiAssisted:true};
+ const input={text:caption,channelId:channel.id,schedulingType:'automatic',mode:'addToQueue',assets,aiAssisted:true};
  if(/instagram/i.test(channel.service))input.metadata={instagram:{type:'post',shouldShareToFeed:true,isAiGenerated:true}};
  const result=await gql(createMutation,{input});
  if(!result.createPost?.post?.id)throw Error('Buffer '+channel.service+' rejected: '+JSON.stringify(result.createPost));
