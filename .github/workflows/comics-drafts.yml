@@ -45,8 +45,8 @@ jobs:
           echo "date=$DATE" >> "$GITHUB_OUTPUT"
           if [ -d "public/comics/$DATE" ]; then
             echo 'skip=true' >> "$GITHUB_OUTPUT"
-            COMIC=$(find "public/comics/$DATE" -name '*-01.jpg' -printf '%f\n' | head -1)
-            COMIC="${COMIC%-01.jpg}"
+            COMIC=$(find "public/comics/$DATE" -name '*-comic.jpg' -printf '%f\n' | head -1)
+            COMIC="${COMIC%-comic.jpg}"
             test -n "$COMIC"
             echo "comic=$COMIC" >> "$GITHUB_OUTPUT"
             echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
@@ -96,8 +96,7 @@ jobs:
           COMIC="${COMIC%.json}"
           DEST="public/comics/$DATE"
           mkdir -p "$DEST"
-          cp comics-output/"$COMIC"-0[1-4].jpg "$DEST"/
-          cp "comics-output/$COMIC-preview.jpg" "$DEST"/
+          cp "comics-output/$COMIC-comic.jpg" "$DEST"/
           cp "comics-input/$COMIC.json" "$DEST"/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -114,7 +113,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          URL="https://raw.githubusercontent.com/mariorc7-creator/utiles-online/${{ steps.hosting.outputs.sha }}/public/comics/${{ steps.hosting.outputs.date }}/${{ steps.hosting.outputs.comic }}-01.jpg"
+          URL="https://raw.githubusercontent.com/mariorc7-creator/utiles-online/${{ steps.hosting.outputs.sha }}/public/comics/${{ steps.hosting.outputs.date }}/${{ steps.hosting.outputs.comic }}-comic.jpg"
           for i in 1 2 3 4 5 6; do
             if curl --fail --silent --show-error --head "$URL" >/dev/null; then exit 0; fi
             sleep 10
