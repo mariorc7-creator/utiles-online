@@ -81,6 +81,6 @@ if(!out.createPost?.post?.id)throw new Error('Buffer no aceptó la publicación:
 console.log('Publicación añadida a Buffer: '+out.createPost.post.id+'; horario: '+out.createPost.post.dueAt);
 history.posts.push({date:today,slot,text:message,bufferId:out.createPost.post.id,dueAt:out.createPost.post.dueAt||null});
 history.posts=history.posts.slice(-180);
-const encoded=Buffer.from(JSON.stringify(history,null,2)+'\\n').toString('base64');
+const encoded=Buffer.from(JSON.stringify(history,null,2)).toString('base64');
 await github('PUT',ghUrl,{message:'chore: registro de tweet Buffer '+today+' '+slot,content:encoded,...(raw?{sha:raw.sha}:{})});
 console.log('Historial antirrepetición actualizado: '+today+' '+slot);
