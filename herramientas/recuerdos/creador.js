@@ -1,0 +1,37 @@
+(()=>{
+'use strict';
+const root=document.getElementById('recuerdoApp');if(!root)return;
+const mode=root.dataset.mode;
+const definitions={
+ invitacion:{title:'Crea tu invitación de cumpleaños',subtitle:'Personaliza y comparte tu invitación en menos de un minuto.',fields:[['nombre','Nombre','text'],['edad','Años que cumple','number'],['fecha','Fecha del cumpleaños','date'],['hora','Hora','time'],['lugar','Lugar','text'],['mensaje','Mensaje (opcional)','text']],photo:true},
+ hitos:{title:'Tarjetas de hitos del bebé',subtitle:'Celebra cada pequeño gran momento.',fields:[['nombre','Nombre del bebé','text'],['hito','Hito que quieres recordar','select'],['fecha','Fecha (opcional)','date']],photo:true},
+ primerano:{title:'Mi primer año en fotos',subtitle:'Reúne doce momentos en un recuerdo para siempre.',fields:[['nombre','Nombre del bebé','text'],['fecha','Fecha de nacimiento (opcional)','date']],photo:false}
+};
+const d=definitions[mode];if(!d)return;
+const palette={crema:['#fff8ef','#d98568','#412d38'],lavanda:['#f5f2ff','#8a7bd2','#352e54'],menta:['#edfaf5','#479c84','#234b45']};
+const photos={};
+root.innerHTML='<div class="rec-layout"><section class="rec-form"><h2>Personaliza tu recuerdo</h2><p class="rec-sub">Los datos y las fotos se procesan en tu navegador; no se suben al servidor.</p><form id="recForm"></form><div class="rec-actions"><button type="button" id="recPng">Descargar imagen PNG</button><button type="button" id="recPrint">Imprimir / guardar PDF</button></div><p role="status" id="recStatus" aria-live="polite"></p></section><section class="rec-preview"><h2>Vista previa</h2><canvas id="recCanvas" width="900" height="1200" aria-label="Vista previa del recuerdo personalizado"></canvas></section></div>';
+const form=document.getElementById('recForm'),canvas=document.getElementById('recCanvas'),ctx=canvas.getContext('2d');
+const createField=(name,label,type)=>{
+const box=document.createElement('label');box.className='rec-field';box.textContent=label;let input;
+if(type==='select'){input=document.createElement('select');['1 mes','2 meses','3 meses','6 meses','9 meses','12 meses','Primera sonrisa','Primer diente','Primeros pasos','Primer cumpleaños'].forEach(v=>{let opt=document.createElement('option');opt.value=v;opt.textContent=v;input.append(opt);});}
+else{input=document.createElement('input');input.type=type;if(type==='number'){input.min='1';input.max='99';}input.placeholder=name==='nombre'?'Nombre':name==='lugar'?'Dónde será':name==='mensaje'?'¡Te esperamos!':'';}
+input.name=name;input.id='rec-'+name;input.autocomplete='off';box.append(input);form.append(box);return input;};
+d.fields.forEach(f=>createField(...f));
+const themes=createField('tema','Estilo','select');themes.replaceChildren();Object.keys(palette).forEach(v=>{let o=document.createElement('option');o.value=v;o.textContent={crema:'Cálido',lavanda:'Lavanda',menta:'Menta'}[v];themes.append(o);});
+const pictureLabel=(id,label)=>{let l=document.createElement('label');l.className='rec-field';l.textContent=label;let input=document.createElement('input');input.type='file';input.accept='image/png,image/jpeg,image/webp';input.dataset.photo=id;l.append(input);form.append(l);return input;};
+if(mode==='primerano'){const heading=document.createElement('p');heading.className='rec-sub';heading.textContent='Añade hasta 12 fotos, una por cada mes. Puedes completar solo algunos meses.';form.append(heading);const grid=document.createElement('div');grid.className='rec-photo-grid';form.append(grid);for(let i=1;i<=12;i++){let l=document.createElement('label');l.textContent='Mes '+i;let el=document.createElement('input');el.type='file';el.accept='image/png,image/jpeg,image/webp';el.dataset.photo='m'+i;l.append(el);grid.append(l);}}
+else if(d.photo)pictureLabel('main','Foto (opcional)');
+const read=(key)=>form.elements.namedItem(key)?.value||'';
+function text(t,x,y,size=44,color='#412d38',max=740){ctx.fillStyle=color;ctx.font='700 '+size+'px system-ui, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(String(t||''),x,y,max);}
+function cover(img,x,y,w,h){const ratio=Math.max(w/img.width,h/img.height),rw=img.width*ratio,rh=img.height*ratio;ctx.drawImage(img,x+(w-rw)/2,y+(h-rh)/2,rw,rh);}
+function frame(img,x,y,w,h,r=16){ctx.save();ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.clip();ctx.fillStyle='#fff';ctx.fillRect(x,y,w,h);if(img)cover(img,x,y,w,h);else{ctx.fillStyle='#bec5d7';ctx.font='22px system-ui';ctx.textAlign='center';ctx.fillText('Añade una foto',x+w/2,y+h/2);}ctx.restore();}
+function paint(){const [bg,accent,ink]=palette[read('tema')||'crema'];ctx.fillStyle=bg;ctx.fillRect(0,0,900,1200);ctx.strokeStyle=accent;ctx.lineWidth=8;ctx.strokeRect(35,35,830,1130);const nombre=read('nombre')||'Tu bebé';if(mode==='invitacion'){text('¡CELEBRAMOS!',450,120,42,accent);text(nombre,450,235,85,ink);text((read('edad')||'1')+' añito(s)',450,325,54,accent);frame(photos.main,230,385,440,405,28);text(read('fecha')||'Fecha por confirmar',450,860,37,ink);text(read('hora')||'Hora por confirmar',450,923,34,ink);text(read('lugar')||'Lugar por confirmar',450,986,34,ink);text(read('mensaje')||'¡Te esperamos!',450,1085,30,accent);}
+if(mode==='hitos'){text('MI GRAN MOMENTO',450,122,41,accent);text(read('hito')||'1 mes',450,250,82,ink);frame(photos.main,150,335,600,620,26);text(nombre,450,1010,52,ink);text(read('fecha'),450,1080,30,accent);}
+if(mode==='primerano'){text('MI PRIMER AÑO',450,125,60,accent);text(nombre,450,220,67,ink);for(let i=0;i<12;i++){const col=i%3,row=Math.floor(i/3),x=87+col*248,y=300+row*202;frame(photos['m'+(i+1)],x,y,228,163,12);text('Mes '+(i+1),x+114,y+181,20,ink,220);}text(read('fecha')||'Doce meses de recuerdos',450,1140,29,accent);}}
+async function loadImage(file){return new Promise((resolve,reject)=>{const url=URL.createObjectURL(file),img=new Image();img.onload=()=>{URL.revokeObjectURL(url);resolve(img)};img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Imagen no válida'))};img.src=url;});}
+form.addEventListener('input',paint);form.addEventListener('change',async e=>{if(e.target.dataset.photo){try{const file=e.target.files?.[0];if(file&&file.size>12*1024*1024)throw Error('Máximo 12 MB por imagen');photos[e.target.dataset.photo]=file?await loadImage(file):null;document.getElementById('recStatus').textContent='Foto actualizada';}catch(err){document.getElementById('recStatus').textContent=err.message;}paint();}});
+document.getElementById('recPng').addEventListener('click',()=>{paint();canvas.toBlob(blob=>{if(!blob)return;const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='papelesdelbebe-'+mode+'.png';a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);},'image/png');});
+document.getElementById('recPrint').addEventListener('click',()=>{paint();const data=canvas.toDataURL('image/png');const w=window.open('','_blank');if(!w){document.getElementById('recStatus').textContent='Permite las ventanas emergentes para imprimir.';return;}w.document.write('<!doctype html><html lang="es"><title>Imprimir recuerdo</title><style>body{margin:0;text-align:center}img{display:block;max-height:100vh;max-width:100%;margin:auto}@page{size:A4 portrait;margin:5mm}@media print{img{width:100%;height:auto}}</style><img src="'+data+'" onload="window.print()"></html>');w.document.close();});
+paint();
+})();
