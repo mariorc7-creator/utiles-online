@@ -22,10 +22,40 @@ async function call(endpoint,payload){
  return r.json();
 }
 const instructions=`Eres un guionista experto en historietas de humor para el proyecto español Papeles del Bebé. Escribe en español de España, con chispa, descaro y tono macarra/troll ligero: ironía mordaz sobre la vida real de los padres, burocracia, guarderías, dinero y conciliación. Que sea MUY GRACIOSO, novedoso, reconocible y sorprendente: busca un giro visual absurdo en el último cuadro; no chistes planos ni moralejas sensibleras. Los 4 paneles forman una historia coherente: 1) gancho que pare el scroll 2) escalada 3) complicación absurda 4) remate contundente que haga compartirlo. No copies argumentos de personajes de series conocidas. Los personajes son originales; alterna protagonistas y situaciones y no repitas constantemente el chiste del precio de la guardería, del café, del chupete o del papeleo infinito. La temática debe conectar con el público de papelesdelbebe.es, de forma natural: padres, bebés, guarderías, ayudas, citas, checklist, preparativos, trámites. No hagas publicidad directa dentro del cómic ni incluyas la URL en bocadillos; en el caption puedes mencionar puntualmente que tenemos guías o herramientas gratis en la web cuando encaje y aporte utilidad. Nunca inventes importes, condiciones de ayudas, leyes, plazos, prestaciones ni hechos actuales. Satiriza situaciones y sistemas, no ataques a personas por características protegidas. Nada de insultos gratuitos, groserías o humor con tragedias. Diálogos cortos y naturales para leer en móvil: ideal 15-50 caracteres cada cuadro, máximo 65. Cada acción explica gestos y situación en menos de 170 caracteres. Caption breve, original, con un gancho; sin @papelesdelbebe, sin hashtags (los añadirá el sistema). Devuelve SOLO JSON estricto con claves title,caption,panels (array EXACTAMENTE de 4 objetos text,action). No markdown.`;
-const data=await call('responses',{model:process.env.OPENAI_MODEL||'gpt-4.1-mini',instructions,input:'Tema de hoy: '+selectedTheme+'. Sitio: '+websiteContext+'. Fecha para evitar chistes repetidos: '+madridDate+'.',max_output_tokens:850,store:false});
-const raw=(data.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('').replace(/^```(?:json)?|\x60\x60\x60$/g,'').trim();
-const story=JSON.parse(raw);
-if(!Array.isArray(story.panels)||story.panels.length!==4||story.panels.some(p=>typeof p.text!=='string'||typeof p.action!=='string'||p.text.length>65||p.text.length<5))throw Error('Invalid storyboard');
+// Generate/repair scripts automatically rather than failing on one overlong speech bubble.
+let story;
+let feedback='';
+for(let attempt=1;attempt<=4;attempt++){
+ const input='Tema de hoy: '+selectedTheme+'. Sitio: '+websiteContext+'. Fecha: '+madridDate+'. '+feedback;
+ const data=await call('responses',{
+  model:process.env.OPENAI_MODEL||'gpt-4.1-mini',
+  instructions,
+  input,
+  max_output_tokens:1200,
+  store:false
+ });
+ const raw=(data.output||[]).flatMap(x=>x.content||[]).filter(x=>x.type==='output_text').map(x=>x.text).join('').replace(/^\x60\x60\x60(?:json)?/,'').replace(/\x60\x60\x60$/,'').trim();
+ try{
+  const candidate=JSON.parse(raw);
+  const panels=candidate?.panels;
+  if(!Array.isArray(panels)||panels.length!==4)throw Error('expected exactly 4 panels');
+  const issues=panels.flatMap((panel,i)=>{
+   const problems=[];
+   if(typeof panel?.text!=='string'||panel.text.trim().length<5||panel.text.trim().length>65)problems.push('panel '+(i+1)+' dialogue must be 5-65 characters');
+   if(typeof panel?.action!=='string'||panel.action.trim().length<8||panel.action.trim().length>170)problems.push('panel '+(i+1)+' action must be 8-170 characters');
+   return problems;
+  });
+  if(typeof candidate.caption!=='string'||candidate.caption.trim().length<5||candidate.caption.length>185)issues.push('caption must be 5-185 characters');
+  if(issues.length)throw Error(issues.join('; '));
+  story=candidate;
+  console.log('Storyboard validated on attempt '+attempt);
+  break;
+ }catch(error){
+  console.warn('Storyboard attempt '+attempt+' rejected: '+error.message);
+  feedback='Produce a corrected complete NEW storyboard. Previous response was invalid: '+error.message+'. Use short punchy dialogue in each panel, maximum 65 characters INCLUDING spaces and punctuation. Strict JSON.';
+ }
+}
+if(!story)throw Error('Storyboard invalid after 4 repair attempts; no image was charged for generation.');
 story.id=item.id;
 await fs.mkdir('comics-input',{recursive:true});
 await fs.writeFile('comics-input/'+item.id+'.json',JSON.stringify(story,null,2));
