@@ -1,0 +1,45 @@
+name: Papeles Bebé - Buffer X
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Prueba de conexión (safe) o publicar un tweet"
+        required: true
+        type: choice
+        options: [test, morning, evening]
+        default: test
+  schedule:
+    - cron: '0 8 * * *'
+    - cron: '0 18 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: papeles-bebe-buffer
+  cancel-in-progress: false
+jobs:
+  buffer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar conexión o añadir tweet
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          AUTO_PUBLISH_ENABLED: ${{ vars.AUTO_PUBLISH_ENABLED }}
+          MODE: ${{ github.event.inputs.mode }}
+          EVENT_NAME: ${{ github.event_name }}
+          SCHEDULE: ${{ github.event.schedule }}
+        shell: bash
+        run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            if [ "$MODE" = "test" ]; then
+              node scripts/buffer-x-auto.mjs
+            else
+              SLOT="$MODE" PUBLISH=true node scripts/buffer-x-auto.mjs
+            fi
+          else
+            if [ "$SCHEDULE" = "0 8 * * *" ]; then SLOT=morning; else SLOT=evening; fi
+            SLOT="$SLOT" PUBLISH=true node scripts/buffer-x-auto.mjs
+          fi
