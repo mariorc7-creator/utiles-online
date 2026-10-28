@@ -734,13 +734,10 @@
     // La navegación y el estado forman una sola tarjeta, también en Ayudas.
   }
 
-  const JOURNEY_STARTED_KEY='papelesbebe_recorrido_iniciado_v1';
+  // La visita al panel no implica que se haya revisado ningún trámite.
+  // El estado del recorrido procede exclusivamente de las siete marcas reales.
   function hasStartedJourney(){
-    try{
-      if(localStorage.getItem(JOURNEY_STARTED_KEY)==='1') return true;
-      // Usuarios que ya marcaron pasos antes de introducir este indicador.
-      return progressCount()>0;
-    }catch(_){return progressCount()>0;}
+    return progressCount()>0;
   }
   function showGuideEntry(){
     if(!document.documentElement.classList.contains('pb-journey'))return;
