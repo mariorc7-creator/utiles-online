@@ -6,8 +6,8 @@ on:
         description: 'Tipo de prueba'
         required: true
         type: choice
-        options: [ai, sample]
-        default: ai
+        options: [illustrated, ai, sample]
+        default: illustrated
 permissions:
   contents: read
 jobs:
@@ -29,7 +29,17 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
         run: node scripts/reels/generate_ai.mjs
-      - name: Montar vídeos verticales
+      - name: Generar ilustraciones, guion y voz con IA
+        if: inputs.mode == 'illustrated'
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: ${{ vars.OPENAI_MODEL }}
+        run: node scripts/reels/generate_illustrated_reel.mjs
+      - name: Montar Reel ilustrado con movimiento y audio
+        if: inputs.mode == 'illustrated'
+        run: python scripts/reels/render_illustrated_reel.py guarderia
+      - name: Montar vídeos clásicos
+        if: inputs.mode != 'illustrated'
         run: python scripts/reels/generate_reels.py
       - name: Guardar MP4 descargables para revisión
         uses: actions/upload-artifact@v4
@@ -38,4 +48,5 @@ jobs:
           path: |
             reels-output/*.mp4
             reels-input/*.json
+          if-no-files-found: error
           retention-days: 14
