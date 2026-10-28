@@ -1,0 +1,23 @@
+{
+  "title": "La odisea del formulario infinito",
+  "caption": "Citas que no existen, claves que caducan, y padres al borde del colapso. ¿Te suena? Tenemos guías para sobrevivir a este caos.",
+  "panels": [
+    {
+      "text": "¡He pillado cita para tramitar la baja paternal!",
+      "action": "Padre emocionado mira el móvil; aparece: 'Cita 28/10 15:00'."
+    },
+    {
+      "text": "¿La clave? Caducó ayer. Pide una nueva cita para clave...",
+      "action": "Padre con expresión de 'esto va a ir mal', móvil en mano."
+    },
+    {
+      "text": "Formulario de 37 páginas. ¿El apartado '¿Tiene bigote?'",
+      "action": "Madre alucina mientras rellena el formulario absurdo."
+    },
+    {
+      "text": "Finalmente... la cita era para obtener otra cita para la cita.",
+      "action": "Pareja resignada, bebé vestido de funcionario con gafas y sello."
+    }
+  ],
+  "id": "tramites"
+}
