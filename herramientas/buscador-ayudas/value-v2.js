@@ -1,6 +1,6 @@
 (() => {
   // UX 3.1 tiene una vista única de resultados. No reinsertar la duplicación antigua.
-  if (document.getElementById('pbAidEdit')) return;
+  if (document.getElementById('pbAidEdit') || document.getElementById('resultados')) return;
   const form=document.getElementById('simuladorForm');
   const resultados=document.getElementById('resultados');
   if(!form||!resultados||window.__pbAidValueV2)return;
