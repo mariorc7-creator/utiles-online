@@ -12,7 +12,7 @@ on:
     # Lunes, miercoles y viernes a las 10:00 UTC. Solo genera borradores.
     - cron: '0 10 * * 1,3,5'
 permissions:
-  contents: read
+  contents: write
 concurrency:
   group: papeles-bebe-comics-drafts
   cancel-in-progress: false
@@ -53,3 +53,43 @@ jobs:
             comics-input/*.json
           retention-days: 14
           if-no-files-found: error
+      - name: Publish stable images to public GitHub URLs
+        id: hosting
+        shell: bash
+        env:
+          DATE_ES: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          DATE=$(TZ=Europe/Madrid date +%Y-%m-%d)
+          COMIC=$(find comics-input -name '*.json' -printf '%f\\n' | head -1)
+          COMIC="${COMIC%.json}"
+          DEST="public/comics/$DATE"
+          mkdir -p "$DEST"
+          cp comics-output/"$COMIC"-0[1-4].jpg "$DEST"/
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$DEST"
+          if ! git diff --cached --quiet; then
+            git commit -m "content: comic $DATE $COMIC"
+            git push origin HEAD:main
+          fi
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
+          echo "comic=$COMIC" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Check public URLs are reachable
+        shell: bash
+        run: |
+          set -euo pipefail
+          URL="https://raw.githubusercontent.com/mariorc7-creator/utiles-online/${{ steps.hosting.outputs.sha }}/public/comics/${{ steps.hosting.outputs.date }}/${{ steps.hosting.outputs.comic }}-01.jpg"
+          for i in 1 2 3 4 5 6; do
+            if curl --fail --silent --show-error --head "$URL" >/dev/null; then exit 0; fi
+            sleep 10
+          done
+          echo "Media URL unavailable"; exit 1
+      - name: Schedule comic in Buffer Instagram and X
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          COMIC_PUBLIC_DIR: ${{ steps.hosting.outputs.date }}
+          COMIC_ASSET_SHA: ${{ steps.hosting.outputs.sha }}
+          COMIC_ID: ${{ steps.hosting.outputs.comic }}
+        run: node scripts/comics/publish_comic.mjs
