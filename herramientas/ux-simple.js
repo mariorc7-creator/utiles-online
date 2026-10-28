@@ -33,13 +33,13 @@
     if(p){p.textContent=summary;p.classList.add('pb-simple-summary');}
   }
   function aids(){
-    hero('Descubre qué ayudas revisar','Responde 3 preguntas y te indicamos por dónde empezar.');
+    hero('Descubre qué ayudas revisar','Responde 4 preguntas y descubre por dónde empezar.');
     const form=document.getElementById('simuladorForm');
     if(!form)return;
     const side=document.querySelector('.sim-grid > aside');
     if(side)details('¿Cómo funciona el simulador?', [side],document.querySelector('#resultados')?.nextElementSibling || document.querySelector('.sim-grid'));
     const special=form.querySelector('.sim-fieldset');
-    if(special){const anchor=form.querySelector('#familia');details('¿Hay alguna circunstancia especial? (opcional)',[special],anchor);const box=anchor?.nextElementSibling;if(box?.classList.contains('pb-simple-details')){const submit=form.querySelector('button[type=submit]');if(submit)form.insertBefore(box,submit);}}
+    // La pregunta 4 ya integra las circunstancias especiales; no crear otro acordeón fuera del asistente.
     const privacy=form.querySelector('.sim-privacy');
     if(privacy)privacy.textContent='El cálculo es orientativo y se realiza en este navegador.';
     const secondary=document.querySelector('main > section.tool-panel');
