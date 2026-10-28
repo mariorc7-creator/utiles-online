@@ -81,6 +81,8 @@
 </style>
 <style id="pb-ux31-aid-results">
 /* UX 3.1: dos vistas, una decisión principal, diseño centrado */
+#pbAidQuestions .pb-circumstances-error{color:#a12727;font-size:.9rem;margin:8px 0 0}
+
 #pbAidQuestions .pb-special-hint{font-size:.9rem;color:#67728a;margin:8px 0 12px;line-height:1.45}
 
 #resultados .sim-summary{padding:0!important;margin:0 0 17px!important;background:transparent!important;border:0!important;border-radius:0!important;color:#66718a;font-size:.88rem}
@@ -180,6 +182,7 @@ body.pb-aid-results-view #resultados{margin-top:26px}
           <div class="sim-options">
             <label class="sim-option"><input type="checkbox" id="multiple"><span>Nacimiento múltiple<small>Gemelos, mellizos o más bebés.</small></span></label>
             <label class="sim-option"><input type="checkbox" id="discapacidad"><span>Discapacidad reconocida<small>En alguno de los progenitores.</small></span></label>
+            <label class="sim-option"><input type="checkbox" id="ninguna"><span>Ninguna de las anteriores<small>No se da ninguna de estas circunstancias.</small></span></label>
           </div>
         </fieldset>
 
@@ -380,7 +383,7 @@ ids.forEach(id=>{
  label.parentNode.insertBefore(wrap,label);wrap.append(label,field);steps.push(wrap);
 });
 const fieldset=form.querySelector('fieldset.sim-fieldset');
-if(fieldset){fieldset.classList.add('pb-wizard-step');fieldset.querySelector('legend').textContent='¿Tienes alguna circunstancia especial? (opcional)';const info=document.createElement('p');info.className='pb-special-hint';info.textContent='Si ninguna se aplica a tu situación, continúa sin marcar nada.';fieldset.querySelector('legend').insertAdjacentElement('afterend',info);steps.push(fieldset);}
+if(fieldset){fieldset.classList.add('pb-wizard-step');fieldset.querySelector('legend').textContent='¿Se da alguna de estas circunstancias?';const info=document.createElement('p');info.className='pb-special-hint';info.textContent='Selecciona las que correspondan o marca «Ninguna de las anteriores».';fieldset.querySelector('legend').insertAdjacentElement('afterend',info);steps.push(fieldset);}
 if(steps.length!==4)return;
 const submit=form.querySelector('button[type="submit"]'),status=document.getElementById('pbWizardProgress');
 const nav=document.createElement('div');nav.className='pb-wizard-nav';
@@ -394,7 +397,7 @@ function render(){
  steps.forEach((el,i)=>el.hidden=i!==current);
  back.hidden=current===0;next.hidden=current===steps.length-1;submit.hidden=current!==steps.length-1;
  nav.classList.toggle('pb-wizard-last',current===steps.length-1);
- status.textContent=current===steps.length-1?'Último paso · Opcional':'Pregunta '+(current+1)+' de 3';
+ status.textContent=current===steps.length-1?'Pregunta 4 de 4':'Pregunta '+(current+1)+' de 4';
  const err=document.getElementById('formError');if(err)err.style.display='none';
 }
 function valid(){
@@ -404,7 +407,15 @@ function valid(){
 }
 next.addEventListener('click',()=>{if(!valid())return;current=Math.min(current+1,steps.length-1);render();steps[current].querySelector('select, input')?.focus({preventScroll:true});});
 back.addEventListener('click',()=>{current=Math.max(current-1,0);render();});
-form.addEventListener('submit',e=>{for(let i=0;i<3;i++){if(!steps[i].querySelector('select')?.value){e.preventDefault();e.stopImmediatePropagation();current=i;render();steps[i].querySelector('select').focus();return;}}},true);
+const multiple=document.getElementById('multiple'),discapacidad=document.getElementById('discapacidad'),ninguna=document.getElementById('ninguna');
+function syncCircumstances(changed){
+ if(changed===ninguna&&ninguna.checked){multiple.checked=false;discapacidad.checked=false;}
+ if((changed===multiple||changed===discapacidad)&&changed.checked)ninguna.checked=false;
+ const error=document.getElementById('pbCircumstancesError');if(error)error.hidden=true;
+}
+[multiple,discapacidad,ninguna].forEach(el=>el.addEventListener('change',()=>syncCircumstances(el)));
+const circumstancesError=document.createElement('p');circumstancesError.id='pbCircumstancesError';circumstancesError.className='pb-circumstances-error';circumstancesError.textContent='Selecciona una circunstancia o «Ninguna de las anteriores».';circumstancesError.hidden=true;fieldset.appendChild(circumstancesError);
+form.addEventListener('submit',e=>{for(let i=0;i<3;i++){if(!steps[i].querySelector('select')?.value){e.preventDefault();e.stopImmediatePropagation();current=i;render();steps[i].querySelector('select').focus();return;}}if(!multiple.checked&&!discapacidad.checked&&!ninguna.checked){e.preventDefault();e.stopImmediatePropagation();current=3;render();circumstancesError.hidden=false;ninguna.focus();}},true);
 render();
 })();
 </script></body>
