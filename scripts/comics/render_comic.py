@@ -18,8 +18,6 @@ def wrap(draw,s,f,width):
     return result
 def make(identifier):
     story=json.loads((I/(identifier+".json")).read_text())
-    sheet=Image.open(I/(identifier+"-sheet.png")).convert("RGB")
-    w,h=sheet.size
     sheets=[]
     for i,panel in enumerate(story["panels"]):
         x=i%2;y=i//2
