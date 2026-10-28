@@ -81,6 +81,9 @@
 </style>
 <style id="pb-ux31-aid-results">
 /* UX 3.1: dos vistas, una decisión principal, diseño centrado */
+#resultados .sim-summary{padding:0!important;margin:0 0 17px!important;background:transparent!important;border:0!important;border-radius:0!important;color:#66718a;font-size:.88rem}
+#resultados .pb-aid-result-actions{margin-bottom:4px!important}
+
 /* Nunca mostrar el mapa antiguo: duplicaba exactamente las mismas ayudas. */
 #resultados .sim-value,#resultados .pb-p0-actions,#resultados .pb-p0-info{display:none!important}
 
@@ -308,7 +311,7 @@ body.pb-aid-results-view #resultados{margin-top:26px}
   }
 
   function render(items, datos) {
-    resumen.innerHTML = `<strong>${items.length} opciones que conviene comprobar</strong><span>${datos.comunidad} · Resultado orientativo, no confirma requisitos ni concesiones.</span>`;
+    resumen.textContent = `${datos.comunidad} · ${items.length} ayudas para revisar · Resultado orientativo`;
     const sorted=[...items].sort((a,b)=>Number(b.alta)-Number(a.alta));
     const card=x => `<article class="sim-result-card"><div class="sim-result-top"><div><h3>${x.titulo}</h3><p>${x.descripcion}</p></div><span class="sim-tag ${x.alta ? 'alta' : ''}">${x.alta?'PRIORITARIA':'COMPROBAR'}</span></div><div class="sim-result-actions"><a href="${x.href}">Ver requisitos y cómo solicitarla →</a></div></article>`;
     lista.innerHTML=sorted.slice(0,3).map(card).join('');
