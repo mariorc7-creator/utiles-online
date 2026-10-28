@@ -11,10 +11,11 @@ const comic=process.env.COMIC_ID;
 if(!directory||!sha||!comic||!/^\d{4}-\d{2}-\d{2}$/.test(directory)||!/^[0-9a-f]{40}$/.test(sha))throw Error('Invalid post parameters');
 const root='https://raw.githubusercontent.com/mariorc7-creator/utiles-online/'+sha+'/public/comics/'+directory;
 const story=JSON.parse(await fs.readFile('comics-input/'+comic+'.json','utf8'));
-const assets=Array.from({length:4},(_,i)=>({image:{url:root+'/'+comic+'-'+String(i+1).padStart(2,'0')+'.jpg'}}));
-for(const a of assets){
- const r=await fetch(a.image.url,{method:'HEAD'});
- if(!r.ok||!r.headers.get('content-type')?.startsWith('image/'))throw Error('Media not public yet: HTTP '+r.status+' '+a.image.url);
+const instagramAssets=Array.from({length:4},(_,i)=>({image:{url:root+'/'+comic+'-'+String(i+1).padStart(2,'0')+'.jpg'}}));
+const xAssets=[{image:{url:root+'/'+comic+'-preview.jpg'}}];
+for(const asset of [...instagramAssets,...xAssets]){
+ const r=await fetch(asset.image.url,{method:'HEAD'});
+ if(!r.ok||!r.headers.get('content-type')?.startsWith('image/'))throw Error('Media not public yet: HTTP '+r.status+' '+asset.image.url);
 }
 async function gql(query,variables){
  const r=await fetch(api,{method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json'},body:JSON.stringify({query,variables})});
@@ -34,15 +35,25 @@ for(const org of orgs){
 const ig=matches.filter(c=>/instagram/i.test(c.service));
 const x=matches.filter(c=>/twitter|^x$/i.test(c.service));
 if(ig.length!==1||x.length!==1)throw Error('Expected one IG and one X channel; IG='+ig.length+' X='+x.length);
-// Unique stable marker stored with caption (not added as a visible suffix).
-const caption=(story.caption||'').trim()+'\n\n@papelesdelbebe';
-if(caption.length>260)throw Error('Caption too long');
+// No self-tagging. Relevant topic hashtags, not an indiscriminate hashtag cloud.
+const baseCaption=(story.caption||'').replace(/@papelesdelbebe/ig,'').replace(/#[\\p{L}\\p{N}_]+/gu,'').trim();
+if(!baseCaption||baseCaption.length>185)throw Error('Invalid caption');
+const hashtagsByTopic={
+ guarderia:['#Crianza','#Guarderia','#HumorDePadres'],
+ tramites:['#TramitesBebe','#Familias','#Crianza'],
+ primerizos:['#PadresPrimerizos','#Crianza','#HumorDePadres']
+};
+const tags=hashtagsByTopic[comic]||['#Crianza','#Familias'];
+const instagramCaption=baseCaption+'\\n\\n'+tags.join(' ');
+const xCaption=baseCaption+'\\n\\n'+tags[0];
 const createMutation='mutation ($input: CreatePostInput!) { createPost(input:$input) { ... on PostActionSuccess { post { id text dueAt } } ... on MutationError { message } } }';
 for(const channel of [ig[0],x[0]]){
  const current=await gql('query { posts(first:100,input:{organizationId:'+JSON.stringify(channel.organizationId)+',filter:{channelIds:['+JSON.stringify(channel.id)+']}}) { edges { node { id text dueAt } } } }');
+ const instagram=/instagram/i.test(channel.service);
+ const caption=instagram?instagramCaption:xCaption;
  const duplicate=(current.posts?.edges||[]).some(edge=>edge.node?.text===caption);
  if(duplicate){console.log('Already present in Buffer '+channel.service+'; skipped');continue;}
- const input={text:caption,channelId:channel.id,schedulingType:'automatic',mode:'addToQueue',assets,aiAssisted:true};
+ const input={text:caption,channelId:channel.id,schedulingType:'automatic',mode:'addToQueue',assets:instagram?instagramAssets:xAssets,aiAssisted:true};
  if(/instagram/i.test(channel.service))input.metadata={instagram:{type:'post',shouldShareToFeed:true,isAiGenerated:true}};
  const result=await gql(createMutation,{input});
  if(!result.createPost?.post?.id)throw Error('Buffer '+channel.service+' rejected: '+JSON.stringify(result.createPost));
