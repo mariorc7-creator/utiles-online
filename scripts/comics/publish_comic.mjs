@@ -8,7 +8,7 @@ if(!token)throw Error('Missing BUFFER_API_KEY');
 const directory=process.env.COMIC_PUBLIC_DIR;
 const sha=process.env.COMIC_ASSET_SHA;
 const comic=process.env.COMIC_ID;
-if(!directory||!sha||!comic||!/^\d{4}-\d{2}-\d{2}$/.test(directory)||!/^[0-9a-f]{40}$/.test(sha))throw Error('Invalid post parameters');
+if(!directory||!sha||!comic||!/^\d{4}-\d{2}-\d{2}(?:-manual-\d+)?$/.test(directory)||!/^[0-9a-f]{40}$/.test(sha))throw Error('Invalid post parameters');
 const root='https://raw.githubusercontent.com/mariorc7-creator/utiles-online/'+sha+'/public/comics/'+directory;
 const story=JSON.parse(await fs.readFile('comics-input/'+comic+'.json','utf8'));
 // Same single 4-panel image in both social channels.
