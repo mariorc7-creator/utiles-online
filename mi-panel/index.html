@@ -108,7 +108,7 @@
 <span class="intro-label">MIS TRÁMITES · GRATIS</span>
 <h1>Tus trámites del bebé, paso a paso</h1>
 <p class="intro">Revisa tu próximo trámite y sigue tu progreso sin perderte.</p>
-<section class="pb-finish" id="pbFinish" hidden aria-labelledby="pbFinishTitle" aria-live="polite"><div aria-hidden="true" style="font-size:2rem">🎉</div><h2 id="pbFinishTitle">¡Has revisado los 7 pasos!</h2><p>Has organizado las gestiones principales tras el nacimiento. Revisa las solicitudes y resoluciones pendientes: marcar un paso como revisado no significa que la Administración lo haya aprobado.</p><div class="finish-actions"><button id="pbFinishPrint" type="button">Descargar resumen en PDF ↗</button><a href="/herramientas/calendario-primeros-90-dias/">Próximos meses →</a><a href="/ayudas-nacimiento/">Revisar nuevas ayudas →</a></div><p style="font-size:.77rem;margin-top:12px">El resumen se guarda como PDF desde el diálogo de impresión del navegador. No se envían tus marcas a ningún servidor.</p></section>
+<section class="pb-finish" id="pbFinish" hidden aria-labelledby="pbFinishTitle" aria-live="polite"><div aria-hidden="true" style="font-size:2rem">🎉</div><h2 id="pbFinishTitle">¡Has revisado los 7 pasos!</h2><p>Has organizado las gestiones principales tras el nacimiento. Revisa las solicitudes y resoluciones pendientes: marcar un paso como revisado no significa que la Administración lo haya aprobado.</p><div class="finish-actions"><button id="pbFinishPrint" type="button">Imprimir o guardar en PDF →</button><a href="/herramientas/calendario-primeros-90-dias/">Próximos meses →</a><a href="/ayudas-nacimiento/">Revisar nuevas ayudas →</a></div><p style="font-size:.77rem;margin-top:12px">El resumen se guarda como PDF desde el diálogo de impresión del navegador. No se envían tus marcas a ningún servidor.</p></section>
 <section class="main-action" aria-labelledby="nextTitle" aria-live="polite">
 <span class="overline" id="nextLabel">TU SIGUIENTE PASO</span>
 <h2 id="nextTitle">Revisar el Registro Civil</h2>
@@ -125,7 +125,7 @@
 <button type="button" id="pbReminderSave" style="display:inline-block;cursor:pointer;margin:10px 0;padding:12px 15px;border:0;border-radius:10px;background:#535bd6;color:#fff;font-weight:800;font:inherit">Abrir en Google Calendar →</button>
 <p id="pbReminderStatus" role="status" style="font-size:.82rem;color:#4c5972;margin:0"></p>
 </div></details>
-<div class="progress-line"><strong id="progressText">0 de 7 pasos revisados</strong><span id="remainingText">7 por revisar</span></div>
+<div class="progress-line" aria-live="polite" aria-atomic="true"><strong id="progressText">0 de 7 pasos revisados</strong><span id="remainingText">7 por revisar</span></div>
 <div class="track" role="progressbar" aria-label="Progreso de los trámites" aria-valuemin="0" aria-valuemax="7" aria-valuenow="0" id="progressTrack"><span id="progressFill"></span></div>
 
 <section class="pb-steps-visible" id="moreSteps" aria-labelledby="allStepsHeading"><div class="detail-inner">
@@ -179,8 +179,7 @@
     // Nunca se considera completado un trámite sin una acción explícita del usuario.
     const finished = done === steps.length;
     const nextPending=pending[0];
-    const heading=document.getElementById('nextLabel');
-    if(heading) heading.textContent=nextPending ? 'PRÓXIMA GESTIÓN POR REVISAR · '+(done+1)+' DE 7' : 'RECORRIDO REVISADO';
+    
     document.getElementById('pbFinish').hidden = !finished;
     document.querySelector('.pb-simple').classList.toggle('is-finished', finished);
     document.querySelector('.main-action').hidden = finished;
@@ -194,7 +193,7 @@
       row.append(heading,note,link);return row;
     }));
     const next=pending[0];
-    document.getElementById('nextLabel').textContent=next?'PRÓXIMA GESTIÓN POR REVISAR · '+(done+1)+' DE 7':'RECORRIDO REVISADO';
+    document.getElementById('nextLabel').textContent=next?'PRÓXIMA GESTIÓN POR REVISAR · '+(steps.indexOf(next)+1)+' DE 7':'RECORRIDO REVISADO';
     document.getElementById('nextTitle').textContent=next?next.name:'Has revisado los pasos principales';
     document.getElementById('nextDescription').textContent=next?next.desc:'Comprueba ahora que tus solicitudes se han resuelto y revisa si hay ayudas locales pendientes.';
     const action=document.getElementById('nextAction');action.href=next?next.href:'/mi-panel/#moreSteps';action.textContent=next?'Ver guía paso a paso →':'Finalizado ✓ Ver mi resumen';
