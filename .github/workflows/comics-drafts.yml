@@ -37,9 +37,21 @@ jobs:
         shell: bash
         run: |
           DATE=$(TZ=Europe/Madrid date +%Y-%m-%d)
+          echo "date=$DATE" >> "$GITHUB_OUTPUT"
           if [ -d "public/comics/$DATE" ]; then
             echo 'skip=true' >> "$GITHUB_OUTPUT"
-            echo "Ya existe comic para $DATE: no se repite."
+            COMIC=$(find "public/comics/$DATE" -name '*-01.jpg' -printf '%f\\n' | head -1)
+            COMIC="${COMIC%-01.jpg}"
+            test -n "$COMIC"
+            echo "comic=$COMIC" >> "$GITHUB_OUTPUT"
+            echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            mkdir -p comics-input
+            if [ -f "public/comics/$DATE/$COMIC.json" ]; then
+              cp "public/comics/$DATE/$COMIC.json" "comics-input/$COMIC.json"
+            else
+              printf '{"caption":"La crianza está llena de sorpresas. ¿Te ha pasado algo parecido? 😂","panels":[]}\\n' > "comics-input/$COMIC.json"
+            fi
+            echo "Ya existe el cómic del $DATE: se reutiliza para reintentar Buffer sin generar imágenes nuevas."
           else
             echo 'skip=false' >> "$GITHUB_OUTPUT"
           fi
@@ -80,6 +92,7 @@ jobs:
           DEST="public/comics/$DATE"
           mkdir -p "$DEST"
           cp comics-output/"$COMIC"-0[1-4].jpg "$DEST"/
+          cp "comics-input/$COMIC.json" "$DEST"/
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "$DEST"
@@ -102,10 +115,9 @@ jobs:
           done
           echo "Media URL unavailable"; exit 1
       - name: Schedule comic in Buffer Instagram and X
-        if: steps.guard.outputs.skip != 'true'
         env:
           BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
-          COMIC_PUBLIC_DIR: ${{ steps.hosting.outputs.date }}
-          COMIC_ASSET_SHA: ${{ steps.hosting.outputs.sha }}
-          COMIC_ID: ${{ steps.hosting.outputs.comic }}
+          COMIC_PUBLIC_DIR: ${{ steps.hosting.outputs.date || steps.guard.outputs.date }}
+          COMIC_ASSET_SHA: ${{ steps.hosting.outputs.sha || steps.guard.outputs.sha }}
+          COMIC_ID: ${{ steps.hosting.outputs.comic || steps.guard.outputs.comic }}
         run: node scripts/comics/publish_comic.mjs
