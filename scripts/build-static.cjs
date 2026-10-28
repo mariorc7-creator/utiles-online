@@ -19,6 +19,18 @@ function applyPageFixes(html, relPath) {
     html=html.split('href="'+oldPath+'"').join('href="'+newPath+'"');
   }
 
+  // Retirar la promoción del checklist antiguo de todas las páginas generadas.
+  // El panel de trámites es el destino vigente; las herramientas imprimibles se conservan.
+  if (/^comunidades\\/[^/]+\\/index\\.html$/.test(rel)) {
+    html = html.replace(/<a\\b[^>]*href=["']\\/checklist\\/\\?comunidad=[^"']*["'][^>]*>[\\s\\S]*?<\\/a>/gi, '');
+    html = html.replace(/<a\\b[^>]*href=["']\\/checklist\\/["'][^>]*>\\s*Mi checklist\\s*<\\/a>/gi, '');
+  }
+  // No dirigir al usuario a una experiencia de checklist que ya no promocionamos.
+  html = html.replace(/href=(["'])\\/checklist\\/(?:\\?comunidad=[^"']*)?\\1/gi, 'href="/mi-panel/"');
+  html = html.replace(/(<a\\b[^>]*href=["']\\/mi-panel\\/["'][^>]*>)\\s*Crear mi checklist personalizada[^<]*(<\\/a>)/gi, '$1Abrir mis trámites$2');
+  html = html.replace(/(<a\\b[^>]*href=["']\\/mi-panel\\/["'][^>]*>)\\s*Mi checklist\\s*(<\\/a>)/gi, '$1Mis trámites$2');
+  html = html.replace(/(<a\\b[^>]*href=["']\\/mi-panel\\/["'][^>]*>)\\s*lista de ayudas y trámites\\s*(<\\/a>)/gi, '$1panel de trámites$2');
+
   if (rel === 'pack-empadronamiento/index.html') {
     html = html.replace(/<script src="\/pack-empadronamiento\/(?:fix|review-v6|municipal-universal|capitales-only)\.js[^>]*><\/script>\s*/gi, '');
     html = html.replace(/<\/body>/i, '<script src="/pack-empadronamiento/review-v6.js?v=20261015-11" defer></script>\n<script src="/pack-empadronamiento/municipal-universal.js?v=20261016-2" defer></script>\n<script src="/pack-empadronamiento/capitales-only.js?v=20261016-1" defer></script>\n<script src="/pack-empadronamiento/capitales-ux.js?v=20261020-1" defer></script>\n</body>');
