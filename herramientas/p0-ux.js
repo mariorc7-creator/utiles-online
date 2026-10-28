@@ -34,6 +34,8 @@
   }
 
   function setupAid() {
+    // UX 3.1 presenta una lista única: evitar filtros, tarjetas y avisos heredados.
+    if (document.getElementById('pbAidEdit')) return;
     const form = document.getElementById('simuladorForm');
     const results = document.getElementById('resultados');
     if (!form || !results) return;
