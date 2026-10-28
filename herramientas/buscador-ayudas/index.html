@@ -81,6 +81,9 @@
 </style>
 <style id="pb-ux31-aid-results">
 /* UX 3.1: dos vistas, una decisión principal, diseño centrado */
+#resultados .pb-aid-result-actions{display:flex;justify-content:flex-end;align-items:center;margin:0 0 14px}
+#resultados .pb-aid-edit{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:8px 12px;border:1px solid #dbe0f4;border-radius:10px;background:#fff;color:#4450b1;box-shadow:none;font-size:.88rem;line-height:1.25;text-decoration:none;white-space:normal}
+@media(max-width:430px){#resultados .pb-aid-result-actions{justify-content:stretch}#resultados .pb-aid-edit{width:100%}}
 .tools-main:has(#pbAidQuestions){max-width:960px;margin-inline:auto}
 .tools-main:has(#pbAidQuestions) .tools-hero{text-align:center;max-width:620px;margin:22px auto 26px}
 #pbAidQuestions{display:block;max-width:570px;margin-inline:auto}
@@ -190,8 +193,9 @@ body.pb-aid-results-view #resultados{margin-top:26px}
     </aside>
   </div>
 
-  <section id="resultados" class="sim-results" aria-labelledby="resultadosTitulo" tabindex="-1"><button type="button" id="pbAidEdit" class="pb-aid-edit">← Modificar respuestas</button>
+  <section id="resultados" class="sim-results" aria-labelledby="resultadosTitulo" tabindex="-1">
     <div class="tool-panel">
+      <div class="pb-aid-result-actions"><button type="button" id="pbAidEdit" class="pb-aid-edit">← Modificar respuestas</button></div>
       <h2 id="resultadosTitulo">Estas son las ayudas que debes revisar</h2>
       <div id="resumen" class="sim-summary"></div>
       <div id="listaResultados" class="sim-list"></div><details id="simMore" style="display:none;margin-top:16px;padding:13px 16px;background:#f1f2ff;border:2px solid #bec5fc;border-radius:14px"><summary style="cursor:pointer;font-weight:800;color:#3946a0">Ver otras ayudas que también conviene comprobar</summary><div id="simOther" class="sim-list" style="margin-top:12px"></div></details>
