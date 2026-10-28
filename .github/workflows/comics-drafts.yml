@@ -66,10 +66,10 @@ jobs:
         if: steps.guard.outputs.skip != 'true' || inputs.mode == 'preview'
         run: python -m pip install Pillow
       - name: Generar guion y cuatro ilustraciones
-        if: steps.guard.outputs.skip != 'true'
+        if: steps.guard.outputs.skip != 'true' || inputs.mode == 'preview'
         run: node scripts/comics/generate_comic.mjs
       - name: Montar carrusel y copy
-        if: steps.guard.outputs.skip != 'true'
+        if: steps.guard.outputs.skip != 'true' || inputs.mode == 'preview'
         shell: bash
         run: |
           COMIC=$(find comics-input -name '*.json' -printf '%f\n' | head -1)
@@ -77,7 +77,7 @@ jobs:
           test -n "$COMIC"
           python scripts/comics/render_comic.py "$COMIC"
       - name: Guardar borradores descargables (sin publicar)
-        if: steps.guard.outputs.skip != 'true'
+        if: steps.guard.outputs.skip != 'true' || inputs.mode == 'preview'
         uses: actions/upload-artifact@v4
         with:
           name: papeles-del-bebe-comic-${{ github.run_id }}
