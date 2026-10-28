@@ -75,7 +75,7 @@ jobs:
         run: |
           set -euo pipefail
           DATE=$(TZ=Europe/Madrid date +%Y-%m-%d)
-          COMIC=$(find comics-input -name '*.json' -printf '%f\\n' | head -1)
+          COMIC=$(find comics-input -name '*.json' -printf '%f\n' | head -1)
           COMIC="${COMIC%.json}"
           DEST="public/comics/$DATE"
           mkdir -p "$DEST"
