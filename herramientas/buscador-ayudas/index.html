@@ -78,6 +78,41 @@
 .pb-wizard-step select{min-height:50px;font-size:1rem}.pb-wizard-step select[aria-invalid="true"]{border:2px solid #b84f4f}
 .pb-wizard-nav{display:flex;gap:12px;justify-content:space-between;margin:13px 0}.pb-wizard-nav button{min-height:44px;border-radius:10px;padding:10px 17px;cursor:pointer;font:inherit;font-weight:750}.pb-wizard-back{background:#fff;color:#505b9c;border:1px solid #c9d0e7}.pb-wizard-next{background:#505bd2;color:#fff;border:0;margin-left:auto}
 @media(max-width:650px){.pb-wizard-nav button{flex:1}}
+</style>
+<style id="pb-ux31-aid-results">
+/* UX 3.1: dos vistas, una decisión principal, diseño centrado */
+.tools-main:has(#pbAidQuestions){max-width:960px;margin-inline:auto}
+.tools-main:has(#pbAidQuestions) .tools-hero{text-align:center;max-width:620px;margin:22px auto 26px}
+#pbAidQuestions{display:block;max-width:570px;margin-inline:auto}
+#pbAidQuestions>aside{display:none!important}
+#pbAidQuestions>.tool-panel{padding:24px;border-radius:22px}
+#pbAidQuestions .pb-wizard-step{min-height:0;padding:14px 0 12px}
+#pbAidQuestions .pb-wizard-step>label{font-size:1rem!important;margin-bottom:10px!important}
+#pbAidQuestions .pb-wizard-progress{display:block;text-align:center;margin:12px 0 18px;padding:9px}
+#pbAidQuestions .pb-wizard-nav{display:flex;justify-content:flex-end;margin:12px 0}
+#pbAidQuestions .pb-wizard-back{background:transparent;border:0;color:#4b55b8;box-shadow:none}
+#pbAidQuestions .pb-wizard-last{justify-content:center;order:4;margin:5px 0}
+#pbAidQuestions form{display:flex;flex-direction:column}
+#pbAidQuestions form>button[type=submit]{order:3;width:100%;margin:10px 0 0;min-height:48px}
+#pbAidQuestions .sim-privacy{order:5;text-align:center;font-size:.78rem;margin-top:12px}
+#pbAidQuestions .sim-options{grid-template-columns:1fr}
+#pbAidQuestions .sim-fieldset{padding:10px 0}
+#resultados{max-width:650px;margin:20px auto 0}
+#resultados>.tool-panel{padding:24px;border-radius:22px}
+#resultadosTitulo{font-size:clamp(1.45rem,3vw,2rem);line-height:1.2;margin:7px 0 14px}
+#resultadosTitulo:focus{outline:none}
+#resultados .sim-summary{padding:13px 15px;margin-bottom:15px}
+#resultados .sim-summary strong{font-size:1.08rem}
+#resultados .sim-result-card{padding:15px}
+#resultados .sim-result-card h3{font-size:1rem}
+#resultados .sim-result-card p{font-size:.9rem;line-height:1.45}
+#resultados .sim-tag{font-size:.65rem;padding:5px 7px}
+#resultados .sim-result-actions{margin-top:9px}
+#resultados .sim-result-actions a{font-size:.9rem}
+.pb-aid-edit{border:0;background:transparent;color:#4450b1;font-weight:750;cursor:pointer;padding:8px 0;min-height:44px}
+body.pb-aid-results-view #pbAidQuestions,body.pb-aid-results-view .tools-main .tools-hero,body.pb-aid-results-view .pb-aid-explainer{display:none!important}
+body.pb-aid-results-view #resultados{margin-top:26px}
+@media(max-width:600px){.tools-main:has(#pbAidQuestions){padding-inline:14px}#pbAidQuestions>.tool-panel,#resultados>.tool-panel{padding:18px 15px}#resultados .sim-result-top{flex-wrap:wrap}#resultados .sim-tag{order:-1}}
 </style></head>
 <body class="tools-page">
 <header>
@@ -101,7 +136,7 @@
     <p>Indica dónde vives y tu situación familiar y laboral. Te mostraremos qué prestaciones, deducciones y ayudas conviene revisar en tu caso, sin prometer una concesión que depende de la Administración.</p>
   </section>
 
-  <div class="sim-grid">
+  <div class="sim-grid" id="pbAidQuestions">
     <section class="tool-panel" aria-labelledby="sim-form-title">
       <h2 id="sim-form-title">Tu situación</h2>
       <form id="simuladorForm" class="tool-form" novalidate>
@@ -155,9 +190,9 @@
     </aside>
   </div>
 
-  <section id="resultados" class="sim-results" aria-live="polite" aria-labelledby="resultadosTitulo">
+  <section id="resultados" class="sim-results" aria-labelledby="resultadosTitulo" tabindex="-1"><button type="button" id="pbAidEdit" class="pb-aid-edit">← Modificar respuestas</button>
     <div class="tool-panel">
-      <h2 id="resultadosTitulo">Ayudas y prestaciones que conviene revisar</h2>
+      <h2 id="resultadosTitulo">Estas son las ayudas que debes revisar</h2>
       <div id="resumen" class="sim-summary"></div>
       <div id="listaResultados" class="sim-list"></div><details id="simMore" style="display:none;margin-top:16px;padding:13px 16px;background:#f1f2ff;border:2px solid #bec5fc;border-radius:14px"><summary style="cursor:pointer;font-weight:800;color:#3946a0">Ver otras ayudas que también conviene comprobar</summary><div id="simOther" class="sim-list" style="margin-top:12px"></div></details>
       <div id="simAI" class="sim-ai">
@@ -165,12 +200,12 @@
         <p>Puedes pasar este resumen a PapelesIA para que te lo explique. La IA no modifica qué ayudas aparecen en el simulador.</p>
         <button type="button" id="preguntarIA">Explicar con PapelesIA →</button>
       </div>
-      <div class="tool-actions"><a class="tool-cta" href="/checklist/">Crear mi plan de ayudas y trámites</a></div>
+
       <div class="tool-note">Resultado orientativo. Que una ayuda aparezca aquí no significa que esté concedida ni que cumplas todos sus requisitos de renta, residencia, cotización, edad o plazo. Comprueba siempre la fuente oficial enlazada desde cada guía.</div>
     </div>
   </section>
 
-  <section class="tool-panel" style="margin-top:18px">
+  <section class="tool-panel pb-aid-explainer" style="margin-top:18px">
     <h2>Cómo interpretamos el resultado</h2>
     <p>El simulador aplica reglas transparentes sobre las respuestas que introduces. No utiliza IA para decidir si tienes derecho a una prestación. Esto evita respuestas variables y permite revisar cada regla cuando cambia una convocatoria.</p>
     <p style="margin-top:10px">Para una visión general también puedes consultar <a href="/ayudas-nacimiento/">ayudas por nacimiento en España</a> y las <a href="/comunidades/">guías por comunidad autónoma</a>.</p>
@@ -266,7 +301,7 @@
   }
 
   function render(items, datos) {
-    resumen.innerHTML = `<strong>${Math.min(3,items.length)} ayudas para empezar${items.length>3?` · ${items.length-3} más disponibles`:""}</strong><span>${datos.comunidad} · ${etiquetasLaborales[datos.laboral]} · ${etiquetasFamilia[datos.familia]}${datos.multiple ? ' · nacimiento múltiple' : ''}</span>`;
+    resumen.innerHTML = `<strong>${items.length} opciones que conviene comprobar</strong><span>${datos.comunidad} · Resultado orientativo, no confirma requisitos ni concesiones.</span>`;
     const sorted=[...items].sort((a,b)=>Number(b.alta)-Number(a.alta));
     const card=x => `<article class="sim-result-card"><div class="sim-result-top"><div><h3>${x.titulo}</h3><p>${x.descripcion}</p></div><span class="sim-tag ${x.alta ? 'alta' : ''}">${x.alta?'PRIORITARIA':'COMPROBAR'}</span></div><div class="sim-result-actions"><a href="${x.href}">Ver requisitos y cómo solicitarla →</a></div></article>`;
     lista.innerHTML=sorted.slice(0,3).map(card).join('');
@@ -275,8 +310,18 @@
     other.innerHTML=sorted.slice(3).map(card).join('');
     resultados.classList.add('show');
     simAI.classList.add('show');
-    resultados.scrollIntoView({behavior:'smooth',block:'start'});
+    document.body.classList.add('pb-aid-results-view');
+    document.getElementById('resultadosTitulo').setAttribute('tabindex','-1');
+    document.getElementById('resultadosTitulo').focus({preventScroll:true});
+    window.scrollTo({top:0,behavior:'instant'});
   }
+
+  document.getElementById('pbAidEdit').addEventListener('click',()=>{
+    document.body.classList.remove('pb-aid-results-view');
+    window.scrollTo({top:0,behavior:'instant'});
+    document.getElementById('sim-form-title').setAttribute('tabindex','-1');
+    document.getElementById('sim-form-title').focus({preventScroll:true});
+  });
 
   form.addEventListener('submit', (ev) => {
     ev.preventDefault();
@@ -330,10 +375,13 @@ const nav=document.createElement('div');nav.className='pb-wizard-nav';
 const back=document.createElement('button');back.type='button';back.textContent='← Anterior';back.className='pb-wizard-back';
 const next=document.createElement('button');next.type='button';next.textContent='Siguiente →';next.className='pb-wizard-next';
 nav.append(back,next);submit.parentNode.insertBefore(nav,submit);
+submit.textContent='Ver mis ayudas →';
+const privacy=form.querySelector('.sim-privacy');if(privacy)privacy.textContent='Tus respuestas básicas se guardan en este navegador.';
 let current=0;
 function render(){
  steps.forEach((el,i)=>el.hidden=i!==current);
  back.hidden=current===0;next.hidden=current===steps.length-1;submit.hidden=current!==steps.length-1;
+ nav.classList.toggle('pb-wizard-last',current===steps.length-1);
  status.textContent='Pregunta '+(current+1)+' de '+steps.length;
  const err=document.getElementById('formError');if(err)err.style.display='none';
 }
