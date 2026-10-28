@@ -1,11 +1,23 @@
-# Papeles del Bebé — identidad de cómics
+# Papeles del Bebé — identidad editorial de los cómics
 
-Cada cómic tiene una única imagen final de 1080 × 1350 píxeles con cuatro viñetas en una cuadrícula 2×2, idéntica en Instagram y X. Las escenas se generan individualmente para asegurar encuadres correctos y después se componen en una sola imagen.
+## Formato y estilo
+- Una única imagen 1080 × 1350, con cuatro viñetas en cuadrícula 2×2, idéntica para Instagram y X.
+- Estética de comedia animada televisiva de los 90: personajes propios de piel amarilla, expresiones teatrales, ojos grandes, líneas negras expresivas, colores saturados y fondos ricos en detalles. No reproducir personajes existentes.
+- Familia recurrente original: padre de pelo castaño con barba y camiseta turquesa, madre de pelo recogido y camiseta coral, bebé de pelo castaño. Secundarios de guardería, administración, etc.
+- La IA dibuja el cómic COMPLETO con los bocadillos integrados. No añadir banners, numeraciones, logos o etiquetas @ de nuestra propia cuenta.
 
-Personajes originales recurrentes: padre de pelo castaño, barba corta y camiseta turquesa; madre de pelo recogido y camiseta coral; bebé de pelo castaño y ropa amarilla; educadora rosa y funcionaria azul.
+## Voz editorial
+- Humor inteligente, irónico, ligeramente macarra / troll, nunca paternalista ni corporativo.
+- Debe hacer reír y detener el scroll: gancho en cuadro 1, escalada en 2, giro en 3, remate fuerte en 4.
+- Situaciones reales de crianza, guarderías, conciliación, burocracia y preparativos, con giro absurdo visual.
+- Evitar remates genéricos, repetir siempre lo mismo, chistes flojos y moralinas.
+- Vinculación NATURAL con la web papelesdelbebe.es: guías de trámites, ayudas autonómicas, checklists, preparativos, invitaciones, tarjetas de hitos, herramientas gratuitas. En el texto de publicación, aludir a recursos útiles solo si encaja; no meter propaganda en la viñeta.
+- Texto breve y legible en móvil, español de España.
+- No inventar cifras, prestaciones, legislación, requisitos ni noticias. Si hay contenidos informativos reales, verificar antes de publicarlos.
+- Instagram: de dos a tres hashtags temáticos pertinentes; X: como máximo uno. Nunca etiquetar @papelesdelbebe en nuestra propia publicación.
 
-Dirección visual: comedia animada 2D de televisión, piel amarilla, contornos negros marcados, colores planos intensos, ojos grandes y expresiones exageradas. Personajes propios, no copias de personajes de series.
-
-Presentación: cuatro escenas separadas por líneas negras, cada una con un bocadillo blanco de diálogo, legible, sin cabecera promocional, sin contador de páginas y sin pie de marca. La atribución de marca se gestiona en la cuenta y el texto de la publicación.
-
-La IA dibuja sin texto: un proceso posterior compone tipografía en español de manera determinista. El flujo automático está configurado para programar cómics en Buffer; revisar la calidad en la primera ejecución del nuevo diseño.
+## Automatización
+- GitHub Actions genera el cómic lunes, miércoles y viernes, lo aloja y lo añade a la cola de Buffer tanto en Instagram como en X.
+- Buffer decide la publicación según los horarios y huecos disponibles.
+- El workflow dispone de modo manual preview para probar sin publicar.
+- La generación de calidad alta usa la API de OpenAI y conlleva coste; monitorizar consumo y revisar periódicamente la calidad.
