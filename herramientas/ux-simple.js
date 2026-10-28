@@ -59,7 +59,7 @@
     const aside=document.querySelector('.perm-grid > aside');
     if(aside)details('Qué incluye el resultado',[aside],document.querySelector('.perm-grid'));
     const options=document.querySelector('.perm-options');
-    if(options){const form=document.querySelector('form[action="/api/calcular-permiso"]');const fieldset=options.closest('fieldset');if(form&&fieldset)details('Situaciones especiales (opcional)',[fieldset],form.querySelector('#objetivo'));}
+    if(options&&!document.getElementById('pbPermitWizard')){const form=document.querySelector('form[action="/api/calcular-permiso"]');const fieldset=options.closest('fieldset');if(form&&fieldset)details('Situaciones especiales (opcional)',[fieldset],form.querySelector('#objetivo'));}
     const form=document.querySelector('form[action="/api/calcular-permiso"]');
     const p0=form?.parentElement?.querySelector('.pb-p0-info');
     if(p0)p0.textContent='Resultado orientativo. Confirma el calendario definitivo con Seguridad Social.';
