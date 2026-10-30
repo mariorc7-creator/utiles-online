@@ -1,0 +1,23 @@
+{
+  "title": "El bebé que mandaba más que el jefe",
+  "caption": "Cuando tu hijo es el CEO de la casa y tú, el becario sin nómina... ¿Quién lleva el mando?",
+  "panels": [
+    {
+      "text": "—Hoy he decidido yo la hora del desayuno.",
+      "action": "Padres en bata, mirando al bebé que se ríe con un tazón vacío, mientras el reloj marca las 11:30."
+    },
+    {
+      "text": "—Esa cita médica... la muevo yo con un berrinche.",
+      "action": "Padre con móvil en mano, corriendo mientras el bebé grita con cara de mando en un cochecito."
+    },
+    {
+      "text": "—Y el papeleo, que lo haga papá, que yo estoy en siesta.",
+      "action": "Madre agotada entregando formularios a padre, bebé durmiendo plácidamente con gafas y corbata falsa."
+    },
+    {
+      "text": "—Acabo de nombrarme CEO vitalicio. Firma aquí, por favor.",
+      "action": "Bebé con casco de jefe y bolígrafo enorme, extendiendo un contrato legal a los padres que firman resignados."
+    }
+  ],
+  "id": "primerizos"
+}
