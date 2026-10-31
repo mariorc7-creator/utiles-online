@@ -28,6 +28,13 @@
       "text": "Conciliar en España es inscribir al bebé en una guardería mientras aprendes a rellenar formularios que parecen diseñados para perder la paciencia.",
       "bufferId": "6ae4d5b134702c2daac20e4a",
       "dueAt": "2026-11-01T18:15:00.000Z"
+    },
+    {
+      "date": "2026-10-31",
+      "slot": "morning",
+      "text": "La adultez es ese juego donde el dinero se va más rápido que los planes, y tú sigues apostando… con la esperanza de que al menos haya cerveza al final.",
+      "bufferId": "6ae59ccbceb491e585e3935c",
+      "dueAt": "2026-11-01T20:15:00.000Z"
     }
   ]
 }
